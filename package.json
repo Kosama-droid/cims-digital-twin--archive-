@@ -1,11 +1,18 @@
 {
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.75.7"
+  },
+  "dependencies": {
+    "three": "^0.142.0",
+    "web-ifc-three": "^0.0.117"
+  },
   "name": "ifc-js-crash-course",
+  "description": "https://nicoarellano.github.io/ifc-js-crash-course/src",
   "version": "0.0.1",
-  "description": "exercises",
-  "main": "./src/index.js",
+  "main": "rollup.config.js",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -16,12 +23,5 @@
   "bugs": {
     "url": "https://github.com/nicoarellano/ifc-js-crash-course/issues"
   },
-  "homepage": "https://github.com/nicoarellano/ifc-js-crash-course/src/index.html",
-  "devDependencies": {
-    "rollup": "^2.75.7"
-  },
-  "dependencies": {
-    "three": "^0.142.0",
-    "web-ifc-three": "^0.0.117"
-  }
+  "homepage": "https://github.com/nicoarellano/ifc-js-crash-course#readme"
 }
