@@ -19,5 +19,8 @@
   "homepage": "https://github.com/nicoarellano/ifc-js-crash-course/src/index.html",
   "devDependencies": {
     "rollup": "^2.75.7"
+  },
+  "dependencies": {
+    "three": "^0.142.0"
   }
 }
