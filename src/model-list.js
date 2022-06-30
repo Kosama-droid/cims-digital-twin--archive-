@@ -1,4 +1,4 @@
-import { projects } from "./projects.js";;
+import { projects } from "./cdc-models";;
 
 // Get all cards
 const projectsContainer = document.getElementById("projects-container");
@@ -18,7 +18,7 @@ for(let project of projects) {
 
     // Add project URL to card
     const card = newCard.querySelector('a');
-    card.href = baseURL + `?id=${project.id}`;
+    card.href = baseURL + `?id=${project.code}`;
 
     // Add card to container
     projectsContainer.appendChild(newCard)
