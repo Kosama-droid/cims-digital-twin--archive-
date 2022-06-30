@@ -1,4 +1,4 @@
-import { projects } from "./projects.js";
+import { projects } from "./cdc-models.js";
 
 // Get the URL parameter
 const currentURL = window.location.href;
