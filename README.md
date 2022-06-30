@@ -1,3 +1,3 @@
-# ifc-js-clash-course
+# ifc-js-crash-course
 
-https://nicoarellano.github.io/ifc-js-clash-course/src
+https://nicoarellano.github.io/ifc-js-crash-course/src
