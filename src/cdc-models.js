@@ -1,4 +1,4 @@
-export const cdcModels = [
+export const projects = [
     {
       name: "Architecture Building",
       number: 22,
