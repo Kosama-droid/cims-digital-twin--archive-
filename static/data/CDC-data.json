@@ -1,0 +1,515 @@
+[
+ {
+   "building Name": "Architecture Building",
+   "number": 22,
+   "code": "AA",
+   "id": "22.AA",
+   "authors": "Nico, DCI",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Arise",
+   "number": 25,
+   "code": "AR",
+   "id": "25.AR",
+   "authors": "MontgomerySisam Architects",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Azrieli Pavilion",
+   "number": 32,
+   "code": "AP",
+   "id": "32.AP",
+   "authors": "Freed",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Azrieli Theatre",
+   "number": 31,
+   "code": "AT",
+   "id": "31.AT",
+   "authors": "Nico, Kitty",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Canal Building",
+   "number": 42,
+   "code": "CB",
+   "id": "42.CB",
+   "authors": "DCI (Katy, Bassam) - GRC architects / Moriyama and Teshima Architects",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Dunton Tower",
+   "number": 21,
+   "code": "DT",
+   "id": "21.DT",
+   "authors": "Nico (2020), Jennii  Yu & Alex Fiori (DCI 2013), Kitty",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Health and Science",
+   "number": 49,
+   "code": "HS",
+   "id": "49.HS",
+   "authors": "MontgomerySisam Architects",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Herzberg Laboratory",
+   "number": 13,
+   "code": "HP",
+   "id": "13.HP",
+   "authors": "Freed, Cali, Kitty, Yasmine",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Loeb Building",
+   "number": 15,
+   "code": "LA",
+   "id": "15.LA",
+   "authors": "Cali, Kitty",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Mackenzie Building",
+   "number": 10,
+   "code": "ME",
+   "id": "10.ME",
+   "authors": "DCI",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Macodrum Library",
+   "number": 2,
+   "code": "ML",
+   "id": "2.ML",
+   "authors": "Jessica Babe",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Minto",
+   "number": 27,
+   "code": "MC",
+   "id": "27.MC",
+   "authors": "Marco, Ruth Xing (DCI 2014)",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Nicol",
+   "number": 51,
+   "code": "NI",
+   "id": "51.NI",
+   "authors": "Harari Pontarini Architects",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Paterson Hall",
+   "number": 3,
+   "code": "PA",
+   "id": "3.PA",
+   "authors": "Freed",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "River Building (Richcraft Hall)",
+   "number": 43,
+   "code": "RB",
+   "id": "43.RB",
+   "authors": "Jieru Li (DCI 2014) - GRC architects / Moriyama and Teshima Architects",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Social Sciences Research Building",
+   "number": 24,
+   "code": "SR",
+   "id": "24.SR",
+   "authors": "Cali, Yasmine",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Southam Hall",
+   "number": 4,
+   "code": "SA",
+   "id": "4.SA",
+   "authors": "Kitty, Freed",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Steacie Building",
+   "number": 12,
+   "code": "SC",
+   "id": "12.SC",
+   "authors": "Reem, Cali, Kitty",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Tiny Home River",
+   "number": 52,
+   "code": "TH",
+   "id": "55.TH",
+   "authors": "Scott Bucking",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Tory Building",
+   "number": 1,
+   "code": "TB",
+   "id": "1.TB",
+   "authors": "Kitty, Jessica B, Kamila Lukus (DCI 2014)",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "University Centre",
+   "number": 7,
+   "code": "UC",
+   "id": "7.UC",
+   "authors": "Kitty, Nico, Marco - (BBB)",
+   "type": "building",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Vsim",
+   "number": 38,
+   "code": "VS",
+   "id": "38.VS",
+   "authors": "Hilary, Conor (physical model), Jessica Brooks (DCI 2014)",
+   "type": "building",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "Frontenac House",
+   "number": 41,
+   "code": "FR",
+   "id": "41.FR",
+   "authors": "Carlee - IBI Group/Teeple Architects",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Glengarry House",
+   "number": 18,
+   "code": "GH",
+   "id": "18.GH",
+   "authors": "Erika, Kale",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Lanark House",
+   "number": 6,
+   "code": "LH",
+   "id": "6.LH",
+   "authors": "Freed",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Leeds House",
+   "number": 30,
+   "code": "LE",
+   "id": "30.LE",
+   "authors": "Kitty",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Lennox and Addington House",
+   "number": 44,
+   "code": "LX",
+   "id": "44.LX",
+   "authors": "Reem",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Prescott House",
+   "number": 34,
+   "code": "PH",
+   "id": "34.PH",
+   "authors": "Kale, Jieru Li (DCI 2014)",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Renfrew House",
+   "number": 5,
+   "code": "RH",
+   "id": "5.RH",
+   "authors": "Freed",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Residence Commons",
+   "number": 19,
+   "code": "CO",
+   "id": "19.CO",
+   "authors": "Arkoun",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Russel and Grenville House",
+   "number": 14,
+   "code": "RU",
+   "id": "14.RU",
+   "authors": "DCI",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Saint Patricks",
+   "number": 23,
+   "code": "SP",
+   "id": "23.SP",
+   "authors": "Marco",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Stormont and Dundas",
+   "number": 26,
+   "code": "SD",
+   "id": "26.SD",
+   "authors": "Zarina, Kitty",
+   "type": "building",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Athletic Alumni and Fieldhouse",
+   "number": 9,
+   "code": "AC",
+   "id": "9.AC",
+   "authors": "Marco",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Ice House and Gymnasium",
+   "number": 39,
+   "code": "IH",
+   "id": "39.IH",
+   "authors": "Mira, Kitty",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Tennis Centre",
+   "number": 40,
+   "code": "TC",
+   "id": "40.TC",
+   "authors": "Nico, Kitty",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Parking Garage 9",
+   "number": 9,
+   "code": "P9",
+   "id": "9.P9",
+   "authors": "Nico",
+   "type": "parking",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Parking Garage 18",
+   "number": 46,
+   "code": "PS",
+   "id": "46.PS",
+   "authors": "Reem",
+   "type": "parking",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "OC Transpo",
+   "number": null,
+   "code": "OC",
+   "id": "",
+   "authors": "",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Bronson Sub-Station",
+   "number": 72,
+   "code": "SS",
+   "id": "72.SS",
+   "authors": "",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Carleton Technology and Training Centre",
+   "number": 29,
+   "code": "TT",
+   "id": "29.TT",
+   "authors": "DCI",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Centre for Home Energy Research (CHER)",
+   "number": 47,
+   "code": "UH",
+   "id": "47.UH",
+   "authors": "HOK Architects - CSALT",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Colonel By Child Care Centre",
+   "number": 28,
+   "code": "CC",
+   "id": "28.CC",
+   "authors": "Hilary",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Maintenance Building",
+   "number": 11,
+   "code": "MB",
+   "id": "11.MB",
+   "authors": "Reem, Nico",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Nesbitt Biology Building and National Wildlife Research Centre",
+   "number": 16,
+   "code": "NB",
+   "id": "16.NB",
+   "authors": "DCI - (Diamond Donald Schmitt and Katz Webster Clancey Architects)",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Roberson Hall",
+   "number": 17,
+   "code": "RO",
+   "id": "17.RO",
+   "authors": "Jerry, Kale, Yasmine, Alec",
+   "type": "building",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "River - Exterior Zone 1",
+   "number": 61,
+   "code": "Z1",
+   "id": "61.Z",
+   "authors": "Marco / Rehab, Arkoun",
+   "type": "exterior zone",
+   "zone": "Z1"
+ },
+ {
+   "building Name": "FED - Exterior Zone 2",
+   "number": 62,
+   "code": "Z2",
+   "id": "62.Z",
+   "authors": "Hilary / Kale / Rehab / Nico / Arkoun",
+   "type": "exterior zone",
+   "zone": "Z2"
+ },
+ {
+   "building Name": "Residences- Exterior Zone 3",
+   "number": 63,
+   "code": "Z3",
+   "id": "63.Z",
+   "authors": "Arkoun",
+   "type": "exterior zone",
+   "zone": "Z3"
+ },
+ {
+   "building Name": "Bronson - Exterior Zone 4",
+   "number": 64,
+   "code": "Z4",
+   "id": "64.Z",
+   "authors": "Rehab / Kitty / Nico / Arkoun",
+   "type": "exterior zone",
+   "zone": "Z4"
+ },
+ {
+   "building Name": "Roads",
+   "number": 60,
+   "code": "RD",
+   "id": "60.RD",
+   "authors": "Arkoun, Nico",
+   "type": "exterior zone",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Gas",
+   "number": 70,
+   "code": "GA",
+   "id": "70.GA",
+   "authors": "Nico",
+   "type": "services",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Lighting Fixtures",
+   "number": 71,
+   "code": "SM",
+   "id": "71.SM",
+   "authors": "Nico",
+   "type": "services",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Parking",
+   "number": 75,
+   "code": "PK",
+   "id": "75.PK",
+   "authors": "Nico",
+   "type": "services",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Storm",
+   "number": 73,
+   "code": "SM",
+   "id": "73.SM",
+   "authors": "Nico",
+   "type": "services",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Tunnels",
+   "number": 65,
+   "code": "TU",
+   "id": "65.TU",
+   "authors": "Arkoun, Elisa, Sharmeen, Alec, Yasmine, Hilary, Aidan",
+   "type": "services",
+   "zone": "cu"
+ },
+ {
+   "building Name": "Water",
+   "number": 74,
+   "code": "WA",
+   "id": "74.WA",
+   "authors": "Nico",
+   "type": "services",
+   "zone": "cu"
+ }
+]
