@@ -21,6 +21,7 @@
     "rollup": "^2.75.7"
   },
   "dependencies": {
-    "three": "^0.142.0"
+    "three": "^0.142.0",
+    "web-ifc-three": "^0.0.117"
   }
 }

@@ -1,6 +1,6 @@
 import { projects } from "./cdc-models.js";
-import { Color } from 'three';
-import { IfcViewerAPI } from 'web-ifc-viewer';
+import { Color } from '../node_modules/three';
+import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
 
 const container = document.getElementById('viewer-container');
 const viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
