@@ -1,0 +1,23 @@
+{
+  "name": "ifc-js-crash-course",
+  "version": "0.0.1",
+  "description": "exercises",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicoarellano/ifc-js-crash-course.git"
+  },
+  "author": "Nico",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicoarellano/ifc-js-crash-course/issues"
+  },
+  "homepage": "https://github.com/nicoarellano/ifc-js-crash-course/src/index.html",
+  "devDependencies": {
+    "rollup": "^2.75.7"
+  }
+}
