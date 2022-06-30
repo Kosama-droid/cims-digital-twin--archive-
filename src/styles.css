@@ -77,7 +77,7 @@ iframe {
     height: 17rem;
     background-color: var(--primary-color);
     border-radius: var(--border-radius);
-    border: black 0.2rem solid;
+    border: var(--primary-dark) 0.2rem solid;
     transition: all 0.15s ease-in;
     box-shadow: var(--shadow);
     margin:1rem;
@@ -97,13 +97,11 @@ iframe {
     fill: var(--secondary-color);
     width: 4rem;
     height: 4rem;
-    border: 4px solid var(--secondary-color);
 
   }
 
    .card:hover svg {
     fill: var(--primary-dark);
-    border: 4px solid var(--primary-dark);
     width: 4.2rem;
     height: 4.2rem;
     transition: all 0.2s ease 0s;
@@ -153,14 +151,12 @@ iframe {
     width: 1.8rem;
     height: 1.8rem;
     fill: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
   }
 
   .button:hover > svg{
     width: 1.9rem;
     height: 1.9rem;
     fill: var(--primary-dark);
-    border: 2px solid var(--primary-dark);
   }
 
   .simple-card-container {
