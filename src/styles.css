@@ -13,6 +13,23 @@
     --shadow: 0.4rem 0.4rem 0.6rem #00000040;
 }
 
+html,
+body {
+  overflow: hidden;
+}
+
+#three-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+#file-input {
+  z-index: 1;
+  position: absolute;
+}
+
 header {
     background-color: var(--primary-dark);
     color: white;
@@ -61,6 +78,7 @@ iframe {
 }
 
 .bottom {
+  z-index: 1;
   bottom: 1rem;
 }
 

@@ -10,9 +10,10 @@
   "name": "ifc-js-crash-course",
   "description": "https://nicoarellano.github.io/ifc-js-crash-course/src",
   "version": "0.0.1",
-  "main": "rollup.config.js",
+  "main": "model-viewer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c ./rollup.config.js",
+    "watch": "rollup -w -c ./rollup.config.js"
   },
   "repository": {
     "type": "git",

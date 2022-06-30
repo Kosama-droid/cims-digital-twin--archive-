@@ -1,10 +1,9 @@
 import { projects } from "./cdc-models.js";
-import { IFCLoader } from "../node_modules/IFCLoader";
+import { IFCLoader } from "../node_modules/web-ifc-three";
 // import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
 import {
     AmbientLight,
     AxesHelper,
-    Color,
     DirectionalLight,
     GridHelper,
     PerspectiveCamera,
@@ -14,20 +13,6 @@ import {
   import {
       OrbitControls
   } from "../node_modules/three/examples/jsm/controls/OrbitControls";
-
-
-const container = document.getElementById('viewer-container');
-const viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
-viewer.grid.setGrid();
-viewer.axes.setAxes();
-
-async function loadIfc(url) {
-    await viewer.IFC.setWasmPath("../../../");
-    const model = await viewer.IFC.loadIfcUrl(url);
-    viewer.shadowDropper.renderShadow(model.modelID);
-}
-
-loadIfc('your/IFC/path/model.ifc');
 
   //Creates the Three.js scene
   const scene = new Scene();
@@ -99,18 +84,39 @@ loadIfc('your/IFC/path/model.ifc');
     renderer.setSize(size.width, size.height);
   });
 
+// Sets up the IFC loading
+const ifcLoader = new IFCLoader();
+ifcLoader.ifcManager.setWasmPath("wasm/");
+
+const input = document.getElementById("file-input");
+input.addEventListener(
+  "change",
+  (changed) => {
+    const file = changed.target.files[0];
+    var ifcURL = URL.createObjectURL(file);
+    ifcLoader.load(
+          ifcURL,
+          (ifcModel) => {
+            scene.add(ifcModel)
+            console.log(scene.children)
+        });
+  },
+  false
+);
+
+
 
 // Get the URL parameter
-const currentURL = window.location.href;
-const url = new URL(currentURL);
-const currentProjectID = url.searchParams.get("id");
+// const currentURL = window.location.href;
+// const url = new URL(currentURL);
+// const currentProjectID = url.searchParams.get("id");
 
-// Get the current project
-const currentProject = projects.find(project => project.id == currentProjectID);
+// // Get the current project
+// const currentProject = projects.find(project => project.id == currentProjectID);
 
-// Add the project URL to the iframe
-const iframe = document.getElementById("model-iframe");
-iframe.src = currentProject.url;
+// // Add the project URL to the iframe
+// const iframe = document.getElementById("model-iframe");
+// iframe.src = currentProject.url;
 
 
 
