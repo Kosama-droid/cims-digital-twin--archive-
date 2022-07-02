@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFC.js</title>
+    <link rel="icon" type="image/x-icon" href="../static/logos/cims.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+</head>
+<body class="hide-overflow">
+  <header>
+    <a href="http://cims.carleton.ca/#/home"
+      ><img
+        src="../static/logos/cims-logo-black.png"
+        alt="CIMSlab"
+        title="Go to CIMS lab Page"
+        height="55px"
+      />
+    </a>
+    <h3>Cesium viewer</h3>
+    <a class="header-button" href="./index.html" title="Cesium viewer">
+      <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-16.5.5h15v15h-15zm6.75 9.25v3.25c0 .53-.47 1-1 1h-3.25c-.53 0-1-.47-1-1v-3.25c0-.53.47-1 1-1h3.25c.53 0 1 .47 1 1zm-3.75.5v2.25h2.25v-2.25zm3.75-7.25v3.25c0 .53-.47 1-1 1h-3.25c-.53 0-1-.47-1-1v-3.25c0-.53.47-1 1-1h3.25c.53 0 1 .47 1 1zm6.75 0v3.25c0 .53-.47 1-1 1h-3.25c-.53 0-1-.47-1-1v-3.25c0-.53.47-1 1-1h3.25c.53 0 1 .47 1 1zm-10.5.5v2.25h2.25v-2.25zm6.75 0v2.25h2.25v-2.25z" fill-rule="nonzero"/></svg>
+    </a>
+    <a class="header-button" href="./mapbox-viewer.html" title="MapBox viewer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ">
+        <path id="mapbox-icon"
+          d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12m2.557 16h-5.115c.546 2.46 1.441 4.114 2.558 5.744 1.194-1.741 2.041-3.41 2.557-5.744m-7.157 0h-4.567c1.236 2.825 3.704 4.972 6.755 5.716-1.048-1.733-1.783-3.658-2.188-5.716m13.767 0h-4.567c-.391 1.988-1.095 3.887-2.175 5.694 3.012-.763 5.517-2.895 6.742-5.694m-14.005-6h-4.962c-.267 1.313-.267 2.685 0 4h4.915c-.119-1.329-.101-2.672.047-4m7.661 0h-5.647c-.165 1.326-.185 2.672-.053 4h5.753c.133-1.328.111-2.673-.053-4m6.977 0h-4.963c.148 1.328.166 2.671.048 4h4.915c.26-1.285.273-2.648 0-4m-12.156-7.729c-3.077.732-5.567 2.886-6.811 5.729h4.653c.435-2.042 1.178-3.985 2.158-5.729m2.355-.048c-1.089 1.77-1.91 3.453-2.463 5.777h4.927c-.534-2.246-1.337-3.948-2.464-5.777m2.368.069c1.013 1.812 1.733 3.76 2.146 5.708h4.654c-1.232-2.816-3.762-4.958-6.8-5.708"
+        />
+      </svg>
+    </a>
+    <div id="title" class="title"></div>
+    <a href="https://carleton.ca/">
+      <img
+        src="../static/logos/cu_logo.jfif"
+        alt="Carleton"
+        title="Go to Carleton's Page"
+        height="50px"
+      />
+      <!-- <img
+      src="../static/logos/northcrest_logo.jfif"
+      alt="Northcrest"
+      height="50px"
+    /> -->
+    </a>
+  </header>
+
+    <div class="simple-card-container bottom">
+        <div class="toolbar">
+       <a class="button circular" id="map-view" title="Map view">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path id="map-icon" d="M17.545 5l-5.545-4-5.545 4-6.455-4v18l6.455 4 5.545-4 5.545 4 6.455-4v-18l-6.455 4zm-10.545 2.073l4-2.886v13.068l-4 2.885v-13.067zm6-2.886l4 2.886v13.068l-4-2.885v-13.069zm-11 .405l4 2.479v13.294l-4-2.479v-13.294zm20 13.295l-4 2.479v-13.295l4-2.479v13.295z"/></svg>
+       </a>
+        <a class="button circular" id="go-to" title="Go to site">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path id="go-to-icon" d="M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z"/></svg>
+        </a>
+        </div>
+    </div>
+
+    <nav class="nav-bar left" id="nav-bar">
+      <div id="menu" style="display: block">  
+        <select id="counties-menu" class="button" value="" style="display: none;">
+          <option class="option" value="">-- select a NY County --</option>
+        </select>
+        <select id="p-menu" class="button" value="">
+          <option class="option" value="">-- select a Province or Territory --</option>
+        </select>
+        <select id="c-menu" class="button" value="" style="display: none;">
+          <option class="option" value="">-- select a City --</option>
+        </select>
+        <select id="s-menu" class="button" value="" style="display: none;">
+          <option class="option" value="">-- select a Site --</option>
+        </select>
+        <select id="b-menu" class="button" value="" style="display: none;">
+          <option class="option" value="">-- select a Building --</option>
+        </select>
+      </div>
+      <a class="close" id="close-nav-bar" title="Close navigation bar">
+        <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z" fill-rule="nonzero"/></svg>
+        </a>
+    </nav>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.93.0/Cesium.js"
+      integrity="sha512-ZeH8MWL4o0SAhe5r9XgR4dp+0dP3o7l/JrwSUjN3uF03fzZYTdDir7ScF3fS70Y82JCBYxl3tuNHodxjWQEcTw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+  
+    <div class="hide-overflow canvas" id="cesiumContainer"></div>
+    <script src="./cesium-viewer.js" type="module"></script>
+
+</body>
+</html>

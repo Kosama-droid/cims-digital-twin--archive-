@@ -1,6 +1,6 @@
 export const projects = [
     {
-      name: "Architecture Building",
+      name: "Building 22",
       number: 22,
       code: "AA",
       id: "22.AA",
@@ -60,7 +60,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/DT"
     },
     {
-      name: "Health and Science",
+      name: "Health Sciences Building",
       number: 49,
       code: "HS",
       id: "49.HS",
@@ -140,7 +140,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/PA"
     },
     {
-      name: "River Building (Richcraft Hall)",
+      name: "River Building",
       number: 43,
       code: "RB",
       id: "43.RB",
@@ -460,7 +460,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RO"
     },
     {
-      name: "River - Exterior Zone 1",
+      name: "Exterior Zone 1",
       number: 61,
       code: "Z1",
       id: "61.Z",
@@ -470,7 +470,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z1"
     },
     {
-      name: "FED - Exterior Zone 2",
+      name: "Exterior Zone 2",
       number: 62,
       code: "Z2",
       id: "62.Z",
@@ -480,7 +480,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z2"
     },
     {
-      name: "Residences- Exterior Zone 3",
+      name: "Exterior Zone 3",
       number: 63,
       code: "Z3",
       id: "63.Z",
@@ -490,7 +490,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z3"
     },
     {
-      name: "Bronson - Exterior Zone 4",
+      name: "Exterior Zone 4",
       number: 64,
       code: "Z4",
       id: "64.Z",
