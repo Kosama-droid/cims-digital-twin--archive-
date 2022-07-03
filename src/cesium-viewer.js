@@ -57,7 +57,7 @@ function initCesium() {
           pCode
       ).then((pGeojson) => {
         loadGeojson(pGeojson, viewer);
-        cMenu.style.visibility = "visible";
+        cMenu.style.visibility = "inherit";
       });
       // GET CITY 🏙️
       const cNames = [];
@@ -93,7 +93,7 @@ function initCesium() {
               "&concise=CITY&province=" +
               pCode
           ).then((cGeojson) => {
-            sMenu.style.visibility = "visible";
+            sMenu.style.visibility = "inherit";
             loadGeojson(cGeojson, viewer);
           });
         });
@@ -102,11 +102,11 @@ function initCesium() {
 
     // Toggle Menu
     const locationBar = document.getElementById("location");
-    const menuButton = document.getElementById("close-nav-bar");
+    const locationButton = document.getElementById("close-nav-bar");
     let toggleLocationBar = false;
-    menuButton.onclick = function () {
-      menu.style.display = toggleLocationBar ? "flex" : "none";
-      menuButton.style.transform = toggleLocationBar ? "": "rotate(180deg)";
+    locationButton.onclick = function () {
+      locationBar.style.visibility = toggleLocationBar ? "visible" : "hidden";
+      locationButton.style.transform = toggleLocationBar ? "": "rotate(180deg)";
       const navBar = document.getElementById("nav-bar")
       navBar.style.backgroundColor = toggleLocationBar ? "": "#FFFFFF00";
       navBar.style.boxShadow = toggleLocationBar ? "": "none";
@@ -155,10 +155,10 @@ function initCesium() {
         // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
         // Fly to Carleton
         flyTo(viewer, -75.696, 45.371, 1500, -45.0, 0);
-        pMenu.style.display = "none";
-        cMenu.style.display = "none";
-        sMenu.style.display = "none";
-        bMenu.style.display = "flex";
+        pMenu.style.visibility = "hidden";
+        cMenu.style.visibility = "hidden";
+        sMenu.style.visibility = "hidden";
+        bMenu.style.visibility = "inherit";
 
         // Load OSM 🏢
         let bldgs =
@@ -203,10 +203,10 @@ function initCesium() {
         document.getElementById("go-to-icon").setAttribute("d", worldIconD);
         // Fly to Canada
         flyTo(viewer, -98.74, 56.415, 5000000, -90.0, 0);
-        pMenu.style.display = "flex";
-        cMenu.style.display = "none";
-        sMenu.style.display = "none";
-        bMenu.style.display = "none";
+        pMenu.style.visibility = "inherit";
+        cMenu.style.visibility = "hidden";
+        sMenu.style.visibility = "hidden";
+        bMenu.style.visibility = "hidden";
 
       }
       toggleGoTo = !toggleGoTo;
