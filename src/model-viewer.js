@@ -112,7 +112,7 @@ console.log(pageTitle);
 pageTitle.innerHTML = currentProject.name
 
 // Load IFC to Scene
-const ifcFile = `../static/public ifc/${currentProject.ifc}`;
+const ifcFile = `../static/public_ifc/${currentProject.ifc}`;
 ifcLoader.load(ifcFile, (ifcModel) => {
   scene.add(ifcModel);
 });

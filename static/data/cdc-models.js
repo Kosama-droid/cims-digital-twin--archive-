@@ -430,7 +430,7 @@ export const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CC"
     },
     {
-      name: "Maintenance Building",
+      name: "Maintenance and grounds Building",
       number: 11,
       code: "MB",
       id: "11.MB",

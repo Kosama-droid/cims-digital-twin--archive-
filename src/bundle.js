@@ -430,7 +430,7 @@ const projects = [
       url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CC"
     },
     {
-      name: "Maintenance Building",
+      name: "Maintenance and grounds Building",
       number: 11,
       code: "MB",
       id: "11.MB",
@@ -120213,7 +120213,7 @@ console.log(pageTitle);
 pageTitle.innerHTML = currentProject.name;
 
 // Load IFC to Scene
-const ifcFile = `../static/ifc/${currentProject.ifc}`;
+const ifcFile = `../static/public_ifc/${currentProject.ifc}`;
 ifcLoader.load(ifcFile, (ifcModel) => {
   scene.add(ifcModel);
 });
