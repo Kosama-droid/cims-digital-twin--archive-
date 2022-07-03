@@ -1,4 +1,4 @@
-import { projects } from "./cdc-models.js";
+import { projects } from "../static/data/cdc-models";
 import { IFCLoader } from "../node_modules/web-ifc-three";
 // import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
 import {
