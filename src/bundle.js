@@ -30,6 +30,17 @@ const projects = [
     url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/DT",
   },
   {
+    name: "Nesbitt Biology Building",
+    number: 16,
+    code: "NB",
+    id: "16.NB",
+    authors:
+      "DCI - (Diamond Donald Schmitt and Katz Webster Clancey Architects)",
+    type: "building",
+    zone: "Z4",
+    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/NB",
+  },
+  {
     name: "Building 22",
     number: 22,
     code: "AA",
@@ -444,17 +455,6 @@ const projects = [
     url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CC",
   },
 
-  {
-    name: "Nesbitt Biology Building and National Wildlife Research Centre",
-    number: 16,
-    code: "NB",
-    id: "16.NB",
-    authors:
-      "DCI - (Diamond Donald Schmitt and Katz Webster Clancey Architects)",
-    type: "building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/NB",
-  },
   {
     name: "Roberson Hall",
     number: 17,
