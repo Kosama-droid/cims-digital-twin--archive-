@@ -107,7 +107,6 @@ const currentProject = projects.find(
 );
 
 const pageTitle = document.getElementById("model-title");
-console.log(pageTitle);
 
 pageTitle.innerHTML = currentProject.name
 
