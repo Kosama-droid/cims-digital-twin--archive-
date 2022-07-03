@@ -120215,10 +120215,26 @@ const currentProject = projects.find(
 
 const pageTitle = document.getElementById("model-title");
 
-pageTitle.innerHTML = currentProject.name;
-
-// Load IFC to Scene
-const ifcFile = `../static/public_ifc/${currentProject.ifc}`;
+if (currentProject !== undefined) {
+  pageTitle.innerHTML = currentProject.name;
+  const ifcFile = `../static/public_ifc/${currentProject.ifc}`;
 ifcLoader.load(ifcFile, (ifcModel) => {
   scene.add(ifcModel);
-});
+});}
+  else {
+    pageTitle.innerHTML = "IFC Model";
+  }
+
+// Load IFC file
+const input = document.getElementById("file-input");
+  input.addEventListener(
+    "change",
+    (changed) => {
+      const file = changed.target.files[0];
+      var ifcURL = URL.createObjectURL(file);
+      ifcLoader.load(
+            ifcURL,
+            (ifcModel) => scene.add(ifcModel));
+    },
+    false
+  );
