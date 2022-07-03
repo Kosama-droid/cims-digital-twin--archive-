@@ -1,4 +1,4 @@
-import { projects } from "./cdc-models.js";;
+import { projects } from "../static/data/cdc-models.js";;
 
 // Get all cards
 const projectsContainer = document.getElementById("projects-container");
