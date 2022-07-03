@@ -57,7 +57,7 @@ function initCesium() {
           pCode
       ).then((pGeojson) => {
         loadGeojson(pGeojson, viewer);
-        cMenu.style.display = "flex";
+        cMenu.style.visibility = "visible";
       });
       // GET CITY 🏙️
       const cNames = [];
@@ -93,7 +93,7 @@ function initCesium() {
               "&concise=CITY&province=" +
               pCode
           ).then((cGeojson) => {
-            sMenu.style.display = "flex";
+            sMenu.style.visibility = "visible";
             loadGeojson(cGeojson, viewer);
           });
         });
@@ -101,7 +101,7 @@ function initCesium() {
     });
 
     // Toggle Menu
-    const menu = document.getElementById("menu");
+    const menu = document.getElementById("location");
     const menuButton = document.getElementById("close-nav-bar");
     var toggleMenu = false;
     menuButton.onclick = function () {
