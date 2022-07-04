@@ -1,13 +1,12 @@
-export const mapStyles = {
-    street: {name: "Streets", url:"mapbox://styles/mapbox/streets-v11"},
-    satLabels: {name: "Satellite with labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
-    sat: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
-    outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
-    light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
-    dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
-    navDay: {name: "Navigation day", url:"mapbox://styles/mapbox/navigation-day-v1"},
-    navNight: {name: "Navigation night", url:"mapbox://styles/mapbox/navigation-night-v1"},
-    googleSat: {name: "Google satellite", url: {
+export const mapStyles = [{name: "Streets", url:"mapbox://styles/mapbox/streets-v11"},
+    {name: "Satellite with labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
+    {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
+    {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
+    {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
+    {name: "Navigation day", url:"mapbox://styles/mapbox/navigation-day-v1"},
+    {name: "Navigation night", url:"mapbox://styles/mapbox/navigation-night-v1"},
+    {name: "Google satellite", url: {
         'version': 8,
         'sources': {
         'raster-tiles': {
@@ -31,7 +30,7 @@ export const mapStyles = {
         ]
         }
     },
-    googleHybrid: {name: "Google hybrid", url: {
+    {name: "Google hybrid", url: {
         'version': 8,
         'sources': {
         'raster-tiles': {
@@ -55,7 +54,7 @@ export const mapStyles = {
         ]
         }
     },
-    watercolor: {name: "Watercolor", url: {
+    {name: "Watercolor", url: {
         'version': 8,
         'sources': {
         'raster-tiles': {
@@ -79,4 +78,4 @@ export const mapStyles = {
         ]
         }
     },
-};
+];

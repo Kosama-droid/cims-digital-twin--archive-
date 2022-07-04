@@ -1,6 +1,6 @@
 import { canada } from "../static/data/canada.js";
-import { icons } from "../static/icons.js"
-import { mapStyles } from "../static/map-styles.js"
+import { icons } from "../static/icons.js";
+import { mapStyles } from "../static/map-styles.js";
 
 initMapbox();
 
@@ -8,12 +8,12 @@ initMapbox();
 using the EPSG:3857 projected coordinate system 
 (sometimes called EPSG:900913)*/
 
-function initMapbox() {     
+function initMapbox() {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   const map = new mapboxgl.Map({
     container: "mapboxContainer", // container ID
-    style: mapStyles.street.url,
+    style: mapStyles[0].url,
     center: [-98.74, 56.415], // starting position [lng, lat]
     zoom: 4, // starting zoom
     antialias: true,
@@ -24,52 +24,75 @@ function initMapbox() {
     map.setFog({}); // Set the default atmosphere style
   });
 
-//   const mapStyle = document.getElementById("map-style"); // Toggle Map style
-//   map.setStyle(mapStyles[0]);
-//   let toggleMapStyle = true;
-//   mapStyle.onclick = function () {
-//     if (toggleMapStyle) {
-//         map.setStyle(mapStyles[8]);
-//       const satelliteIcon = document.getElementById("satellite-icon");
-//       satelliteIcon.setAttribute("d", icons.mapIcon);
-//       this.setAttribute("title", "Map view");
-//     } else {
-//       const satelliteIcon = document.getElementById("satellite-icon");
-//       map.setStyle(mapStyles[0]);
-//       this.setAttribute("title", "Satellite view");
-//       satelliteIcon.setAttribute("d", icons.satelliteIcon);
-//     }
-//     toggleMapStyle = !toggleMapStyle;
-//   };
+  //   const mapStyle = document.getElementById("map-style"); // Toggle Map style
+  //   map.setStyle(mapStyles[0]);
+  //   let toggleMapStyle = true;
+  //   mapStyle.onclick = function () {
+  //     if (toggleMapStyle) {
+  //         map.setStyle(mapStyles[8]);
+  //       const satelliteIcon = document.getElementById("satellite-icon");
+  //       satelliteIcon.setAttribute("d", icons.mapIcon);
+  //       this.setAttribute("title", "Map view");
+  //     } else {
+  //       const satelliteIcon = document.getElementById("satellite-icon");
+  //       map.setStyle(mapStyles[0]);
+  //       this.setAttribute("title", "Satellite view");
+  //       satelliteIcon.setAttribute("d", icons.satelliteIcon);
+  //     }
+  //     toggleMapStyle = !toggleMapStyle;
+  //   };
 
-// Select province or Territory
-  const pNames = [];
+  // Select map style 🗺️
+  let styleNames = [];
+  mapStyles.forEach((style) => {
+    styleNames.push(style.name);
+  });
+  styleNames.sort((a, b) => a.localeCompare(b));
+  mapStyles.sort((a, b) => a.name.localeCompare(b.name));
+  const styleSelect = document.getElementById("style-select");
+  mapStyles.forEach((mapStyle) => {
+    let option = document.createElement("option");
+    option.innerHTML = mapStyle.name;
+    styleSelect.appendChild(option);
+  });
+  document
+    .getElementById("style-select")
+    .addEventListener("change", function () {
+      const selectedStyle = styleNames.indexOf(this.value);
+      const url = mapStyles[selectedStyle].url;
+      map.setStyle(url);
+    });
+  // Select province or Territory 🍁
+  const provinceNames = [];
   const provinces = canada.provinces;
   const territories = canada.territories;
   territories.forEach((territory) => {
     provinces.push(territory);
   });
-  const provinceMenu = document.getElementById("province-select");
+  const provinceSelect = document.getElementById("province-select");
   provinces.forEach((province) => {
     let option = document.createElement("option");
     option.innerHTML = province.provinceName;
-    pNames.push(province.provinceName);
-    provinceMenu.appendChild(option);
+    provinceNames.push(province.provinceName);
+    provinceSelect.appendChild(option);
   });
-  document.getElementById("province-select").addEventListener("change", function () {
-    const pIndex = pNames.indexOf(this.value);
-    const pCode = provinces[pIndex].code;  
-// GET PROVINCE GEOJSON 🌐
-getJson(
-    "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-      pCode
-  ).then((pGeojson) => {
-    console.log(pGeojson);
-    map.addSource(pGeojson);
+  document
+    .getElementById("province-select")
+    .addEventListener("change", function () {
+      const pIndex = provinceNames.indexOf(this.value);
+      console.log(provinceNames)
+      const pCode = provinces[pIndex].code;
+      // GET PROVINCE GEOJSON 🌐
+      getJson(
+        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
+          pCode
+      ).then((pGeojson) => {
+        console.log(pGeojson);
+        map.addSource(pGeojson);
         console.log(map);
-    citySelect.style.display = "inline-block";
-  });
-});
+        citySelect.style.display = "inline-block";
+      });
+    });
 
   // Go To Site 🏢
   const goTo = document.getElementById("go-to");
@@ -99,41 +122,40 @@ getJson(
   };
 }
 
-  // Toggle Nav bar
-  const locationBar = document.getElementById("location");
-  const locationButton = document.getElementById("close-nav-bar");
-  let toggleLocationBar = false;
-  locationButton.onclick = function () {
-    locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
-    locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
-    const navBar = document.getElementById("nav-bar");
-    navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
-    navBar.style.boxShadow = toggleLocationBar ? "" : "none";
-    toggleLocationBar = !toggleLocationBar;
-  };
+// Toggle Nav bar
+const locationBar = document.getElementById("location");
+const locationButton = document.getElementById("close-nav-bar");
+let toggleLocationBar = false;
+locationButton.onclick = function () {
+  locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
+  locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
+  const navBar = document.getElementById("nav-bar");
+  navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
+  navBar.style.boxShadow = toggleLocationBar ? "" : "none";
+  toggleLocationBar = !toggleLocationBar;
+};
 
-
-let provinceSelect = document.getElementById("province-select");// Select Provinces and Territories
-let citySelect = document.getElementById("city-select");// Select Cities
-let siteSelect = document.getElementById("site-select");// Select Site
-let buildingSelect = document.getElementById("building-select");// Select Building
+let citySelect = document.getElementById("city-select"); // Select Cities
+let siteSelect = document.getElementById("site-select"); // Select Site
+let buildingSelect = document.getElementById("building-select"); // Select Building
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
-function flyTo(map, lng, lat, zoom = 15, pitch = 50){map.flyTo({
+function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
+  map.flyTo({
     center: [lng, lat],
     zoom: zoom,
     pitch: pitch,
-    duration: 2000
-    });
+    duration: 2000,
+  });
 }
 
 async function getJson(path) {
-    let response = await fetch(path);
-    let json = await response.json();
-    return json;
-  }
-  
+  let response = await fetch(path);
+  let json = await response.json();
+  return json;
+}
+
 //   async function loadGeojson(geojson, viewer) {
 //     const fillPromise = Cesium.GeoJsonDataSource.load(geojson, {
 //       fill: Cesium.Color.fromBytes(251, 184, 41, 50),
