@@ -99,6 +99,19 @@ getJson(
   };
 }
 
+  // Toggle Nav bar
+  const locationBar = document.getElementById("location");
+  const locationButton = document.getElementById("close-nav-bar");
+  let toggleLocationBar = false;
+  locationButton.onclick = function () {
+    locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
+    locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
+    const navBar = document.getElementById("nav-bar");
+    navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
+    navBar.style.boxShadow = toggleLocationBar ? "" : "none";
+    toggleLocationBar = !toggleLocationBar;
+  };
+
 
 let provinceSelect = document.getElementById("province-select");// Select Provinces and Territories
 let citySelect = document.getElementById("city-select");// Select Cities

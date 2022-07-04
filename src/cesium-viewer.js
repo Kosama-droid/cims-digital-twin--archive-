@@ -100,7 +100,7 @@ function initCesium() {
     });
   });
 
-  // Toggle Menu
+  // Toggle Nav bar
   const locationBar = document.getElementById("location");
   const locationButton = document.getElementById("close-nav-bar");
   let toggleLocationBar = false;
