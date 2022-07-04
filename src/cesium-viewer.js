@@ -57,7 +57,7 @@ function initCesium() {
           pCode
       ).then((pGeojson) => {
         loadGeojson(pGeojson, viewer);
-        cMenu.style.display = "block";
+        cMenu.style.display = "inline-block";
       });
       // GET CITY 🏙️
       const cNames = [];
@@ -93,7 +93,7 @@ function initCesium() {
               "&concise=CITY&province=" +
               pCode
           ).then((cGeojson) => {
-            sMenu.style.display = "block";
+            sMenu.style.display = "inline-block";
             loadGeojson(cGeojson, viewer);
           });
         });
@@ -105,7 +105,7 @@ function initCesium() {
     const locationButton = document.getElementById("close-nav-bar");
     let toggleLocationBar = false;
     locationButton.onclick = function () {
-      locationBar.style.visibility = toggleLocationBar ? "visible" : "hidden";
+      locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
       locationButton.style.transform = toggleLocationBar ? "": "rotate(180deg)";
       const navBar = document.getElementById("nav-bar")
       navBar.style.backgroundColor = toggleLocationBar ? "": "#FFFFFF00";
@@ -158,7 +158,7 @@ function initCesium() {
         pMenu.style.display = "none";
         cMenu.style.display = "none";
         sMenu.style.display = "none";
-        bMenu.style.display = "block";
+        bMenu.style.display = "inline-block";
 
         // Load OSM 🏢
         let bldgs =
@@ -203,7 +203,7 @@ function initCesium() {
         document.getElementById("go-to-icon").setAttribute("d", worldIconD);
         // Fly to Canada
         flyTo(viewer, -98.74, 56.415, 5000000, -90.0, 0);
-        pMenu.style.display = "block";
+        pMenu.style.display = "inline-block";
         cMenu.style.display = "none";
         sMenu.style.display = "none";
         bMenu.style.display = "none";
@@ -218,9 +218,6 @@ function initCesium() {
     );
 ;
 }
-
-// DOM OBJECTS
-
 // Select Provinces and Territories
 let pMenu = document.getElementById("p-menu");
 // Select Cities
