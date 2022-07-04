@@ -1,6 +1,7 @@
 import { canada } from "../static/data/canada.js";
 import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
+import { models } from "../static/data/cdc-models.js";
 
 initMapbox();
 
@@ -23,24 +24,6 @@ function initMapbox() {
   map.on("style.load", () => {
     map.setFog({}); // Set the default atmosphere style
   });
-
-  //   const mapStyle = document.getElementById("map-style"); // Toggle Map style
-  //   map.setStyle(mapStyles[0]);
-  //   let toggleMapStyle = true;
-  //   mapStyle.onclick = function () {
-  //     if (toggleMapStyle) {
-  //         map.setStyle(mapStyles[8]);
-  //       const satelliteIcon = document.getElementById("satellite-icon");
-  //       satelliteIcon.setAttribute("d", icons.mapIcon);
-  //       this.setAttribute("title", "Map view");
-  //     } else {
-  //       const satelliteIcon = document.getElementById("satellite-icon");
-  //       map.setStyle(mapStyles[0]);
-  //       this.setAttribute("title", "Satellite view");
-  //       satelliteIcon.setAttribute("d", icons.satelliteIcon);
-  //     }
-  //     toggleMapStyle = !toggleMapStyle;
-  //   };
 
   // Select map style 🗺️
   let styleNames = [];
@@ -120,6 +103,26 @@ function initMapbox() {
     }
     toggleGoTo = !toggleGoTo;
   };
+
+//   let modelNames = [];
+//   projects.forEach((model) => {
+//     moelNames.push(style.name);
+//   });
+//   styleNames.sort((a, b) => a.localeCompare(b));
+//   mapStyles.sort((a, b) => a.name.localeCompare(b.name));
+//   const styleSelect = document.getElementById("style-select");
+//   mapStyles.forEach((mapStyle) => {
+//     let option = document.createElement("option");
+//     option.innerHTML = mapStyle.name;
+//     styleSelect.appendChild(option);
+//   });
+//   document
+//     .getElementById("style-select")
+//     .addEventListener("change", function () {
+//       const selectedStyle = styleNames.indexOf(this.value);
+//       const url = mapStyles[selectedStyle].url;
+//       map.setStyle(url);
+//     });
 }
 
 // Toggle Nav bar

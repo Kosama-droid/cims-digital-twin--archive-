@@ -1,4 +1,4 @@
-import { projects } from "../static/data/cdc-models.js";
+import { models } from "../static/data/cdc-models.js";
 import { IFCLoader } from "../node_modules/web-ifc-three";
 // import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
 import {
@@ -87,30 +87,30 @@ const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("wasm/");
 
 
-for (const project of projects) {
-  let buildingName = project.name
+for (const model of models) {
+  let buildingName = model.name
   buildingName = buildingName.toUpperCase()
   buildingName = buildingName.replace(/ /g, "_")
   buildingName = buildingName.replace("BUILDING", "BLDG");
   const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-  project.ifc = ifcFile;
+  model.ifc = ifcFile;
 }
 
 // Get the URL parameter
 const currentURL = window.location.href;
 const url = new URL(currentURL);
-const currentProjectID = url.searchParams.get("id");
+const currentModelID = url.searchParams.get("id");
 
-// Get the current project
-const currentProject = projects.find(
-  (project) => project.code == currentProjectID
+// Get the current model
+const currentModel = models.find(
+  (model) => model.code == currentModelID
 );
 
 const pageTitle = document.getElementById("model-title");
 
-if (currentProject !== undefined) {
-  pageTitle.innerHTML = currentProject.name
-  const ifcFile = `../static/public_ifc/${currentProject.ifc}`;
+if (currentModel !== undefined) {
+  pageTitle.innerHTML = currentModel.name
+  const ifcFile = `../static/public_ifc/${currentModel.ifc}`;
 ifcLoader.load(ifcFile, (ifcModel) => {
   scene.add(ifcModel);
 });}

@@ -1,4 +1,4 @@
-export const projects = [
+export const models = [
   {
     name: "Maintenance and Grounds Building",
     number: 11,
