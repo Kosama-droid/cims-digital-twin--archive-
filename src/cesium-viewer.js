@@ -57,7 +57,7 @@ function initCesium() {
           pCode
       ).then((pGeojson) => {
         loadGeojson(pGeojson, viewer);
-        cMenu.style.visibility = "inherit";
+        cMenu.style.display = "block";
       });
       // GET CITY 🏙️
       const cNames = [];
@@ -85,7 +85,7 @@ function initCesium() {
           const cIndex = cNames.indexOf(this.value);
           city = cities[cIndex];
           const { latitude, longitude } = city;
-          console.log(city);
+  
           // GET CITY GEOJSON 🌐
           getJson(
             "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
@@ -93,7 +93,7 @@ function initCesium() {
               "&concise=CITY&province=" +
               pCode
           ).then((cGeojson) => {
-            sMenu.style.visibility = "inherit";
+            sMenu.style.display = "block";
             loadGeojson(cGeojson, viewer);
           });
         });
@@ -155,10 +155,10 @@ function initCesium() {
         // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
         // Fly to Carleton
         flyTo(viewer, -75.696, 45.371, 1500, -45.0, 0);
-        pMenu.style.visibility = "hidden";
-        cMenu.style.visibility = "hidden";
-        sMenu.style.visibility = "hidden";
-        bMenu.style.visibility = "inherit";
+        pMenu.style.display = "none";
+        cMenu.style.display = "none";
+        sMenu.style.display = "none";
+        bMenu.style.display = "block";
 
         // Load OSM 🏢
         let bldgs =
@@ -203,10 +203,10 @@ function initCesium() {
         document.getElementById("go-to-icon").setAttribute("d", worldIconD);
         // Fly to Canada
         flyTo(viewer, -98.74, 56.415, 5000000, -90.0, 0);
-        pMenu.style.visibility = "inherit";
-        cMenu.style.visibility = "hidden";
-        sMenu.style.visibility = "hidden";
-        bMenu.style.visibility = "hidden";
+        pMenu.style.display = "block";
+        cMenu.style.display = "none";
+        sMenu.style.display = "none";
+        bMenu.style.display = "none";
 
       }
       toggleGoTo = !toggleGoTo;
