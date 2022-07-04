@@ -1,3 +1,5 @@
+import { icons } from "../static/icons.js"
+
 initMapbox();
 
 /* Mapbox renders maps and map tiles with Web Mercator projection 
@@ -21,7 +23,7 @@ function initMapbox() {
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   const map = new mapboxgl.Map({
     container: "mapboxContainer", // container ID
-    style: mapStyles[1], // style URL
+    style: mapStyles[0], // style URL
     center: [-75.697, 45.384], // starting position [lng, lat]
     zoom: 15, // starting zoom
     pitch: 50,
@@ -32,14 +34,22 @@ function initMapbox() {
   map.on("style.load", () => {
     map.setFog({}); // Set the default atmosphere style
   });
-  // Night
-  // map.on('style.load', () => {
-  //     map.setFog({
-  //         color: 'rgb(186, 210, 235)', // Lower atmosphere
-  //         'high-color': 'rgb(36, 92, 223)', // Upper atmosphere
-  //         'horizon-blend': 0.02, // Atmosphere thickness (default 0.2 at low zooms)
-  //         'space-color': 'rgb(11, 11, 25)', // Background color
-  //         'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
-  //     });
-  // });
+
+  const mapStyle = document.getElementById("map-style"); // Toggle Map style
+  map.setStyle(mapStyles[0]);
+  let toggleMapStyle = true;
+  mapStyle.onclick = function () {
+    if (toggleMapStyle) {
+        map.setStyle(mapStyles[1]);
+      const satelliteIcon = document.getElementById("satellite-icon");
+      satelliteIcon.setAttribute("d", icons.mapIcon);
+      this.setAttribute("title", "Map view");
+    } else {
+      const satelliteIcon = document.getElementById("satellite-icon");
+      map.setStyle(mapStyles[0]);
+      this.setAttribute("title", "Satellite view");
+      satelliteIcon.setAttribute("d", icons.satelliteIcon);
+    }
+    toggleMapStyle = !toggleMapStyle;
+  };
 }
