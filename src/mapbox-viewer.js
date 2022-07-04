@@ -104,25 +104,24 @@ function initMapbox() {
     toggleGoTo = !toggleGoTo;
   };
 
-//   let modelNames = [];
-//   projects.forEach((model) => {
-//     moelNames.push(style.name);
-//   });
-//   styleNames.sort((a, b) => a.localeCompare(b));
-//   mapStyles.sort((a, b) => a.name.localeCompare(b.name));
-//   const styleSelect = document.getElementById("style-select");
-//   mapStyles.forEach((mapStyle) => {
-//     let option = document.createElement("option");
-//     option.innerHTML = mapStyle.name;
-//     styleSelect.appendChild(option);
-//   });
-//   document
-//     .getElementById("style-select")
-//     .addEventListener("change", function () {
-//       const selectedStyle = styleNames.indexOf(this.value);
-//       const url = mapStyles[selectedStyle].url;
-//       map.setStyle(url);
-//     });
+  let modelNames = [];
+  models.forEach((model) => {
+    modelNames.push(model.name);
+  });
+  console.log(modelNames)
+  modelNames.sort((a, b) => a.localeCompare(b));
+  models.sort((a, b) => a.name.localeCompare(b.name));
+  const buildingSelect = document.getElementById("building-select");
+  models.forEach((model) => {
+    let option = document.createElement("option");
+    option.innerHTML = model.name;
+    buildingSelect.appendChild(option);
+  });
+  document
+    .getElementById("building-select")
+    .addEventListener("change", function () {
+      const selectedModel = modelNames.indexOf(this.value);
+    });
 }
 
 // Toggle Nav bar
