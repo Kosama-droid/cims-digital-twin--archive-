@@ -63,7 +63,6 @@ function initMapbox() {
     .getElementById("province-select")
     .addEventListener("change", function () {
       const pIndex = provinceNames.indexOf(this.value);
-      console.log(provinceNames)
       const pCode = provinces[pIndex].code;
       // GET PROVINCE GEOJSON 🌐
       getJson(
