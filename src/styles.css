@@ -105,7 +105,7 @@ iframe {
   bottom: 1rem;
 }
 
-.project-list {
+.model-list {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -198,8 +198,6 @@ iframe {
     height: 1.8rem;
     fill: var(--secondary-color);
   }
-
-
 
   .circular:hover > svg{
     width: 1.9rem;

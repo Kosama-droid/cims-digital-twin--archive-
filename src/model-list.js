@@ -1,27 +1,27 @@
-import { projects } from "../static/data/cdc-models.js";;
+import { models } from "../static/data/cdc-models.js";;
 
 // Get all cards
-const projectsContainer = document.getElementById("projects-container");
-const projectCards = Array.from(projectsContainer.children);
+const modelsContainer = document.getElementById("model-container");
+const modelCards = Array.from(modelsContainer.children);
 
-const templateProjetCard = projectCards[0];
+const templateModelCard = modelCards[0];
 
 const baseURL = './model-viewer.html';
 
-for(let project of projects) {
+for(let model of models) {
     // Create a new card
-    const newCard = templateProjetCard.cloneNode(true);
+    const newCard = templateModelCard.cloneNode(true);
 
-    // Add project name to card
+    // Add model name to card
     const cardTitle = newCard.querySelector('h2');
-    cardTitle.textContent = project.name;
+    cardTitle.textContent = model.name;
 
-    // Add project URL to card
+    // Add model URL to card
     const card = newCard.querySelector('a');
-    card.href = baseURL + `?id=${project.code}`;
+    card.href = baseURL + `?id=${model.code}`;
 
     // Add card to container
-    projectsContainer.appendChild(newCard)
+    modelsContainer.appendChild(newCard)
 }
 
-templateProjetCard.remove()
+templateModelCard.remove()
