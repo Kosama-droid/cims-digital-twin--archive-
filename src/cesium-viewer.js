@@ -1,4 +1,3 @@
-// CESIUM
 import { canada } from "../static/data/canada.js";
 import { icons } from "../static/icons.js";
 const cesiumContainer = document.getElementById("cesiumContainer");
