@@ -128660,9 +128660,9 @@ mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
 const map = new mapboxgl.Map({
   container: "map", // container ID
-  style: mapStyles[0].url,
+  style: mapStyles[1].url,
   center: [current.lng, current.lat], // starting position [lng, lat]
-  zoom: 3, // starting zoom
+  zoom: 4, // starting zoom
   pitch: 0,
   antialias: true,
   projection: "globe", // display the map as a 3D globe
@@ -128881,16 +128881,6 @@ const customLayer = {
       const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
       model.ifc = ifcFile;
     }
-    // Get the URL parameter
-    // const currentURL = window.location.href;
-    // const url = new URL(currentURL);
-    // let currentModelID = url.searchParams.get("id");
-    // if (currentModelID === null) {
-    //   window.location.pathname = './src/model-viewer.html' +  '?id=' + current.building.code 
-    //   console.log(currentModelID)
-    // }
-    // Get the current model
-    // const currentModel = models.find((model) => model.code == currentModelID);
     let pageTitle = document.getElementById("model-title");
 
     // Sets up the IFC loading
@@ -128901,20 +128891,18 @@ const customLayer = {
     pageTitle.innerHTML = current.building.name;
       const ifcFile = `../static/public-ifc/${current.building.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
-        console.log(ifcModel);
         current.scene.add(ifcModel);
       });
     // Load IFC file
-    // const input = document.getElementById("file-input");
-    // input.addEventListener(
-    //   "change",
-    //   (changed) => {
-    //     const file = changed.target.files[0];
-    //     var ifcURL = URL.createObjectURL(file);
-    //     ifcLoader.load(ifcURL, (ifcModel) => this.scene.add(ifcModel));
-    //   },
-    //   false
-    // );
+    const input = document.getElementById("file-input");
+    input.addEventListener(
+      "change",
+      (changed) => {
+        const file = changed.target.files[0];
+        var ifcURL = URL.createObjectURL(file);
+        ifcLoader.load(ifcURL, (ifcModel) => current.scene.add(ifcModel));
+      },
+    );
 });    
     this.map = map;
 
