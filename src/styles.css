@@ -77,7 +77,7 @@ iframe {
 }
 
 .canvas {
-  z-index: 0;
+  z-index: -1;
   position: fixed;
   top: var(--header-heigt);
   left: 0;

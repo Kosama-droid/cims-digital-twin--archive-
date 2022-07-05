@@ -129720,7 +129720,7 @@ const mapStyles = [
         'type': 'raster',
         'source': 'raster-tiles',
         'minzoom': 0,
-        'maxzoom': 22
+        'maxzoom': 30
         }
         ]
         }
@@ -129744,7 +129744,7 @@ const mapStyles = [
         'type': 'raster',
         'source': 'raster-tiles',
         'minzoom': 0,
-        'maxzoom': 22
+        'maxzoom': 30
         }
         ]
         }
