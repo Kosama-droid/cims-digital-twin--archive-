@@ -16,7 +16,7 @@ function initMapbox() {
     container: "mapboxContainer", // container ID
     style: mapStyles[0].url,
     center: [-98.74, 56.415], // starting position [lng, lat]
-    zoom: 4, // starting zoom
+    zoom: 3, // starting zoom
     antialias: true,
     projection: "globe", // display the map as a 3D globe
   });
@@ -71,6 +71,7 @@ function initMapbox() {
           provinceCode
       ).then((provinceGeojson) => {
         loadGeojson(map, provinceGeojson, provinceTerm);
+        provinceSelect.style.display = "none";
         citySelect.style.display = "inline-block";
       });
     });
@@ -93,7 +94,7 @@ function initMapbox() {
       this.setAttribute("title", "Go to site");
       document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
       // Fly to Canada
-      flyTo(map, -98.74, 56.415, 4, 0);
+      flyTo(map, -98.74, 56.415, 3, 0);
       provinceSelect.style.display = "inline-block";
       citySelect.style.display = "none";
       siteSelect.style.display = "none";
@@ -156,7 +157,8 @@ async function getJson(path) {
 }
 
   async function loadGeojson(map, geojson, id="id") {        
-    map.addSource(id, { type: "geojson", data: geojson });
+    const source = { type: "geojson", data: geojson }
+    map.addSource(id, source);
         // Add a new layer to visualize the polygon.
         map.addLayer({
           id: `${id}-fill`,
@@ -178,5 +180,9 @@ async function getJson(path) {
             "line-color": "#000",
             "line-width": 3,
           },
-        }); 
+        });
+        console.log(geojson)
+        const bbox = turf.bbox(geojson)
+        map.fitBounds(bbox)
+        
       }
