@@ -77,7 +77,6 @@ this.scene.add(directionalLight2);
 // use the three.js GLTF loader to add the 3D model to the three.js scene
 const loader = new THREE.GLTFLoader();
 loader.load(
-// 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
 '../static/public-glb/CDC-MASSES.glb',
 (gltf) => {
 this.scene.add(gltf.scene);
