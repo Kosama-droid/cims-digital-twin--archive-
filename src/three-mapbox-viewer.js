@@ -20,7 +20,7 @@ mapboxgl.accessToken =
   const map = new mapboxgl.Map({
     container: "map", // container ID
     style: mapStyles[0].url,
-    center: [148.9819, -35.3981], // starting position [lng, lat]
+    center: [-75.697, 45.384], // starting position [lng, lat]
     zoom: 18, // starting zoom
     pitch: 80,
     antialias: true,
@@ -31,7 +31,7 @@ mapboxgl.accessToken =
     map.setFog({}); // Set the default atmosphere style
   });
 
-  const modelOrigin = [148.983, -35.3981];
+  const modelOrigin = [-75.697, 45.384];
   const modelAltitude = 0;
   const modelRotate = [Math.PI / 2, 0, 0];
    
@@ -77,7 +77,8 @@ this.scene.add(directionalLight2);
 // use the three.js GLTF loader to add the 3D model to the three.js scene
 const loader = new THREE.GLTFLoader();
 loader.load(
-'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
+// 'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
+'../static/public-glb/CDC-MASSES.glb',
 (gltf) => {
 this.scene.add(gltf.scene);
 }
