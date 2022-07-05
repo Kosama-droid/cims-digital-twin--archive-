@@ -74,6 +74,46 @@ function initMapbox() {
         provinceSelect.style.display = "none";
         citySelect.style.display = "inline-block";
       });
+    // GET CITY 🏙️
+    const cityNames = [];
+    getJson(
+      "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
+        provinceCode +
+        "&concise=CITY"
+    ).then((jsonCity) => {
+      const cities = jsonCity.items;
+      cities.sort((a, b) => a.name.localeCompare(b.name));
+      let citySelect = document.getElementById("city-select");
+      while (citySelect.childElementCount > 1) {
+        citySelect.removeChild(citySelect.lastChild);
+      } //Clear cities
+      cities.forEach((city) => {
+        cityNames.push(city.name);
+        let option = document.createElement("option");
+        option.innerHTML = city.name;
+        citySelect.appendChild(option);
+      });
+      citySelect = document.getElementById("city-select");
+      let city = "";
+      citySelect.addEventListener("change", function () {
+        const cIndex = cityNames.indexOf(this.value);
+        city = cities[cIndex];
+        const { latitude, longitude } = city;
+
+        // GET CITY GEOJSON 🌐
+        getJson(
+          "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
+            city.name +
+            "&concise=CITY&province=" +
+            provinceCode
+        ).then((cityGeojson) => {
+          removeGeojson(map, provinceTerm)
+          siteSelect.style.display = "inline-block";
+          loadGeojson(map, cityGeojson, city.name);
+        });
+      });
+    });
+
     });
 
   // Go To Site 🏢
@@ -181,8 +221,13 @@ async function getJson(path) {
             "line-width": 3,
           },
         });
-        console.log(geojson)
         const bbox = turf.bbox(geojson)
         map.fitBounds(bbox)
         
       }
+
+function removeGeojson(map, id) {
+  map.removeLayer(`${id}-fill`)
+  map.removeLayer(`${id}-outline`)
+  map.removeSource(id)
+}
