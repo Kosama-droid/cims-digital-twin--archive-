@@ -62,16 +62,15 @@ function initMapbox() {
   document
     .getElementById("province-select")
     .addEventListener("change", function () {
-      const pIndex = provinceNames.indexOf(this.value);
-      const pCode = provinces[pIndex].code;
+      const provinceIndex = provinceNames.indexOf(this.value);
+      const provinceCode = provinces[provinceIndex].code;
+      const provinceTerm = provinces[provinceIndex].term;
       // GET PROVINCE GEOJSON 🌐
       getJson(
         "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-          pCode
-      ).then((pGeojson) => {
-        console.log(pGeojson);
-        map.addSource(pGeojson);
-        console.log(map);
+          provinceCode
+      ).then((provinceGeojson) => {
+        loadGeojson(map, provinceGeojson, provinceTerm);
         citySelect.style.display = "inline-block";
       });
     });
@@ -107,7 +106,6 @@ function initMapbox() {
   models.forEach((model) => {
     modelNames.push(model.name);
   });
-  console.log(modelNames)
   modelNames.sort((a, b) => a.localeCompare(b));
   models.sort((a, b) => a.name.localeCompare(b.name));
   const buildingSelect = document.getElementById("building-select");
@@ -157,14 +155,28 @@ async function getJson(path) {
   return json;
 }
 
-//   async function loadGeojson(geojson, viewer) {
-//     const fillPromise = Cesium.GeoJsonDataSource.load(geojson, {
-//       fill: Cesium.Color.fromBytes(251, 184, 41, 50),
-//       clampToGround: true,
-//     });
-//     fillPromise.then(function (dataSource) {
-//       viewer.dataSources.add(dataSource);
-//       const entities = dataSource.entities.values;
-//       viewer.flyTo(entities);
-//     });
-//   }
+  async function loadGeojson(map, geojson, id="id") {        
+    map.addSource(id, { type: "geojson", data: geojson });
+        // Add a new layer to visualize the polygon.
+        map.addLayer({
+          id: `${id}-fill`,
+          type: "fill",
+          source: id, // reference the data source
+          layout: {},
+          paint: {
+            "fill-color": "#0080ff", // blue color fill
+            "fill-opacity": 0.5,
+          },
+        });
+        // Add a black outline around the polygon.
+        map.addLayer({
+          id: `${id}-outline`,
+          type: "line",
+          source: id,
+          layout: {},
+          paint: {
+            "line-color": "#000",
+            "line-width": 3,
+          },
+        }); 
+      }
