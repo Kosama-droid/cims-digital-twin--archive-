@@ -20,9 +20,9 @@ mapboxgl.accessToken =
   const map = new mapboxgl.Map({
     container: "mapboxContainer", // container ID
     style: mapStyles[0].url,
-    center: [-75.697, 45.384], // starting position [lng, lat]
-    zoom: 15, // starting zoom
-    pitch: 50,
+    center: [148.9819, -35.3981], // starting position [lng, lat]
+    zoom: 18, // starting zoom
+    pitch: 80,
     antialias: true,
     projection: "globe", // display the map as a 3D globe
   });
@@ -31,8 +31,8 @@ mapboxgl.accessToken =
     map.setFog({}); // Set the default atmosphere style
   });
 
-  const modelOrigin = [-75.697, 45.384];
-  const modelAltitude = 100;
+  const modelOrigin = [148.9819, -35.3981];
+  const modelAltitude = 0;
   const modelRotate = [Math.PI / 2, 0, 0];
    
   const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
