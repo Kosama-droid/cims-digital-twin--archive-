@@ -99,7 +99,6 @@ function initMapbox() {
         const cIndex = cityNames.indexOf(this.value);
         city = cities[cIndex];
         const { latitude, longitude } = city;
-
         // GET CITY GEOJSON 🌐
         getJson(
           "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
@@ -111,6 +110,10 @@ function initMapbox() {
           citySelect.style.display = "none";
           siteSelect.style.display = "inline-block";
           loadGeojson(map, cityGeojson, city.name);
+          siteSelect = document.getElementById("site-select");
+          siteSelect.addEventListener("click", function () {
+            removeGeojson(map, city.name)
+          });
         });
       });
     });

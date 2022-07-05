@@ -84899,7 +84899,7 @@ function getBoneList( object ) {
 
 }
 
-class GridHelper$1 extends LineSegments$1 {
+class GridHelper extends LineSegments$1 {
 
 	constructor( size = 10, divisions = 10, color1 = 0x444444, color2 = 0x888888 ) {
 
@@ -84966,7 +84966,7 @@ Path.prototype.fromPoints = function ( points ) {
 
 };
 
-GridHelper$1.prototype.setColors = function () {
+GridHelper.prototype.setColors = function () {
 
 	console.error( 'THREE.GridHelper: setColors() has been deprecated, pass them in the constructor instead.' );
 
@@ -118782,47 +118782,6 @@ class Spherical {
 
 }
 
-class GridHelper extends LineSegments {
-
-	constructor( size = 10, divisions = 10, color1 = 0x444444, color2 = 0x888888 ) {
-
-		color1 = new Color( color1 );
-		color2 = new Color( color2 );
-
-		const center = divisions / 2;
-		const step = size / divisions;
-		const halfSize = size / 2;
-
-		const vertices = [], colors = [];
-
-		for ( let i = 0, j = 0, k = - halfSize; i <= divisions; i ++, k += step ) {
-
-			vertices.push( - halfSize, 0, k, halfSize, 0, k );
-			vertices.push( k, 0, - halfSize, k, 0, halfSize );
-
-			const color = i === center ? color1 : color2;
-
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
-
-		}
-
-		const geometry = new BufferGeometry();
-		geometry.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
-		geometry.setAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
-
-		const material = new LineBasicMaterial( { vertexColors: true, toneMapped: false } );
-
-		super( geometry, material );
-
-		this.type = 'GridHelper';
-
-	}
-
-}
-
 class AxesHelper extends LineSegments {
 
 	constructor( size = 1 ) {
@@ -120158,8 +120117,6 @@ renderer.setSize(size.width, size.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 //Creates grids and axes in the scene
-const grid = new GridHelper(50, 30);
-scene.add(grid);
 
 const axes = new AxesHelper();
 axes.material.depthTest = false;
