@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nicoarellano/ifc-js-crash-course.git"
+    "url": "git+https://github.com/nicoarellano/cims-digital-twin.git"
   },
   "author": "Nico",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nicoarellano/ifc-js-crash-course/issues"
+    "url": "https://github.com/nicoarellano/cims-digital-twin/issues"
   },
-  "homepage": "https://github.com/nicoarellano/ifc-js-crash-course#readme"
+  "homepage": "https://github.com/nicoarellano/cims-digital-twin.html/src/cims-digital-twin.html"
 }
