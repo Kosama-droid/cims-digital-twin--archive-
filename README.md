@@ -1,3 +1,3 @@
 # ifc-js-crash-course
 
-https://nicoarellano.github.io/ifc-js-crash-course/src
+https://nicoarellano.github.io/cims-digital-twin/src
