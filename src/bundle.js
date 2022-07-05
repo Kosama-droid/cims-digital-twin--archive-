@@ -120094,6 +120094,18 @@ camera.position.x = -350;
 camera.position.y = 280;
 camera.position.z = 350;
 
+const cameraButton = document.getElementById("camera");
+cameraToggle = true;
+cameraButton.addEventListener("click", () => {
+  if (cameraToggle) {
+  console.log("WIP Ortho camera");
+}
+else {
+  console.log("Perspective camera");
+}
+cameraToggle = !cameraToggle;
+});
+
 //Creates the lights of the scene
 const lightColor = 0xffffff;
 
