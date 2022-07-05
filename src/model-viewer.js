@@ -5,7 +5,6 @@ import {
   AmbientLight,
   AxesHelper,
   DirectionalLight,
-  GridHelper,
   PerspectiveCamera,
   Scene,
   WebGLRenderer,

@@ -120129,7 +120129,6 @@ renderer.setSize(size.width, size.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 //Creates grids and axes in the scene
-
 const axes = new AxesHelper();
 axes.material.depthTest = false;
 axes.renderOrder = 1;
@@ -120184,6 +120183,7 @@ const currentModel = models.find(
 
 const pageTitle = document.getElementById("model-title");
 
+console.log("chalupa!");
 if (currentModel !== undefined) {
   pageTitle.innerHTML = currentModel.name;
   const ifcFile = `../static/public_ifc/${currentModel.ifc}`;
