@@ -15,14 +15,16 @@ import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoade
 import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls";
 import { mapStyles } from "../static/map-styles.js";
 
+const siteLoc = [-75.69435, 45.38435]
+
 mapboxgl.accessToken =
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   const map = new mapboxgl.Map({
     container: "map", // container ID
-    style: mapStyles[0].url,
-    center: [-75.697, 45.384], // starting position [lng, lat]
-    zoom: 18, // starting zoom
-    pitch: 50,
+    style: mapStyles[3].url,
+    center: siteLoc, // starting position [lng, lat]
+    zoom: 17, // starting zoom
+    pitch: 0,
     antialias: true,
     // projection: "globe", // display the map as a 3D globe
   });
@@ -31,8 +33,8 @@ mapboxgl.accessToken =
     map.setFog({}); // Set the default atmosphere style
   });
 
-  const modelOrigin = [-75.697, 45.384];
-  const modelAltitude = 10;
+  const modelOrigin = siteLoc;
+  const modelAltitude = 15;
   const modelRotate = [Math.PI / 2, 0, 0];
    
   const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
@@ -84,71 +86,57 @@ const customLayer = {
   // );
   // this.map = map;
    
-  // Sets up the IFC loading
-const ifcLoader = new IFCLoader();
-ifcLoader.ifcManager.setWasmPath("wasm/");
-// Load IFC file
-ifcLoader.load(
-  '../static/public_ifc/CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc',
-  (ifc) => {
-  this.scene.add(ifc);
+  for (const model of models) {
+    let buildingName = model.name
+    buildingName = buildingName.toUpperCase()
+    buildingName = buildingName.replace(/ /g, "_")
+    buildingName = buildingName.replace("BUILDING", "BLDG");
+    const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+    model.ifc = ifcFile;
   }
+  // Get the URL parameter
+  const currentURL = window.location.href;
+  const url = new URL(currentURL);
+  const currentModelID = url.searchParams.get("id");
+  
+  // Get the current model
+  const currentModel = models.find(
+    (model) => model.code == currentModelID
   );
-  this.map = map;
-   
-  // for (const model of models) {
-  //   let buildingName = model.name
-  //   buildingName = buildingName.toUpperCase()
-  //   buildingName = buildingName.replace(/ /g, "_")
-  //   buildingName = buildingName.replace("BUILDING", "BLDG");
-  //   const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-  //   model.ifc = ifcFile;
-  // }
   
-  // // Get the URL parameter
-  // const currentURL = window.location.href;
-  // const url = new URL(currentURL);
-  // const currentModelID = url.searchParams.get("id");
+  const pageTitle = document.getElementById("model-title");
+
+      // Sets up the IFC loading
+    const ifcLoader = new IFCLoader();
+    ifcLoader.ifcManager.setWasmPath("wasm/");
+    
+  if (currentModel !== undefined) {
+    pageTitle.innerHTML = currentModel.name
+    const ifcFile = `../static/public_ifc/${currentModel.ifc}`;
+  ifcLoader.load(ifcFile, (ifcModel) => {
+    this.scene.add(ifcModel);
+  });}
+    else{
+      pageTitle.innerHTML = "IFC Model"
+    }
+  // Load IFC file
+  const input = document.getElementById("file-input");
+    input.addEventListener(
+      "change",
+      (changed) => {
+        const file = changed.target.files[0];
+        var ifcURL = URL.createObjectURL(file);
+        ifcLoader.load(
+              ifcURL,
+              (ifcModel) => this.scene.add(ifcModel));
+      },
+      false
+    );
+this.map = map;
+
+
+
   
-  // // Get the current model
-  // const currentModel = models.find(
-  //   (model) => model.code == currentModelID
-  // );
-  
-  // const pageTitle = document.getElementById("model-title");
-  
-  // if (currentModel !== undefined) {
-  //   pageTitle.innerHTML = currentModel.name
-  //   const ifcFile = `../static/public_ifc/${currentModel.ifc}`;
-  // ifcLoader.load(ifcFile, (ifcModel) => {
-  //   this.scene.add(ifcModel);
-  // });}
-  //   else{
-  //     pageTitle.innerHTML = "IFC Model"
-  //   }
-  
-  // // Load IFC file
-  // const input = document.getElementById("file-input");
-  //   input.addEventListener(
-  //     "change",
-  //     (changed) => {
-  //       const file = changed.target.files[0];
-  //       var ifcURL = URL.createObjectURL(file);
-  //       ifcLoader.load(
-  //             ifcURL,
-  //             (ifcModel) => scene.add(ifcModel));
-  //     },
-  //     false
-  //   );
-  
-
-
-
-
-
-
-
-
   // use the Mapbox GL JS map canvas for three.js
   this.renderer = new WebGLRenderer({
   canvas: map.getCanvas(),
