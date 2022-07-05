@@ -32,7 +32,7 @@ mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
 const map = new mapboxgl.Map({
   container: "map", // container ID
-  style: mapStyles[3].url,
+  style: mapStyles[0].url,
   center: [current.lng, current.lat], // starting position [lng, lat]
   zoom: 3, // starting zoom
   pitch: 0,
