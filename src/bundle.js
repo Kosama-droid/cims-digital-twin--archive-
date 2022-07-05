@@ -128646,22 +128646,26 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 }
 
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
-let provinceSelect = document.getElementById("province-select"); // Select Cities
-let citySelect = document.getElementById("city-select"); // Select Cities
-let siteSelect = document.getElementById("site-select"); // Select Site
-let buildingSelect = document.getElementById("building-select"); // Select Building
-let current = { province: "", city: "",  site: "", building: ""};
+const selectors = {
+province : document.getElementById("province-select"), // Select Cities
+city : document.getElementById("city-select"), // Select Cities
+site : document.getElementById("site-select"), // Select Site
+building : document.getElementById("building-select"), // Select Building
+style : document.getElementById("style-select"), // Select map style
+};
+const current = { province: "", city: "",  site: "", building: ""};
+
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
 const map = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[3].url,
-  center: [-98.74, 56.415], // starting position [lng, lat]
-  zoom: 3, // starting zoom
-  pitch: 0,
+  center: [siteLoc.lng, siteLoc.lat], // starting position [lng, lat]
+  zoom: 15, // starting zoom
+  pitch: 50,
   antialias: true,
-  // projection: "globe", // display the map as a 3D globe
+  projection: "globe", // display the map as a 3D globe
 });
 // Day sky
 map.on("style.load", () => {
@@ -128674,13 +128678,12 @@ mapStyles.forEach((style) => {
 });
 styleNames.sort((a, b) => a.localeCompare(b));
 mapStyles.sort((a, b) => a.name.localeCompare(b.name));
-const styleSelect = document.getElementById("style-select");
 mapStyles.forEach((mapStyle) => {
   let option = document.createElement("option");
   option.innerHTML = mapStyle.name;
-  styleSelect.appendChild(option);
+  selectors.style.appendChild(option);
 });
-document.getElementById("style-select").addEventListener("change", function () {
+selectors.style.addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.setStyle(url);
@@ -128689,17 +128692,18 @@ document.getElementById("style-select").addEventListener("change", function () {
 // Go To Site 🏢 ___________________________________________________
 const goTo = document.getElementById("go-to");
 let toggleGoTo = true;
-goTo.onclick = function () {
+goTo.onclick = function () {  
   if (toggleGoTo) {
+     // Select Building
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
     // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
     // Fly to Carleton
     flyTo(map, siteLoc.lng, siteLoc.lat);
-    provinceSelect.style.display = "none";
-    citySelect.style.display = "none";
-    siteSelect.style.display = "none";
-    buildingSelect.style.display = "inline-block";
+    selectors.province.style.display = "none";
+    selectors.city.style.display = "none";
+    selectors.site.style.display = "none";
+    selectors.building.style.display = "none";
     removeGeojson(map, current.province);
     removeGeojson(map, current.city);
   } else {
@@ -128707,12 +128711,29 @@ goTo.onclick = function () {
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada
     flyTo(map, -98.74, 56.415, 3, 0);
-    provinceSelect.style.display = "inline-block";
-    citySelect.style.display = "none";
-    siteSelect.style.display = "none";
-    buildingSelect.style.display = "none";
+    selectors.province.style.display = "inline-block";
+    selectors.city.style.display = "none";
+    selectors.site.style.display = "none";
+    selectors.building.style.display = "none";
   }
   toggleGoTo = !toggleGoTo;
+  let modelNames = [];
+  models.forEach((model) => {
+    modelNames.push(model.name);
+  });
+  modelNames.sort((a, b) => a.localeCompare(b));
+  models.sort((a, b) => a.name.localeCompare(b.name));
+  const buildingSelect = document.getElementById("building-select");
+  models.forEach((model) => {
+    let option = document.createElement("option");
+    option.innerHTML = model.name;
+    buildingSelect.appendChild(option);
+  });
+  document
+    .getElementById("building-select")
+    .addEventListener("change", function () {
+      current.building =  modelNames.indexOf(this.value);
+    });
 };
 
 // Select province or Territory 🍁
@@ -128726,7 +128747,7 @@ provinces.forEach((province) => {
   let option = document.createElement("option");
   option.innerHTML = province.provinceName;
   provinceNames.push(province.provinceName);
-  provinceSelect.appendChild(option);
+  selectors.province.appendChild(option);
 });
 document
   .getElementById("province-select")
@@ -128740,8 +128761,8 @@ document
         provinceCode
     ).then((provinceGeojson) => {
       loadGeojson(map, provinceGeojson, current.province);
-      provinceSelect.style.display = "none";
-      citySelect.style.display = "inline-block";
+      selectors.province.style.display = "none";
+      selectors.city.style.display = "inline-block";
     });
   // GET CITY 🏙️
   const cityNames = [];
@@ -128752,18 +128773,17 @@ document
   ).then((jsonCity) => {
     const cities = jsonCity.items;
     cities.sort((a, b) => a.name.localeCompare(b.name));
-    let citySelect = document.getElementById("city-select");
-    while (citySelect.childElementCount > 1) {
-      citySelect.removeChild(citySelect.lastChild);
+    while (selectors.city.childElementCount > 1) {
+      selectors.city.removeChild(selectors.city.lastChild);
     } //Clear cities
     cities.forEach((city) => {
       cityNames.push(city.name);
       let option = document.createElement("option");
       option.innerHTML = city.name;
-      citySelect.appendChild(option);
+      selectors.city.appendChild(option);
     });
-    citySelect = document.getElementById("city-select");
-    citySelect.addEventListener("change", function () {
+    selectors.city = document.getElementById("city-select");
+    selectors.city.addEventListener("change", function () {
       const cityIndex = cityNames.indexOf(this.value);
       city = cities[cityIndex];
       city;
@@ -128777,17 +128797,30 @@ document
           provinceCode
       ).then((cityGeojson) => {
         removeGeojson(map, current.province);
-        citySelect.style.display = "none";
-        siteSelect.style.display = "inline-block";
+        selectors.city.style.display = "none";
+        selectors.site.style.display = "inline-block";
         loadGeojson(map, cityGeojson, current.city);
-        siteSelect = document.getElementById("site-select");
-        siteSelect.addEventListener("click", function () {
+        selectors.site = document.getElementById("site-select");
+        selectors.site.addEventListener("click", function () {
           removeGeojson(map, current.city);
         });
       });
     });
   });
 });
+
+// Toggle Nav bar
+const locationBar = document.getElementById("location");
+const locationButton = document.getElementById("close-nav-bar");
+let toggleLocationBar = false;
+locationButton.onclick = function () {
+  locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
+  locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
+  const navBar = document.getElementById("nav-bar");
+  navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
+  navBar.style.boxShadow = toggleLocationBar ? "" : "none";
+  toggleLocationBar = !toggleLocationBar;
+};
 
 const modelOrigin = [siteLoc.lng, siteLoc.lat];
 const modelAltitude = 15;
