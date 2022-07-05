@@ -16,9 +16,10 @@
     --header-heigt: 72px
 }
 
-#file-input {
-  z-index: 1;
+input {
+  z-index: 2;
   display: inline-block;
+  cursor: pointer;
 }
 
 hide-overflow {
@@ -218,7 +219,6 @@ iframe {
   top: var(--header-heigt);
   padding: 0.8rem;
   box-shadow: var(--shadow);
-  cursor: pointer;
   display: flex;
   flex-direction: row;
   background-color: var(--primary-color-transp2); 
@@ -229,6 +229,7 @@ iframe {
 
   .close svg{
     z-index: 5;
+    cursor: pointer;
     width: 1.8rem;
     height: 1.8rem;
     fill: var(--primary-dark);

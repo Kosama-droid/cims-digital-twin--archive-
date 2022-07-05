@@ -276,7 +276,7 @@ const customLayer = {
         this.scene.add(ifcModel);
       });
     } else {
-      pageTitle.innerHTML = "IFC Model";
+      pageTitle.innerHTML = "Digital Twin prototype";
     }
     // Load IFC file
     const input = document.getElementById("file-input");
