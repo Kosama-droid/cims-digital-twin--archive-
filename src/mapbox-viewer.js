@@ -108,6 +108,7 @@ function initMapbox() {
             provinceCode
         ).then((cityGeojson) => {
           removeGeojson(map, provinceTerm)
+          citySelect.style.display = "none";
           siteSelect.style.display = "inline-block";
           loadGeojson(map, cityGeojson, city.name);
         });
@@ -207,7 +208,7 @@ async function getJson(path) {
           layout: {},
           paint: {
             "fill-color": "#0080ff", // blue color fill
-            "fill-opacity": 0.5,
+            "fill-opacity": 0.1,
           },
         });
         // Add a black outline around the polygon.
@@ -218,7 +219,7 @@ async function getJson(path) {
           layout: {},
           paint: {
             "line-color": "#000",
-            "line-width": 3,
+            "line-width": 2,
           },
         });
         const bbox = turf.bbox(geojson)
