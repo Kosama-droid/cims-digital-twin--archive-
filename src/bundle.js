@@ -128653,7 +128653,7 @@ site : document.getElementById("site-select"), // Select Site
 building : document.getElementById("building-select"), // Select Building
 style : document.getElementById("style-select"), // Select map style
 };
-const current = { province: "", city: "",  site: "", building: ""};
+const current = { province: "", city: "",  site: "", building: "", lng: -98.74, lat: 56.415};
 
 
 mapboxgl.accessToken =
@@ -128661,9 +128661,9 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[3].url,
-  center: [siteLoc.lng, siteLoc.lat], // starting position [lng, lat]
-  zoom: 15, // starting zoom
-  pitch: 50,
+  center: [current.lng, current.lat], // starting position [lng, lat]
+  zoom: 3, // starting zoom
+  pitch: 0,
   antialias: true,
   projection: "globe", // display the map as a 3D globe
 });
@@ -128703,7 +128703,7 @@ goTo.onclick = function () {
     selectors.province.style.display = "none";
     selectors.city.style.display = "none";
     selectors.site.style.display = "none";
-    selectors.building.style.display = "none";
+    selectors.building.style.display = "inline-block";
     removeGeojson(map, current.province);
     removeGeojson(map, current.city);
   } else {
@@ -128717,23 +128717,6 @@ goTo.onclick = function () {
     selectors.building.style.display = "none";
   }
   toggleGoTo = !toggleGoTo;
-  let modelNames = [];
-  models.forEach((model) => {
-    modelNames.push(model.name);
-  });
-  modelNames.sort((a, b) => a.localeCompare(b));
-  models.sort((a, b) => a.name.localeCompare(b.name));
-  const buildingSelect = document.getElementById("building-select");
-  models.forEach((model) => {
-    let option = document.createElement("option");
-    option.innerHTML = model.name;
-    buildingSelect.appendChild(option);
-  });
-  document
-    .getElementById("building-select")
-    .addEventListener("change", function () {
-      current.building =  modelNames.indexOf(this.value);
-    });
 };
 
 // Select province or Territory 🍁
@@ -128844,8 +128827,6 @@ const modelTransform = {
   scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
 };
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
-
-// configuration of the custom layer for a 3D model per the CustomLayerInterface
 const customLayer = {
   id: "3d-model",
   type: "custom",
@@ -128873,6 +128854,24 @@ const customLayer = {
     // );
     // this.map = map;
 
+    // Building select menu 🏢 _______________________________________________________
+    let modelNames = [];
+    models.forEach((model) => {
+      modelNames.push(model.name);
+    });
+    modelNames.sort((a, b) => a.localeCompare(b));
+    models.sort((a, b) => a.name.localeCompare(b.name));
+    models.forEach((model) => {
+      let option = document.createElement("option");
+      option.innerHTML = model.name;
+      selectors.building.appendChild(option);
+    });
+    document
+      .getElementById("building-select")
+      .addEventListener("change", function () {
+      current.building = models[modelNames.indexOf(this.value)];
+      console.log(current.building);
+    
     for (const model of models) {
       let buildingName = model.name;
       buildingName = buildingName.toUpperCase();
@@ -128882,39 +128881,40 @@ const customLayer = {
       model.ifc = ifcFile;
     }
     // Get the URL parameter
-    const currentURL = window.location.href;
-    const url = new URL(currentURL);
-    const currentModelID = url.searchParams.get("id");
-
+    // const currentURL = window.location.href;
+    // const url = new URL(currentURL);
+    // let currentModelID = url.searchParams.get("id");
+    // if (currentModelID === null) {
+    //   window.location.pathname = './src/model-viewer.html' +  '?id=' + current.building.code 
+    //   console.log(currentModelID)
+    // }
     // Get the current model
-    const currentModel = models.find((model) => model.code == currentModelID);
-
-    const pageTitle = document.getElementById("model-title");
+    // const currentModel = models.find((model) => model.code == currentModelID);
+    let pageTitle = document.getElementById("model-title");
 
     // Sets up the IFC loading
     const ifcLoader = new IFCLoader();
     ifcLoader.ifcManager.setWasmPath("wasm/");
 
-    if (currentModel !== undefined) {
-      pageTitle.innerHTML = currentModel.name;
-      const ifcFile = `../static/public_ifc/${currentModel.ifc}`;
+          // pageTitle.innerHTML = currentModel.name;
+    pageTitle.innerHTML = current.building.name;
+      const ifcFile = `../static/public-ifc/${current.building.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
+        console.log(ifcFile);
         this.scene.add(ifcModel);
       });
-    } else {
-      pageTitle.innerHTML = "Digital Twin prototype";
-    }
     // Load IFC file
-    const input = document.getElementById("file-input");
-    input.addEventListener(
-      "change",
-      (changed) => {
-        const file = changed.target.files[0];
-        var ifcURL = URL.createObjectURL(file);
-        ifcLoader.load(ifcURL, (ifcModel) => this.scene.add(ifcModel));
-      },
-      false
-    );
+    // const input = document.getElementById("file-input");
+    // input.addEventListener(
+    //   "change",
+    //   (changed) => {
+    //     const file = changed.target.files[0];
+    //     var ifcURL = URL.createObjectURL(file);
+    //     ifcLoader.load(ifcURL, (ifcModel) => this.scene.add(ifcModel));
+    //   },
+    //   false
+    // );
+});    
     this.map = map;
 
     // use the Mapbox GL JS map canvas for three.js
