@@ -128843,6 +128843,7 @@ const customLayer = {
     const directionalLight2 = new DirectionalLight(0xffffff);
     directionalLight2.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight2);
+    current.scene = this.scene;
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     //   const gltfloader = new GLTFLoader();
@@ -128900,8 +128901,8 @@ const customLayer = {
     pageTitle.innerHTML = current.building.name;
       const ifcFile = `../static/public-ifc/${current.building.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
-        console.log(ifcFile);
-        this.scene.add(ifcModel);
+        console.log(ifcModel);
+        current.scene.add(ifcModel);
       });
     // Load IFC file
     // const input = document.getElementById("file-input");
