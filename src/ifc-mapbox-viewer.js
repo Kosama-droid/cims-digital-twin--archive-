@@ -268,6 +268,7 @@ const customLayer = {
     pageTitle.innerHTML = current.building.name;
       const ifcFile = `../static/public-ifc/${current.building.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
+        console.log(ifcFile)
         current.scene.add(ifcModel);
       });
     // Load IFC file
