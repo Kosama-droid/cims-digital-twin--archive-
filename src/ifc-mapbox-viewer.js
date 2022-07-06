@@ -24,6 +24,7 @@ city : document.getElementById("city-select"), // Select Cities
 site : document.getElementById("site-select"), // Select Site
 building : document.getElementById("building-select"), // Select Building
 style : document.getElementById("style-select"), // Select map style
+load : document.getElementById("file-input"),
 }
 const current = { province: "", city: "",  site: "", building: "", lng: -98.74, lat: 56.415}
 
@@ -76,6 +77,7 @@ goTo.onclick = function () {
     selectors.city.style.display = "none";
     selectors.site.style.display = "none";
     selectors.building.style.display = "inline-block";
+    selectors.load.style.display = "inline-block";
     removeGeojson(map, current.province, "province");
     removeGeojson(map, current.city, "city");
   } else {
@@ -87,6 +89,7 @@ goTo.onclick = function () {
     selectors.city.style.display = "none";
     selectors.site.style.display = "none";
     selectors.building.style.display = "none";
+    selectors.load.style.display = "none";
   }
   toggleGoTo = !toggleGoTo;
 };
