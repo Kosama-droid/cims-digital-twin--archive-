@@ -128761,7 +128761,7 @@ locationButton.onclick = function () {
 };
 
 const modelOrigin = [siteLoc.lng, siteLoc.lat];
-const modelAltitude = 15;
+const modelAltitude = 80;
 const modelRotate = [Math.PI / 2, 0, 0];
 
 const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
@@ -128782,53 +128782,76 @@ const modelTransform = {
   scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
 };
 
+// LOAD OSM BUILDING 🏢 ___________________________________________________________________________________
+// map.on('load', () => {
+//   // Insert the layer beneath any symbol layer.
+//   const layers = map.getStyle().layers;
+//   const labelLayerId = layers.find(
+//   (layer) => layer.type === 'symbol' && layer.layout['text-field']
+//   ).id;
+   
+//   // The 'building' layer in the Mapbox Streets
+//   // vector tileset contains building height data
+//   // from OpenStreetMap.
+//   map.addLayer(
+//   {
+//   'id': 'add-3d-buildings',
+//   'source': 'composite',
+//   'source-layer': 'building',
+//   'filter': ['==', 'extrude', 'true'],
+//   'type': 'fill-extrusion',
+//   'minzoom': 15,
+//   'paint': {
+//   'fill-extrusion-color': '#aaa',
+   
+//   // Use an 'interpolate' expression to
+//   // add a smooth transition effect to
+//   // the buildings as the user zooms in.
+//   'fill-extrusion-height': [
+//   'interpolate',
+//   ['linear'],
+//   ['zoom'],
+//   15,
+//   0,
+//   15.05,
+//   ['get', 'height']
+//   ],
+//   'fill-extrusion-base': [
+//   'interpolate',
+//   ['linear'],
+//   ['zoom'],
+//   15,
+//   0,
+//   15.05,
+//   ['get', 'min_height']
+//   ],
+//   'fill-extrusion-opacity': 0.9
+//   }
+//   },
+//   labelLayerId
+//   );
+//   });
+
+// ADD DEM TERRAIN 🏔️ __________________________________________________________
+
 map.on('load', () => {
-  // Insert the layer beneath any symbol layer.
-  const layers = map.getStyle().layers;
-  const labelLayerId = layers.find(
-  (layer) => layer.type === 'symbol' && layer.layout['text-field']
-  ).id;
+  map.addSource('mapbox-dem', {
+  'type': 'raster-dem',
+  'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+  'tileSize': 512,
+  'maxzoom': 14
+  });
+  // add the DEM source as a terrain layer with exaggerated height
+  map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
    
-  // The 'building' layer in the Mapbox Streets
-  // vector tileset contains building height data
-  // from OpenStreetMap.
-  map.addLayer(
-  {
-  'id': 'add-3d-buildings',
-  'source': 'composite',
-  'source-layer': 'building',
-  'filter': ['==', 'extrude', 'true'],
-  'type': 'fill-extrusion',
-  'minzoom': 15,
-  'paint': {
-  'fill-extrusion-color': '#aaa',
-   
-  // Use an 'interpolate' expression to
-  // add a smooth transition effect to
-  // the buildings as the user zooms in.
-  'fill-extrusion-height': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'height']
-  ],
-  'fill-extrusion-base': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'min_height']
-  ],
-  'fill-extrusion-opacity': 0.9
-  }
-  },
-  labelLayerId
-  );
+  // add sky styling with `setFog` that will show when the map is highly pitched
+  map.setFog({
+  'horizon-blend': 0.3,
+  'color': '#f8f0e3',
+  'high-color': '#add8e6',
+  'space-color': '#d8f2ff',
+  'star-intensity': 0.0
+  });
   });
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 const customLayer = {
@@ -128837,24 +128860,24 @@ const customLayer = {
   renderingMode: "3d",
   onAdd: function (map, gl) {
     this.camera = new PerspectiveCamera();
-    this.scene = new Scene();
+    current.scene = new Scene();
 
     // create two three.js lights to illuminate the model
     const directionalLight = new DirectionalLight(0xffffff);
     directionalLight.position.set(0, -70, 100).normalize();
-    this.scene.add(directionalLight);
+    current.scene.add(directionalLight);
 
     const directionalLight2 = new DirectionalLight(0xffffff);
     directionalLight2.position.set(0, 70, 100).normalize();
-    this.scene.add(directionalLight2);
-    current.scene = this.scene;
+    current.scene.add(directionalLight2);
+    current.scene = current.scene;
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     //   const gltfloader = new GLTFLoader();
     // gltfloader.load(
     // '../static/public-glb/CDC-MASSES.glb',
     // (gltf) => {
-    // this.scene.add(gltf.scene);
+    // current.scene.add(gltf.scene);
     // }
     // );
     // this.map = map;
@@ -128954,7 +128977,7 @@ const customLayer = {
 
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(current.scene, this.camera);
     this.map.triggerRepaint();
   },
 };

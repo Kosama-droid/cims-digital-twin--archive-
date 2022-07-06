@@ -8,7 +8,6 @@ import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoade
 // import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
 import {
   AmbientLight,
-  AxesHelper,
   DirectionalLight,
   PerspectiveCamera,
   Scene,
@@ -17,6 +16,7 @@ import {
   Vector3,
 } from "../node_modules/three";
 
+// GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
 const selectors = {
 province : document.getElementById("province-select"), // Select Cities
@@ -26,15 +26,16 @@ building : document.getElementById("building-select"), // Select Building
 style : document.getElementById("style-select"), // Select map style
 load : document.getElementById("file-input"),
 }
-const current = { province: "", city: "",  site: "", building: "", lng: -98.74, lat: 56.415}
+const province = {} , city = {}, site = {},  building = {}, map = {}, scene = {}, lng = {current: -98.74}, lat = {current: 56.415};
+// const current = { province: "", city: "",  site: "", building: "", lng: -98.74, lat: 56.415}
 
-
+// MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
 const map = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[1].url,
-  center: [current.lng, current.lat], // starting position [lng, lat]
+  center: [lng.current, lat.current], // starting position [lng, lat]
   zoom: 4, // starting zoom
   pitch: 0,
   antialias: true,
@@ -78,8 +79,8 @@ goTo.onclick = function () {
     selectors.site.style.display = "none";
     selectors.building.style.display = "inline-block";
     selectors.load.style.display = "inline-block";
-    removeGeojson(map, current.province, "province");
-    removeGeojson(map, current.city, "city");
+    removeGeojson(map, province.current, "province");
+    removeGeojson(map, city.current, "city");
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
@@ -112,13 +113,13 @@ document
   .addEventListener("change", function () {
     const provinceIndex = provinceNames.indexOf(this.value);
     const provinceCode = provinces[provinceIndex].code;
-    current.province = provinces[provinceIndex].term;
+    province.current = provinces[provinceIndex].term;
     // GET PROVINCE GEOJSON 🌐
     getJson(
       "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
         provinceCode
     ).then((provinceGeojson) => {
-      loadGeojson(map, provinceGeojson, current.province);
+      loadGeojson(map, provinceGeojson, province.current);
       selectors.province.style.display = "none";
       selectors.city.style.display = "inline-block";
     });
@@ -145,22 +146,22 @@ document
       const cityIndex = cityNames.indexOf(this.value);
       city = cities[cityIndex];
       const { latitude, longitude } = city;
-      current.city = city.name
-      console.log(current.city)
+      city.current = city.name
+      console.log(city.current)
       // GET CITY GEOJSON 🌐
       getJson(
         "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-        current.city +
+        city.current +
           "&concise=CITY&province=" +
           provinceCode
       ).then((cityGeojson) => {
-        removeGeojson(map, current.province)
+        removeGeojson(map, province.current)
         selectors.city.style.display = "none";
         selectors.site.style.display = "inline-block";
-        loadGeojson(map, cityGeojson, current.city);
+        loadGeojson(map, cityGeojson, city.current);
         selectors.site = document.getElementById("site-select");
         selectors.site.addEventListener("click", function () {
-          removeGeojson(map, current.city)
+          removeGeojson(map, city.current)
         });
       });
     });
@@ -181,7 +182,7 @@ locationButton.onclick = function () {
 };
 
 const modelOrigin = [siteLoc.lng, siteLoc.lat];
-const modelAltitude = 15;
+const modelAltitude = 80;
 const modelRotate = [Math.PI / 2, 0, 0];
 
 const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
@@ -202,56 +203,79 @@ const modelTransform = {
   scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
 };
 
+// LOAD OSM BUILDING 🏢 ___________________________________________________________________________________
+// map.on('load', () => {
+//   // Insert the layer beneath any symbol layer.
+//   const layers = map.getStyle().layers;
+//   const labelLayerId = layers.find(
+//   (layer) => layer.type === 'symbol' && layer.layout['text-field']
+//   ).id;
+   
+//   // The 'building' layer in the Mapbox Streets
+//   // vector tileset contains building height data
+//   // from OpenStreetMap.
+//   map.addLayer(
+//   {
+//   'id': 'add-3d-buildings',
+//   'source': 'composite',
+//   'source-layer': 'building',
+//   'filter': ['==', 'extrude', 'true'],
+//   'type': 'fill-extrusion',
+//   'minzoom': 15,
+//   'paint': {
+//   'fill-extrusion-color': '#aaa',
+   
+//   // Use an 'interpolate' expression to
+//   // add a smooth transition effect to
+//   // the buildings as the user zooms in.
+//   'fill-extrusion-height': [
+//   'interpolate',
+//   ['linear'],
+//   ['zoom'],
+//   15,
+//   0,
+//   15.05,
+//   ['get', 'height']
+//   ],
+//   'fill-extrusion-base': [
+//   'interpolate',
+//   ['linear'],
+//   ['zoom'],
+//   15,
+//   0,
+//   15.05,
+//   ['get', 'min_height']
+//   ],
+//   'fill-extrusion-opacity': 0.9
+//   }
+//   },
+//   labelLayerId
+//   );
+//   });
+
+// ADD DEM TERRAIN 🏔️ __________________________________________________________
+
 map.on('load', () => {
-  // Insert the layer beneath any symbol layer.
-  const layers = map.getStyle().layers;
-  const labelLayerId = layers.find(
-  (layer) => layer.type === 'symbol' && layer.layout['text-field']
-  ).id;
+  map.addSource('mapbox-dem', {
+  'type': 'raster-dem',
+  'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+  'tileSize': 512,
+  'maxzoom': 14
+  });
+  // add the DEM source as a terrain layer with exaggerated height
+  map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
    
-  // The 'building' layer in the Mapbox Streets
-  // vector tileset contains building height data
-  // from OpenStreetMap.
-  map.addLayer(
-  {
-  'id': 'add-3d-buildings',
-  'source': 'composite',
-  'source-layer': 'building',
-  'filter': ['==', 'extrude', 'true'],
-  'type': 'fill-extrusion',
-  'minzoom': 15,
-  'paint': {
-  'fill-extrusion-color': '#aaa',
-   
-  // Use an 'interpolate' expression to
-  // add a smooth transition effect to
-  // the buildings as the user zooms in.
-  'fill-extrusion-height': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'height']
-  ],
-  'fill-extrusion-base': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'min_height']
-  ],
-  'fill-extrusion-opacity': 0.9
-  }
-  },
-  labelLayerId
-  );
+  // add sky styling with `setFog` that will show when the map is highly pitched
+  map.setFog({
+  'horizon-blend': 0.3,
+  'color': '#f8f0e3',
+  'high-color': '#add8e6',
+  'space-color': '#d8f2ff',
+  'star-intensity': 0.0
+  });
   });
 
-// THREE JS 3️⃣
+// THREE JS 3️⃣ __________________________________________________________________
 const THREE = window.THREE;
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 const customLayer = {
@@ -260,24 +284,24 @@ const customLayer = {
   renderingMode: "3d",
   onAdd: function (map, gl) {
     this.camera = new PerspectiveCamera();
-    this.scene = new Scene();
+    scene.current = new Scene();
 
     // create two three.js lights to illuminate the model
     const directionalLight = new DirectionalLight(0xffffff);
     directionalLight.position.set(0, -70, 100).normalize();
-    this.scene.add(directionalLight);
+    scene.current.add(directionalLight);
 
     const directionalLight2 = new DirectionalLight(0xffffff);
     directionalLight2.position.set(0, 70, 100).normalize();
-    this.scene.add(directionalLight2);
-    current.scene = this.scene;
+    scene.current.add(directionalLight2);
+    scene.current = scene.current;
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     //   const gltfloader = new GLTFLoader();
     // gltfloader.load(
     // '../static/public-glb/CDC-MASSES.glb',
     // (gltf) => {
-    // this.scene.add(gltf.scene);
+    // scene.current.add(gltf.scene);
     // }
     // );
     // this.map = map;
@@ -297,8 +321,8 @@ const customLayer = {
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-      current.building = models[modelNames.indexOf(this.value)];
-      console.log(current.building)
+      building.current = models[modelNames.indexOf(this.value)];
+      console.log(building.current)
     
     for (const model of models) {
       let buildingName = model.name;
@@ -315,11 +339,11 @@ const customLayer = {
     ifcLoader.ifcManager.setWasmPath("wasm/");
 
           // pageTitle.innerHTML = currentModel.name;
-    pageTitle.innerHTML = current.building.name;
-      const ifcFile = `../static/public-ifc/${current.building.ifc}`;
+    pageTitle.innerHTML = building.current.name;
+      const ifcFile = `../static/public-ifc/${building.current.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         console.log(ifcFile)
-        current.scene.add(ifcModel);
+        scene.current.add(ifcModel);
       });
     // Load IFC file
     const input = document.getElementById("file-input");
@@ -328,7 +352,7 @@ const customLayer = {
       (changed) => {
         const file = changed.target.files[0];
         var ifcURL = URL.createObjectURL(file);
-        ifcLoader.load(ifcURL, (ifcModel) => current.scene.add(ifcModel));
+        ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
       },
     );
 });    
@@ -377,7 +401,7 @@ const customLayer = {
 
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(scene.current, this.camera);
     this.map.triggerRepaint();
   },
 };
