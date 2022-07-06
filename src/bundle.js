@@ -111462,9 +111462,10 @@ const selectors = {
   style: document.getElementById("style-select"), // Select map style
   load: document.getElementById("file-input"),
 };
-const province = {term:""},
-  city = {name:""},
+const province = {},
+  city = {},
   map = {},
+  geoJson = {fill:"", outline:""},
   lng = { current: -98.74 },
   lat = { current: 56.415 };
 
@@ -111519,8 +111520,8 @@ goTo.onclick = function () {
     selectors.site.style.display = "none";
     selectors.building.style.display = "inline-block";
     selectors.load.style.display = "inline-block";
-    removeGeojson(map.current, province.term);
-    removeGeojson(map.current, city.name);
+    removeGeojson(map.current, "geoJson");
+
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
@@ -111559,7 +111560,11 @@ document
       "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
         province.code
     ).then((provinceGeojson) => {
-      loadGeojson(map.current, provinceGeojson, province.term);
+      geoJson.current = provinceGeojson;
+      loadGeojson(map.current, geoJson.current, "geoJson");
+      geoJson.source = map.current.getSource("geoJson");
+      geoJson.fill = map.current.getLayer("geoJson-fill");
+      geoJson.outline = map.current.getLayer("geoJson-outline");
       selectors.province.style.display = "none";
       selectors.city.style.display = "inline-block";
     });
@@ -111587,7 +111592,6 @@ document
         const selectedCyteIndex = cityNames.indexOf(this.value);
         selectedCity = cityItems[selectedCyteIndex];
         city.name = selectedCity.name;
-        console.log(selectedCity);
         // GET CITY GEOJSON 🏙️🌐 _________________________
         getJson(
           "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
@@ -111595,13 +111599,16 @@ document
             "&concise=CITY&province=" +
             province.code
         ).then((cityGeojson) => {
-          removeGeojson(map.current, province.term);
+          // removeGeojson(map.current, province.term);
           selectors.city.style.display = "none";
           selectors.site.style.display = "inline-block";
-          loadGeojson(map.current, cityGeojson, city.name);
+          geoJson.current = cityGeojson;
+          geoJson.bbox = turf.bbox(cityGeojson);
+          map.current.fitBounds(geoJson.bbox);
+          geoJson.source.setData(geoJson.current);
           selectors.site = document.getElementById("site-select");
           selectors.site.addEventListener("click", function () {
-            removeGeojson(map.current, city.name);
+            removeGeojson(map.current, "geoJson");
           });
         });
       });
@@ -111762,11 +111769,11 @@ async function loadGeojson(map, geojson, id) {
       "line-width": 2,
     },
   });
-  const bbox = turf.bbox(geojson);
-  map.fitBounds(bbox);
+  geoJson.bbox = turf.bbox(geojson);
+  map.fitBounds(geoJson.bbox);
 }
 
-function removeGeojson(map, id, type) {
+function removeGeojson(map, id) {
   try {
     map.removeLayer(`${id}-fill`);
     map.removeLayer(`${id}-outline`);
