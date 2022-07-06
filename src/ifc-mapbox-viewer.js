@@ -19,20 +19,26 @@ import {
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
 const selectors = {
-province : document.getElementById("province-select"), // Select Cities
-city : document.getElementById("city-select"), // Select Cities
-site : document.getElementById("site-select"), // Select Site
-building : document.getElementById("building-select"), // Select Building
-style : document.getElementById("style-select"), // Select map style
-load : document.getElementById("file-input"),
-}
-const province = {} , city = {}, site = {},  building = {}, map = {}, scene = {}, lng = {current: -98.74}, lat = {current: 56.415};
-// const current = { province: "", city: "",  site: "", building: "", lng: -98.74, lat: 56.415}
+  province: document.getElementById("province-select"), // Select province
+  city: document.getElementById("city-select"), // Select city
+  site: document.getElementById("site-select"), // Select site
+  building: document.getElementById("building-select"), // Select building
+  style: document.getElementById("style-select"), // Select map style
+  load: document.getElementById("file-input"),
+};
+const province = {term:""},
+  city = {name:""},
+  site = {},
+  building = {code:""},
+  map = {},
+  scene = {},
+  lng = { current: -98.74 },
+  lat = { current: 56.415 };
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
-const map = new mapboxgl.Map({
+map.current = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[1].url,
   center: [lng.current, lat.current], // starting position [lng, lat]
@@ -42,10 +48,10 @@ const map = new mapboxgl.Map({
   projection: "globe", // display the map as a 3D globe
 });
 // Day sky
-map.on("style.load", () => {
-  map.setFog({}); // Set the default atmosphere style
+map.current.on("style.load", () => {
+  map.current.setFog({}); // Set the default atmosphere style
 });
-// Select map style 🗺️ ___________________________________________________
+// Select map style 🗺️🎨 ___________________________________________________
 let styleNames = [];
 mapStyles.forEach((style) => {
   styleNames.push(style.name);
@@ -60,32 +66,33 @@ mapStyles.forEach((mapStyle) => {
 selectors.style.addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
-  map.setStyle(url);
+  map.current.setStyle(url);
 });
 
-// Go To Site 🏢 ___________________________________________________
+// Go To Site 🛬___________________________________________________
+
 const goTo = document.getElementById("go-to");
 let toggleGoTo = true;
-goTo.onclick = function () {  
+goTo.onclick = function () {
   if (toggleGoTo) {
-     // Select Building
+    // Select Building
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
     // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
     // Fly to Carleton
-    flyTo(map, siteLoc.lng, siteLoc.lat);
+    flyTo(map.current, siteLoc.lng, siteLoc.lat);
     selectors.province.style.display = "none";
     selectors.city.style.display = "none";
     selectors.site.style.display = "none";
     selectors.building.style.display = "inline-block";
     selectors.load.style.display = "inline-block";
-    removeGeojson(map, province.current, "province");
-    removeGeojson(map, city.current, "city");
+    removeGeojson(map.current, province.term, "province");
+    removeGeojson(map.current, city.name, "city");
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada
-    flyTo(map, -98.74, 56.415, 3, 0);
+    flyTo(map.current, -98.74, 56.415, 3, 0);
     selectors.province.style.display = "inline-block";
     selectors.city.style.display = "none";
     selectors.site.style.display = "none";
@@ -95,7 +102,7 @@ goTo.onclick = function () {
   toggleGoTo = !toggleGoTo;
 };
 
-// Select province or Territory 🍁
+// Select province or Territory 🍁 _________________________________________________________
 const provinceNames = [];
 const provinces = canada.provinces;
 const territories = canada.territories;
@@ -111,64 +118,65 @@ provinces.forEach((province) => {
 document
   .getElementById("province-select")
   .addEventListener("change", function () {
-    const provinceIndex = provinceNames.indexOf(this.value);
-    const provinceCode = provinces[provinceIndex].code;
-    province.current = provinces[provinceIndex].term;
-    // GET PROVINCE GEOJSON 🌐
+    province.index = provinceNames.indexOf(this.value);
+    province.code = provinces[province.index].code;
+    province.term = provinces[province.index].term;
+    // GET PROVINCE GEOJSON 🍁🌐 ___________________________
     getJson(
       "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-        provinceCode
+        province.code
     ).then((provinceGeojson) => {
-      loadGeojson(map, provinceGeojson, province.current);
+      loadGeojson(map.current, provinceGeojson, province.term);
       selectors.province.style.display = "none";
       selectors.city.style.display = "inline-block";
     });
-  // GET CITY 🏙️
-  const cityNames = [];
-  getJson(
-    "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
-      provinceCode +
-      "&concise=CITY"
-  ).then((jsonCity) => {
-    const cities = jsonCity.items;
-    cities.sort((a, b) => a.name.localeCompare(b.name));
-    while (selectors.city.childElementCount > 1) {
-      selectors.city.removeChild(selectors.city.lastChild);
-    } //Clear cities
-    cities.forEach((city) => {
-      cityNames.push(city.name);
-      let option = document.createElement("option");
-      option.innerHTML = city.name;
-      selectors.city.appendChild(option);
-    });
-    selectors.city = document.getElementById("city-select");
-    selectors.city.addEventListener("change", function () {
-      const cityIndex = cityNames.indexOf(this.value);
-      city = cities[cityIndex];
-      const { latitude, longitude } = city;
-      city.current = city.name
-      console.log(city.current)
-      // GET CITY GEOJSON 🌐
-      getJson(
-        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-        city.current +
-          "&concise=CITY&province=" +
-          provinceCode
-      ).then((cityGeojson) => {
-        removeGeojson(map, province.current)
-        selectors.city.style.display = "none";
-        selectors.site.style.display = "inline-block";
-        loadGeojson(map, cityGeojson, city.current);
-        selectors.site = document.getElementById("site-select");
-        selectors.site.addEventListener("click", function () {
-          removeGeojson(map, city.current)
+
+    // GET CITY 🏙️ _____________________________________________________________________________
+    const cityNames = [];
+    getJson(
+      "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
+        province.code +
+        "&concise=CITY"
+    ).then((jsonCity) => {
+      const cityItems = jsonCity.items;
+      let selectedCity = "";
+      cityItems.sort((a, b) => a.name.localeCompare(b.name));
+      while (selectors.city.childElementCount > 1) {
+        selectors.city.removeChild(selectors.city.lastChild);
+      } //Clear cityItems
+      cityItems.forEach((cityItem) => {
+        cityNames.push(cityItem.name);
+        let option = document.createElement("option");
+        option.innerHTML = cityItem.name;
+        selectors.city.appendChild(option);
+      });
+      selectors.city.addEventListener("change", function () {
+        const selectedCyteIndex = cityNames.indexOf(this.value);
+        selectedCity = cityItems[selectedCyteIndex];
+        city.name = selectedCity.name
+        console.log(selectedCity);
+        // GET CITY GEOJSON 🏙️🌐 _________________________
+        getJson(
+          "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
+            city.name +
+            "&concise=CITY&province=" +
+            province.code
+        ).then((cityGeojson) => {
+          removeGeojson(map.current, province.term);
+          selectors.city.style.display = "none";
+          selectors.site.style.display = "inline-block";
+          loadGeojson(map.current, cityGeojson, city.name);
+          selectors.site = document.getElementById("site-select");
+          selectors.site.addEventListener("click", function () {
+            removeGeojson(map.current, city.name);
+          });
         });
       });
     });
   });
-});
 
-// Toggle Nav bar
+// GUI 🖱️ _____________________________________________________________
+// Toggle Nav bar _____________________
 const locationBar = document.getElementById("location");
 const locationButton = document.getElementById("close-nav-bar");
 let toggleLocationBar = false;
@@ -204,76 +212,76 @@ const modelTransform = {
 };
 
 // LOAD OSM BUILDING 🏢 ___________________________________________________________________________________
-// map.on('load', () => {
-//   // Insert the layer beneath any symbol layer.
-//   const layers = map.getStyle().layers;
-//   const labelLayerId = layers.find(
-//   (layer) => layer.type === 'symbol' && layer.layout['text-field']
-//   ).id;
-   
-//   // The 'building' layer in the Mapbox Streets
-//   // vector tileset contains building height data
-//   // from OpenStreetMap.
-//   map.addLayer(
-//   {
-//   'id': 'add-3d-buildings',
-//   'source': 'composite',
-//   'source-layer': 'building',
-//   'filter': ['==', 'extrude', 'true'],
-//   'type': 'fill-extrusion',
-//   'minzoom': 15,
-//   'paint': {
-//   'fill-extrusion-color': '#aaa',
-   
-//   // Use an 'interpolate' expression to
-//   // add a smooth transition effect to
-//   // the buildings as the user zooms in.
-//   'fill-extrusion-height': [
-//   'interpolate',
-//   ['linear'],
-//   ['zoom'],
-//   15,
-//   0,
-//   15.05,
-//   ['get', 'height']
-//   ],
-//   'fill-extrusion-base': [
-//   'interpolate',
-//   ['linear'],
-//   ['zoom'],
-//   15,
-//   0,
-//   15.05,
-//   ['get', 'min_height']
-//   ],
-//   'fill-extrusion-opacity': 0.9
-//   }
-//   },
-//   labelLayerId
-//   );
-//   });
+map.current.on('load', () => {
+  // Insert the layer beneath any symbol layer.
+  const layers = map.current.getStyle().layers;
+  const labelLayerId = layers.find(
+  (layer) => layer.type === 'symbol' && layer.layout['text-field']
+  ).id;
+
+  // The 'building' layer in the Mapbox Streets
+  // vector tileset contains building height data
+  // from OpenStreetMap.current.
+  map.current.addLayer(
+  {
+  'id': 'add-3d-buildings',
+  'source': 'composite',
+  'source-layer': 'building',
+  'filter': ['==', 'extrude', 'true'],
+  'type': 'fill-extrusion',
+  'minzoom': 15,
+  'paint': {
+  'fill-extrusion-color': '#aaa',
+
+  // Use an 'interpolate' expression to
+  // add a smooth transition effect to
+  // the buildings as the user zooms in.
+  'fill-extrusion-height': [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  15,
+  0,
+  15.05,
+  ['get', 'height']
+  ],
+  'fill-extrusion-base': [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  15,
+  0,
+  15.05,
+  ['get', 'min_height']
+  ],
+  'fill-extrusion-opacity': 0.9
+  }
+  },
+  labelLayerId
+  );
+  });
 
 // ADD DEM TERRAIN 🏔️ __________________________________________________________
 
-map.on('load', () => {
-  map.addSource('mapbox-dem', {
-  'type': 'raster-dem',
-  'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-  'tileSize': 512,
-  'maxzoom': 14
+map.current.on("load", () => {
+  map.current.addSource("mapbox-dem", {
+    type: "raster-dem",
+    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+    tileSize: 512,
+    maxzoom: 14,
   });
   // add the DEM source as a terrain layer with exaggerated height
-  map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1 });
-   
+  map.current.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+
   // add sky styling with `setFog` that will show when the map is highly pitched
-  map.setFog({
-  'horizon-blend': 0.3,
-  'color': '#f8f0e3',
-  'high-color': '#add8e6',
-  'space-color': '#d8f2ff',
-  'star-intensity': 0.0
+  map.current.setFog({
+    "horizon-blend": 0.3,
+    color: "#f8f0e3",
+    "high-color": "#add8e6",
+    "space-color": "#d8f2ff",
+    "star-intensity": 0.0,
   });
-  });
+});
 
 // THREE JS 3️⃣ __________________________________________________________________
 const THREE = window.THREE;
@@ -283,7 +291,7 @@ const customLayer = {
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
-    this.camera = new PerspectiveCamera();
+    camera.current = new PerspectiveCamera();
     scene.current = new Scene();
 
     // create two three.js lights to illuminate the model
@@ -304,7 +312,7 @@ const customLayer = {
     // scene.current.add(gltf.scene);
     // }
     // );
-    // this.map = map;
+    // map.current = map;
 
     // Building select menu 🏢 _______________________________________________________
     let modelNames = [];
@@ -321,42 +329,39 @@ const customLayer = {
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-      building.current = models[modelNames.indexOf(this.value)];
-      console.log(building.current)
-    
-    for (const model of models) {
-      let buildingName = model.name;
-      buildingName = buildingName.toUpperCase();
-      buildingName = buildingName.replace(/ /g, "_");
-      buildingName = buildingName.replace("BUILDING", "BLDG");
-      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-      model.ifc = ifcFile;
-    }
-    let pageTitle = document.getElementById("model-title");
+        building.current = models[modelNames.indexOf(this.value)];
+        console.log(building.current);
 
-    // Sets up the IFC loading
-    const ifcLoader = new IFCLoader();
-    ifcLoader.ifcManager.setWasmPath("wasm/");
+        for (const model of models) {
+          let buildingName = model.name;
+          buildingName = buildingName.toUpperCase();
+          buildingName = buildingName.replace(/ /g, "_");
+          buildingName = buildingName.replace("BUILDING", "BLDG");
+          const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+          model.ifc = ifcFile;
+        }
+        let pageTitle = document.getElementById("model-title");
 
-          // pageTitle.innerHTML = currentModel.name;
-    pageTitle.innerHTML = building.current.name;
-      const ifcFile = `../static/public-ifc/${building.current.ifc}`;
-      ifcLoader.load(ifcFile, (ifcModel) => {
-        console.log(ifcFile)
-        scene.current.add(ifcModel);
+        // Sets up the IFC loading
+        const ifcLoader = new IFCLoader();
+        ifcLoader.ifcManager.setWasmPath("wasm/");
+
+        // pageTitle.innerHTML = currentModel.name;
+        pageTitle.innerHTML = building.current.name;
+        const ifcFile = `../static/public-ifc/${building.current.ifc}`;
+        ifcLoader.load(ifcFile, (ifcModel) => {
+          console.log(ifcFile);
+          scene.current.add(ifcModel);
+        });
+        // Load IFC file
+        const input = document.getElementById("file-input");
+        input.addEventListener("change", (changed) => {
+          const file = changed.target.files[0];
+          var ifcURL = URL.createObjectURL(file);
+          ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
+        });
       });
-    // Load IFC file
-    const input = document.getElementById("file-input");
-    input.addEventListener(
-      "change",
-      (changed) => {
-        const file = changed.target.files[0];
-        var ifcURL = URL.createObjectURL(file);
-        ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
-      },
-    );
-});    
-    this.map = map;
+    map.current = map;
 
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
@@ -399,15 +404,15 @@ const customLayer = {
       .multiply(rotationY)
       .multiply(rotationZ);
 
-    this.camera.projectionMatrix = m.multiply(l);
+    camera.current.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
-    this.renderer.render(scene.current, this.camera);
-    this.map.triggerRepaint();
+    this.renderer.render(scene.current, camera.current);
+    map.current.triggerRepaint();
   },
 };
 
-map.on("style.load", () => {
-  map.addLayer(customLayer, "waterway-label");
+map.current.on("style.load", () => {
+  // map.current.addLayer(customLayer, "waterway-label");
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -427,7 +432,7 @@ async function getJson(path) {
   return json;
 }
 
-async function loadGeojson(map, geojson, id ) {
+async function loadGeojson(map, geojson, id) {
   const source = { type: "geojson", data: geojson };
   map.addSource(id, source);
   // Add a new layer to visualize the polygon.
@@ -461,8 +466,7 @@ function removeGeojson(map, id, type) {
     map.removeLayer(`${id}-fill`);
     map.removeLayer(`${id}-outline`);
     map.removeSource(id);
-  }
-  catch {
-    console.log("nothing to remove")
+  } catch {
+    console.log("nothing to remove");
   }
 }
