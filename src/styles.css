@@ -233,8 +233,9 @@ iframe {
   align-items: center;
 }
 
-.close svg {
+.icon {
   z-index: 5;
+  display: inline-block;
   cursor: pointer;
   width: 1.8rem;
   height: 1.8rem;

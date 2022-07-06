@@ -83,10 +83,16 @@ goTo.onclick = function () {
     // Fly to Carleton
     flyTo(map.current, siteLoc.lng, siteLoc.lat);
     selectors.province.style.display = "none";
+    selectors.province.style.value = "-- select a Province or Territory --"
     selectors.city.style.display = "none";
+    selectors.province.style.value = "-- select a City --"
     selectors.site.style.display = "none";
     selectors.building.style.display = "inline-block";
     selectors.load.style.display = "inline-block";
+    geoJson.fill = ""
+    geoJson.outline = ""
+
+
     removeGeojson(map.current, "geoJson");
 
   } else {
@@ -367,7 +373,7 @@ const customLayer = {
           ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
         });
       });
-    map.current = map;
+    // map.current = map;
 
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
