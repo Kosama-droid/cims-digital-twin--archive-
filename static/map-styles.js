@@ -1,7 +1,7 @@
 export const mapStyles = [
     //Styles with labels
     {name: "Default Map", url:"mapbox://styles/mapbox/streets-v11"},
-    {name: "Satellite with labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    {name: "Satellite", url:"mapbox://styles/mapbox/satellite-streets-v11"},
     {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
     {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
     {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},

@@ -18,14 +18,10 @@ import {
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
-const selectors = {
-  province: document.getElementById("province-select"), // Select province
-  city: document.getElementById("city-select"), // Select city
-  site: document.getElementById("site-select"), // Select site
-  building: document.getElementById("building-select"), // Select building
-  style: document.getElementById("style-select"), // Select map style
-  load: document.getElementById("file-input"),
-};
+const selectors = Array.from(document.getElementById("selectors").children)
+
+isolateSelector(selectors, "province-select", "style-select")
+
 const province = {},
   city = {},
   site = {},
@@ -34,7 +30,8 @@ const province = {},
   scene = {},
   geoJson = {fill:"", outline:""},
   lng = { current: -98.74 },
-  lat = { current: 56.415 };
+  lat = { current: 56.415 },
+  style = {};
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
@@ -62,9 +59,9 @@ mapStyles.sort((a, b) => a.name.localeCompare(b.name));
 mapStyles.forEach((mapStyle) => {
   let option = document.createElement("option");
   option.innerHTML = mapStyle.name;
-  selectors.style.appendChild(option);
+  document.getElementById("style-select").appendChild(option);
 });
-selectors.style.addEventListener("change", function () {
+document.getElementById("style-select").addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
@@ -77,34 +74,24 @@ let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Select Building
+    isolateSelector(selectors, "building-select", "file-input")
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
     // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
     // Fly to Carleton
     flyTo(map.current, siteLoc.lng, siteLoc.lat);
-    selectors.province.style.display = "none";
-    selectors.province.style.value = "-- select a Province or Territory --"
-    selectors.city.style.display = "none";
-    selectors.province.style.value = "-- select a City --"
-    selectors.site.style.display = "none";
-    selectors.building.style.display = "inline-block";
-    selectors.load.style.display = "inline-block";
-    geoJson.fill = ""
-    geoJson.outline = ""
-
-
-    removeGeojson(map.current, "geoJson");
-
+    if (map.current.getSource("geoJson") !== undefined){
+      map.current.removeLayer("geoJson-fill");
+      map.current.removeLayer("geoJson-outline"); 
+      map.current.removeSource("geoJson");
+       ;
+    }
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada
     flyTo(map.current, -98.74, 56.415, 3, 0);
-    selectors.province.style.display = "inline-block";
-    selectors.city.style.display = "none";
-    selectors.site.style.display = "none";
-    selectors.building.style.display = "none";
-    selectors.load.style.display = "none";
+    isolateSelector(selectors, "province-select");
   }
   toggleGoTo = !toggleGoTo;
 };
@@ -120,7 +107,7 @@ provinces.forEach((province) => {
   let option = document.createElement("option");
   option.innerHTML = province.provinceName;
   provinceNames.push(province.provinceName);
-  selectors.province.appendChild(option);
+  document.getElementById("province-select").appendChild(option);
 });
 document
   .getElementById("province-select")
@@ -139,8 +126,7 @@ document
       geoJson.source = map.current.getSource("geoJson")
       geoJson.fill = map.current.getLayer("geoJson-fill")
       geoJson.outline = map.current.getLayer("geoJson-outline")
-      selectors.province.style.display = "none";
-      selectors.city.style.display = "inline-block";
+      isolateSelector(selectors, "city-select", "style-select")
     });
 
     // GET CITY 🏙️ _____________________________________________________________________________
@@ -153,16 +139,16 @@ document
       const cityItems = jsonCity.items;
       let selectedCity = "";
       cityItems.sort((a, b) => a.name.localeCompare(b.name));
-      while (selectors.city.childElementCount > 1) {
-        selectors.city.removeChild(selectors.city.lastChild);
+      while (document.getElementById("city-select").childElementCount > 1) {
+        document.getElementById("city-select").removeChild(document.getElementById("city-select").lastChild);
       } //Clear cityItems
       cityItems.forEach((cityItem) => {
         cityNames.push(cityItem.name);
         let option = document.createElement("option");
         option.innerHTML = cityItem.name;
-        selectors.city.appendChild(option);
+        document.getElementById("city-select").appendChild(option);
       });
-      selectors.city.addEventListener("change", function () {
+      document.getElementById("city-select").addEventListener("change", function () {
         const selectedCyteIndex = cityNames.indexOf(this.value);
         selectedCity = cityItems[selectedCyteIndex];
         city.name = selectedCity.name
@@ -173,15 +159,12 @@ document
             "&concise=CITY&province=" +
             province.code
         ).then((cityGeojson) => {
-          // removeGeojson(map.current, province.term);
-          selectors.city.style.display = "none";
-          selectors.site.style.display = "inline-block";
+          isolateSelector(selectors, "site")
           geoJson.current = cityGeojson
           geoJson.bbox = turf.bbox(cityGeojson);
           map.current.fitBounds(geoJson.bbox);
           geoJson.source.setData(geoJson.current)
-          selectors.site = document.getElementById("site-select");
-          selectors.site.addEventListener("click", function () {
+          document.getElementById("site-select").addEventListener("click", function () {
             removeGeojson(map.current, "geoJson");
           });
         });
@@ -191,7 +174,7 @@ document
 
 // GUI 🖱️ _____________________________________________________________
 // Toggle Nav bar _____________________
-const locationBar = document.getElementById("location");
+const locationBar = document.getElementById("selectors");
 const locationButton = document.getElementById("close-nav-bar");
 let toggleLocationBar = false;
 locationButton.onclick = function () {
@@ -336,9 +319,10 @@ const customLayer = {
     modelNames.sort((a, b) => a.localeCompare(b));
     models.sort((a, b) => a.name.localeCompare(b.name));
     models.forEach((model) => {
+      console.log(model)
       let option = document.createElement("option");
       option.innerHTML = model.name;
-      selectors.building.appendChild(option);
+      document.getElementById("building-select").appendChild(option);
     });
     document
       .getElementById("building-select")
@@ -473,12 +457,13 @@ async function loadGeojson(map, geojson, id) {
   map.fitBounds(geoJson.bbox);
 }
 
-function removeGeojson(map, id) {
-  try {
-    map.removeLayer(`${id}-fill`);
-    map.removeLayer(`${id}-outline`);
-    map.removeSource(id);
-  } catch {
-    console.log("nothing to remove");
-  }
+function isolateSelector(selectors, ...keys) {  
+  selectors.forEach(selector => {
+if (keys.includes(selector.id)){
+  selector.style.display = "inline-block"
+}
+else{
+  selector.style.display = "none"
+}
+});
 }

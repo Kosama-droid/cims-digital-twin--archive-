@@ -20,7 +20,14 @@
     </a>
     <h3 id="model-title">Mapbox viewer</h3>
     <a class="header-button" href="./cesium-viewer.html" title="Cesium viewer">
-      <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"  preserveAspectRatio="xMidYMid meet">  <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"> <path d="M1298 2985 c-457 -65 -864 -338 -1092 -731 -146 -251 -218 -544 -202 -824 6 -122 37 -292 57 -316 6 -7 28 -18 48 -24 49 -13 102 2 141 42 17 17 140 175 273 351 133 176 259 337 280 358 146 140 349 141 498 2 27 -25 156 -188 288 -362 131 -174 254 -331 273 -349 65 -62 148 -62 213 1 18 18 117 145 221 282 103 138 208 277 233 310 65 86 110 132 161 165 53 34 158 64 206 58 19 -2 34 0 34 4 0 17 -50 138 -88 215 -211 418 -593 710 -1052 803 -136 28 -358 35 -492 15z m766 -639 c18 -8 46 -31 62 -51 36 -48 40 -128 8 -172 -35 -47 -82 -73 -133 -73 -88 0 -151 64 -151 154 0 113 109 186 214 142z"/> <path d="M985 1701 c-44 -27 -58 -45 -329 -403 -199 -264 -258 -336 -304 -368 -55 -40 -133 -70 -179 -70 -13 0 -23 -3 -23 -8 0 -4 20 -42 44 -84 142 -250 358 -460 608 -593 131 -69 228 -105 383 -141 110 -26 136 -28 315 -28 163 0 212 4 297 22 595 129 1050 583 1172 1169 25 120 37 299 27 404 -7 76 -8 76 -48 99 -48 27 -110 24 -155 -8 -16 -11 -144 -173 -285 -359 -140 -186 -275 -356 -298 -377 -23 -21 -68 -50 -99 -65 -47 -22 -70 -26 -146 -26 -78 0 -98 4 -145 27 -30 15 -72 41 -92 58 -20 17 -138 165 -262 329 -292 387 -302 399 -339 422 -40 24 -103 24 -142 0z"/> </g> </svg> 
+      <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)">
+          <path
+            d="M1298 2985 c-457 -65 -864 -338 -1092 -731 -146 -251 -218 -544 -202 -824 6 -122 37 -292 57 -316 6 -7 28 -18 48 -24 49 -13 102 2 141 42 17 17 140 175 273 351 133 176 259 337 280 358 146 140 349 141 498 2 27 -25 156 -188 288 -362 131 -174 254 -331 273 -349 65 -62 148 -62 213 1 18 18 117 145 221 282 103 138 208 277 233 310 65 86 110 132 161 165 53 34 158 64 206 58 19 -2 34 0 34 4 0 17 -50 138 -88 215 -211 418 -593 710 -1052 803 -136 28 -358 35 -492 15z m766 -639 c18 -8 46 -31 62 -51 36 -48 40 -128 8 -172 -35 -47 -82 -73 -133 -73 -88 0 -151 64 -151 154 0 113 109 186 214 142z" />
+          <path
+            d="M985 1701 c-44 -27 -58 -45 -329 -403 -199 -264 -258 -336 -304 -368 -55 -40 -133 -70 -179 -70 -13 0 -23 -3 -23 -8 0 -4 20 -42 44 -84 142 -250 358 -460 608 -593 131 -69 228 -105 383 -141 110 -26 136 -28 315 -28 163 0 212 4 297 22 595 129 1050 583 1172 1169 25 120 37 299 27 404 -7 76 -8 76 -48 99 -48 27 -110 24 -155 -8 -16 -11 -144 -173 -285 -359 -140 -186 -275 -356 -298 -377 -23 -21 -68 -50 -99 -65 -47 -22 -70 -26 -146 -26 -78 0 -98 4 -145 27 -30 15 -72 41 -92 58 -20 17 -138 165 -262 329 -292 387 -302 399 -339 422 -40 24 -103 24 -142 0z" />
+        </g>
+      </svg>
     </a>
     <!-- <a href="https://carleton.ca/"><img
           src="../static/logos/northcrest_logo.jfif"
@@ -29,27 +36,32 @@
         /></a> -->
   </header>
   <nav class="nav-bar left" id="nav-bar">
-    <div id="location">  
-      <select id="province-select" class="button" value="">
+    <div id="selectors">
+      <select id="style-select" class="button selectors">
+        <option class="option" value="none" selected disabled hidden> &#128506 select map style</option>
+      </select>
+      <select id="province-select" class="button selectors">
         <option class="option" value="none" selected disabled hidden>-- select a Province or Territory --</option>
       </select>
-      <select id="city-select" class="button" value="" style="display: none;">
+      <select id="city-select" class="button selectors">
         <option class="option" value="none" selected disabled hidden>-- select a City --</option>
       </select>
-      <select id="site-select" class="button" value="" style="display: none;">
+      <select id="site-select" class="button selectors">
         <option class="option" value="none" selected disabled hidden>-- select a Site --</option>
       </select>
-      <select id="building-select" class="button" value="none" selected disabled hidden style="display: none;">
-        <option class="option" value="">-- select a Building --</option>
+      <select id="building-select" class="button selectors">
+        <option class="option" value="none" selected disabled hidden>-- select a Building --</option>
       </select>
-    <input type="file" name="load" id="file-input" style="display: none;"/>
-    <select id="style-select" class="button" value="" style="display: inline-block;">
-      <option class="option" value="none" selected disabled hidden>-- select map style --</option>
-    </select>
-  </div>
+      <input type="file" name="load" id="file-input" class="selectors"/>
+    </div>
     <a class="icon" id="close-nav-bar" title="Close navigation bar">
-      <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z" fill-rule="nonzero"/></svg>
-      </a>
+      <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z"
+          fill-rule="nonzero" />
+      </svg>
+    </a>
   </nav>
   <div class="simple-card-container bottom">
     <div class="toolbar">
@@ -62,7 +74,7 @@
       <a class="button circular" id="osm" title="Show OSM buildings">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path id="OSM-buildings-icon"
-            d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
+            d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
         </svg>
       </a>
       <a class="button circular" id="go-to" title="Go to site">
@@ -74,9 +86,9 @@
     </div>
   </div>
   <div class="hide-overflow canvas">
-  <div id='map' style='width: 100vw; height: 100vh;'></div>
-  <canvas id="three-canvas" class="canvas three"></canvas>
-</div>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+    <canvas id="three-canvas" class="canvas three"></canvas>
+  </div>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>

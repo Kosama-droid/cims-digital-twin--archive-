@@ -73,9 +73,8 @@ a {
   align-items: center;
 }
 
-iframe {
-  width: 100%;
-  height: 100vh;
+.selectors > {
+display: none;
 }
 
 .canvas {
@@ -111,51 +110,6 @@ iframe {
   bottom: 1rem;
 }
 
-.model-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.card {
-  width: 10rem;
-  height: 15rem;
-  background-color: var(--primary-color);
-  border-radius: var(--border-radius);
-  border: var(--primary-dark) 0.2rem solid;
-  transition: all 0.15s ease-in;
-  box-shadow: var(--shadow);
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.card:hover {
-  color: var(--primary-dark);
-  transform: translateY(-0.5rem);
-  fill: var(--secondary-color);
-  transition: all 0.2s ease 0s;
-}
-
-.card svg {
-  fill: var(--secondary-color);
-  width: 4rem;
-  height: 4rem;
-
-}
-
-.card:hover svg {
-  fill: var(--primary-dark);
-  width: 4.2rem;
-  height: 4.2rem;
-  transition: all 0.2s ease 0s;
-}
-
 .toolbar {
   display: flex;
   flex-direction: row;
@@ -163,6 +117,10 @@ iframe {
 
 .toolbar a {
   margin: 0.5rem;
+}
+
+.toolbar input {
+  display: inherit;
 }
 
 .button {
