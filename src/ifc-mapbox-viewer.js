@@ -48,9 +48,8 @@ map.current = new mapboxgl.Map({
 // Day sky
 map.current.on("style.load", () => {
   map.current.setFog({});
- // Set the default atmosphere style
+  // Set the default atmosphere style
 });
-loadOSM(map.current);
 addTerrain(map.current);
 
 // Select map style 🗺️🎨 ___________________________________________________
@@ -70,6 +69,34 @@ document.getElementById("style-select").addEventListener("change", function () {
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
 });
+
+// GUI 🖱️ _____________________________________________________________
+// Toggle Nav bar _____________________
+const locationBar = document.getElementById("selectors");
+const locationButton = document.getElementById("close-nav-bar");
+let toggleLocationBar = false;
+const osmButton = document.getElementById("osm");
+let toggleOSM = true;
+locationButton.onclick = function () {
+  locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
+  locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
+  const navBar = document.getElementById("nav-bar");
+  navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
+  navBar.style.boxShadow = toggleLocationBar ? "" : "none";
+  toggleLocationBar = !toggleLocationBar;
+};
+// Show OSM buildings 🏢
+osmButton.onclick = function () {
+  let layer = map.current.getLayer("OSM-buildings")
+  if (toggleOSM) {
+    loadOSM(map.current, 0.9);
+    this.setAttribute("title", "Hide OSM Buildings");
+  }
+  else{
+    map.current.removeLayer("OSM-buildings")
+  }
+  toggleOSM = !toggleOSM;
+};
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
@@ -180,20 +207,6 @@ document
     });
   });
 
-// GUI 🖱️ _____________________________________________________________
-// Toggle Nav bar _____________________
-const locationBar = document.getElementById("selectors");
-const locationButton = document.getElementById("close-nav-bar");
-let toggleLocationBar = false;
-locationButton.onclick = function () {
-  locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
-  locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
-  const navBar = document.getElementById("nav-bar");
-  navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
-  navBar.style.boxShadow = toggleLocationBar ? "" : "none";
-  toggleLocationBar = !toggleLocationBar;
-};
-
 const modelOrigin = [siteLoc.lng, siteLoc.lat];
 const modelAltitude = 80;
 const modelRotate = [Math.PI / 2, 0, 0];
@@ -262,41 +275,37 @@ const customLayer = {
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-      building.current = models[modelNames.indexOf(this.value)];
-      console.log(building.current)
-    
-    for (const model of models) {
-      let buildingName = model.name;
-      buildingName = buildingName.toUpperCase();
-      buildingName = buildingName.replace(/ /g, "_");
-      buildingName = buildingName.replace("BUILDING", "BLDG");
-      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-      model.ifc = ifcFile;
-    }
-    let pageTitle = document.getElementById("model-title");
+        building.current = models[modelNames.indexOf(this.value)];
 
-    // Sets up the IFC loading
-    const ifcLoader = new IFCLoader();
-    ifcLoader.ifcManager.setWasmPath("wasm/");
+        for (const model of models) {
+          let buildingName = model.name;
+          buildingName = buildingName.toUpperCase();
+          buildingName = buildingName.replace(/ /g, "_");
+          buildingName = buildingName.replace("BUILDING", "BLDG");
+          const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+          model.ifc = ifcFile;
+        }
+        let pageTitle = document.getElementById("model-title");
 
-          // pageTitle.innerHTML = currentModel.name;
-    // pageTitle.innerHTML = building.current.name;
-      const ifcFile = `../static/public-ifc/${building.current.ifc}`;
-      ifcLoader.load(ifcFile, (ifcModel) => {
-        console.log(ifcFile)
-        scene.current.add(ifcModel);
+        // Sets up the IFC loading
+        const ifcLoader = new IFCLoader();
+        ifcLoader.ifcManager.setWasmPath("wasm/");
+
+        // pageTitle.innerHTML = currentModel.name;
+        // pageTitle.innerHTML = building.current.name;
+        const ifcFile = `../static/public-ifc/${building.current.ifc}`;
+        ifcLoader.load(ifcFile, (ifcModel) => {
+          console.log(ifcFile);
+          scene.current.add(ifcModel);
+        });
+        // Load IFC file
+        const input = document.getElementById("file-input");
+        input.addEventListener("change", (changed) => {
+          const file = changed.target.files[0];
+          var ifcURL = URL.createObjectURL(file);
+          ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
+        });
       });
-    // Load IFC file
-    const input = document.getElementById("file-input");
-    input.addEventListener(
-      "change",
-      (changed) => {
-        const file = changed.target.files[0];
-        var ifcURL = URL.createObjectURL(file);
-        ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
-      },
-    );
-});    
     this.map = map.current;
 
     // use the Mapbox GL JS map canvas for three.js
@@ -438,21 +447,15 @@ function addTerrain(map) {
 }
 
 // LOAD OSM BUILDING 🏢
-function loadOSM(map, hide) {
-  map.on("load", () => {
-    const hide = [];
+function loadOSM(map, opacity=0.9) {
     // Insert the layer beneath any symbol layer.
     const layers = map.getStyle().layers;
     const labelLayerId = layers.find(
       (layer) => layer.type === "symbol" && layer.layout["text-field"]
     ).id;
-
-    // The 'building' layer in the Mapbox Streets
-    // vector tileset contains building height data
-    // from OpenStreetmap.
     map.addLayer(
       {
-        id: "add-3d-buildings",
+        id: "OSM-buildings",
         source: "composite",
         "source-layer": "building",
         filter: ["==", "extrude", "true"],
@@ -460,32 +463,9 @@ function loadOSM(map, hide) {
         minzoom: 13,
         paint: {
           "fill-extrusion-color": "#aaa",
-
-          // Use an 'interpolate' expression to
-          // add a smooth transition effect to
-          // the buildings as the user zooms in.
-          "fill-extrusion-height": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            13,
-            0,
-            15.05,
-            ["get", "height"],
-          ],
-          "fill-extrusion-base": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            13,
-            0,
-            15.05,
-            ["get", "min_height"],
-          ],
-          "fill-extrusion-opacity": 0.9,
+          "fill-extrusion-opacity": opacity,
         },
       },
       labelLayerId
     );
-  });
 }
