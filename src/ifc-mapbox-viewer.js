@@ -47,7 +47,9 @@ map.current = new mapboxgl.Map({
 });
 // Day sky
 map.current.on("style.load", () => {
-  map.current.setFog({}); // Set the default atmosphere style
+  map.current.setFog({});
+  loadOSM(map.current);
+  addTerrain(map.current); // Set the default atmosphere style
 });
 
 // Select map style 🗺️🎨 ___________________________________________________
@@ -66,8 +68,6 @@ document.getElementById("style-select").addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
-  loadOSM(map.current);
-  addTerrain(map.current);
 });
 
 // Go To Site 🛬___________________________________________________
@@ -392,6 +392,14 @@ async function loadGeojson(map, geojson, id) {
   map.fitBounds(geoJson.bbox);
 }
 
+function removeGeojson(map, geoJson) {
+  if (map.getSource("geoJson") !== undefined) {
+    map.removeLayer("geoJson-fill");
+    map.removeLayer("geoJson-outline");
+    map.removeSource("geoJson");
+  }
+}
+
 function isolateSelector(selectors, ...keys) {
   selectors.forEach((selector) => {
     if (keys.includes(selector.id)) {
@@ -401,15 +409,6 @@ function isolateSelector(selectors, ...keys) {
     }
   });
 }
-
-function removeGeojson(map, geoJson) {
-  if (map.getSource("geoJson") !== undefined) {
-    map.removeLayer("geoJson-fill");
-    map.removeLayer("geoJson-outline");
-    map.removeSource("geoJson");
-  }
-}
-
 // ADD DEM TERRAIN 🏔️
 function addTerrain(map) {
   map.on("load", () => {
@@ -453,7 +452,7 @@ function loadOSM(map, hide) {
         "source-layer": "building",
         filter: ["==", "extrude", "true"],
         type: "fill-extrusion",
-        minzoom: 15,
+        minzoom: 13,
         paint: {
           "fill-extrusion-color": "#aaa",
 
@@ -464,7 +463,7 @@ function loadOSM(map, hide) {
             "interpolate",
             ["linear"],
             ["zoom"],
-            15,
+            13,
             0,
             15.05,
             ["get", "height"],
@@ -473,7 +472,7 @@ function loadOSM(map, hide) {
             "interpolate",
             ["linear"],
             ["zoom"],
-            15,
+            13,
             0,
             15.05,
             ["get", "min_height"],
