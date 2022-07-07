@@ -128605,7 +128605,7 @@ isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
   city = {},
-  building = {},
+  building = { loaded: {}, listed:{} },
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
@@ -128624,12 +128624,19 @@ map.current = new mapboxgl.Map({
   antialias: true,
   projection: "globe", // display the map as a 3D globe
 });
+addTerrain(map.current);
 // Day sky
 map.current.on("style.load", () => {
-  map.current.setFog({});
   // Set the default atmosphere style
+  // add sky styling with `setFog` that will show when the map is highly pitched
+  map.current.setFog({
+    "horizon-blend": 0.3,
+    color: "#f8f0e3",
+    "high-color": "#add8e6",
+    "space-color": "#d8f2ff",
+    "star-intensity": 0.0,
+  });
 });
-addTerrain(map.current);
 
 // Select map style 🗺️🎨 ___________________________________________________
 let styleNames = [];
@@ -128824,18 +128831,10 @@ const customLayer = {
     this.scene.add(directionalLight2);
     scene.current = this.scene;
 
-    // use the three.js GLTF loader to add the 3D model to the three.js scene
-    //   const gltfloader = new GLTFLoader();
-    // gltfloader.load(
-    // '../static/public-glb/CDC-MASSES.glb',
-    // (gltf) => {
-    // this.scene.add(gltf.scene);
-    // }
-    // );
-    // this.map = map;
-
     // Building select menu 🏢 _______________________________________________________
     let modelNames = [];
+    const loadedBuildings = document.getElementById("loaded-buildings");
+    const listedBuildings = document.getElementById("listed-buildings");
     models.forEach((model) => {
       modelNames.push(model.name);
     });
@@ -128843,14 +128842,15 @@ const customLayer = {
     models.sort((a, b) => a.name.localeCompare(b.name));
     models.forEach((model) => {
       let option = document.createElement("option");
+      option.setAttribute("id", model.code);
+      building.listed[model.code] = model.name;
       option.innerHTML = model.name;
-      document.getElementById("building-select").appendChild(option);
+      listedBuildings.appendChild(option);
     });
+   console.log(building);
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-        building.current = models[modelNames.indexOf(this.value)];
-
         for (const model of models) {
           let buildingName = model.name;
           buildingName = buildingName.toUpperCase();
@@ -128859,14 +128859,29 @@ const customLayer = {
           const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
           model.ifc = ifcFile;
         }
-        document.getElementById("model-title");
-
+        let index = modelNames.indexOf(this.value);
+        building.current = models[index];
+        console.log(building.current);
+        let currentOption =  document.getElementById(building.current.code);
+        console.log(currentOption);
+        if (!(building.current.code in building.loaded)) {
+          delete building.listed[building.current.code];
+          building.loaded[building.current.code] = building.current.name;
+          loadedBuildings.appendChild(currentOption);
+          // listedBuildings.removeChild(currentOption);
+          console.log(currentOption);
+        }
+        else {
+          delete building.loaded[building.current.code];
+          building.listed[building.current.code] = building.current.name;
+          // loadedBuildings.removeChild(currentOption);
+          listedBuildings.appendChild(currentOption);
+          currentOption.remove();
+        }
         // Sets up the IFC loading
         const ifcLoader = new IFCLoader();
         ifcLoader.ifcManager.setWasmPath("wasm/");
 
-        // pageTitle.innerHTML = currentModel.name;
-        // pageTitle.innerHTML = building.current.name;
         const ifcFile = `../static/public-ifc/${building.current.ifc}`;
         ifcLoader.load(ifcFile, (ifcModel) => {
           console.log(ifcFile);
@@ -129008,15 +129023,6 @@ function addTerrain(map) {
     });
     // add the DEM source as a terrain layer with exaggerated height
     map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-
-    // add sky styling with `setFog` that will show when the map is highly pitched
-    map.setFog({
-      "horizon-blend": 0.3,
-      color: "#f8f0e3",
-      "high-color": "#add8e6",
-      "space-color": "#d8f2ff",
-      "star-intensity": 0.0,
-    });
   });
 }
 
