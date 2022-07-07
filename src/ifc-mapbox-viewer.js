@@ -48,9 +48,10 @@ map.current = new mapboxgl.Map({
 // Day sky
 map.current.on("style.load", () => {
   map.current.setFog({});
-  loadOSM(map.current);
-  addTerrain(map.current); // Set the default atmosphere style
+ // Set the default atmosphere style
 });
+loadOSM(map.current);
+addTerrain(map.current);
 
 // Select map style 🗺️🎨 ___________________________________________________
 let styleNames = [];
@@ -262,6 +263,7 @@ const customLayer = {
       .getElementById("building-select")
       .addEventListener("change", function () {
       building.current = models[modelNames.indexOf(this.value)];
+      console.log(building.current)
     
     for (const model of models) {
       let buildingName = model.name;
@@ -278,7 +280,7 @@ const customLayer = {
     ifcLoader.ifcManager.setWasmPath("wasm/");
 
           // pageTitle.innerHTML = currentModel.name;
-    pageTitle.innerHTML = building.current.name;
+    // pageTitle.innerHTML = building.current.name;
       const ifcFile = `../static/public-ifc/${building.current.ifc}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         console.log(ifcFile)
@@ -341,7 +343,7 @@ const customLayer = {
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
     this.renderer.render(this.scene, this.camera);
-    this.map.triggerRepaint();
+    map.current.triggerRepaint();
   },
 };
 
