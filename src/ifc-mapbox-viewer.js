@@ -215,7 +215,7 @@ const modelTransform = {
   scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
 };
 
-// THREE JS 3️⃣ __________________________________________________________________
+// THREE JS 3️⃣
 const THREE = window.THREE;
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 const customLayer = {
@@ -223,28 +223,28 @@ const customLayer = {
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
-    camera.current = new PerspectiveCamera();
-    scene.current = new Scene();
+    this.camera = new PerspectiveCamera();
+    this.scene = new Scene();
 
     // create two three.js lights to illuminate the model
     const directionalLight = new DirectionalLight(0xffffff);
     directionalLight.position.set(0, -70, 100).normalize();
-    scene.current.add(directionalLight);
+    this.scene.add(directionalLight);
 
     const directionalLight2 = new DirectionalLight(0xffffff);
     directionalLight2.position.set(0, 70, 100).normalize();
-    scene.current.add(directionalLight2);
-    scene.current = scene.current;
+    this.scene.add(directionalLight2);
+    scene.current = this.scene;
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     //   const gltfloader = new GLTFLoader();
     // gltfloader.load(
     // '../static/public-glb/CDC-MASSES.glb',
     // (gltf) => {
-    // scene.current.add(gltf.scene);
+    // this.scene.add(gltf.scene);
     // }
     // );
-    // map.current = map;
+    // this.map = map;
 
     // Building select menu 🏢 _______________________________________________________
     let modelNames = [];
@@ -254,7 +254,6 @@ const customLayer = {
     modelNames.sort((a, b) => a.localeCompare(b));
     models.sort((a, b) => a.name.localeCompare(b.name));
     models.forEach((model) => {
-      console.log(model);
       let option = document.createElement("option");
       option.innerHTML = model.name;
       document.getElementById("building-select").appendChild(option);
@@ -262,37 +261,41 @@ const customLayer = {
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-        building.current = models[modelNames.indexOf(this.value)];
-        for (const model of models) {
-          let buildingName = model.name;
-          buildingName = buildingName.toUpperCase();
-          buildingName = buildingName.replace(/ /g, "_");
-          buildingName = buildingName.replace("BUILDING", "BLDG");
-          const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-          model.ifc = ifcFile;
-        }
-        let pageTitle = document.getElementById("model-title");
+      building.current = models[modelNames.indexOf(this.value)];
+    
+    for (const model of models) {
+      let buildingName = model.name;
+      buildingName = buildingName.toUpperCase();
+      buildingName = buildingName.replace(/ /g, "_");
+      buildingName = buildingName.replace("BUILDING", "BLDG");
+      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+      model.ifc = ifcFile;
+    }
+    let pageTitle = document.getElementById("model-title");
 
-        // Sets up the IFC loading
-        const ifcLoader = new IFCLoader();
-        ifcLoader.ifcManager.setWasmPath("wasm/");
+    // Sets up the IFC loading
+    const ifcLoader = new IFCLoader();
+    ifcLoader.ifcManager.setWasmPath("wasm/");
 
-        // pageTitle.innerHTML = currentModel.name;
-        pageTitle.innerHTML = building.current.name;
-        const ifcFile = `../static/public-ifc/${building.current.ifc}`;
-        ifcLoader.load(ifcFile, (ifcModel) => {
-          console.log(ifcFile);
-          scene.current.add(ifcModel);
-        });
-        // Load IFC file
-        const input = document.getElementById("file-input");
-        input.addEventListener("change", (changed) => {
-          const file = changed.target.files[0];
-          var ifcURL = URL.createObjectURL(file);
-          ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
-        });
+          // pageTitle.innerHTML = currentModel.name;
+    pageTitle.innerHTML = building.current.name;
+      const ifcFile = `../static/public-ifc/${building.current.ifc}`;
+      ifcLoader.load(ifcFile, (ifcModel) => {
+        console.log(ifcFile)
+        scene.current.add(ifcModel);
       });
-    // map.current = map;
+    // Load IFC file
+    const input = document.getElementById("file-input");
+    input.addEventListener(
+      "change",
+      (changed) => {
+        const file = changed.target.files[0];
+        var ifcURL = URL.createObjectURL(file);
+        ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
+      },
+    );
+});    
+    this.map = map.current;
 
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
@@ -335,15 +338,15 @@ const customLayer = {
       .multiply(rotationY)
       .multiply(rotationZ);
 
-    camera.current.projectionMatrix = m.multiply(l);
+    this.camera.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
-    this.renderer.render(scene.current, camera.current);
-    map.current.triggerRepaint();
+    this.renderer.render(this.scene, this.camera);
+    this.map.triggerRepaint();
   },
 };
 
 map.current.on("style.load", () => {
-  // map.current.addLayer(customLayer, "waterway-label");
+  map.current.addLayer(customLayer, "waterway-label");
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
