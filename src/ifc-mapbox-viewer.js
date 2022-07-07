@@ -18,9 +18,9 @@ import {
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
-const selectors = Array.from(document.getElementById("selectors").children)
+const selectors = Array.from(document.getElementById("selectors").children);
 
-isolateSelector(selectors, "province-select", "style-select")
+isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
   city = {},
@@ -28,7 +28,7 @@ const province = {},
   building = {},
   map = {},
   scene = {},
-  geoJson = {fill:"", outline:""},
+  geoJson = { fill: "", outline: "" },
   lng = { current: -98.74 },
   lat = { current: 56.415 },
   style = {};
@@ -49,6 +49,7 @@ map.current = new mapboxgl.Map({
 map.current.on("style.load", () => {
   map.current.setFog({}); // Set the default atmosphere style
 });
+
 // Select map style 🗺️🎨 ___________________________________________________
 let styleNames = [];
 mapStyles.forEach((style) => {
@@ -65,26 +66,26 @@ document.getElementById("style-select").addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
+  loadOSM(map.current);
+  addTerrain(map.current);
 });
 
 // Go To Site 🛬___________________________________________________
-
 const goTo = document.getElementById("go-to");
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Select Building
-    isolateSelector(selectors, "building-select", "file-input")
+    isolateSelector(selectors, "building-select", "file-input");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
     // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
     // Fly to Carleton
     flyTo(map.current, siteLoc.lng, siteLoc.lat);
-    if (map.current.getSource("geoJson") !== undefined){
+    if (map.current.getSource("geoJson") !== undefined) {
       map.current.removeLayer("geoJson-fill");
-      map.current.removeLayer("geoJson-outline"); 
+      map.current.removeLayer("geoJson-outline");
       map.current.removeSource("geoJson");
-       ;
     }
   } else {
     this.setAttribute("title", "Go to site");
@@ -120,13 +121,13 @@ document
       "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
         province.code
     ).then((provinceGeojson) => {
-      geoJson.current = provinceGeojson
-      let id = province.term
+      geoJson.current = provinceGeojson;
+      let id = province.term;
       loadGeojson(map.current, geoJson.current, "geoJson");
-      geoJson.source = map.current.getSource("geoJson")
-      geoJson.fill = map.current.getLayer("geoJson-fill")
-      geoJson.outline = map.current.getLayer("geoJson-outline")
-      isolateSelector(selectors, "city-select", "style-select")
+      geoJson.source = map.current.getSource("geoJson");
+      geoJson.fill = map.current.getLayer("geoJson-fill");
+      geoJson.outline = map.current.getLayer("geoJson-outline");
+      isolateSelector(selectors, "city-select", "style-select");
     });
 
     // GET CITY 🏙️ _____________________________________________________________________________
@@ -140,7 +141,9 @@ document
       let selectedCity = "";
       cityItems.sort((a, b) => a.name.localeCompare(b.name));
       while (document.getElementById("city-select").childElementCount > 1) {
-        document.getElementById("city-select").removeChild(document.getElementById("city-select").lastChild);
+        document
+          .getElementById("city-select")
+          .removeChild(document.getElementById("city-select").lastChild);
       } //Clear cityItems
       cityItems.forEach((cityItem) => {
         cityNames.push(cityItem.name);
@@ -148,27 +151,31 @@ document
         option.innerHTML = cityItem.name;
         document.getElementById("city-select").appendChild(option);
       });
-      document.getElementById("city-select").addEventListener("change", function () {
-        const selectedCyteIndex = cityNames.indexOf(this.value);
-        selectedCity = cityItems[selectedCyteIndex];
-        city.name = selectedCity.name
-        // GET CITY GEOJSON 🏙️🌐 _________________________
-        getJson(
-          "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-            city.name +
-            "&concise=CITY&province=" +
-            province.code
-        ).then((cityGeojson) => {
-          isolateSelector(selectors, "site")
-          geoJson.current = cityGeojson
-          geoJson.bbox = turf.bbox(cityGeojson);
-          map.current.fitBounds(geoJson.bbox);
-          geoJson.source.setData(geoJson.current)
-          document.getElementById("site-select").addEventListener("click", function () {
-            removeGeojson(map.current, "geoJson");
+      document
+        .getElementById("city-select")
+        .addEventListener("change", function () {
+          const selectedCyteIndex = cityNames.indexOf(this.value);
+          selectedCity = cityItems[selectedCyteIndex];
+          city.name = selectedCity.name;
+          // GET CITY GEOJSON 🏙️🌐 _________________________
+          getJson(
+            "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
+              city.name +
+              "&concise=CITY&province=" +
+              province.code
+          ).then((cityGeojson) => {
+            isolateSelector(selectors, "site-select", "style-select");
+            geoJson.current = cityGeojson;
+            geoJson.bbox = turf.bbox(cityGeojson);
+            map.current.fitBounds(geoJson.bbox);
+            geoJson.source.setData(geoJson.current);
+            document
+              .getElementById("site-select")
+              .addEventListener("click", function () {
+                removeGeojson(map.current, "geoJson");
+              });
           });
         });
-      });
     });
   });
 
@@ -207,78 +214,6 @@ const modelTransform = {
    */
   scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
 };
-
-// LOAD OSM BUILDING 🏢 ___________________________________________________________________________________
-map.current.on('load', () => {
-  // Insert the layer beneath any symbol layer.
-  const layers = map.current.getStyle().layers;
-  const labelLayerId = layers.find(
-  (layer) => layer.type === 'symbol' && layer.layout['text-field']
-  ).id;
-
-  // The 'building' layer in the Mapbox Streets
-  // vector tileset contains building height data
-  // from OpenStreetMap.current.
-  map.current.addLayer(
-  {
-  'id': 'add-3d-buildings',
-  'source': 'composite',
-  'source-layer': 'building',
-  'filter': ['==', 'extrude', 'true'],
-  'type': 'fill-extrusion',
-  'minzoom': 15,
-  'paint': {
-  'fill-extrusion-color': '#aaa',
-
-  // Use an 'interpolate' expression to
-  // add a smooth transition effect to
-  // the buildings as the user zooms in.
-  'fill-extrusion-height': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'height']
-  ],
-  'fill-extrusion-base': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'min_height']
-  ],
-  'fill-extrusion-opacity': 0.9
-  }
-  },
-  labelLayerId
-  );
-  });
-
-// ADD DEM TERRAIN 🏔️ __________________________________________________________
-
-map.current.on("load", () => {
-  map.current.addSource("mapbox-dem", {
-    type: "raster-dem",
-    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-    tileSize: 512,
-    maxzoom: 14,
-  });
-  // add the DEM source as a terrain layer with exaggerated height
-  map.current.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-
-  // add sky styling with `setFog` that will show when the map is highly pitched
-  map.current.setFog({
-    "horizon-blend": 0.3,
-    color: "#f8f0e3",
-    "high-color": "#add8e6",
-    "space-color": "#d8f2ff",
-    "star-intensity": 0.0,
-  });
-});
 
 // THREE JS 3️⃣ __________________________________________________________________
 const THREE = window.THREE;
@@ -319,7 +254,7 @@ const customLayer = {
     modelNames.sort((a, b) => a.localeCompare(b));
     models.sort((a, b) => a.name.localeCompare(b.name));
     models.forEach((model) => {
-      console.log(model)
+      console.log(model);
       let option = document.createElement("option");
       option.innerHTML = model.name;
       document.getElementById("building-select").appendChild(option);
@@ -457,13 +392,96 @@ async function loadGeojson(map, geojson, id) {
   map.fitBounds(geoJson.bbox);
 }
 
-function isolateSelector(selectors, ...keys) {  
-  selectors.forEach(selector => {
-if (keys.includes(selector.id)){
-  selector.style.display = "inline-block"
+function isolateSelector(selectors, ...keys) {
+  selectors.forEach((selector) => {
+    if (keys.includes(selector.id)) {
+      selector.style.display = "inline-block";
+    } else {
+      selector.style.display = "none";
+    }
+  });
 }
-else{
-  selector.style.display = "none"
+
+function removeGeojson(map, geoJson) {
+  if (map.getSource("geoJson") !== undefined) {
+    map.removeLayer("geoJson-fill");
+    map.removeLayer("geoJson-outline");
+    map.removeSource("geoJson");
+  }
 }
-});
+
+// ADD DEM TERRAIN 🏔️
+function addTerrain(map) {
+  map.on("load", () => {
+    map.addSource("mapbox-dem", {
+      type: "raster-dem",
+      url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+      tileSize: 512,
+      maxzoom: 14,
+    });
+    // add the DEM source as a terrain layer with exaggerated height
+    map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+
+    // add sky styling with `setFog` that will show when the map is highly pitched
+    map.setFog({
+      "horizon-blend": 0.3,
+      color: "#f8f0e3",
+      "high-color": "#add8e6",
+      "space-color": "#d8f2ff",
+      "star-intensity": 0.0,
+    });
+  });
+}
+
+// LOAD OSM BUILDING 🏢
+function loadOSM(map, hide) {
+  map.on("load", () => {
+    const hide = [];
+    // Insert the layer beneath any symbol layer.
+    const layers = map.getStyle().layers;
+    const labelLayerId = layers.find(
+      (layer) => layer.type === "symbol" && layer.layout["text-field"]
+    ).id;
+
+    // The 'building' layer in the Mapbox Streets
+    // vector tileset contains building height data
+    // from OpenStreetmap.
+    map.addLayer(
+      {
+        id: "add-3d-buildings",
+        source: "composite",
+        "source-layer": "building",
+        filter: ["==", "extrude", "true"],
+        type: "fill-extrusion",
+        minzoom: 15,
+        paint: {
+          "fill-extrusion-color": "#aaa",
+
+          // Use an 'interpolate' expression to
+          // add a smooth transition effect to
+          // the buildings as the user zooms in.
+          "fill-extrusion-height": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15,
+            0,
+            15.05,
+            ["get", "height"],
+          ],
+          "fill-extrusion-base": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15,
+            0,
+            15.05,
+            ["get", "min_height"],
+          ],
+          "fill-extrusion-opacity": 0.9,
+        },
+      },
+      labelLayerId
+    );
+  });
 }
