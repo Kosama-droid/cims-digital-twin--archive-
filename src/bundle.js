@@ -128605,7 +128605,7 @@ isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
   city = {},
-  building = { loaded: {}, listed:{} },
+  building = { loaded: {}, listed: {} },
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
@@ -128831,6 +128831,10 @@ const customLayer = {
     this.scene.add(directionalLight2);
     scene.current = this.scene;
 
+    // Sets up the IFC loading
+    const ifcLoader = new IFCLoader();
+    ifcLoader.ifcManager.setWasmPath("wasm/");
+
     // Building select menu 🏢 _______________________________________________________
     let modelNames = [];
     const loadedBuildings = document.getElementById("loaded-buildings");
@@ -128847,6 +128851,7 @@ const customLayer = {
       option.innerHTML = model.name;
       listedBuildings.appendChild(option);
     });
+    console.log(building);
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
@@ -128860,29 +128865,24 @@ const customLayer = {
         }
         let index = modelNames.indexOf(this.value);
         building.current = models[index];
-        let currentOption =  document.getElementById(building.current.code);
+        let currentOption = document.getElementById(building.current.code);
         if (!(building.current.code in building.loaded)) {
           delete building.listed[building.current.code];
           building.loaded[building.current.code] = building.current.name;
           loadedBuildings.appendChild(currentOption);
-        }
-        else {
+          const ifcFile = `../static/public-ifc/${building.current.ifc}`;
+          ifcLoader.load(ifcFile, (ifcModel) => {
+            console.log(ifcFile);
+            ifcModel.name = building.current.code;
+            scene.current.add(ifcModel);
+          });
+        } else {
           delete building.loaded[building.current.code];
           building.listed[building.current.code] = building.current.name;
           listedBuildings.appendChild(currentOption);
           let mesh = scene.current.getObjectByName(building.current.code);
           scene.current.remove(mesh);
         }
-        // Sets up the IFC loading
-        const ifcLoader = new IFCLoader();
-        ifcLoader.ifcManager.setWasmPath("wasm/");
-
-        const ifcFile = `../static/public-ifc/${building.current.ifc}`;
-        ifcLoader.load(ifcFile, (ifcModel) => {
-          console.log(ifcFile);
-          ifcModel.name = building.current.code;
-          scene.current.add(ifcModel);
-        });
         // Load IFC file
         const input = document.getElementById("file-input");
         input.addEventListener("change", (changed) => {
