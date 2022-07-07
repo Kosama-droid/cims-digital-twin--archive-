@@ -128601,8 +128601,6 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
 const selectors = Array.from(document.getElementById("selectors").children);
 
-console.log("Hello Julie");
-
 isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
@@ -128849,7 +128847,6 @@ const customLayer = {
       option.innerHTML = model.name;
       listedBuildings.appendChild(option);
     });
-   console.log(building);
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
@@ -128863,22 +128860,18 @@ const customLayer = {
         }
         let index = modelNames.indexOf(this.value);
         building.current = models[index];
-        console.log(building.current);
         let currentOption =  document.getElementById(building.current.code);
-        console.log(currentOption);
         if (!(building.current.code in building.loaded)) {
           delete building.listed[building.current.code];
           building.loaded[building.current.code] = building.current.name;
           loadedBuildings.appendChild(currentOption);
-          // listedBuildings.removeChild(currentOption);
-          console.log(currentOption);
         }
         else {
           delete building.loaded[building.current.code];
           building.listed[building.current.code] = building.current.name;
-          // loadedBuildings.removeChild(currentOption);
           listedBuildings.appendChild(currentOption);
-          currentOption.remove();
+          let mesh = scene.current.getObjectByName(building.current.code);
+          scene.current.remove(mesh);
         }
         // Sets up the IFC loading
         const ifcLoader = new IFCLoader();
@@ -128887,6 +128880,7 @@ const customLayer = {
         const ifcFile = `../static/public-ifc/${building.current.ifc}`;
         ifcLoader.load(ifcFile, (ifcModel) => {
           console.log(ifcFile);
+          ifcModel.name = building.current.code;
           scene.current.add(ifcModel);
         });
         // Load IFC file
