@@ -20,6 +20,8 @@ import {
 const siteLoc = { lng: -75.69435, lat: 45.38435 };
 const selectors = Array.from(document.getElementById("selectors").children);
 
+console.log("Hello Julie")
+
 isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
