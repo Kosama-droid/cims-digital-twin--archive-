@@ -87,13 +87,12 @@ locationButton.onclick = function () {
 };
 // Show OSM buildings 🏢
 osmButton.onclick = function () {
-  let layer = map.current.getLayer("OSM-buildings")
+  let layer = map.current.getLayer("OSM-buildings");
   if (toggleOSM) {
     loadOSM(map.current, 0.9);
     this.setAttribute("title", "Hide OSM Buildings");
-  }
-  else{
-    map.current.removeLayer("OSM-buildings")
+  } else {
+    map.current.removeLayer("OSM-buildings");
   }
   toggleOSM = !toggleOSM;
 };
@@ -447,25 +446,46 @@ function addTerrain(map) {
 }
 
 // LOAD OSM BUILDING 🏢
-function loadOSM(map, opacity=0.9) {
-    // Insert the layer beneath any symbol layer.
-    const layers = map.getStyle().layers;
-    const labelLayerId = layers.find(
-      (layer) => layer.type === "symbol" && layer.layout["text-field"]
-    ).id;
-    map.addLayer(
-      {
-        id: "OSM-buildings",
-        source: "composite",
-        "source-layer": "building",
-        filter: ["==", "extrude", "true"],
-        type: "fill-extrusion",
-        minzoom: 13,
-        paint: {
-          "fill-extrusion-color": "#aaa",
-          "fill-extrusion-opacity": opacity,
-        },
+function loadOSM(map, opacity = 0.9) {
+  // Insert the layer beneath any symbol layer.
+  const layers = map.getStyle().layers;
+  const labelLayerId = layers.find(
+    (layer) => layer.type === "symbol" && layer.layout["text-field"]
+  ).id;
+  map.addLayer(
+    {
+      id: "OSM-buildings",
+      source: "composite",
+      "source-layer": "building",
+      filter: ["==", "extrude", "true"],
+      type: "fill-extrusion",
+      minzoom: 13,
+      paint: {
+        "fill-extrusion-color": "#aaa",
+        // Use an 'interpolate' expression to
+        // add a smooth transition effect to
+        // the buildings as the user zooms in.
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13,
+          0,
+          15.05,
+          ["get", "height"],
+        ],
+        "fill-extrusion-base": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13,
+          0,
+          15.05,
+          ["get", "min_height"],
+        ],
+        "fill-extrusion-opacity": opacity,
       },
-      labelLayerId
-    );
+    },
+    labelLayerId
+  );
 }
