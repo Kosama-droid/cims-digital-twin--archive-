@@ -128612,7 +128612,7 @@ const province = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 };
-// By default Carleton University → // Downsview  -79.47, 43.73, 1000, -45.0, 0
+// By default Carleton University → // Downsview  lng = -79.47, lat = 43.73
 lng.current = -75.69435; 
 lat.current = 45.38435;
 
@@ -128741,7 +128741,12 @@ goTo.onclick = function () {
     isolateSelector(toolbar, "perspective", "osm", "go-to", );
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
-    // Fly to Carleton
+    
+    if (document.getElementById("lng").value !== ""){
+      lng.current = document.getElementById("lng").value;
+    }    if (document.getElementById("lat").value !== ""){
+      lat.current = document.getElementById("lat").value;
+    }    
     flyTo(map.current, lng.current, lat.current);
     if (map.current.getSource("geoJson") !== undefined) {
       map.current.removeLayer("geoJson-fill");
