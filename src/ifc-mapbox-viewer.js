@@ -30,8 +30,7 @@ const province = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
   lng = { current: -98.74 },
-  lat = { current: 56.415 },
-  style = {};
+  lat = { current: 56.415 };
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
@@ -45,7 +44,6 @@ map.current = new mapboxgl.Map({
   antialias: true,
   projection: "globe", // display the map as a 3D globe
 });
-addTerrain(map.current);
 // Day sky
 map.current.on("style.load", () => {
   // Set the default atmosphere style
@@ -57,10 +55,11 @@ map.current.on("style.load", () => {
     "space-color": "#d8f2ff",
     "star-intensity": 0.0,
   });
+  addTerrain(map.current);
 });
 
 // Select map style 🗺️🎨 ___________________________________________________
-let styleNames = [];
+const styleNames = [];
 const styleSelect = document.getElementById("style-select")
 mapStyles.forEach((style) => {
   styleNames.push(style.name);
@@ -75,6 +74,7 @@ styleSelect.addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
+  map.current.setTerrain({ source: "mapbox-dem", exaggeration: 1 })
 });
 
 // GUI 🖱️ _____________________________________________________________
@@ -443,7 +443,6 @@ function isolateSelector(selectors, ...keys) {
 }
 // ADD DEM TERRAIN 🏔️
 function addTerrain(map) {
-  map.on("load", () => {
     map.addSource("mapbox-dem", {
       type: "raster-dem",
       url: "mapbox://mapbox.mapbox-terrain-dem-v1",
@@ -452,7 +451,6 @@ function addTerrain(map) {
     });
     // add the DEM source as a terrain layer with exaggerated height
     map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-  });
 }
 
 // LOAD OSM BUILDING 🏢

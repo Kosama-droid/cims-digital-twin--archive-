@@ -113,6 +113,7 @@ display: none;
 .toolbar {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .toolbar a {
@@ -120,7 +121,26 @@ display: none;
 }
 
 .toolbar input {
-  display: inherit;
+    border: none;
+    border-radius: var(--border-radius);
+    height: 2rem;
+    padding: 0.3rem;
+    margin: 0.3rem;
+    background-color: var(--primary-color-transp1);
+    box-shadow: var(--shadow);
+    max-width: 3rem;
+    display: inherit;
+   }
+
+   .toolbar input:hover {
+    background: var(--primary-color);
+    transition: all 0.3s ease 0s;
+    transform: translateY(-4px); 
+  }
+   
+   .toolbar input:focus {
+    background: var(--primary-color);
+
 }
 
 .button {
@@ -148,7 +168,6 @@ display: none;
 }
 
 .circular:hover {
-  box-shadow: var(--shadow);
   background: var(--primary-color);
   color: var(--primary-color);
   transform: translateY(-7px);
