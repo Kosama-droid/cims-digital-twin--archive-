@@ -128598,10 +128598,11 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 }
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
-const siteLoc = { lng: -75.69435, lat: 45.38435 };
 const selectors = Array.from(document.getElementById("selectors").children);
+const toolbar = Array.from(document.getElementById("toolbar").children);
 
 isolateSelector(selectors, "province-select", "style-select");
+isolateSelector(toolbar, "go-to", "lng", "lat");
 
 const province = {},
   city = {},
@@ -128609,8 +128610,11 @@ const province = {},
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
-  lng = { current: -98.74 },
-  lat = { current: 56.415 };
+  lng = { canada: -98.74 },
+  lat = { canada: 56.415 };
+// By default Carleton University → // Downsview  -79.47, 43.73, 1000, -45.0, 0
+lng.current = -75.69435; 
+lat.current = 45.38435;
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
@@ -128618,7 +128622,7 @@ mapboxgl.accessToken =
 map.current = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[1].url,
-  center: [lng.current, lat.current], // starting position [lng, lat]
+  center: [lng.canada, lat.canada], // starting position [lng, lat]
   zoom: 4, // starting zoom
   pitch: 0,
   antialias: true,
@@ -128683,6 +128687,49 @@ osmButton.onclick = function () {
   }
   toggleOSM = !toggleOSM;
 };
+// Building select menu 🏢 _______________________________________________________
+const modelNames = [];
+const listedBuildings = document.getElementById("listed-buildings");
+const loadedBuildings = document.getElementById("loaded-buildings");
+models.forEach((model) => {
+  modelNames.push(model.name);
+});
+models.forEach((model) => {
+  let option = document.createElement("option");
+  option.setAttribute("id", model.code);
+  building.listed[model.code] = model.name;
+  option.innerHTML = model.name;
+  listedBuildings.appendChild(option);
+});
+sortChildren(listedBuildings);
+document
+.getElementById("building-select")
+.addEventListener("change", function () {
+  isolateSelector(selectors, "building-select", "file-input");
+  for (const model of models) {
+    let buildingName = model.name;
+    buildingName = buildingName.toUpperCase();
+    buildingName = buildingName.replace(/ /g, "_");
+    buildingName = buildingName.replace("BUILDING", "BLDG");
+    const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+    model.ifc = ifcFile;
+  }
+  let index = modelNames.indexOf(this.value);
+  building.current = models[index];
+  let currentOption = document.getElementById(building.current.code);
+  if (!(building.current.code in building.loaded)) {
+    delete building.listed[building.current.code];
+    building.loaded[building.current.code] = building.current.name;
+    loadedBuildings.appendChild(currentOption);
+    sortChildren(loadedBuildings);
+  } else {
+    delete building.loaded[building.current.code];
+    building.listed[building.current.code] = building.current.name;
+    listedBuildings.appendChild(currentOption);
+    sortChildren(listedBuildings);
+  }
+});
+
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
@@ -128691,11 +128738,11 @@ goTo.onclick = function () {
   if (toggleGoTo) {
     // Select Building
     isolateSelector(selectors, "building-select", "file-input", "style-select");
+    isolateSelector(toolbar, "perspective", "osm", "go-to", );
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
-    // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
     // Fly to Carleton
-    flyTo(map.current, siteLoc.lng, siteLoc.lat);
+    flyTo(map.current, lng.current, lat.current);
     if (map.current.getSource("geoJson") !== undefined) {
       map.current.removeLayer("geoJson-fill");
       map.current.removeLayer("geoJson-outline");
@@ -128705,8 +128752,9 @@ goTo.onclick = function () {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada
-    flyTo(map.current, -98.74, 56.415, 3, 0);
+    flyTo(map.current, lng.canada, lat.canada, 3, 0);
     isolateSelector(selectors, "province-select", "style-select");
+    isolateSelector(toolbar, "go-to", "lng", "lat");
   }
   toggleGoTo = !toggleGoTo;
 };
@@ -128775,6 +128823,7 @@ document
             province.code
         ).then((cityGeojson) => {
           isolateSelector(selectors, "site-select", "style-select");
+          isolateSelector(toolbar, "osm", "go-to", "lng", "lat");
           geoJson.current = cityGeojson;
           geoJson.bbox = turf.bbox(cityGeojson);
           map.current.fitBounds(geoJson.bbox);
@@ -128789,7 +128838,7 @@ document
     });
   });
 
-const modelOrigin = [siteLoc.lng, siteLoc.lat];
+const modelOrigin = [lng.current, lat.current];
 const modelAltitude = 80;
 const modelRotate = [Math.PI / 2, 0, 0];
 
@@ -128833,54 +128882,18 @@ const customLayer = {
     const ifcLoader = new IFCLoader();
     ifcLoader.ifcManager.setWasmPath("wasm/");
 
-    // Building select menu 🏢 _______________________________________________________
-    let modelNames = [];
-    const loadedBuildings = document.getElementById("loaded-buildings");
-    const listedBuildings = document.getElementById("listed-buildings");
-    models.forEach((model) => {
-      modelNames.push(model.name);
-    });
-    // modelNames.sort((a, b) => a.localeCompare(b));
-    // models.sort((a, b) => a.name.localeCompare(b.name));
-    models.forEach((model) => {
-      let option = document.createElement("option");
-      option.setAttribute("id", model.code);
-      building.listed[model.code] = model.name;
-      option.innerHTML = model.name;
-      listedBuildings.appendChild(option);
-    });
-    sortChildren(listedBuildings);
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
-        isolateSelector(selectors, "building-select", "file-input");
-        for (const model of models) {
-          let buildingName = model.name;
-          buildingName = buildingName.toUpperCase();
-          buildingName = buildingName.replace(/ /g, "_");
-          buildingName = buildingName.replace("BUILDING", "BLDG");
-          const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-          model.ifc = ifcFile;
-        }
-        let index = modelNames.indexOf(this.value);
-        building.current = models[index];
-        let currentOption = document.getElementById(building.current.code);
-        if (!(building.current.code in building.loaded)) {
-          delete building.listed[building.current.code];
-          building.loaded[building.current.code] = building.current.name;
-          loadedBuildings.appendChild(currentOption);
-          sortChildren(loadedBuildings);
+        console.log(building);
+        if (building.current.code in building.loaded) {
           const ifcFile = `../static/public-ifc/${building.current.ifc}`;
           ifcLoader.load(ifcFile, (ifcModel) => {
-            console.log(ifcFile);
             ifcModel.name = building.current.code;
             scene.current.add(ifcModel);
           });
         } else {
-          delete building.loaded[building.current.code];
-          building.listed[building.current.code] = building.current.name;
-          listedBuildings.appendChild(currentOption);
-          sortChildren(listedBuildings);
+          console.log("listed");
           let mesh = scene.current.getObjectByName(building.current.code);
           scene.current.remove(mesh);
         }
@@ -129072,8 +129085,6 @@ function sortChildren(parent) {
   items.forEach((item) => {
     const itemParent = item.parentNode;
     let detatchedItem = itemParent.removeChild(item);
-    if (document.getElementById(detatchedItem.id) === null) {
-      itemParent.appendChild(detatchedItem);
-    }
+    itemParent.appendChild(detatchedItem);
   });
 }

@@ -37,7 +37,7 @@ header {
   flex-direction: row;
   justify-content: end;
   border-bottom: 1px solid gray;
-  
+
 }
 
 header *:first-child {
@@ -74,7 +74,7 @@ a {
 }
 
 .select {
-display: none;
+  display: none;
 }
 
 .canvas {
@@ -85,7 +85,7 @@ display: none;
   outline: none;
 }
 
-.three{
+.three {
   z-index: 2;
 }
 
@@ -122,28 +122,35 @@ display: none;
 }
 
 .toolbar input {
-    border: none;
-    border-radius: var(--border-radius);
-    height: 2rem;
-    padding: 0.3rem;
-    margin: 0.3rem;
-    background-color: var(--primary-color-transp1);
-    box-shadow: var(--shadow);
-    max-width: 3rem;
-    display: inherit;
-    text-align: center;
-   }
+  border: none;
+  border-radius: var(--border-radius);
+  height: 2rem;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  background-color: var(--primary-color-transp1);
+  box-shadow: var(--shadow);
+  max-width: 3rem;
+  display: inherit;
+  text-align: center;
+}
 
-   .toolbar input:hover {
-    background: var(--primary-color);
-    transition: all 0.3s ease 0s;
-    transform: translateY(-4px); 
-  }
-   
-   .toolbar input:focus {
-    background: var(--primary-color);
+.toolbar input:hover {
+  background: var(--primary-color);
+  transition: all 0.3s ease 0s;
+  transform: translateY(-4px);
+}
+
+.toolbar input::-webkit-outer-spin-button,
+.toolbar input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.toolbar input:focus {
+  background: var(--primary-color);
 
 }
+
 
 .button {
   z-index: 1;
@@ -231,7 +238,7 @@ display: none;
   border-radius: 0 0 var(--border-radius) 0;
 }
 
-.unloaded > option{
+.unloaded>option {
   color: var(--secondary-color);
 }
 
