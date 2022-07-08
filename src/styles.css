@@ -210,6 +210,10 @@ display: none;
   border-radius: 0 0 var(--border-radius) 0;
 }
 
+.unloaded > option{
+  color: var(--secondary-color);
+}
+
 /* CESIUM CSS ####################################################################################################################################### */
 
 .cesium-widget canvas {

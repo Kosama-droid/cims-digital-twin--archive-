@@ -25,7 +25,7 @@ isolateSelector(selectors, "province-select", "style-select");
 const province = {},
   city = {},
   site = {},
-  building = { loaded: {}, listed: {} },
+  building = { loaded: {}, listed: {}, order:{} },
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
@@ -61,17 +61,17 @@ map.current.on("style.load", () => {
 
 // Select map style 🗺️🎨 ___________________________________________________
 let styleNames = [];
+const styleSelect = document.getElementById("style-select")
 mapStyles.forEach((style) => {
   styleNames.push(style.name);
 });
-styleNames.sort((a, b) => a.localeCompare(b));
-mapStyles.sort((a, b) => a.name.localeCompare(b.name));
 mapStyles.forEach((mapStyle) => {
   let option = document.createElement("option");
   option.innerHTML = mapStyle.name;
-  document.getElementById("style-select").appendChild(option);
+  styleSelect.appendChild(option);
 });
-document.getElementById("style-select").addEventListener("change", function () {
+sortChildren(styleSelect);
+styleSelect.addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
   map.current.setStyle(url);
@@ -166,6 +166,7 @@ document
 
     // GET CITY 🏙️ _____________________________________________________________________________
     const cityNames = [];
+    const citySelect = document.getElementById("city-select");
     getJson(
       "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
         province.code +
@@ -173,23 +174,19 @@ document
     ).then((jsonCity) => {
       const cityItems = jsonCity.items;
       let selectedCity = "";
-      cityItems.sort((a, b) => a.name.localeCompare(b.name));
-      while (document.getElementById("city-select").childElementCount > 1) {
-        document
-          .getElementById("city-select")
-          .removeChild(document.getElementById("city-select").lastChild);
+      while (citySelect.childElementCount > 1) {
+        citySelect.removeChild(citySelect.lastChild);
       } //Clear cityItems
       cityItems.forEach((cityItem) => {
         cityNames.push(cityItem.name);
         let option = document.createElement("option");
         option.innerHTML = cityItem.name;
-        document.getElementById("city-select").appendChild(option);
+        citySelect.appendChild(option);
+        sortChildren(citySelect);
       });
-      document
-        .getElementById("city-select")
-        .addEventListener("change", function () {
-          const selectedCyteIndex = cityNames.indexOf(this.value);
-          selectedCity = cityItems[selectedCyteIndex];
+      citySelect.addEventListener("change", function () {
+          const selectedCityIndex = cityNames.indexOf(this.value);
+          selectedCity = cityItems[selectedCityIndex];
           city.name = selectedCity.name;
           // GET CITY GEOJSON 🏙️🌐 _________________________
           getJson(
@@ -275,8 +272,8 @@ const customLayer = {
     models.forEach((model) => {
       modelNames.push(model.name);
     });
-    modelNames.sort((a, b) => a.localeCompare(b));
-    models.sort((a, b) => a.name.localeCompare(b.name));
+    // modelNames.sort((a, b) => a.localeCompare(b));
+    // models.sort((a, b) => a.name.localeCompare(b.name));
     models.forEach((model) => {
       let option = document.createElement("option");
       option.setAttribute("id", model.code);
@@ -284,7 +281,7 @@ const customLayer = {
       option.innerHTML = model.name;
       listedBuildings.appendChild(option);
     });
-    console.log(building);
+    sortChildren(listedBuildings)
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
@@ -303,6 +300,7 @@ const customLayer = {
           delete building.listed[building.current.code];
           building.loaded[building.current.code] = building.current.name;
           loadedBuildings.appendChild(currentOption);
+          sortChildren(loadedBuildings);
           const ifcFile = `../static/public-ifc/${building.current.ifc}`;
           ifcLoader.load(ifcFile, (ifcModel) => {
             console.log(ifcFile);
@@ -313,6 +311,7 @@ const customLayer = {
           delete building.loaded[building.current.code];
           building.listed[building.current.code] = building.current.name;
           listedBuildings.appendChild(currentOption);
+          sortChildren(listedBuildings);
           let mesh = scene.current.getObjectByName(building.current.code);
           scene.current.remove(mesh);
         }
@@ -325,6 +324,7 @@ const customLayer = {
         });
       });
     this.map = map.current;
+  
 
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
@@ -498,4 +498,16 @@ function loadOSM(map, opacity = 0.9) {
     },
     labelLayerId
   );
+}
+
+function sortChildren(parent) {
+  items = Array.prototype.slice.call(parent.children);
+  items.sort(function(a, b){
+    return a.textContent.localeCompare(b.textContent);
+});
+for(var i = 0, len = items.length; i < len; i++) {
+    var parent = items[i].parentNode;
+    var detatchedItem = parent.removeChild(items[i]);
+    parent.appendChild(detatchedItem);
+}
 }
