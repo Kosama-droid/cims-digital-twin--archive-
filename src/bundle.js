@@ -128605,7 +128605,7 @@ isolateSelector(selectors, "province-select", "style-select");
 
 const province = {},
   city = {},
-  building = { loaded: {}, listed: {}, order:{} },
+  building = { loaded: {}, listed: {}, order: {} },
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
@@ -128690,7 +128690,7 @@ let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Select Building
-    isolateSelector(selectors, "building-select", "file-input");
+    isolateSelector(selectors, "building-select", "file-input", "style-select");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
     // Fly To Downsview flyTo(viewer, -79.47, 43.73, 1000, -45.0, 0);
@@ -128706,7 +128706,7 @@ goTo.onclick = function () {
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada
     flyTo(map.current, -98.74, 56.415, 3, 0);
-    isolateSelector(selectors, "province-select");
+    isolateSelector(selectors, "province-select", "style-select");
   }
   toggleGoTo = !toggleGoTo;
 };
@@ -128764,28 +128764,28 @@ document
         sortChildren(citySelect);
       });
       citySelect.addEventListener("change", function () {
-          const selectedCityIndex = cityNames.indexOf(this.value);
-          selectedCity = cityItems[selectedCityIndex];
-          city.name = selectedCity.name;
-          // GET CITY GEOJSON 🏙️🌐 _________________________
-          getJson(
-            "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-              city.name +
-              "&concise=CITY&province=" +
-              province.code
-          ).then((cityGeojson) => {
-            isolateSelector(selectors, "site-select", "style-select");
-            geoJson.current = cityGeojson;
-            geoJson.bbox = turf.bbox(cityGeojson);
-            map.current.fitBounds(geoJson.bbox);
-            geoJson.source.setData(geoJson.current);
-            document
-              .getElementById("site-select")
-              .addEventListener("click", function () {
-                removeGeojson(map.current);
-              });
-          });
+        const selectedCityIndex = cityNames.indexOf(this.value);
+        selectedCity = cityItems[selectedCityIndex];
+        city.name = selectedCity.name;
+        // GET CITY GEOJSON 🏙️🌐 _________________________
+        getJson(
+          "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
+            city.name +
+            "&concise=CITY&province=" +
+            province.code
+        ).then((cityGeojson) => {
+          isolateSelector(selectors, "site-select", "style-select");
+          geoJson.current = cityGeojson;
+          geoJson.bbox = turf.bbox(cityGeojson);
+          map.current.fitBounds(geoJson.bbox);
+          geoJson.source.setData(geoJson.current);
+          document
+            .getElementById("site-select")
+            .addEventListener("click", function () {
+              removeGeojson(map.current);
+            });
         });
+      });
     });
   });
 
@@ -128853,6 +128853,7 @@ const customLayer = {
     document
       .getElementById("building-select")
       .addEventListener("change", function () {
+        isolateSelector(selectors, "building-select", "file-input");
         for (const model of models) {
           let buildingName = model.name;
           buildingName = buildingName.toUpperCase();
@@ -128892,7 +128893,6 @@ const customLayer = {
         });
       });
     this.map = map.current;
-  
 
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
@@ -129011,14 +129011,14 @@ function isolateSelector(selectors, ...keys) {
 }
 // ADD DEM TERRAIN 🏔️
 function addTerrain(map) {
-    map.addSource("mapbox-dem", {
-      type: "raster-dem",
-      url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-      tileSize: 512,
-      maxzoom: 14,
-    });
-    // add the DEM source as a terrain layer with exaggerated height
-    map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+  map.addSource("mapbox-dem", {
+    type: "raster-dem",
+    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+    tileSize: 512,
+    maxzoom: 14,
+  });
+  // add the DEM source as a terrain layer with exaggerated height
+  map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
 }
 
 // LOAD OSM BUILDING 🏢
@@ -129038,9 +129038,7 @@ function loadOSM(map, opacity = 0.9) {
       minzoom: 13,
       paint: {
         "fill-extrusion-color": "#aaa",
-        // Use an 'interpolate' expression to
-        // add a smooth transition effect to
-        // the buildings as the user zooms in.
+        // 'interpolate' expression to smooth zoom transition
         "fill-extrusion-height": [
           "interpolate",
           ["linear"],
@@ -129067,13 +129065,15 @@ function loadOSM(map, opacity = 0.9) {
 }
 
 function sortChildren(parent) {
-  items = Array.prototype.slice.call(parent.children);
-  items.sort(function(a, b){
+  const items = Array.prototype.slice.call(parent.children);
+  items.sort(function (a, b) {
     return a.textContent.localeCompare(b.textContent);
-});
-for(var i = 0, len = items.length; i < len; i++) {
-    var parent = items[i].parentNode;
-    var detatchedItem = parent.removeChild(items[i]);
-    parent.appendChild(detatchedItem);
-}
+  });
+  items.forEach((item) => {
+    const itemParent = item.parentNode;
+    let detatchedItem = itemParent.removeChild(item);
+    if (document.getElementById(detatchedItem.id) === null) {
+      itemParent.appendChild(detatchedItem);
+    }
+  });
 }

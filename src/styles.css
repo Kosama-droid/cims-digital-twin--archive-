@@ -114,6 +114,7 @@ display: none;
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .toolbar a {
@@ -130,6 +131,7 @@ display: none;
     box-shadow: var(--shadow);
     max-width: 3rem;
     display: inherit;
+    text-align: center;
    }
 
    .toolbar input:hover {
