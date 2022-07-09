@@ -130,7 +130,7 @@ a {
   background-color: var(--primary-color-transp1);
   box-shadow: var(--shadow);
   max-width: 3rem;
-  display: inherit;
+  display: none;
   text-align: center;
 }
 
@@ -148,7 +148,6 @@ a {
 
 .toolbar input:focus {
   background: var(--primary-color);
-
 }
 
 

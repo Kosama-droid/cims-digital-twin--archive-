@@ -128611,7 +128611,6 @@ const province = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 };
-  const building = { current:{}, index:{}, ifcFile:{}, listed:{}, loaded:{}};
 
 // By default Carleton University → // Downsview  lng = -79.47, lat = 43.73
 lng.current = -75.69435;
@@ -128693,6 +128692,7 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
+const building = { current:{}, index:{}, ifcFile:{}, listed:{}, loaded:{}};
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
@@ -128736,15 +128736,10 @@ goTo.onclick = function () {
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
-
     // Fly to Canada 🛬🍁 ____________________________________________________
-    deleteChildren(scene.current);
-    deleteChildren(building.listed);
-    deleteChildren(building.listed);
-    building.listed = { ...building.listed, ...building.loaded };
-    building.loaded = {};
-    building.current = {};
-    console.log(building);
+    // deleteChildren(scene.current);
+    // deleteChildren(listedBuildings);
+    // deleteChildren(loadedBuildings);
     flyTo(map.current, lng.canada, lat.canada, 3, 0);
     isolateSelector(selectors, "province-select", "style-select");
     isolateSelector(toolbar, "go-to", "lng", "lat");
@@ -128756,8 +128751,8 @@ goTo.onclick = function () {
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
-    let selectOption = document.getElementById("building-select");
     isolateSelector(selectors, "building-select", "file-input");
+    let selectOption = document.getElementById("building-select");
     let selectedOption = selectOption[selectOption.selectedIndex];
     let selectedCode =  selectedOption.id;
     let selectedIndex = building.index[selectedCode];
@@ -128767,8 +128762,6 @@ document
       building.loaded[building.current.code] = building.current.name;
       loadedBuildings.appendChild(selectedOption);
       sortChildren(loadedBuildings);
-      console.log("now it should be loaded");
-      console.log(building);
     } else {
       delete building.loaded[building.current.code];
       building.listed[building.current.code] = building.current.name;
@@ -128947,21 +128940,19 @@ const customLayer = {
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("wasm/");
-let firstTime = true;
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
-    let code = building.current.code;
-    if (firstTime || !(code in building.loaded)) {
-      console.log("THREE now it should be loaded");
-      console.log(building);
+    let selectOption = document.getElementById("building-select");
+    let selectedOption = selectOption[selectOption.selectedIndex];
+    let code =  selectedOption.id;
+    if (code in building.loaded) {
       const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         ifcModel.name = code;
         scene.current.add(ifcModel);
       });
     } else {
-      console.log("listed but not loaded");
       let mesh = scene.current.getObjectByName(code);
       scene.current.remove(mesh);
     }
@@ -128972,7 +128963,6 @@ document
       var ifcURL = URL.createObjectURL(file);
       ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
     });
-    firstTime = false;
   });
 
 map.current.on("style.load", () => {
@@ -129107,10 +129097,4 @@ function sortChildren(parent) {
     let detatchedItem = itemParent.removeChild(item);
     itemParent.appendChild(detatchedItem);
   });
-}
-
-function deleteChildren(parent) {
-  while (parent.children.length > 0) {
-    parent.remove(parent.children[0]);
-  }
 }
