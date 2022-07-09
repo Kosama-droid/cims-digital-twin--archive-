@@ -128737,9 +128737,9 @@ goTo.onclick = function () {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
     // Fly to Canada 🛬🍁 ____________________________________________________
-    // deleteChildren(scene.current);
-    // deleteChildren(listedBuildings);
-    // deleteChildren(loadedBuildings);
+    deleteChildren(scene.current);
+    document.getElementById("building-select").options.length = 1;
+    document.getElementById("building-select").selectedIndex = -1;
     flyTo(map.current, lng.canada, lat.canada, 3, 0);
     isolateSelector(selectors, "province-select", "style-select");
     isolateSelector(toolbar, "go-to", "lng", "lat");
@@ -129097,4 +129097,10 @@ function sortChildren(parent) {
     let detatchedItem = itemParent.removeChild(item);
     itemParent.appendChild(detatchedItem);
   });
+}
+
+function deleteChildren(parent) {
+  while (parent.children.length > 0) {
+    parent.remove(parent.children[0]);
+  }
 }
