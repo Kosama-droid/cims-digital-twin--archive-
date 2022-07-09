@@ -5,7 +5,7 @@ export default {
   output: [
     {
     format: "esm",
-    file: "src/bundle.js"
+    file: "dist/bundle.js"
     }
   ],
   plugins: [

@@ -374,7 +374,7 @@ const customLayer = {
 
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
-ifcLoader.ifcManager.setWasmPath("wasm/");
+ifcLoader.ifcManager.setWasmPath("../src/wasm/");
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
