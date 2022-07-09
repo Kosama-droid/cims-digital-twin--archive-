@@ -170,8 +170,7 @@ document
   .getElementById("building-select")
   .addEventListener("change", function () {
     isolateSelector(selectors, "building-select", "file-input");
-    let selectOption = document.getElementById("building-select");
-    let selectedOption = selectOption[selectOption.selectedIndex];
+    let selectedOption = this[this.selectedIndex];
     let selectedCode =  selectedOption.id
     let selectedIndex = building.index[selectedCode]
     building.current = models[selectedIndex];
@@ -190,7 +189,7 @@ document
 
   document
   .getElementById("building-select").onclick= function () {
-    document.getElementById("building-select").selectedIndex = 0;
+    this.selectedIndex = 0;
   }
 
 // Select province or Territory 🍁 _________________________________________________________
@@ -378,8 +377,7 @@ ifcLoader.ifcManager.setWasmPath("../src/wasm/");
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
-    let selectOption = document.getElementById("building-select");
-    let selectedOption = selectOption[selectOption.selectedIndex];
+    let selectedOption = this[this.selectedIndex];
     let code =  selectedOption.id
     if (code in building.loaded) {
       const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
