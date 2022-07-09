@@ -128734,15 +128734,12 @@ goTo.onclick = function () {
       map.current.removeSource("geoJson");
     }
   } else {
-    this.setAttribute("title", "Go to site");
-    document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
-    // Fly to Canada 🛬🍁 ____________________________________________________
+    // Fly to Canada or reset page🛬🍁 ____________________________________________________
     deleteChildren(scene.current);
-    document.getElementById("building-select").options.length = 1;
-    document.getElementById("building-select").selectedIndex = -1;
-    flyTo(map.current, lng.canada, lat.canada, 3, 0);
-    isolateSelector(selectors, "province-select", "style-select");
-    isolateSelector(toolbar, "go-to", "lng", "lat");
+    flyTo(map.current, lng.canada, lat.canada, 4, 0);
+    map.current.setStyle( mapStyles[1].url);
+    setTimeout(function(){
+      location.reload();  }, 2100);
   }
   toggleGoTo = !toggleGoTo;
 };
@@ -128769,6 +128766,11 @@ document
       sortChildren(listedBuildings);
     }
   });
+
+  document
+  .getElementById("building-select").onclick= function () {
+    document.getElementById("building-select").selectedIndex = 0;
+  };
 
 // Select province or Territory 🍁 _________________________________________________________
 const provinceNames = [];
