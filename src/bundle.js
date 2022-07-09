@@ -128606,14 +128606,15 @@ isolateSelector(toolbar, "go-to", "lng", "lat");
 
 const province = {},
   city = {},
-  building = { loaded: {}, listed: {}, order: {} },
   map = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 };
+  const building = { current:{}, index:{}, ifcFile:{}, listed:{}, loaded:{}};
+
 // By default Carleton University → // Downsview  lng = -79.47, lat = 43.73
-lng.current = -75.69435; 
+lng.current = -75.69435;
 lat.current = 45.38435;
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
@@ -128687,66 +128688,45 @@ osmButton.onclick = function () {
   }
   toggleOSM = !toggleOSM;
 };
-// Building select menu 🏢 _______________________________________________________
-const modelNames = [];
 const listedBuildings = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
-models.forEach((model) => {
-  modelNames.push(model.name);
-});
-models.forEach((model) => {
-  let option = document.createElement("option");
-  option.setAttribute("id", model.code);
-  building.listed[model.code] = model.name;
-  option.innerHTML = model.name;
-  listedBuildings.appendChild(option);
-});
-sortChildren(listedBuildings);
-document
-.getElementById("building-select")
-.addEventListener("change", function () {
-  isolateSelector(selectors, "building-select", "file-input");
-  for (const model of models) {
-    let buildingName = model.name;
-    buildingName = buildingName.toUpperCase();
-    buildingName = buildingName.replace(/ /g, "_");
-    buildingName = buildingName.replace("BUILDING", "BLDG");
-    const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-    model.ifc = ifcFile;
-  }
-  let index = modelNames.indexOf(this.value);
-  building.current = models[index];
-  let currentOption = document.getElementById(building.current.code);
-  if (!(building.current.code in building.loaded)) {
-    delete building.listed[building.current.code];
-    building.loaded[building.current.code] = building.current.name;
-    loadedBuildings.appendChild(currentOption);
-    sortChildren(loadedBuildings);
-  } else {
-    delete building.loaded[building.current.code];
-    building.listed[building.current.code] = building.current.name;
-    listedBuildings.appendChild(currentOption);
-    sortChildren(listedBuildings);
-  }
-});
-
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
-    // Select Building
+    // Building select menu 🏢 _______________________________________________________
+    let index = 0;
+    models.forEach((model) => {
+      let option = document.createElement("option");
+      let code = model.code;
+      option.setAttribute("id", model.code);
+      building.listed[code] = model.name;
+      building.index[code] = index;
+      option.innerHTML = model.name;
+      listedBuildings.appendChild(option);
+      let buildingName = model.name;
+      buildingName = buildingName.toUpperCase();
+      buildingName = buildingName.replace(/ /g, "_");
+      buildingName = buildingName.replace("BUILDING", "BLDG");
+      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
+      building.ifcFile[code] = ifcFile;
+      index++;
+    });
+    sortChildren(listedBuildings);
     isolateSelector(selectors, "building-select", "file-input", "style-select");
-    isolateSelector(toolbar, "perspective", "osm", "go-to", );
+    isolateSelector(toolbar, "perspective", "osm", "go-to");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
-    
-    if (document.getElementById("lng").value !== ""){
+
+    if (document.getElementById("lng").value !== "") {
       lng.current = document.getElementById("lng").value;
-    }    if (document.getElementById("lat").value !== ""){
+    }
+    if (document.getElementById("lat").value !== "") {
       lat.current = document.getElementById("lat").value;
-    }    
+    }
+
     flyTo(map.current, lng.current, lat.current);
     if (map.current.getSource("geoJson") !== undefined) {
       map.current.removeLayer("geoJson-fill");
@@ -128756,13 +128736,46 @@ goTo.onclick = function () {
   } else {
     this.setAttribute("title", "Go to site");
     document.getElementById("go-to-icon").setAttribute("d", icons.goToIcon);
-    // Fly to Canada
+
+    // Fly to Canada 🛬🍁 ____________________________________________________
+    deleteChildren(scene.current);
+    deleteChildren(building.listed);
+    deleteChildren(building.listed);
+    building.listed = { ...building.listed, ...building.loaded };
+    building.loaded = {};
+    building.current = {};
+    console.log(building);
     flyTo(map.current, lng.canada, lat.canada, 3, 0);
     isolateSelector(selectors, "province-select", "style-select");
     isolateSelector(toolbar, "go-to", "lng", "lat");
   }
   toggleGoTo = !toggleGoTo;
 };
+
+// Select Building from list 🏢
+document
+  .getElementById("building-select")
+  .addEventListener("change", function () {
+    let selectOption = document.getElementById("building-select");
+    isolateSelector(selectors, "building-select", "file-input");
+    let selectedOption = selectOption[selectOption.selectedIndex];
+    let selectedCode =  selectedOption.id;
+    let selectedIndex = building.index[selectedCode];
+    building.current = models[selectedIndex];
+    if (!(building.current.code in building.loaded)) {
+      delete building.listed[building.current.code];
+      building.loaded[building.current.code] = building.current.name;
+      loadedBuildings.appendChild(selectedOption);
+      sortChildren(loadedBuildings);
+      console.log("now it should be loaded");
+      console.log(building);
+    } else {
+      delete building.loaded[building.current.code];
+      building.listed[building.current.code] = building.current.name;
+      listedBuildings.appendChild(selectedOption);
+      sortChildren(listedBuildings);
+    }
+  });
 
 // Select province or Territory 🍁 _________________________________________________________
 const provinceNames = [];
@@ -128883,35 +128896,6 @@ const customLayer = {
     this.scene.add(directionalLight2);
     scene.current = this.scene;
 
-    // Sets up the IFC loading
-    const ifcLoader = new IFCLoader();
-    ifcLoader.ifcManager.setWasmPath("wasm/");
-
-    document
-      .getElementById("building-select")
-      .addEventListener("change", function () {
-        console.log(building);
-        if (building.current.code in building.loaded) {
-          const ifcFile = `../static/public-ifc/${building.current.ifc}`;
-          ifcLoader.load(ifcFile, (ifcModel) => {
-            ifcModel.name = building.current.code;
-            scene.current.add(ifcModel);
-          });
-        } else {
-          console.log("listed");
-          let mesh = scene.current.getObjectByName(building.current.code);
-          scene.current.remove(mesh);
-        }
-        // Load IFC file
-        const input = document.getElementById("file-input");
-        input.addEventListener("change", (changed) => {
-          const file = changed.target.files[0];
-          var ifcURL = URL.createObjectURL(file);
-          ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
-        });
-      });
-    this.map = map.current;
-
     // use the Mapbox GL JS map canvas for three.js
     this.renderer = new WebGLRenderer({
       canvas: map.getCanvas(),
@@ -128959,6 +128943,37 @@ const customLayer = {
     map.current.triggerRepaint();
   },
 };
+
+// Sets up the IFC loading
+const ifcLoader = new IFCLoader();
+ifcLoader.ifcManager.setWasmPath("wasm/");
+let firstTime = true;
+document
+  .getElementById("building-select")
+  .addEventListener("change", function () {
+    let code = building.current.code;
+    if (firstTime || !(code in building.loaded)) {
+      console.log("THREE now it should be loaded");
+      console.log(building);
+      const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
+      ifcLoader.load(ifcFile, (ifcModel) => {
+        ifcModel.name = code;
+        scene.current.add(ifcModel);
+      });
+    } else {
+      console.log("listed but not loaded");
+      let mesh = scene.current.getObjectByName(code);
+      scene.current.remove(mesh);
+    }
+    // Load IFC file
+    const input = document.getElementById("file-input");
+    input.addEventListener("change", (changed) => {
+      const file = changed.target.files[0];
+      var ifcURL = URL.createObjectURL(file);
+      ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
+    });
+    firstTime = false;
+  });
 
 map.current.on("style.load", () => {
   map.current.addLayer(customLayer, "waterway-label");
@@ -129092,4 +129107,10 @@ function sortChildren(parent) {
     let detatchedItem = itemParent.removeChild(item);
     itemParent.appendChild(detatchedItem);
   });
+}
+
+function deleteChildren(parent) {
+  while (parent.children.length > 0) {
+    parent.remove(parent.children[0]);
+  }
 }
