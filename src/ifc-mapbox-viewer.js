@@ -3,9 +3,9 @@ import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
 import { models } from "../static/data/cdc-models.js";
 
-import { IFCLoader } from "../node_modules/web-ifc-three";
-import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-// import { IfcViewerAPI } from "../node_modules/web-ifc-viewer";
+import { IFCLoader } from "web-ifc-three/IFCLoader";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+// import { IfcViewerAPI } from "web-ifc-viewer";
 import {
   AmbientLight,
   DirectionalLight,
@@ -14,7 +14,7 @@ import {
   WebGLRenderer,
   Matrix4,
   Vector3,
-} from "../node_modules/three";
+} from "three";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
@@ -379,6 +379,8 @@ const customLayer = {
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+
+
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
@@ -390,7 +392,6 @@ document
         ifcModel.name = code;
         // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
         scene.current.add(ifcModel);
-        console.log(scene.current)
       });
     } else {
       let mesh = scene.current.getObjectByName(code);

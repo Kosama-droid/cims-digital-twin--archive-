@@ -128963,6 +128963,8 @@ const customLayer = {
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+
+
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
@@ -128974,7 +128976,6 @@ document
         ifcModel.name = code;
         // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
         scene.current.add(ifcModel);
-        console.log(scene.current);
       });
     } else {
       let mesh = scene.current.getObjectByName(code);
