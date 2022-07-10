@@ -5,7 +5,7 @@ import { models } from "../static/data/cdc-models.js";
 
 import { IFCLoader } from "../node_modules/web-ifc-three";
 import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-// import { IfcViewerAPI } from '../node_modules/web-ifc-viewer';
+// import { IfcViewerAPI } from "../node_modules/web-ifc-viewer";
 import {
   AmbientLight,
   DirectionalLight,
@@ -112,15 +112,21 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
-const building = { current:{}, index:{}, ifcFile:{}, listed:{}, loaded:{}};
+const building = {
+  current: {},
+  index: {},
+  ifcFile: {},
+  listed: {},
+  loaded: {},
+};
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
-    let index = 0
+    let index = 0;
     models.forEach((model) => {
       let option = document.createElement("option");
-      let code = model.code
+      let code = model.code;
       option.setAttribute("id", model.code);
       building.listed[code] = model.name;
       building.index[code] = index;
@@ -132,7 +138,7 @@ goTo.onclick = function () {
       buildingName = buildingName.replace("BUILDING", "BLDG");
       const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
       building.ifcFile[code] = ifcFile;
-      index++
+      index++;
     });
     sortChildren(listedBuildings);
     isolateSelector(selectors, "building-select", "file-input", "style-select");
@@ -157,10 +163,10 @@ goTo.onclick = function () {
     // Fly to Canada or reset page🛬🍁 ____________________________________________________
     deleteChildren(scene.current);
     flyTo(map.current, lng.canada, lat.canada, 4, 0);
-    map.current.setStyle( mapStyles[1].url);
-    setTimeout(function(){
-      location.reload();;
-  }, 2100);
+    map.current.setStyle(mapStyles[1].url);
+    setTimeout(function () {
+      location.reload();
+    }, 2100);
   }
   toggleGoTo = !toggleGoTo;
 };
@@ -171,8 +177,8 @@ document
   .addEventListener("change", function () {
     isolateSelector(selectors, "building-select", "file-input");
     let selectedOption = this[this.selectedIndex];
-    let selectedCode =  selectedOption.id
-    let selectedIndex = building.index[selectedCode]
+    let selectedCode = selectedOption.id;
+    let selectedIndex = building.index[selectedCode];
     building.current = models[selectedIndex];
     if (!(building.current.code in building.loaded)) {
       delete building.listed[building.current.code];
@@ -187,10 +193,9 @@ document
     }
   });
 
-  document
-  .getElementById("building-select").onclick= function () {
-    this.selectedIndex = 0;
-  }
+document.getElementById("building-select").onclick = function () {
+  this.selectedIndex = 0;
+};
 
 // Select province or Territory 🍁 _________________________________________________________
 const provinceNames = [];
@@ -295,31 +300,31 @@ const modelTransform = {
 };
 
 // THREE JS 3️⃣  ________________________________________________________________________
-const THREE = window.THREE;
-// configuration of the custom layer for a 3D model per the CustomLayerInterface
+// configuration of the custom layer for a 3D models per the CustomLayerInterface
 const customLayer = {
-  id: "3d-model",
+  id: "3d-models",
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
     this.camera = new PerspectiveCamera();
-    this.scene = new Scene();
+    scene.current = new Scene();
 
-    // create two three.js lights to illuminate the model
-    const directionalLight = new DirectionalLight(0xffffff);
+    // create three.js lights to illuminate the model
+    const lightColor = 0xffffff;
+    
+    const ambientLight = new AmbientLight(lightColor, 0.4);
+    scene.current.add(ambientLight);
+
+    const directionalLight = new DirectionalLight(lightColor);
     directionalLight.position.set(0, -70, 100).normalize();
-    this.scene.add(directionalLight);
+    scene.current.add(directionalLight);
 
-    const directionalLight2 = new DirectionalLight(0xffffff);
-    directionalLight2.position.set(0, 70, 100).normalize();
-    this.scene.add(directionalLight2);
-    scene.current = this.scene;
 
     // three.js GLTF loader
     if (false) {
       const gltfloader = new GLTFLoader();
       gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-        this.scene.add(gltf.scene);
+        scene.current.add(gltf.scene);
       });
     }
 
@@ -366,7 +371,7 @@ const customLayer = {
 
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.resetState();
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(scene.current, this.camera);
     map.current.triggerRepaint();
   },
 };
@@ -378,12 +383,14 @@ document
   .getElementById("building-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex];
-    let code =  selectedOption.id
+    let code = selectedOption.id;
     if (code in building.loaded) {
       const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         ifcModel.name = code;
+        // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
         scene.current.add(ifcModel);
+        console.log(scene.current)
       });
     } else {
       let mesh = scene.current.getObjectByName(code);
@@ -403,6 +410,12 @@ map.current.on("style.load", () => {
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
+
+// async function loadIfc(url) {
+//   await viewer.IFC.setWasmPath("../");
+//   const model = await viewer.IFC.loadIfc;
+//   viewer.shadowDropper.renderShadow(model);
+// }
 
 function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
