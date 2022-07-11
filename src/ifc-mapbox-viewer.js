@@ -7,6 +7,8 @@ import { IFCLoader } from "web-ifc-three/IFCLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { IfcViewerAPI } from "web-ifc-viewer";
 
+// console.log(f instanceof("../static/public-ifc"))
+
 import {
   AmbientLight,
   DirectionalLight,
@@ -285,7 +287,7 @@ document
   });
 
 const modelOrigin = [lng.current, lat.current];
-const modelAltitude = 80;
+const modelAltitude = 79;
 const modelRotate = [Math.PI / 2, 0, 0];
 
 const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
