@@ -85,10 +85,6 @@ a {
   outline: none;
 }
 
-.three {
-  z-index: 2;
-}
-
 .header-button svg {
   margin: 0.5rem;
   transition: all 0.3s ease 0s;
@@ -149,7 +145,6 @@ a {
 .toolbar input:focus {
   background: var(--primary-color);
 }
-
 
 .button {
   z-index: 1;

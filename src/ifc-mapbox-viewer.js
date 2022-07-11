@@ -287,7 +287,7 @@ document
   });
 
 const modelOrigin = [lng.current, lat.current];
-const modelAltitude = 79;
+const modelAltitude = 80;
 const modelRotate = [Math.PI / 2, 0, 0];
 
 const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
@@ -342,7 +342,6 @@ const customLayer = {
       context: gl,
       antialias: true,
     });
-    this.renderer.setPixelRatio(Math.max(devicePixelRatio));
 
     this.renderer.autoClear = false;
   },
