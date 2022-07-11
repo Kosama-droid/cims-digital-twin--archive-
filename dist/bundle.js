@@ -118977,7 +118977,7 @@ document
     let selectedOption = this[this.selectedIndex];
     let code = selectedOption.id;
     if (code in building.loaded) {
-      const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
+      const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         ifcModel.name = code;
         // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
