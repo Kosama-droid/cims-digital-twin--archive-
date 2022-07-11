@@ -6,6 +6,7 @@ import { models } from "../static/data/cdc-models.js";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { IfcViewerAPI } from "web-ifc-viewer";
+
 import {
   AmbientLight,
   DirectionalLight,
@@ -15,6 +16,12 @@ import {
   Matrix4,
   Vector3,
 } from "three";
+
+import {
+  acceleratedRaycast,
+  computeBoundsTree,
+  disposeBoundsTree,
+} from "three-mesh-bvh";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
@@ -311,14 +318,13 @@ const customLayer = {
 
     // create three.js lights to illuminate the model
     const lightColor = 0xffffff;
-    
+
     const ambientLight = new AmbientLight(lightColor, 0.4);
     scene.current.add(ambientLight);
 
     const directionalLight = new DirectionalLight(lightColor);
     directionalLight.position.set(0, -70, 100).normalize();
     scene.current.add(directionalLight);
-
 
     // three.js GLTF loader
     if (false) {
@@ -334,6 +340,7 @@ const customLayer = {
       context: gl,
       antialias: true,
     });
+    this.renderer.setPixelRatio(Math.max(devicePixelRatio));
 
     this.renderer.autoClear = false;
   },
@@ -379,7 +386,6 @@ const customLayer = {
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-
 
 document
   .getElementById("building-select")
