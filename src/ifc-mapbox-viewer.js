@@ -144,7 +144,6 @@ goTo.onclick = function () {
       let buildingName = model.name;
       buildingName = buildingName.toUpperCase();
       buildingName = buildingName.replace(/ /g, "_");
-      buildingName = buildingName.replace("BUILDING", "BLDG");
       const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
       building.ifcFile[code] = ifcFile;
       index++;
@@ -345,6 +344,7 @@ const customLayer = {
 
     this.renderer.autoClear = false;
   },
+  
   render: function (gl, matrix) {
     const rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
@@ -395,6 +395,7 @@ document
     let code = selectedOption.id;
     if (code in building.loaded) {
       const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
+      // const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
       ifcLoader.load(ifcFile, (ifcModel) => {
         ifcModel.name = code;
         // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
@@ -419,11 +420,13 @@ map.current.on("style.load", () => {
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
-// async function loadIfc(url) {
-//   await viewer.IFC.setWasmPath("../");
-//   const model = await viewer.IFC.loadIfc;
-//   viewer.shadowDropper.renderShadow(model);
-// }
+async function loadIfc(scene, url) {
+  // await scene.IFC.setWasmPath("../");
+  ifcLoader.load(url, (ifcModel) => {
+    // scene.shadowDropper.renderShadow(model);
+  const model = scene.add(ifcModel);
+  });
+}
 
 function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
