@@ -227,7 +227,7 @@ a {
   flex-wrap: wrap;
   background-color: var(--primary-color-transp2);
   transition: all 0.15s ease-in;
-  justify-content: end;
+  justify-content: left;
   align-items: center;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -235,7 +235,7 @@ a {
 
 .icon {
   z-index: 5;
-  margin: 0px;
+  margin: 1.2rem 0 ;
   display: inline-block;
   cursor: pointer;
   width: 1.8rem;
@@ -243,9 +243,6 @@ a {
   fill: var(--primary-dark);
 }
 
-.nav-bar *:last-child {
-  margin-left: auto;
-}
 
 .top {
   left: 0px;
@@ -257,10 +254,16 @@ a {
 }
 
 #loader-container{
-  margin: 0.5rem;
   display: none;
   flex-direction: row;
   justify-content: center;
+}
+
+#close-nav-bar {
+  top: var(--header-heigt);
+  right:0;
+  position: absolute;
+  
 }
 
 .loader {

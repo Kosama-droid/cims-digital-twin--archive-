@@ -119303,18 +119303,18 @@ styleSelect.addEventListener("change", function () {
 
 // GUI 🖱️ _____________________________________________________________
 // Toggle Nav bar _____________________
-const locationBar = document.getElementById("selectors");
-const locationButton = document.getElementById("close-nav-bar");
-let toggleLocationBar = false;
+const navigationBar = document.getElementById("selectors");
+const navigationButton = document.getElementById("close-nav-bar");
+let togglenavigationBar = false;
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
-locationButton.onclick = function () {
-  locationBar.style.display = toggleLocationBar ? "inline-block" : "none";
-  locationButton.style.transform = toggleLocationBar ? "" : "rotate(180deg)";
-  const navBar = document.getElementById("nav-bar");
-  navBar.style.backgroundColor = toggleLocationBar ? "" : "#FFFFFF00";
-  navBar.style.boxShadow = toggleLocationBar ? "" : "none";
-  toggleLocationBar = !toggleLocationBar;
+navigationButton.onclick = function () {
+  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
+  navigationButton.style.transform = togglenavigationBar ? "" : "rotate(180deg)";
+  const navBarBackground = document.getElementById("nav-bar");
+  navBarBackground.style.backgroundColor = togglenavigationBar ? "" : "#FFFFFF00";
+  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
+  togglenavigationBar = !togglenavigationBar;
 };
 // Show OSM buildings 🏢
 osmButton.onclick = function () {
