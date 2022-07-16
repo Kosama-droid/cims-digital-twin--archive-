@@ -11,6 +11,15 @@ import {
 } from "../node_modules/three";
 import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls";
 
+import {IFCWALL,
+  IFCWALLSTANDARDCASE,
+  IFCSLAB,
+  IFCWINDOW,
+  IFCMEMBER,
+  IFCPLATE,
+  IFCCURTAINWALL,
+  IFCDOOR} from '../node_modules/web-ifc';
+
 //Creates the Three.js scene
 const scene = new Scene();
 
@@ -23,9 +32,9 @@ const size = {
 //Creates the camera (point of view of the user)
 const aspect = size.width / size.height;
 const camera = new PerspectiveCamera(40, aspect,1,100000);
-camera.position.x = -350;
-camera.position.y = 280;
-camera.position.z = 350;
+camera.position.x = 100;
+camera.position.y = 100;
+camera.position.z = 100;
 
 const cameraButton = document.getElementById("camera");
 cameraToggle = true;
@@ -104,6 +113,11 @@ for (const model of models) {
   const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
   model.ifc = ifcFile;
 }
+
+const ifcFile = `../static/public_ifc/CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc`;
+ifcLoader.load(ifcFile, (ifcModel) => {
+  scene.add(ifcModel);
+})
 
 // Get the URL parameter
 const currentURL = window.location.href;

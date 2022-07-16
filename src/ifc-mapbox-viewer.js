@@ -5,10 +5,6 @@ import { models } from "../static/data/cdc-models.js";
 
 import { IFCLoader } from "web-ifc-three/IFCLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-// import { IfcViewerAPI } from "web-ifc-viewer";
-
-// console.log(f instanceof("../static/public-ifc"))
-
 import {
   AmbientLight,
   DirectionalLight,
@@ -17,7 +13,11 @@ import {
   WebGLRenderer,
   Matrix4,
   Vector3,
+  AxesHelper,
+  MathUtils,
 } from "three";
+
+import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 import {
   acceleratedRaycast,
@@ -30,7 +30,7 @@ const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
 
 isolateSelector(selectors, "province-select", "style-select");
-isolateSelector(toolbar, "go-to", "lng", "lat");
+isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
 const province = {},
   city = {},
@@ -39,11 +39,13 @@ const province = {},
   scene = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
-  lat = { canada: 56.415 };
+  lat = { canada: 56.415 },
+  msl = { canada: 0 };
 
-// By default Carleton University → // Downsview  lng = -79.47, lat = 43.73
+// By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
 lng.current = -75.69435;
 lat.current = 45.38435;
+msl.current = 80;
 
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
@@ -128,6 +130,7 @@ const building = {
   listed: {},
   loaded: {},
 };
+
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
@@ -149,7 +152,7 @@ goTo.onclick = function () {
       index++;
     });
     sortChildren(listedBuildings);
-    isolateSelector(selectors, "building-select", "file-input", "style-select");
+    isolateSelector(selectors, "building-select", "style-select");
     isolateSelector(toolbar, "perspective", "osm", "go-to");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
@@ -159,6 +162,9 @@ goTo.onclick = function () {
     }
     if (document.getElementById("lat").value !== "") {
       lat.current = document.getElementById("lat").value;
+    }
+    if (document.getElementById("msl").value !== "") {
+      msl.current = document.getElementById("msl").value;
     }
 
     flyTo(map.current, lng.current, lat.current);
@@ -286,8 +292,10 @@ document
   });
 
 const modelOrigin = [lng.current, lat.current];
-const modelAltitude = 80;
+const modelAltitude = msl.current;
 const modelRotate = [Math.PI / 2, 0, 0];
+
+document.getElementById("toolbar");
 
 const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
   modelOrigin,
@@ -316,6 +324,32 @@ const customLayer = {
   onAdd: function (map, gl) {
     this.camera = new PerspectiveCamera();
     scene.current = new Scene();
+    const axes = new AxesHelper(10);
+    axes.material.depthTest = false;
+    axes.renderOrder = 3;
+    scene.current.add(axes);
+
+    const gui = new GUI();
+    gui.close();
+    const origingPosition = gui.addFolder("Origin position");
+    origingPosition
+      .add(scene.current.position, "z", -1000, 1000, 1)
+      .name("North-South");
+    origingPosition
+      .add(scene.current.position, "x", -1000, 1000, 1)
+      .name("West-East");
+    origingPosition
+      .add(scene.current.position, "y", -1000, 1000, 1)
+      .name("Height");
+    origingPosition
+      .add(
+        scene.current.rotation,
+        "y",
+        MathUtils.degToRad(-180),
+        MathUtils.degToRad(180),
+        MathUtils.degToRad(1)
+      )
+      .name("Rotate");
 
     // create three.js lights to illuminate the model
     const lightColor = 0xffffff;
@@ -344,7 +378,7 @@ const customLayer = {
 
     this.renderer.autoClear = false;
   },
-  
+
   render: function (gl, matrix) {
     const rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
@@ -387,6 +421,8 @@ const customLayer = {
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+const loader = document.getElementById("loader-container");
+const progressText = document.getElementById("progress-text");
 
 document
   .getElementById("building-select")
@@ -396,11 +432,25 @@ document
     if (code in building.loaded) {
       const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
       // const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
-      ifcLoader.load(ifcFile, (ifcModel) => {
-        ifcModel.name = code;
-        // scene.current.shadowDropper.renderShadow(ifcModel.modelID);
-        scene.current.add(ifcModel);
-      });
+      ifcLoader.load(
+        ifcFile,
+        (ifcModel) => {
+          ifcModel.name = code;
+          ifcModel.material.depthTest = false;
+          ifcModel.renderOrder = 2;
+          scene.current.add(ifcModel);
+          loader.style.display = "none";
+        },
+        (progress) => {
+          loader.style.display = "flex";
+          console.log(progress);
+          progressText.textContent =
+            `Loading ${selectedOption.id}: ${Math.round((progress.loaded * 100) / progress.total)}%`;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } else {
       let mesh = scene.current.getObjectByName(code);
       scene.current.remove(mesh);
@@ -424,7 +474,7 @@ async function loadIfc(scene, url) {
   // await scene.IFC.setWasmPath("../");
   ifcLoader.load(url, (ifcModel) => {
     // scene.shadowDropper.renderShadow(model);
-  const model = scene.add(ifcModel);
+    const model = scene.add(ifcModel);
   });
 }
 
@@ -502,41 +552,33 @@ function addTerrain(map) {
 }
 
 // LOAD OSM BUILDING 🏢
-function loadOSM(map, opacity = 0.9) {
+// let osmHeight = 1 *
+function loadOSM(map, opacity = 0.9, code) {
   // Insert the layer beneath any symbol layer.
   const layers = map.getStyle().layers;
   const labelLayerId = layers.find(
     (layer) => layer.type === "symbol" && layer.layout["text-field"]
   ).id;
+  // perc2color(((["get", "height"] - 3) * 100) / (66 - 3))
   map.addLayer(
     {
       id: "OSM-buildings",
       source: "composite",
       "source-layer": "building",
       filter: ["==", "extrude", "true"],
+      // filter: ["{elementId} === 671842709", "extrude", "false"],
       type: "fill-extrusion",
       minzoom: 13,
       paint: {
         "fill-extrusion-color": "#aaa",
-        // 'interpolate' expression to smooth zoom transition
         "fill-extrusion-height": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          13,
-          0,
-          15.05,
+          "match",
           ["get", "height"],
+          [66],
+          ["*", 0, ["get", "height"]],
+          ["*", 1, ["get", "height"]],
         ],
-        "fill-extrusion-base": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          13,
-          0,
-          15.05,
-          ["get", "min_height"],
-        ],
+        "fill-extrusion-base": ["get", "min_height"],
         "fill-extrusion-opacity": opacity,
       },
     },
@@ -560,4 +602,19 @@ function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
   }
+}
+
+function perc2color(perc) {
+  let r,
+    g,
+    b = 0;
+  if (perc < 50) {
+    r = 255;
+    g = Math.round(5.1 * perc);
+  } else {
+    g = 255;
+    r = Math.round(510 - 5.1 * perc);
+  }
+  let h = r * 0x10000 + g * 0x100 + b * 0x1;
+  return "#" + ("000000" + h.toString(16)).slice(-6);
 }
