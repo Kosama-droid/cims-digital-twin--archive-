@@ -235,6 +235,7 @@ a {
 
 .icon {
   z-index: 5;
+  margin: 0px;
   display: inline-block;
   cursor: pointer;
   width: 1.8rem;

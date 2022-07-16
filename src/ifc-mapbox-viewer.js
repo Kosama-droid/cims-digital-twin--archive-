@@ -189,7 +189,7 @@ goTo.onclick = function () {
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
-    isolateSelector(selectors, "building-select", "file-input");
+    isolateSelector(selectors, "building-select");
     let selectedOption = this[this.selectedIndex];
     let selectedCode = selectedOption.id;
     let selectedIndex = building.index[selectedCode];
