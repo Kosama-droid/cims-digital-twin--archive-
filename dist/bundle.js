@@ -128712,10 +128712,11 @@ const province = {},
   city = {},
   map = {},
   scene = {},
+  renderer = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
-  msl = { canada: 0 };
+  msl = { canada: 0 };
 
 // By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
 lng.current = -75.69435;
@@ -129001,6 +129002,7 @@ const customLayer = {
   renderingMode: "3d",
   onAdd: function (map, gl) {
     this.camera = new PerspectiveCamera();
+    this.camera;
     scene.current = new Scene();
     const axes = new AxesHelper(10);
     new GridHelper(10000, 100);
@@ -129041,16 +129043,22 @@ const customLayer = {
     directionalLight.position.set(0, 400, 600).normalize();
     scene.current.add(directionalLight);
 
+    // use the Mapbox GL JS map canvas for three.js
+    renderer.current = new WebGLRenderer({
+      canvas: map.getCanvas(),
+      context: gl,
+      antialias: true,
+    });
+
     // three.js GLTF loader
     // const material = new MeshBasicMaterial({color: 'white'});
     {
       const gltfloader = new GLTFLoader();
       gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-        const cdc = gltf.scene;
+        cdc = gltf.scene;
         cdc.name = "CDC";
         cdc.position.x = -485;
         cdc.position.z = 435;
-
         cdc.traverse(function (object) {
           if (object.isMesh) {
             object.material.color.r = 0.5;
@@ -129061,22 +129069,23 @@ const customLayer = {
             object.material.emissive.b = 0.5;
           }
         });
-
-        // cdc.children.forEach(children => {
-        // });
-
         scene.current.add(cdc);
+        
+        gltfloader.load("../static/public-glb/buildings-downtown2.glb", (gltf) => {
+          const buildings = gltf.scene;
+          buildings.name = "buildings downtown";
+          buildings.position.x = -485;
+          buildings.position.z = 1286;
+          buildings.position.y = -80;
+          scene.current.add(buildings);
+          console.log(buildings);
+        });
+        
+
       });
     }
 
-    // use the Mapbox GL JS map canvas for three.js
-    this.renderer = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true,
-    });
-
-    this.renderer.autoClear = false;
+    renderer.current.autoClear = false;
   },
 
   render: function (gl, matrix) {
@@ -129112,8 +129121,8 @@ const customLayer = {
       .multiply(rotationZ);
 
     this.camera.projectionMatrix = m.multiply(l);
-    this.renderer.resetState();
-    this.renderer.render(scene.current, this.camera);
+    renderer.current.resetState();
+    renderer.current.render(scene.current, this.camera);
     map.current.triggerRepaint();
   },
 };
