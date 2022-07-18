@@ -15,6 +15,7 @@ import {
   Vector3,
   AxesHelper,
   MathUtils,
+  GridHelper,
 } from "three";
 
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
@@ -101,9 +102,13 @@ const osmButton = document.getElementById("osm");
 let toggleOSM = true;
 navigationButton.onclick = function () {
   navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
-  navigationButton.style.transform = togglenavigationBar ? "" : "rotate(180deg)";
+  navigationButton.style.transform = togglenavigationBar
+    ? ""
+    : "rotate(180deg)";
   const navBarBackground = document.getElementById("nav-bar");
-  navBarBackground.style.backgroundColor = togglenavigationBar ? "" : "#FFFFFF00";
+  navBarBackground.style.backgroundColor = togglenavigationBar
+    ? ""
+    : "#FFFFFF00";
   navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
   togglenavigationBar = !togglenavigationBar;
 };
@@ -325,8 +330,10 @@ const customLayer = {
     this.camera = new PerspectiveCamera();
     scene.current = new Scene();
     const axes = new AxesHelper(10);
+    const grid = new GridHelper(10000, 100);
     axes.material.depthTest = false;
     axes.renderOrder = 3;
+    scene.current.add(grid);
     scene.current.add(axes);
 
     const gui = new GUI();
@@ -357,15 +364,35 @@ const customLayer = {
     const ambientLight = new AmbientLight(lightColor, 0.4);
     scene.current.add(ambientLight);
 
-    const directionalLight = new DirectionalLight(lightColor);
-    directionalLight.position.set(0, -70, 100).normalize();
+    const directionalLight = new DirectionalLight(lightColor, 0.9);
+    directionalLight.position.set(0, 400, 600).normalize();
     scene.current.add(directionalLight);
 
     // three.js GLTF loader
-    if (false) {
+    // const material = new MeshBasicMaterial({color: 'white'});
+    if (true) {
       const gltfloader = new GLTFLoader();
       gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-        scene.current.add(gltf.scene);
+        const cdc = gltf.scene;
+        cdc.name = "CDC";
+        cdc.position.x = -485;
+        cdc.position.z = 435;
+
+        cdc.traverse(function (object) {
+          if (object.isMesh) {
+            object.material.color.r = 0.5;
+            object.material.color.g = 0.5;
+            object.material.color.b = 0.5;
+            object.material.emissive.r = 0.5;
+            object.material.emissive.g = 0.5;
+            object.material.emissive.b = 0.5;
+          }
+        });
+
+        // cdc.children.forEach(children => {
+        // });
+
+        scene.current.add(cdc);
       });
     }
 
@@ -436,16 +463,21 @@ document
         ifcFile,
         (ifcModel) => {
           ifcModel.name = code;
-          ifcModel.material.depthTest = false;
-          ifcModel.renderOrder = 2;
+          let cdc = scene.current.getObjectByName("CDC");
           scene.current.add(ifcModel);
+          cdc.traverse(function (object) {
+            if (object.isMesh && object.name == code) {
+              object.visible = false;
+            }
+          });
+
           loader.style.display = "none";
         },
         (progress) => {
           loader.style.display = "flex";
-          console.log(progress);
-          progressText.textContent =
-            `Loading ${selectedOption.id}: ${Math.round((progress.loaded * 100) / progress.total)}%`;
+          progressText.textContent = `Loading ${
+            selectedOption.value
+          }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
         },
         (error) => {
           console.log(error);
@@ -471,7 +503,6 @@ map.current.on("style.load", () => {
 // FUNCTIONS _____________________________________________________________________________________________________
 
 async function loadIfc(scene, url) {
-  // await scene.IFC.setWasmPath("../");
   ifcLoader.load(url, (ifcModel) => {
     // scene.shadowDropper.renderShadow(model);
     const model = scene.add(ifcModel);
