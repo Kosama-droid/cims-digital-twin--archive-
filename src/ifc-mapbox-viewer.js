@@ -333,7 +333,7 @@ const customLayer = {
     const grid = new GridHelper(10000, 100);
     axes.material.depthTest = false;
     axes.renderOrder = 3;
-    scene.current.add(grid);
+    // scene.current.add(grid);
     scene.current.add(axes);
 
     const gui = new GUI();
