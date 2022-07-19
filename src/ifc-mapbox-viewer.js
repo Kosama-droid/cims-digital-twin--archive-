@@ -368,7 +368,7 @@ const customLayer = {
     // create three.js lights to illuminate the model
     const lightColor = 0xffffff;
 
-    const ambientLight = new AmbientLight(lightColor, 0.4);
+    const ambientLight = new AmbientLight(lightColor, 0.2);
     scene.current.add(ambientLight);
 
     const directionalLight = new DirectionalLight(lightColor, 0.9);
@@ -393,12 +393,8 @@ const customLayer = {
         cdc.position.z = 435
         cdc.traverse(function (object) {
           if (object.isMesh) {
-            object.material.color.r = 0.5;
-            object.material.color.g = 0.5;
-            object.material.color.b = 0.5;
-            object.material.emissive.r = 0.5;
-            object.material.emissive.g = 0.5;
-            object.material.emissive.b = 0.5;
+            object.material.flatShading = true;
+            object.material.emissive.setHex(0x555555);
             masses.push(object);
           }
         });
@@ -648,19 +644,4 @@ function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
   }
-}
-
-function perc2color(perc) {
-  let r,
-    g,
-    b = 0;
-  if (perc < 50) {
-    r = 255;
-    g = Math.round(5.1 * perc);
-  } else {
-    g = 255;
-    r = Math.round(510 - 5.1 * perc);
-  }
-  let h = r * 0x10000 + g * 0x100 + b * 0x1;
-  return "#" + ("000000" + h.toString(16)).slice(-6);
 }

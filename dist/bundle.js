@@ -129036,7 +129036,7 @@ const customLayer = {
     // create three.js lights to illuminate the model
     const lightColor = 0xffffff;
 
-    const ambientLight = new AmbientLight(lightColor, 0.4);
+    const ambientLight = new AmbientLight(lightColor, 0.2);
     scene.current.add(ambientLight);
 
     const directionalLight = new DirectionalLight(lightColor, 0.9);
@@ -129061,12 +129061,8 @@ const customLayer = {
         cdc.position.z = 435;
         cdc.traverse(function (object) {
           if (object.isMesh) {
-            object.material.color.r = 0.5;
-            object.material.color.g = 0.5;
-            object.material.color.b = 0.5;
-            object.material.emissive.r = 0.5;
-            object.material.emissive.g = 0.5;
-            object.material.emissive.b = 0.5;
+            object.material.flatShading = true;
+            object.material.emissive.setHex(0x555555);
           }
         });
         scene.current.add(cdc);
