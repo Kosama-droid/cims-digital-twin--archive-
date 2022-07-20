@@ -383,7 +383,6 @@ const customLayer = {
     });
 
     // three.js GLTF loader
-    // const material = new MeshBasicMaterial({color: 'white'});
     if (true) {
       const gltfloader = new GLTFLoader();
       gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
@@ -400,17 +399,15 @@ const customLayer = {
         });
         scene.current.add(cdc);
         
-        gltfloader.load("../static/public-glb/buildings-downtown2.glb", (gltf) => {
-          const buildings = gltf.scene;
-          buildings.name = "buildings downtown";
-          buildings.position.x = -485;
-          buildings.position.z = 1286;
-          buildings.position.y = -80;
-          scene.current.add(buildings);
-          console.log(buildings)
-        })
+        // gltfloader.load("../static/public-glb/buildings-downtown2.glb", (gltf) => {
+        //   const buildings = gltf.scene;
+        //   buildings.name = "buildings downtown";
+        //   buildings.position.x = -485;
+        //   buildings.position.z = 1286;
+        //   buildings.position.y = -80;
+        //   scene.current.add(buildings);
+        // })
         
-
       });
     }
 
@@ -473,7 +470,7 @@ document
       ifcLoader.load(
         ifcFile,
         (ifcModel) => {
-          ifcModel.name = code;
+          ifcModel.name = `ifc-${code}`;
           let cdc = scene.current.getObjectByName("CDC");
           scene.current.add(ifcModel);
           cdc.traverse(function (object) {
@@ -495,8 +492,16 @@ document
         }
       );
     } else {
-      let mesh = scene.current.getObjectByName(code);
-      scene.current.remove(mesh);
+      let ifc = scene.current.getObjectByName(`ifc-${code}`);
+      cdc.traverse(function (object) {
+        if (object.isMesh && object.name == code) {
+          object.visible = true;
+        }
+      ifc.removeFromParent();
+      console.log(ifc)
+      // ifc.material.dispose();
+      // ifc.geometry.dispose();
+      })
     }
     // Load IFC file
     const input = document.getElementById("file-input");
@@ -512,13 +517,6 @@ map.current.on("style.load", () => {
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
-
-async function loadIfc(scene, url) {
-  ifcLoader.load(url, (ifcModel) => {
-    // scene.shadowDropper.renderShadow(model);
-    const model = scene.add(ifcModel);
-  });
-}
 
 function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
