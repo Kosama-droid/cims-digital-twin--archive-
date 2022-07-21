@@ -8,8 +8,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   AmbientLight,
   DirectionalLight,
-  PerspectiveCamera,
   Scene,
+  PerspectiveCamera,
   WebGLRenderer,
   Matrix4,
   Vector2,
@@ -333,7 +333,12 @@ const customLayer = {
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
-    this.camera = new PerspectiveCamera();
+    this.camera = new PerspectiveCamera(
+      28,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1e6
+    );
     camera.current = this.camera;
     scene.current = new Scene();
     const axes = new AxesHelper(10);
@@ -382,34 +387,40 @@ const customLayer = {
       antialias: true,
     });
 
+    this.raycaster = new Raycaster();
+
     // three.js GLTF loader
-    if (true) {
-      const gltfloader = new GLTFLoader();
-      gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-        cdc = gltf.scene;
-        cdc.name = "CDC";
-        cdc.position.x = -485;
-        cdc.position.z = 435
-        cdc.traverse(function (object) {
-          if (object.isMesh) {
-            object.material.flatShading = true;
-            object.material.emissive.setHex(0x555555);
-            masses.push(object);
-          }
-        });
-        scene.current.add(cdc);
-        
-        // gltfloader.load("../static/public-glb/buildings-downtown2.glb", (gltf) => {
-        //   const buildings = gltf.scene;
-        //   buildings.name = "buildings downtown";
-        //   buildings.position.x = -485;
-        //   buildings.position.z = 1286;
-        //   buildings.position.y = -80;
-        //   scene.current.add(buildings);
-        // })
-        
+
+    const gltfloader = new GLTFLoader();
+    gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
+      cdc = gltf.scene;
+      cdc.name = "CDC";
+      cdc.position.x = -485;
+      cdc.position.z = 435;
+      cdc.traverse(function (object) {
+        if (object.isMesh) {
+          object.material.flatShading = true;
+          object.material.emissive.setHex(0x555555);
+          masses.push(object);
+        }
       });
-    }
+      scene.current.add(cdc);
+
+      // Show downtown buildings
+      if (false) {
+        gltfloader.load(
+          "../static/public-glb/buildings-downtown2.glb",
+          (gltf) => {
+            const buildings = gltf.scene;
+            buildings.name = "buildings downtown";
+            buildings.position.x = -485;
+            buildings.position.z = 1286;
+            buildings.position.y = -80;
+            scene.current.add(buildings);
+          }
+        );
+      }
+    });
 
     renderer.current.autoClear = false;
   },
@@ -497,11 +508,11 @@ document
         if (object.isMesh && object.name == code) {
           object.visible = true;
         }
-      ifc.removeFromParent();
-      console.log(ifc)
-      // ifc.material.dispose();
-      // ifc.geometry.dispose();
-      })
+        ifc.removeFromParent();
+        console.log(ifc);
+        // ifc.material.dispose();
+        // ifc.geometry.dispose();
+      });
     }
     // Load IFC file
     const input = document.getElementById("file-input");

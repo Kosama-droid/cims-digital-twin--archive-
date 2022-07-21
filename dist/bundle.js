@@ -124091,6 +124091,112 @@ PropertyBinding.prototype.SetterByBindingTypeAndVersioning = [
 
 ];
 
+class Raycaster {
+
+	constructor( origin, direction, near = 0, far = Infinity ) {
+
+		this.ray = new Ray( origin, direction );
+		// direction is assumed to be normalized (for accurate distance calculations)
+
+		this.near = near;
+		this.far = far;
+		this.camera = null;
+		this.layers = new Layers();
+
+		this.params = {
+			Mesh: {},
+			Line: { threshold: 1 },
+			LOD: {},
+			Points: { threshold: 1 },
+			Sprite: {}
+		};
+
+	}
+
+	set( origin, direction ) {
+
+		// direction is assumed to be normalized (for accurate distance calculations)
+
+		this.ray.set( origin, direction );
+
+	}
+
+	setFromCamera( coords, camera ) {
+
+		if ( camera.isPerspectiveCamera ) {
+
+			this.ray.origin.setFromMatrixPosition( camera.matrixWorld );
+			this.ray.direction.set( coords.x, coords.y, 0.5 ).unproject( camera ).sub( this.ray.origin ).normalize();
+			this.camera = camera;
+
+		} else if ( camera.isOrthographicCamera ) {
+
+			this.ray.origin.set( coords.x, coords.y, ( camera.near + camera.far ) / ( camera.near - camera.far ) ).unproject( camera ); // set origin in plane of camera
+			this.ray.direction.set( 0, 0, - 1 ).transformDirection( camera.matrixWorld );
+			this.camera = camera;
+
+		} else {
+
+			console.error( 'THREE.Raycaster: Unsupported camera type: ' + camera.type );
+
+		}
+
+	}
+
+	intersectObject( object, recursive = true, intersects = [] ) {
+
+		intersectObject( object, this, intersects, recursive );
+
+		intersects.sort( ascSort );
+
+		return intersects;
+
+	}
+
+	intersectObjects( objects, recursive = true, intersects = [] ) {
+
+		for ( let i = 0, l = objects.length; i < l; i ++ ) {
+
+			intersectObject( objects[ i ], this, intersects, recursive );
+
+		}
+
+		intersects.sort( ascSort );
+
+		return intersects;
+
+	}
+
+}
+
+function ascSort( a, b ) {
+
+	return a.distance - b.distance;
+
+}
+
+function intersectObject( object, raycaster, intersects, recursive ) {
+
+	if ( object.layers.test( raycaster.layers ) ) {
+
+		object.raycast( raycaster, intersects );
+
+	}
+
+	if ( recursive === true ) {
+
+		const children = object.children;
+
+		for ( let i = 0, l = children.length; i < l; i ++ ) {
+
+			intersectObject( children[ i ], raycaster, intersects, true );
+
+		}
+
+	}
+
+}
+
 class GridHelper extends LineSegments {
 
 	constructor( size = 10, divisions = 10, color1 = 0x444444, color2 = 0x888888 ) {
@@ -129001,7 +129107,12 @@ const customLayer = {
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
-    this.camera = new PerspectiveCamera();
+    this.camera = new PerspectiveCamera(
+      28,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1e6
+    );
     this.camera;
     scene.current = new Scene();
     const axes = new AxesHelper(10);
@@ -129050,33 +129161,24 @@ const customLayer = {
       antialias: true,
     });
 
+    this.raycaster = new Raycaster();
+
     // three.js GLTF loader
-    {
-      const gltfloader = new GLTFLoader();
-      gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-        cdc = gltf.scene;
-        cdc.name = "CDC";
-        cdc.position.x = -485;
-        cdc.position.z = 435;
-        cdc.traverse(function (object) {
-          if (object.isMesh) {
-            object.material.flatShading = true;
-            object.material.emissive.setHex(0x555555);
-          }
-        });
-        scene.current.add(cdc);
-        
-        // gltfloader.load("../static/public-glb/buildings-downtown2.glb", (gltf) => {
-        //   const buildings = gltf.scene;
-        //   buildings.name = "buildings downtown";
-        //   buildings.position.x = -485;
-        //   buildings.position.z = 1286;
-        //   buildings.position.y = -80;
-        //   scene.current.add(buildings);
-        // })
-        
+
+    const gltfloader = new GLTFLoader();
+    gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
+      cdc = gltf.scene;
+      cdc.name = "CDC";
+      cdc.position.x = -485;
+      cdc.position.z = 435;
+      cdc.traverse(function (object) {
+        if (object.isMesh) {
+          object.material.flatShading = true;
+          object.material.emissive.setHex(0x555555);
+        }
       });
-    }
+      scene.current.add(cdc);
+    });
 
     renderer.current.autoClear = false;
   },
@@ -129164,10 +129266,10 @@ document
         if (object.isMesh && object.name == code) {
           object.visible = true;
         }
-      ifc.removeFromParent();
-      console.log(ifc);
-      // ifc.material.dispose();
-      // ifc.geometry.dispose();
+        ifc.removeFromParent();
+        console.log(ifc);
+        // ifc.material.dispose();
+        // ifc.geometry.dispose();
       });
     }
     // Load IFC file

@@ -209,7 +209,7 @@ a {
   fill: var(--primary-dark);
 }
 
-.simple-card-container {
+.toolbar-container {
   display: flex;
   justify-content: center;
   position: absolute;
