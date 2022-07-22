@@ -25,7 +25,7 @@ import {
   DoubleSide,
 } from "three";
 
-import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
+// import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 import {
   acceleratedRaycast,
@@ -189,7 +189,7 @@ goTo.onclick = function () {
     });
     sortChildren(listedBuildings);
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "perspective", "osm", "go-to");
+    isolateSelector(toolbar, "osm", "go-to");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -510,8 +510,12 @@ map.on("dblclick", () => {
   loadBuildingIFC(gltfMasses.selected);  
 })
 
-map.on("contextmenu", () => {
-console.log(`Right clicked on ${gltfMasses.selected}`)
+map.on("click", () => {
+  if (window.event.ctrlKey) {
+  const baseURL = './bim-viewer.html';
+const bimURL = baseURL + `?id=${gltfMasses.selected}`;
+window.open(bimURL);
+  }
 })
 
 // Sets up the IFC loading
@@ -686,7 +690,6 @@ function hasNotCollided(intersections) {
 function highlightItem(item) {
   item.object.material = highlightMaterial;
   gltfMasses.selected = item.object.name;
-  console.log(gltfMasses.selected);
 }
 
 function isPreviousSeletion(item){

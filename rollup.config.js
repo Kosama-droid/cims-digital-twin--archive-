@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve'
 
-export default {
+export default [
+{
   input: "src/ifc-mapbox-viewer.js",
   output: [
     {
@@ -11,4 +12,17 @@ export default {
   plugins: [
     resolve(),
   ],
-};
+},
+{
+  input: "src/bim-viewer.js",
+  output: [
+    {
+    format: "esm",
+    file: "./dist/bim-viewer-bundle.js"
+    }
+  ],
+  plugins: [
+    resolve(),
+  ],
+},
+]
