@@ -29,18 +29,14 @@ import {
   import { IFCLoader } from "web-ifc-three/IFCLoader";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
   
-  // 1. The Scene
-  const scene = new Scene();
-  const canvas = document.getElementById("three-canvas");
-  
   import {
     CSS2DRenderer,
     CSS2DObject,
   } from "three/examples/jsm/renderers/CSS2DRenderer.js";
+
+ import { models, ifcFileName } from "../static/data/cdc-models.js";
   
-  import { models, ifcFileName } from "../static/data/cdc-models.js";
-  
-  // Get the URL parameter
+ // Get the URL parameter
   const currentURL = window.location.href;
   const url = new URL(currentURL);
   const currentModelCode = url.searchParams.get("id");
@@ -48,12 +44,16 @@ import {
   // // Get the current project
   // const currentProject = models.find(project => project.id == currentModelCode);
   
+  // 1. The Scene
+  const scene = new Scene();
+  const canvas = document.getElementById("three-canvas");
+  
   const axes = new AxesHelper();
   axes.material.depthTest = false;
-  axes.renderOrder = 2;
+  axes.renderOrder = 1;
   scene.add(axes);
   
-  const grid = new GridHelper();
+  const grid = new GridHelper(50, 30);
   scene.add(grid);
   
   // 2. The object
@@ -86,7 +86,6 @@ import {
   const progressText = document.getElementById("progress-text");
   let masses;
   
-  
   // 3. The camera
   const size = {
     width: window.innerWidth,
@@ -102,13 +101,25 @@ import {
   camera.lookAt(axes.position);
   
   scene.add(camera);
+
+    // 4. Lights
+  const lightColor = 0xffffff;
+
+  const ambientLight = new AmbientLight(lightColor, 0.5);
+  scene.add(ambientLight);
   
-  // 4. The renderer
-  const renderer = new WebGLRenderer({ canvas });
-  renderer.setPixelRatio(Math.max(devicePixelRatio, 2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  const directionalLight = new DirectionalLight(lightColor, 2);
+  directionalLight.position.set(0, 10, 0);
+  scene.add(directionalLight);
+    
+  // 5. The renderer
+  const threeCanvas = document.getElementById("three-canvas");
+  const renderer = new WebGLRenderer({ canvas: threeCanvas, alpha: true });
+  renderer.setSize(size.width, size.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0xffffff, 1);
   
+  // 6. Labels
   const labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
   labelRenderer.domElement.style.position = "absolute";
@@ -116,26 +127,13 @@ import {
   labelRenderer.domElement.style.top = "0";
   document.body.appendChild(labelRenderer.domElement);
   
-  // 5. Lights
-  
-  const lightColor = 0xffffff;
-
-  const ambientLight = new AmbientLight(lightColor, 0.5);
-  scene.add(ambientLight);
-  
-  const directionalLight = new DirectionalLight(lightColor, 1);
-  directionalLight.position.set(0, 10, 0);
-  directionalLight.target.position.set(-5, 0, 0);
-  scene.add(directionalLight);
-  scene.add(directionalLight.target);
-  
   // 6. Responsivity
-  
   window.addEventListener("resize", () => {
-    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    (size.width = window.innerWidth), (size.height = window.innerHeight);
+    camera.aspect = size.width / size.height;
     camera.updateProjectionMatrix();
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-    labelRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setSize(size.width / size.height, false);
+    labelRenderer.setSize(size.width / size.height);
   });
   
   // 7. Controls
