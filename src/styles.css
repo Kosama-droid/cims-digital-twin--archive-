@@ -14,20 +14,9 @@
   --header-heigt: 72px
 }
 
-#info {
-  z-index: 10;
-  display: table;
-  position: absolute;
-  right: 0;
-  bottom: 82px;
-  white-space: pre-wrap;
-  padding: 10px;
-  border-radius: 3px;
-  font-size: 0.8rem;
-  text-align: center;
-  color: #222;
-  background:var(--primary-color-transp1);
-  }
+html, body {
+  overflow: hidden;
+}
 
 input {
   z-index: 2;
@@ -286,3 +275,28 @@ a {
     transform: rotate(360deg);
   }
 }
+
+#viewer-container{
+  z-index: 0;
+  position: fixed;
+  top: var(--header-heigt);
+  left: 0;
+  outline: none;
+  width: 100%;
+  height: 100%;
+}
+
+#info {
+  z-index: 10;
+  display: table;
+  position: absolute;
+  right: 0;
+  bottom: 82px;
+  white-space: pre-wrap;
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #222;
+  background:var(--primary-color-transp1);
+  }
