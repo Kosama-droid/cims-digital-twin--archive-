@@ -45,6 +45,15 @@ let camera = {};
 let map = {};
 let renderer = {};
 let raycaster = {};
+let previousSelection = {
+  mesh: null,
+  material: null,
+};
+const highlightMaterial = new MeshStandardMaterial({
+  color: 0xffff70,
+  flatShading: true,
+  side: DoubleSide,
+});
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 const province = {},
@@ -57,7 +66,12 @@ const province = {},
   masses = [];
 
 let gltfMasses = {};
-const massesMaterial = new MeshStandardMaterial({color: 0x555555, flatShading: true, side: DoubleSide, emissive : 0x555555})
+const massesMaterial = new MeshStandardMaterial({
+  color: 0x555555,
+  flatShading: true,
+  side: DoubleSide,
+  emissive: 0x555555,
+});
 let massCode = "";
 
 // By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
@@ -465,49 +479,40 @@ const customLayer = {
     map.triggerRepaint();
 
     const freeCamera = map.getFreeCameraOptions();
-    let cameraPosition = new Vector4(freeCamera.position.x, freeCamera.position.y, freeCamera.position.z, 1);
+    let cameraPosition = new Vector4(
+      freeCamera.position.x,
+      freeCamera.position.y,
+      freeCamera.position.z,
+      1
+    );
     cameraPosition.applyMatrix4(l.invert());
-    let direction = mouse.clone().applyMatrix4(camera.projectionMatrix.clone().invert());
+    let direction = mouse
+      .clone()
+      .applyMatrix4(camera.projectionMatrix.clone().invert());
     direction.divideScalar(direction.w);
     raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
-    
-    const intersects = raycaster.intersectObjects( masses );
-    
-    const highlight = new MeshStandardMaterial({color: 0xffff70, flatShading: true, side: DoubleSide})      
-    for ( let i = 0; i < intersects.length; i ++ ) {
-      let code = intersects[i].object.name;
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == code) {
-          if (massCode === "" || massCode !== object.name){
-            massCode = object.name;
-            console.log(massCode)
-            return
-          }
-          else{
-          object.material = highlight;
-          };        
-        }
-      });
+
+    const intersections = raycaster.intersectObjects(masses);
+
+    if (hasNotCollided(intersections)) {
+      restorePreviousSelection();
+      return;
     }
+
+    const foundItem = intersections[0];
+
+    if(isPreviousSeletion(foundItem)) return;
     
+    restorePreviousSelection()
+    savePreviousSelectio(foundItem)
+    highlightItem(foundItem)
+
     renderer.render(scene, camera);
-    
-    for ( let i = 0; i < intersects.length; i ++ ) {
-      let code = intersects[i].object.name;
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == code) {
-          object.material = massesMaterial;
-        }
-      });
-    }
-
-
-  },  
+  },
 };
 
-map.on("mousemove", (e) => {
-  mouse.x = (e.point.x / map.transform.width) * 2 - 1;
-  mouse.y = 1 - (e.point.y / map.transform.height) * 2;
+map.on("mousemove", (event) => {
+  getMousePosition(event);
   map.triggerRepaint();
 });
 
@@ -668,13 +673,7 @@ function loadOSM(map, opacity = 0.9, code) {
       minzoom: 13,
       paint: {
         "fill-extrusion-color": "#aaa",
-        "fill-extrusion-height": [
-          "match",
-          ["get", "height"],
-          [66],
-          ["*", 0, ["get", "height"]],
-          ["*", 1, ["get", "height"]],
-        ],
+        "fill-extrusion-height": ["get", "height"],
         "fill-extrusion-base": ["get", "min_height"],
         "fill-extrusion-opacity": opacity,
       },
@@ -699,4 +698,36 @@ function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
   }
+}
+
+// Raycasting
+function getMousePosition(event) {
+  mouse.x = (event.point.x / map.transform.width) * 2 - 1;
+  mouse.y = 1 - (event.point.y / map.transform.height) * 2;
+}
+
+function hasNotCollided(intersections) {
+  return intersections.length === 0;
+}
+
+function highlightItem(item) {
+  item.object.material = highlightMaterial;
+  console.log(item.object.name);
+}
+
+function isPreviousSeletion(item){
+  return previousSelection.mesh === item.object;
+}
+
+function restorePreviousSelection() {
+  if(previousSelection.mesh){
+    previousSelection.mesh.material = previousSelection.material;
+    previousSelection.mesh = null;
+    previousSelection.material = null;
+  }
+}
+
+function savePreviousSelectio(item) {
+  previousSelection.mesh = item.object;
+  previousSelection.material = item.object.material;
 }
