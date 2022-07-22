@@ -129251,11 +129251,14 @@ map.on("mousemove", (event) => {
   map.triggerRepaint();
 });
 
-map.on("dblclick", (event) => {
-  getMousePosition(event);
+map.on("dblclick", () => {
   updateSelectBldgMenu(gltfMasses.selected);
   isolateSelector(selectors, "building-select");
   loadBuildingIFC(gltfMasses.selected);  
+});
+
+map.on("contextmenu", () => {
+console.log(`Right clicked on ${gltfMasses.selected}`);
 });
 
 // Sets up the IFC loading
