@@ -506,7 +506,8 @@ map.on("mousemove", (event) => {
 
 map.on("dblclick", (event) => {
   getMousePosition(event);
-  updateSelectBldgMenu(gltfMasses.selected)
+  updateSelectBldgMenu(gltfMasses.selected);
+  isolateSelector(selectors, "building-select");
   loadBuildingIFC(gltfMasses.selected);  
 })
 
