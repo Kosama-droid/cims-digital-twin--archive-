@@ -14,11 +14,15 @@ import {
   Matrix4,
   Vector2,
   Vector3,
+  Vector4,
   AxesHelper,
   MathUtils,
   GridHelper,
   Raycaster,
   CSS2DObject,
+  MeshLambertMaterial,
+  MeshStandardMaterial,
+  DoubleSide,
 } from "three";
 
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
@@ -36,18 +40,25 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
+let scene = {};
+let camera = {};
+let map = {};
+let renderer = {};
+let raycaster = {};
+
+const mouse = new Vector4(-1000, -1000, 1, 1);
 const province = {},
   city = {},
   site = {},
-  map = {},
-  scene = {},
-  camera = {},
-  renderer = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
+
+let gltfMasses = {};
+const massesMaterial = new MeshStandardMaterial({color: 0x555555, flatShading: true, side: DoubleSide, emissive : 0x555555})
+let massCode = "";
 
 // By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
 lng.current = -75.69435;
@@ -57,7 +68,7 @@ msl.current = 80;
 // MAPBOX 🗺️📦 _________________________________________________________________________________________
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
-map.current = new mapboxgl.Map({
+map = new mapboxgl.Map({
   container: "map", // container ID
   style: mapStyles[1].url,
   center: [lng.canada, lat.canada], // starting position [lng, lat]
@@ -67,17 +78,17 @@ map.current = new mapboxgl.Map({
   projection: "globe", // display the map as a 3D globe
 });
 // Day sky
-map.current.on("style.load", () => {
+map.on("style.load", () => {
   // Set the default atmosphere style
   // add sky styling with `setFog` that will show when the map is highly pitched
-  map.current.setFog({
+  map.setFog({
     "horizon-blend": 0.3,
     color: "#f8f0e3",
     "high-color": "#add8e6",
     "space-color": "#d8f2ff",
     "star-intensity": 0.0,
   });
-  addTerrain(map.current);
+  addTerrain(map);
 });
 
 // Select map style 🗺️🎨 ___________________________________________________
@@ -95,8 +106,8 @@ sortChildren(styleSelect);
 styleSelect.addEventListener("change", function () {
   const selectedStyle = styleNames.indexOf(this.value);
   const url = mapStyles[selectedStyle].url;
-  map.current.setStyle(url);
-  map.current.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+  map.setStyle(url);
+  map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
 });
 
 // GUI 🖱️ _____________________________________________________________
@@ -120,12 +131,12 @@ navigationButton.onclick = function () {
 };
 // Show OSM buildings 🏢
 osmButton.onclick = function () {
-  let layer = map.current.getLayer("OSM-buildings");
+  let layer = map.getLayer("OSM-buildings");
   if (toggleOSM) {
-    loadOSM(map.current, 0.9);
+    loadOSM(map, 0.9);
     this.setAttribute("title", "Hide OSM Buildings");
   } else {
-    map.current.removeLayer("OSM-buildings");
+    map.removeLayer("OSM-buildings");
   }
   toggleOSM = !toggleOSM;
 };
@@ -178,17 +189,17 @@ goTo.onclick = function () {
       msl.current = document.getElementById("msl").value;
     }
 
-    flyTo(map.current, lng.current, lat.current);
-    if (map.current.getSource("geoJson") !== undefined) {
-      map.current.removeLayer("geoJson-fill");
-      map.current.removeLayer("geoJson-outline");
-      map.current.removeSource("geoJson");
+    flyTo(map, lng.current, lat.current);
+    if (map.getSource("geoJson") !== undefined) {
+      map.removeLayer("geoJson-fill");
+      map.removeLayer("geoJson-outline");
+      map.removeSource("geoJson");
     }
   } else {
     // Fly to Canada or reset page🛬🍁 ____________________________________________________
-    deleteChildren(scene.current);
-    flyTo(map.current, lng.canada, lat.canada, 4, 0);
-    map.current.setStyle(mapStyles[1].url);
+    deleteChildren(scene);
+    flyTo(map, lng.canada, lat.canada, 4, 0);
+    map.setStyle(mapStyles[1].url);
     setTimeout(function () {
       location.reload();
     }, 2100);
@@ -248,10 +259,10 @@ document
     ).then((provinceGeojson) => {
       geoJson.current = provinceGeojson;
       let id = province.term;
-      loadGeojson(map.current, geoJson.current, "geoJson");
-      geoJson.source = map.current.getSource("geoJson");
-      geoJson.fill = map.current.getLayer("geoJson-fill");
-      geoJson.outline = map.current.getLayer("geoJson-outline");
+      loadGeojson(map, geoJson.current, "geoJson");
+      geoJson.source = map.getSource("geoJson");
+      geoJson.fill = map.getLayer("geoJson-fill");
+      geoJson.outline = map.getLayer("geoJson-outline");
       isolateSelector(selectors, "city-select", "style-select");
     });
 
@@ -290,12 +301,12 @@ document
           isolateSelector(toolbar, "osm", "go-to", "lng", "lat");
           geoJson.current = cityGeojson;
           geoJson.bbox = turf.bbox(cityGeojson);
-          map.current.fitBounds(geoJson.bbox);
+          map.fitBounds(geoJson.bbox);
           geoJson.source.setData(geoJson.current);
           document
             .getElementById("site-select")
             .addEventListener("click", function () {
-              removeGeojson(map.current, "geoJson");
+              removeGeojson(map, "geoJson");
             });
         });
       });
@@ -333,78 +344,29 @@ const customLayer = {
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
-    this.camera = new PerspectiveCamera(
-      28,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1e6
-    );
-    camera.current = this.camera;
-    scene.current = new Scene();
+    camera = new PerspectiveCamera();
+    scene = new Scene();
     const axes = new AxesHelper(10);
     const grid = new GridHelper(10000, 100);
     axes.material.depthTest = false;
     axes.renderOrder = 3;
-    // scene.current.add(grid);
-    scene.current.add(axes);
-
-    const gui = new GUI();
-    gui.close();
-    const origingPosition = gui.addFolder("Origin position");
-    origingPosition
-      .add(scene.current.position, "z", -1000, 1000, 1)
-      .name("North-South");
-    origingPosition
-      .add(scene.current.position, "x", -1000, 1000, 1)
-      .name("West-East");
-    origingPosition
-      .add(scene.current.position, "y", -1000, 1000, 1)
-      .name("Height");
-    origingPosition
-      .add(
-        scene.current.rotation,
-        "y",
-        MathUtils.degToRad(-180),
-        MathUtils.degToRad(180),
-        MathUtils.degToRad(1)
-      )
-      .name("Rotate");
-
-    // create three.js lights to illuminate the model
-    const lightColor = 0xffffff;
-
-    const ambientLight = new AmbientLight(lightColor, 0.2);
-    scene.current.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(lightColor, 0.9);
-    directionalLight.position.set(0, 400, 600).normalize();
-    scene.current.add(directionalLight);
-
-    // use the Mapbox GL JS map canvas for three.js
-    renderer.current = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true,
-    });
-
-    this.raycaster = new Raycaster();
+    // scene.add(grid);
+    scene.add(axes);
 
     // three.js GLTF loader
-
     const gltfloader = new GLTFLoader();
     gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
-      cdc = gltf.scene;
-      cdc.name = "CDC";
-      cdc.position.x = -485;
-      cdc.position.z = 435;
-      cdc.traverse(function (object) {
+      gltfMasses = gltf.scene;
+      gltfMasses.name = "gltf-masses";
+      gltfMasses.position.x = -485;
+      gltfMasses.position.z = 435;
+      gltfMasses.traverse(function (object) {
         if (object.isMesh) {
-          object.material.flatShading = true;
-          object.material.emissive.setHex(0x555555);
+          object.material = massesMaterial;
           masses.push(object);
         }
       });
-      scene.current.add(cdc);
+      scene.add(gltfMasses);
 
       // Show downtown buildings
       if (false) {
@@ -416,13 +378,53 @@ const customLayer = {
             buildings.position.x = -485;
             buildings.position.z = 1286;
             buildings.position.y = -80;
-            scene.current.add(buildings);
+            scene.add(buildings);
           }
         );
       }
     });
 
-    renderer.current.autoClear = false;
+    // const gui = new GUI();
+    // gui.close();
+    // const origingPosition = gui.addFolder("Origin position");
+    // origingPosition
+    //   .add(scene.position, "z", -1000, 1000, 1)
+    //   .name("North-South");
+    // origingPosition
+    //   .add(scene.position, "x", -1000, 1000, 1)
+    //   .name("West-East");
+    // origingPosition
+    //   .add(scene.position, "y", -1000, 1000, 1)
+    //   .name("Height");
+    // origingPosition
+    //   .add(
+    //     scene.rotation,
+    //     "y",
+    //     MathUtils.degToRad(-180),
+    //     MathUtils.degToRad(180),
+    //     MathUtils.degToRad(1)
+    //   )
+    //   .name("Rotate");
+
+    // create three.js lights to illuminate the model
+
+    const lightColor = 0xffffff;
+    const ambientLight = new AmbientLight(lightColor, 0.2);
+    scene.add(ambientLight);
+
+    const directionalLight = new DirectionalLight(lightColor, 0.9);
+    directionalLight.position.set(0, 400, 600).normalize();
+    scene.add(directionalLight);
+
+    // use the Mapbox GL JS map canvas for three.js
+    renderer = new WebGLRenderer({
+      canvas: map.getCanvas(),
+      context: gl,
+      antialias: true,
+    });
+    renderer.autoClear = false;
+
+    raycaster = new Raycaster();
   },
 
   render: function (gl, matrix) {
@@ -457,12 +459,57 @@ const customLayer = {
       .multiply(rotationY)
       .multiply(rotationZ);
 
-    this.camera.projectionMatrix = m.multiply(l);
-    renderer.current.resetState();
-    renderer.current.render(scene.current, this.camera);
-    map.current.triggerRepaint();
-  },
+    camera.projectionMatrix = m.multiply(l);
+    renderer.resetState();
+    renderer.render(scene, camera);
+    map.triggerRepaint();
+
+    const freeCamera = map.getFreeCameraOptions();
+    let cameraPosition = new Vector4(freeCamera.position.x, freeCamera.position.y, freeCamera.position.z, 1);
+    cameraPosition.applyMatrix4(l.invert());
+    let direction = mouse.clone().applyMatrix4(camera.projectionMatrix.clone().invert());
+    direction.divideScalar(direction.w);
+    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
+    
+    const intersects = raycaster.intersectObjects( masses );
+    
+    const highlight = new MeshStandardMaterial({color: 0xffff70, flatShading: true, side: DoubleSide})      
+    for ( let i = 0; i < intersects.length; i ++ ) {
+      let code = intersects[i].object.name;
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh && object.name == code) {
+          if (massCode === "" || massCode !== object.name){
+            massCode = object.name;
+            console.log(massCode)
+            return
+          }
+          else{
+          object.material = highlight;
+          };        
+        }
+      });
+    }
+    
+    renderer.render(scene, camera);
+    
+    for ( let i = 0; i < intersects.length; i ++ ) {
+      let code = intersects[i].object.name;
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh && object.name == code) {
+          object.material = massesMaterial;
+        }
+      });
+    }
+
+
+  },  
 };
+
+map.on("mousemove", (e) => {
+  mouse.x = (e.point.x / map.transform.width) * 2 - 1;
+  mouse.y = 1 - (e.point.y / map.transform.height) * 2;
+  map.triggerRepaint();
+});
 
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
@@ -482,9 +529,8 @@ document
         ifcFile,
         (ifcModel) => {
           ifcModel.name = `ifc-${code}`;
-          let cdc = scene.current.getObjectByName("CDC");
-          scene.current.add(ifcModel);
-          cdc.traverse(function (object) {
+          scene.add(ifcModel);
+          gltfMasses.traverse(function (object) {
             if (object.isMesh && object.name == code) {
               object.visible = false;
             }
@@ -503,8 +549,8 @@ document
         }
       );
     } else {
-      let ifc = scene.current.getObjectByName(`ifc-${code}`);
-      cdc.traverse(function (object) {
+      let ifc = scene.getObjectByName(`ifc-${code}`);
+      gltfMasses.traverse(function (object) {
         if (object.isMesh && object.name == code) {
           object.visible = true;
         }
@@ -519,12 +565,12 @@ document
     input.addEventListener("change", (changed) => {
       const file = changed.target.files[0];
       var ifcURL = URL.createObjectURL(file);
-      ifcLoader.load(ifcURL, (ifcModel) => scene.current.add(ifcModel));
+      ifcLoader.load(ifcURL, (ifcModel) => scene.add(ifcModel));
     });
   });
 
-map.current.on("style.load", () => {
-  map.current.addLayer(customLayer, "waterway-label");
+map.on("style.load", () => {
+  map.addLayer(customLayer, "waterway-label");
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________

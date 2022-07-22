@@ -126,6 +126,7 @@ a {
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+  pointer-events: all;
 }
 
 .toolbar a {
@@ -214,6 +215,7 @@ a {
   justify-content: center;
   position: absolute;
   width: 100%;
+  pointer-events: none;
 }
 
 .nav-bar {
