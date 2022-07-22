@@ -129263,6 +129263,12 @@ map.on("mousemove", (event) => {
   map.triggerRepaint();
 });
 
+map.on("dblclick", (event) => {
+  getMousePosition(event);
+  console.log(`Double clicked on: ${gltfMasses.selected}`);
+  loadBuildingIFC(gltfMasses.selected);
+});
+
 // Sets up the IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
@@ -129275,31 +129281,7 @@ document
     let selectedOption = this[this.selectedIndex];
     let code = selectedOption.id;
     if (code in building.loaded) {
-      const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
-      // const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
-      ifcLoader.load(
-        ifcFile,
-        (ifcModel) => {
-          ifcModel.name = `ifc-${code}`;
-          scene.add(ifcModel);
-          gltfMasses.traverse(function (object) {
-            if (object.isMesh && object.name == code) {
-              object.visible = false;
-            }
-          });
-
-          loader.style.display = "none";
-        },
-        (progress) => {
-          loader.style.display = "flex";
-          progressText.textContent = `Loading ${
-            selectedOption.value
-          }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+loadBuildingIFC(code);
     } else {
       let ifc = scene.getObjectByName(`ifc-${code}`);
       gltfMasses.traverse(function (object) {
@@ -129459,7 +129441,8 @@ function hasNotCollided(intersections) {
 
 function highlightItem(item) {
   item.object.material = highlightMaterial;
-  console.log(item.object.name);
+  gltfMasses.selected = item.object.name;
+  console.log(gltfMasses.selected);
 }
 
 function isPreviousSeletion(item){
@@ -129477,4 +129460,32 @@ function restorePreviousSelection() {
 function savePreviousSelectio(item) {
   previousSelection.mesh = item.object;
   previousSelection.material = item.object.material;
+}
+
+function loadBuildingIFC(code) {
+const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
+// const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
+let option = document.getElementById("building-select");
+selectedOption = option[option.selectedIndex].value;
+ifcLoader.load(
+  ifcFile,
+  (ifcModel) => {
+    ifcModel.name = `ifc-${code}`;
+    scene.add(ifcModel);
+    gltfMasses.traverse(function (object) {
+      if (object.isMesh && object.name == code) {
+        object.visible = false;
+      }
+    });
+
+    loader.style.display = "none";
+  },
+  (progress) => {
+    loader.style.display = "flex";
+    progressText.textContent = `Loading ${ selectedOption }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
+  },
+  (error) => {
+    console.log(error);
+  }
+);
 }
