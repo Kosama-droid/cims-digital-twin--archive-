@@ -5,7 +5,8 @@
   },
   "dependencies": {
     "camera-controls": "^1.35.0",
-    "three": "^0.142.0",
+    "cpy-cli": "^4.1.0",
+    "three": "^0.135.0",
     "web-ifc-three": "^0.0.117"
   },
   "name": "ifc-js-crash-course",
@@ -14,7 +15,9 @@
   "main": "model-viewer.js",
   "scripts": {
     "build": "rollup -c ./rollup.config.js",
-    "watch": "rollup -w -c ./rollup.config.js"
+    "watch": "rollup -w -c ./rollup.config.js",
+    "update-ifcjs": "npm i web-ifc-three@latest && npm i && copy-wasm",
+    "copy-wasm": "cpy node_modules/web-ifc/web-ifc.wasm . && cpy node_modules/web-ifc/web-ifc-mt.wasm ."
   },
   "repository": {
     "type": "git",

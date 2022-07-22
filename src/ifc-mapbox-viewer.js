@@ -3,7 +3,7 @@ import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
 import { models } from "../static/data/cdc-models.js";
 
-import { IFCLoader } from "web-ifc-three/IFCLoader";
+import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   AmbientLight,
