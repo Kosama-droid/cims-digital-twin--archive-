@@ -228,19 +228,7 @@ document
     isolateSelector(selectors, "building-select");
     let selectedOption = this[this.selectedIndex];
     let selectedCode = selectedOption.id;
-    let selectedIndex = building.index[selectedCode];
-    building.current = models[selectedIndex];
-    if (!(building.current.code in building.loaded)) {
-      delete building.listed[building.current.code];
-      building.loaded[building.current.code] = building.current.name;
-      loadedBuildings.appendChild(selectedOption);
-      sortChildren(loadedBuildings);
-    } else {
-      delete building.loaded[building.current.code];
-      building.listed[building.current.code] = building.current.name;
-      listedBuildings.appendChild(selectedOption);
-      sortChildren(listedBuildings);
-    }
+    updateSelectBldgMenu(selectedCode)
   });
 
 document.getElementById("building-select").onclick = function () {
@@ -518,8 +506,8 @@ map.on("mousemove", (event) => {
 
 map.on("dblclick", (event) => {
   getMousePosition(event);
-  console.log(`Double clicked on: ${gltfMasses.selected}`)
-  loadBuildingIFC(gltfMasses.selected);
+  updateSelectBldgMenu(gltfMasses.selected)
+  loadBuildingIFC(gltfMasses.selected);  
 })
 
 // Sets up the IFC loading
@@ -542,7 +530,6 @@ loadBuildingIFC(code);
           object.visible = true;
         }
         ifc.removeFromParent();
-        console.log(ifc);
         // ifc.material.dispose();
         // ifc.geometry.dispose();
       });
@@ -718,8 +705,7 @@ function savePreviousSelectio(item) {
 function loadBuildingIFC(code) {
 const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
 // const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
-let option = document.getElementById("building-select")
-selectedOption = option[option.selectedIndex].value
+let selectedOption = document.getElementById(code).value
 ifcLoader.load(
   ifcFile,
   (ifcModel) => {
@@ -742,3 +728,20 @@ ifcLoader.load(
   }
 );
 }
+
+function updateSelectBldgMenu(bldgCode) {
+  let selectedOption = document.getElementById(bldgCode)
+    let selectedIndex = building.index[bldgCode];
+    building.current = models[selectedIndex];
+    if (!(building.current.code in building.loaded)) {
+      delete building.listed[building.current.code];
+      building.loaded[building.current.code] = building.current.name;
+      loadedBuildings.appendChild(selectedOption);
+      sortChildren(loadedBuildings);
+    } else {
+      delete building.loaded[building.current.code];
+      building.listed[building.current.code] = building.current.name;
+      listedBuildings.appendChild(selectedOption);
+      sortChildren(listedBuildings);
+    }
+  }
