@@ -81,7 +81,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 //Creates grids and axes in the scene
 const grid = new GridHelper(50, 30);
-scene.add(grid);
+// scene.add(grid);
 
 const axes = new AxesHelper();
 axes.material.depthTest = false;
@@ -172,16 +172,23 @@ function cast(event) {
   return found;
 }
 
-const highlightMateral = new MeshLambertMaterial({
+const hoverHighlihgtMateral = new MeshLambertMaterial({
   transparent: true,
   opacity: 0.6,
   color: 0xffff70,
   depthTest: false,
 });
 
+const pickHighlihgtMateral = new MeshLambertMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff00,
+  depthTest: false,
+});
+
 let lastModel;
 
-function pick(event) {
+function highlight(event, material) {
   const found = cast(event);
   if (found) {
       const index = found.faceIndex;
@@ -192,19 +199,21 @@ function pick(event) {
 
       ifcLoader.ifcManager.createSubset({
         modelID: found.object.modelID,
-        material: highlightMateral,
+        material: material,
         ids: [id],
         scene,
         removePrevious: true
       });
   }
   else if(lastModel) {
-    ifcLoader.ifcManager.removeSubset(lastModel.modelID, highlightMateral)
+    ifcLoader.ifcManager.removeSubset(lastModel.modelID, material)
     lastModel = undefined;
   }
 }
 
-threeCanvas.ondblclick = (event) => pick(event);
+threeCanvas.ondblclick = (event) => highlight(event, pickHighlihgtMateral);
+threeCanvas.onmousemove = (event) => highlight(event, hoverHighlihgtMateral);
+
   
   // 8. Picking & Labeling
   
