@@ -101314,7 +101314,7 @@ const pickHighlihgtMateral = new MeshBasicMaterial({
 
 let lastModel;
 
-function highlight(event, material) {
+async function highlight(event, material, getProps) {
   const found = cast(event);
   if (found) {
       const index = found.faceIndex;
@@ -101322,6 +101322,11 @@ function highlight(event, material) {
       const geometry = found.object.geometry;
       const ifc = ifcLoader.ifcManager;
       const id = ifc.getExpressId(geometry, index);
+      
+      if (getProps) {
+      const props = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id);
+      console.log(props);
+      }
 
       ifcLoader.ifcManager.createSubset({
         modelID: found.object.modelID,
@@ -101337,8 +101342,8 @@ function highlight(event, material) {
   }
 }
 
-threeCanvas.ondblclick = (event) => highlight(event, pickHighlihgtMateral);
-threeCanvas.onmousemove = (event) => highlight(event, hoverHighlihgtMateral);
+threeCanvas.ondblclick = (event) => highlight(event, pickHighlihgtMateral, true);
+threeCanvas.onmousemove = (event) => highlight(event, hoverHighlihgtMateral, false);
 
   
   // 8. Picking & Labeling
