@@ -14,11 +14,23 @@ export default [
   ],
 },
 {
+  input: "src/bim-viewer-wiv.js",
+  output: [
+    {
+    format: "esm",
+    file: "./dist/bim-viewer-wiv-bundle.js"
+    }
+  ],
+  plugins: [
+    resolve(),
+  ],
+},
+{
   input: "src/bim-viewer-wit.js",
   output: [
     {
     format: "esm",
-    file: "./dist/bim-viewer-bundle.js"
+    file: "./dist/bim-viewer-wit-bundle.js"
     }
   ],
   plugins: [
