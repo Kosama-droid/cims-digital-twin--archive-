@@ -20,7 +20,7 @@ import {
     GridHelper,
     EdgesGeometry,
     LineBasicMaterial,
-    MeshLambertMaterial,
+    MeshBasicMaterial,
     LineSegments,
   } from "three";
   import CameraControls from "camera-controls";
@@ -60,7 +60,7 @@ const size = {
 //Creates the camera (point of view of the user)
 const camera = new PerspectiveCamera(75, size.width / size.height);
 camera.position.z = 15;
-camera.position.y = 13;
+camera.position.y = 25;
 camera.position.x = 8;
 
 //Creates the lights of the scene
@@ -172,17 +172,17 @@ function cast(event) {
   return found;
 }
 
-const hoverHighlihgtMateral = new MeshLambertMaterial({
+const hoverHighlihgtMateral = new MeshBasicMaterial({
   transparent: true,
   opacity: 0.6,
-  color: 0xffff70,
+  color: 0xffff90,
   depthTest: false,
 });
 
-const pickHighlihgtMateral = new MeshLambertMaterial({
+const pickHighlihgtMateral = new MeshBasicMaterial({
   transparent: true,
   opacity: 0.6,
-  color: 0xffff00,
+  color: 0xffff30,
   depthTest: false,
 });
 
