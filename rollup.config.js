@@ -14,7 +14,7 @@ export default [
   ],
 },
 {
-  input: "src/bim-viewer.js",
+  input: "src/bim-viewer-wit.js",
   output: [
     {
     format: "esm",
