@@ -29,6 +29,8 @@ import {
   import { IFCLoader } from "web-ifc-three/IFCLoader";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
   
+  import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from "three-mesh-bvh";
+
   import {
     CSS2DRenderer,
     CSS2DObject,

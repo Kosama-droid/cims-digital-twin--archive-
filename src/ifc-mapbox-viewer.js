@@ -189,7 +189,7 @@ goTo.onclick = function () {
     });
     sortChildren(listedBuildings);
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "osm", "go-to");
+    isolateSelector(toolbar,  "go-to", "osm", "bim");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -493,7 +493,7 @@ const customLayer = {
     
     restorePreviousSelection()
     savePreviousSelectio(foundItem)
-    highlightItem(foundItem)
+    highlightItem(foundItem) 
 
     renderer.render(scene, camera);
   },
@@ -505,15 +505,18 @@ map.on("mousemove", (event) => {
 });
 
 map.on("dblclick", () => {
-  updateSelectBldgMenu(gltfMasses.selected);
+  updateSelectBldgMenu(gltfMasses.selected.code);
   isolateSelector(selectors, "building-select");
-  loadBuildingIFC(gltfMasses.selected);  
+  loadBuildingIFC(gltfMasses.selected.code);  
 })
 
+const bimViewerURL = './bim-viewer.html';
+let bimURL = './bim-viewer.html';
 map.on("click", () => {
+  bimURL = bimViewerURL + `?id=${gltfMasses.selected.code}`;
+  console.log(`${gltfMasses.selected.code} selected`)
+  document.getElementById("bim").addEventListener('click', () => window.open(bimURL))
   if (window.event.ctrlKey) {
-  const baseURL = './bim-viewer.html';
-const bimURL = baseURL + `?id=${gltfMasses.selected}`;
 window.open(bimURL);
   }
 })
@@ -686,7 +689,8 @@ function hasNotCollided(intersections) {
 
 function highlightItem(item) {
   item.object.material = highlightMaterial;
-  gltfMasses.selected = item.object.name;
+  gltfMasses.selected = item
+  gltfMasses.selected.code = item.object.name;
 }
 
 function isPreviousSeletion(item){
