@@ -251,514 +251,111 @@ const mapStyles = [
     // },
 ];
 
-const models = [
-  {
-    name: "Maintenance and Grounds Bldg",
-    number: 11,
-    code: "MB",
-    id: "11.MB",
-    authors: "Reem, Nico",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/MB",
-  },
-  {
-    name: "Athletics Alumni and Fieldhouse",
-    number: 9,
-    code: "AC",
-    id: "9.AC",
-    authors: "Marco",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/AC",
-  },
-  {
-    name: "Dunton Tower",
-    number: 21,
-    code: "DT",
-    id: "21.DT",
-    authors: "Nico (2020), Jennii  Yu & Alex Fiori (DCI 2013), Kitty",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/DT",
-  },
-  {
-    name: "Nesbitt Biology Bldg",
-    number: 16,
-    code: "NB",
-    id: "16.NB",
-    authors:
-      "DCI - (Diamond Donald Schmitt and Katz Webster Clancey Architects)",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/NB",
-  },
-  {
-    name: "Bldg 22",
-    number: 22,
-    code: "AA",
-    id: "22.AA",
-    authors: "Nico, DCI",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/AA",
-  },
-  {
-    name: "Arise",
-    number: 25,
-    code: "AR",
-    id: "25.AR",
-    authors: "MontgomerySisam Architects",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/AR",
-  },
-  {
-    name: "Azrieli Pavilion",
-    number: 32,
-    code: "AP",
-    id: "32.AP",
-    authors: "Freed",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/AP",
-  },
-  {
-    name: "Azrieli Theatre",
-    number: 31,
-    code: "AT",
-    id: "31.AT",
-    authors: "Nico, Kitty",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/AT",
-  },
-  {
-    name: "Canal Bldg",
-    number: 42,
-    code: "CB",
-    id: "42.CB",
-    authors:
-      "DCI (Katy, Bassam) - GRC architects / Moriyama and Teshima Architects",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CB",
-  },
+const IfcPath$1 = "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/";
 
-  {
-    name: "Health Sciences Bldg",
-    number: 49,
-    code: "HS",
-    id: "49.HS",
-    authors: "MontgomerySisam Architects",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/HS",
-  },
-  {
-    name: "Hezberg Laboratories",
-    number: 13,
-    code: "HP",
-    id: "13.HP",
-    authors: "Freed, Cali, Kitty, Yasmine",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/HP",
-  },
-  {
-    name: "Loeb Bldg",
-    number: 15,
-    code: "LA",
-    id: "15.LA",
-    authors: "Cali, Kitty",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/LA",
-  },
-  {
-    name: "Mackenzie",
-    number: 10,
-    code: "ME",
-    id: "10.ME",
-    authors: "DCI",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/ME",
-  },
-  {
-    name: "Macodrum Library",
-    number: 2,
-    code: "ML",
-    id: "2.ML",
-    authors: "Jessica Babe",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/ML",
-  },
-  {
-    name: "Minto Centre",
-    number: 27,
-    code: "MC",
-    id: "27.MC",
-    authors: "Marco, Ruth Xing (DCI 2014)",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/MC",
-  },
-  {
-    name: "Nicol Bldg",
-    number: 51,
-    code: "NI",
-    id: "51.NI",
-    authors: "Harari Pontarini Architects",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/NI",
-  },
-  {
-    name: "Paterson Hall",
-    number: 3,
-    code: "PA",
-    id: "3.PA",
-    authors: "Freed",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/PA",
-  },
-  {
-    name: "River Bldg",
-    number: 43,
-    code: "RB",
-    id: "43.RB",
-    authors:
-      "Jieru Li (DCI 2014) - GRC architects / Moriyama and Teshima Architects",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RB",
-  },
-  {
-    name: "Social Sciences Research Bldg",
-    number: 24,
-    code: "SR",
-    id: "24.SR",
-    authors: "Cali, Yasmine",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SR",
-  },
-  {
-    name: "Southam Hall and Kailash Mital Theatre",
-    number: 4,
-    code: "SA",
-    id: "4.SA",
-    authors: "Kitty, Freed",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SA",
-  },
-  {
-    name: "Steacie Bldg",
-    number: 12,
-    code: "SC",
-    id: "12.SC",
-    authors: "Reem, Cali, Kitty",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SC",
-  },
-  {
-    name: "Tory Bldg",
-    number: 1,
-    code: "TB",
-    id: "1.TB",
-    authors: "Kitty, Jessica B, Kamila Lukus (DCI 2014)",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/TB",
-  },
-  {
-    name: "University Centre",
-    number: 7,
-    code: "UC",
-    id: "7.UC",
-    authors: "Kitty, Nico, Marco - (BBB)",
-    type: "Building",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/UC",
-  },
-  {
-    name: "Vsim Bldg",
-    number: 38,
-    code: "VS",
-    id: "38.VS",
-    authors: "Hilary, Conor (physical model), Jessica Brooks (DCI 2014)",
-    type: "Building",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/VS",
-  },
-  {
-    name: "Frontenac House",
-    number: 41,
-    code: "FR",
-    id: "41.FR",
-    authors: "Carlee - IBI Group/Teeple Architects",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/FR",
-  },
-  {
-    name: "Glengarry House",
-    number: 18,
-    code: "GH",
-    id: "18.GH",
-    authors: "Erika, Kale",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/GH",
-  },
-  {
-    name: "Lanark House",
-    number: 6,
-    code: "LH",
-    id: "6.LH",
-    authors: "Freed",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/LH",
-  },
-  {
-    name: "Leeds House",
-    number: 30,
-    code: "LE",
-    id: "30.LE",
-    authors: "Kitty",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/LE",
-  },
-  {
-    name: "Lennox and Addington House",
-    number: 44,
-    code: "LX",
-    id: "44.LX",
-    authors: "Reem",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/LX",
-  },
-  {
-    name: "Prescott House",
-    number: 34,
-    code: "PH",
-    id: "34.PH",
-    authors: "Kale, Jieru Li (DCI 2014)",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/PH",
-  },
-  {
-    name: "Renfrew House",
-    number: 5,
-    code: "RH",
-    id: "5.RH",
-    authors: "Freed",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RH",
-  },
-  {
-    name: "Residence Commons",
-    number: 19,
-    code: "CO",
-    id: "19.CO",
-    authors: "Arkoun",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CO",
-  },
-  {
-    name: "Russell and Grenville House",
-    number: 14,
-    code: "RU",
-    id: "14.RU",
-    authors: "DCI",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RU",
-  },
-  {
-    name: "St Patricks Bldg",
-    number: 23,
-    code: "SP",
-    id: "23.SP",
-    authors: "Marco",
-    type: "Building",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SP",
-  },
-  // { THERE IS AN ISSUE WITH IFC → NEEDS TO REEXPORT
-  //   name: "Stormont and Dundas House",
-  //   number: 26,
-  //   code: "SD",
-  //   id: "26.SD",
-  //   authors: "Zarina, Kitty",
-  //   type: "Building",
-  //   zone: "Z3",
-  //   url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SD",
-  // },
+const buildingsNames = {
+  "MB": "Maintenance and Grounds Building",
+  "AC": "Athletics Alumni and Fieldhouse",
+  "DT": "Dunton Tower",
+  "NB": "Nesbitt Biology Building",
+  "AA": "Building 22",
+  "AR": "Arise",
+  "AP": "Azrieli Pavilion",
+  "AT": "Azrieli Theatre",
+  "CB": "Canal Building",
+  "HS": "Health Sciences Building",
+  "HP": "Hezberg Laboratories",
+  "LA": "Loeb Building",
+  "ME": "Mackenzie",
+  "ML": "Macodrum Library",
+  "MC": "Minto Centre",
+  "NI": "Nicol Building",
+  "PA": "Paterson Hall",
+  "RB": "River Building",
+  "SR": "Social Sciences Research Building",
+  "SA": "Southam Hall and Kailash Mital Theatre",
+  "SC": "Steacie Building",
+  "TB": "Tory Building",
+  "UC": "University Centre",
+  "VS": "Vsim Building",
+  "FR": "Frontenac House",
+  "GH": "Glengarry House",
+  "LH": "Lanark House",
+  "LE": "Leeds House",
+  "LX": "Lennox and Addington House",
+  "PH": "Prescott House",
+  "RH": "Renfrew House",
+  "CO": "Residence Commons",
+  "RU": "Russell and Grenville House",
+  "SP": "St Patricks Building",
+  "IH": "Ice House",
+  "TC": "Tennis Centre",
+  "P9": "Parking Garage P9",
+  "PS": "Parking Garage P18",
+  "SS": "Bronson Sub-Station",
+  "TT": "CTTC Bldg",
+  "UH": "CHEER",
+  "CC": "Colonel By Child Care Centre",
+  "RO": "Robertson Hall",
+  "Z1": "Exterior Zone 1",
+  "Z2": "Exterior Zone 2",
+  "Z3": "Exterior Zone 3",
+  "Z4": "Exterior Zone 4",
+  "RD": "Roads",
+  "TU": "Tunnels"
+};
 
-  {
-    name: "Ice House",
-    number: 39,
-    code: "IH",
-    id: "39.IH",
-    authors: "Mira, Kitty",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/IH",
-  },
-  {
-    name: "Tennis Centre",
-    number: 40,
-    code: "TC",
-    id: "40.TC",
-    authors: "Nico, Kitty",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/TC",
-  },
-  {
-    name: "Parking Garage P9",
-    number: 9,
-    code: "P9",
-    id: "9.P9",
-    authors: "Nico",
-    type: "parking",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/P9",
-  },
-  {
-    name: "Parking Garage P18",
-    number: 46,
-    code: "PS",
-    id: "46.PS",
-    authors: "Reem",
-    type: "parking",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/PS",
-  },
-  {
-    name: "Bronson Sub-Station",
-    number: 72,
-    code: "SS",
-    id: "72.SS",
-    authors: "",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/SS",
-  },
-  {
-    name: "CTTC Bldg",
-    number: 29,
-    code: "TT",
-    id: "29.TT",
-    authors: "DCI",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/TT",
-  },
-  {
-    name: "CHEER",
-    number: 47,
-    code: "UH",
-    id: "47.UH",
-    authors: "HOK Architects - CSALT",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/UH",
-  },
-  {
-    name: "Colonel By Child Care Centre",
-    number: 28,
-    code: "CC",
-    id: "28.CC",
-    authors: "Hilary",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/CC",
-  },
-
-  {
-    name: "Robertson Hall",
-    number: 17,
-    code: "RO",
-    id: "17.RO",
-    authors: "Jerry, Kale, Yasmine, Alec",
-    type: "Building",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RO",
-  },
-  {
-    name: "Exterior Zone 1",
-    number: 61,
-    code: "Z1",
-    id: "61.Z",
-    authors: "Marco / Rehab, Arkoun",
-    type: "exterior zone",
-    zone: "Z1",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z1",
-  },
-  {
-    name: "Exterior Zone 2",
-    number: 62,
-    code: "Z2",
-    id: "62.Z",
-    authors: "Hilary / Kale / Rehab / Nico / Arkoun",
-    type: "exterior zone",
-    zone: "Z2",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z2",
-  },
-  {
-    name: "Exterior Zone 3",
-    number: 63,
-    code: "Z3",
-    id: "63.Z",
-    authors: "Arkoun",
-    type: "exterior zone",
-    zone: "Z3",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z3",
-  },
-  {
-    name: "Exterior Zone 4",
-    number: 64,
-    code: "Z4",
-    id: "64.Z",
-    authors: "Rehab / Kitty / Nico / Arkoun",
-    type: "exterior zone",
-    zone: "Z4",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/Z4",
-  },
-  {
-    name: "Roads",
-    number: 60,
-    code: "RD",
-    id: "60.RD",
-    authors: "Arkoun, Nico",
-    type: "exterior zone",
-    zone: "cu",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/RD",
-  },
-  {
-    name: "Tunnels",
-    number: 65,
-    code: "TU",
-    id: "65.TU",
-    authors: "Arkoun, Elisa, Sharmeen, Alec, Yasmine, Hilary, Aidan",
-    type: "services",
-    zone: "cu",
-    url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/TU",
-  },
-];
+const ifcFileName = {
+  AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
+  AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
+  AP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
+  AR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
+  AT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
+  CB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
+  CC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
+  CO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
+  DT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
+  FR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
+  GH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
+  HP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
+  HS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
+  IH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
+  LA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
+  LE: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
+  LH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
+  LX: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
+  MB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
+  MC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
+  ME: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
+  ML: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
+  NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+  NI: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
+  P9: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
+  PA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
+  PH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
+  PS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
+  RB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
+  RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+  RH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
+  RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
+  RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
+  SA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+  SC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
+  SP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
+  SR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
+  SS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
+  TB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
+  TC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
+  TT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
+  TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+  UC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
+  UH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
+  VS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
+  Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+  Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+  Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+  Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
+};
 
 var __defProp = Object.defineProperty;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
@@ -95251,6 +94848,59 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 
 }
 
+const listedBuildings = document.getElementById("listed-buildings");
+const loadedBuildings = document.getElementById("loaded-buildings");
+
+function createBuildingSelector(building, names, selector) {
+  selector.style.display = "inline-block";
+  for (id in names) {
+    let option = document.createElement("option");
+    option.setAttribute("id", id);
+    building.listed[id] = names[id];
+    option.innerHTML = names[id];
+    selector.appendChild(option);
+  }
+  sortChildren(selector);
+}
+
+function updateSelectBldgMenu(building, id) {
+    let selectedOption = document.getElementById(id);
+      building.current.id = id;
+      if (!(building.current.id in building.loaded)) {
+        delete building.listed[id];
+        building.loaded[id] = id;
+        loadedBuildings.appendChild(selectedOption);
+        sortChildren(loadedBuildings);
+      } else {
+        delete building.loaded[id];
+        building.listed[id] = id;
+        listedBuildings.appendChild(selectedOption);
+        sortChildren(listedBuildings);
+      }
+    }
+
+function sortChildren(parent) {
+        const items = Array.prototype.slice.call(parent.children);
+        items.sort(function (a, b) {
+          return a.textContent.localeCompare(b.textContent);
+        });
+        items.forEach((item) => {
+          const itemParent = item.parentNode;
+          let detatchedItem = itemParent.removeChild(item);
+          itemParent.appendChild(detatchedItem);
+        });
+      }
+
+function isolateSelector(selectors, ...keys) {
+        selectors.forEach((selector) => {
+          if (keys.includes(selector.id)) {
+            selector.style.display = "inline-block";
+          } else {
+            selector.style.display = "none";
+          }
+        });
+      }
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
@@ -95258,15 +94908,14 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
-let scene = {};
-let camera = {};
-let map = {};
-let renderer = {};
-let raycaster = {};
+let scene ,camera, map, renderer, raycaster, gltfMasses;
+let province, city;
+
 let previousSelection = {
   mesh: null,
   material: null,
 };
+
 const highlightMaterial = new MeshStandardMaterial({
   color: 0xffff70,
   flatShading: true,
@@ -95274,15 +94923,13 @@ const highlightMaterial = new MeshStandardMaterial({
 });
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
-const province = {},
-  city = {},
-  geoJson = { fill: "", outline: "" },
+
+const geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
 
-let gltfMasses = {};
 const massesMaterial = new MeshStandardMaterial({
   color: 0x555555,
   flatShading: true,
@@ -95370,14 +95017,11 @@ osmButton.onclick = function () {
   }
   toggleOSM = !toggleOSM;
 };
-const listedBuildings = document.getElementById("listed-buildings");
-const loadedBuildings = document.getElementById("loaded-buildings");
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
 const building = {
   current: {},
-  index: {},
   ifcFile: {},
   listed: {},
   loaded: {},
@@ -95387,25 +95031,11 @@ let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
-    let index = 0;
-    models.forEach((model) => {
-      let option = document.createElement("option");
-      let code = model.code;
-      option.setAttribute("id", model.code);
-      building.listed[code] = model.name;
-      building.index[code] = index;
-      option.innerHTML = model.name;
-      listedBuildings.appendChild(option);
-      let buildingName = model.name;
-      buildingName = buildingName.toUpperCase();
-      buildingName = buildingName.replace(/ /g, "_");
-      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-      building.ifcFile[code] = ifcFile;
-      index++;
-    });
-    sortChildren(listedBuildings);
+    const listedBuildings = document.getElementById("listed-buildings");
+    createBuildingSelector(building, buildingsNames, listedBuildings);
+
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar,  "go-to", "osm", "bim");
+    isolateSelector(toolbar, "go-to", "osm", "bim");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -95443,8 +95073,8 @@ document
   .addEventListener("change", function () {
     isolateSelector(selectors, "building-select");
     let selectedOption = this[this.selectedIndex];
-    let selectedCode = selectedOption.id;
-    updateSelectBldgMenu(selectedCode);
+    let selectedId = selectedOption.id;
+    updateSelectBldgMenu(building, selectedId);
   });
 
 document.getElementById("building-select").onclick = function () {
@@ -95476,6 +95106,7 @@ document
         province.code
     ).then((provinceGeojson) => {
       geoJson.current = provinceGeojson;
+      province.term;
       loadGeojson(map, geoJson.current, "geoJson");
       geoJson.source = map.getSource("geoJson");
       geoJson.fill = map.getLayer("geoJson-fill");
@@ -95689,11 +95320,11 @@ const customLayer = {
 
     const foundItem = intersections[0];
 
-    if(isPreviousSeletion(foundItem)) return;
-    
+    if (isPreviousSeletion(foundItem)) return;
+
     restorePreviousSelection();
     savePreviousSelectio(foundItem);
-    highlightItem(foundItem); 
+    highlightItem(foundItem);
 
     renderer.render(scene, camera);
   },
@@ -95705,22 +95336,27 @@ map.on("mousemove", (event) => {
 });
 
 map.on("dblclick", () => {
-  updateSelectBldgMenu(gltfMasses.selected.code);
+  let id = gltfMasses.selected.id;
+  updateSelectBldgMenu(building, id);
   isolateSelector(selectors, "building-select");
-  loadBuildingIFC(gltfMasses.selected.code);  
+  loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
 });
 
-const bimViewerURL = './bim-viewer.html';
-let bimURL = './bim-viewer.html';
+const bimViewerURL = "./bim-viewer.html";
+let bimURL = "./bim-viewer.html";
 map.on("click", () => {
-  bimURL = bimViewerURL + `?id=${gltfMasses.selected.code}`;
-  console.log(`${gltfMasses.selected.code} selected`);
-  document.getElementById("bim").addEventListener('click', () => window.open(bimURL));
+  let id = gltfMasses.selected.id;
+  bimURL = bimViewerURL + `?id=${id}`;
+  console.log(`${id} selected`);
+  document
+    .getElementById("bim")
+    .addEventListener("click", () => window.open(bimURL));
   if (window.event.ctrlKey) {
-window.open(bimURL);
+    window.open(bimURL);
   }
 });
 
+const ifcLoader = new IFCLoader();
 const loader = document.getElementById("loader-container");
 const progressText = document.getElementById("progress-text");
 
@@ -95728,13 +95364,13 @@ document
   .getElementById("building-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex];
-    let code = selectedOption.id;
-    if (code in building.loaded) {
-loadBuildingIFC(code);
+    let id = selectedOption.id;
+    if (id in building.loaded) {
+      loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
     } else {
-      let ifc = scene.getObjectByName(`ifc-${code}`);
+      let ifc = scene.getObjectByName(`ifc-${id}`);
       gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == code) {
+        if (object.isMesh && object.name == id) {
           object.visible = true;
         }
         ifc.removeFromParent();
@@ -95809,15 +95445,6 @@ function removeGeojson(map, geoJson) {
   }
 }
 
-function isolateSelector(selectors, ...keys) {
-  selectors.forEach((selector) => {
-    if (keys.includes(selector.id)) {
-      selector.style.display = "inline-block";
-    } else {
-      selector.style.display = "none";
-    }
-  });
-}
 // ADD DEM TERRAIN 🏔️
 function addTerrain(map) {
   map.addSource("mapbox-dem", {
@@ -95832,7 +95459,7 @@ function addTerrain(map) {
 
 // LOAD OSM BUILDING 🏢
 // let osmHeight = 1 *
-function loadOSM(map, opacity = 0.9, code) {
+function loadOSM(map, opacity = 0.9) {
   // Insert the layer beneath any symbol layer.
   const layers = map.getStyle().layers;
   const labelLayerId = layers.find(
@@ -95859,18 +95486,6 @@ function loadOSM(map, opacity = 0.9, code) {
   );
 }
 
-function sortChildren(parent) {
-  const items = Array.prototype.slice.call(parent.children);
-  items.sort(function (a, b) {
-    return a.textContent.localeCompare(b.textContent);
-  });
-  items.forEach((item) => {
-    const itemParent = item.parentNode;
-    let detatchedItem = itemParent.removeChild(item);
-    itemParent.appendChild(detatchedItem);
-  });
-}
-
 function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
@@ -95890,15 +95505,15 @@ function hasNotCollided(intersections) {
 function highlightItem(item) {
   item.object.material = highlightMaterial;
   gltfMasses.selected = item;
-  gltfMasses.selected.code = item.object.name;
+  gltfMasses.selected.id = item.object.name;
 }
 
-function isPreviousSeletion(item){
+function isPreviousSeletion(item) {
   return previousSelection.mesh === item.object;
 }
 
 function restorePreviousSelection() {
-  if(previousSelection.mesh){
+  if (previousSelection.mesh) {
     previousSelection.mesh.material = previousSelection.material;
     previousSelection.mesh = null;
     previousSelection.material = null;
@@ -95910,48 +95525,31 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-async function loadBuildingIFC(code) {
-const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
-// const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
-let selectedOption = document.getElementById(code).value;
-const ifcLoader = new IFCLoader();
-await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-ifcLoader.load(
-  ifcFile,
- (ifcModel) => {
-    ifcModel.name = `ifc-${code}`;
-    scene.add(ifcModel);
-    gltfMasses.traverse(function (object) {
-      if (object.isMesh && object.name == code) {
-        object.visible = false;
-      }
-    });
+async function loadBuildingIFC(path, file, id) {
+  const ifcFile = `${path}${file}`;
+  let selectedOption = document.getElementById(id).value;
+  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+  ifcLoader.load(
+    ifcFile,
+    (ifcModel) => {
+      ifcModel.name = `ifc-${id}`;
+      scene.add(ifcModel);
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh && object.name == id) {
+          object.visible = false;
+        }
+      });
 
-    loader.style.display = "none";
-  },
-  (progress) => {
-    loader.style.display = "flex";
-    progressText.textContent = `Loading ${ selectedOption }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-  },
-  (error) => {
-    console.log(error);
-  }
-);
-}
-
-function updateSelectBldgMenu(bldgCode) {
-  let selectedOption = document.getElementById(bldgCode);
-    let selectedIndex = building.index[bldgCode];
-    building.current = models[selectedIndex];
-    if (!(building.current.code in building.loaded)) {
-      delete building.listed[building.current.code];
-      building.loaded[building.current.code] = building.current.name;
-      loadedBuildings.appendChild(selectedOption);
-      sortChildren(loadedBuildings);
-    } else {
-      delete building.loaded[building.current.code];
-      building.listed[building.current.code] = building.current.name;
-      listedBuildings.appendChild(selectedOption);
-      sortChildren(listedBuildings);
+      loader.style.display = "none";
+    },
+    (progress) => {
+      loader.style.display = "flex";
+      progressText.textContent = `Loading ${selectedOption}: ${Math.round(
+        (progress.loaded * 100) / progress.total
+      )}%`;
+    },
+    (error) => {
+      console.log(error);
     }
-  }
+  );
+}

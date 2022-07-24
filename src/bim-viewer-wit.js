@@ -37,7 +37,7 @@ import {
     CSS2DObject,
   } from "three/examples/jsm/renderers/CSS2DRenderer.js";
 
- import { ifcFileName } from "../static/data/cdc-models.js";
+ import { ifcFileName } from "../static/data/cdc-data.js";
 import { Loader } from "three";
   
  // Get the URL parameter
@@ -199,7 +199,8 @@ async function highlight(event, material, getProps) {
       const id = ifc.getExpressId(geometry, index);
       
       if (getProps) {
-      const props = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id)
+      const props = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id);
+      const typeProps = await ifcLoader.ifcManager.prop(found.object.modelID, id);
       console.log(props)
       }
 

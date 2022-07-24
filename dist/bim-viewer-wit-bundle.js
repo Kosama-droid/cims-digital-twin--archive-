@@ -101325,6 +101325,7 @@ async function highlight(event, material, getProps) {
       
       if (getProps) {
       const props = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id);
+      await ifcLoader.ifcManager.prop(found.object.modelID, id);
       console.log(props);
       }
 

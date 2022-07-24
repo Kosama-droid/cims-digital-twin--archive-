@@ -1,3 +1,5 @@
+export const IfcPath = "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/"
+
 export const models = [
   {
     name: "Maintenance and Grounds Bldg",
@@ -506,6 +508,58 @@ export const models = [
     url: "https://github.com/nicoarellano/ifc-js-crash-course/static/ifc/TU",
   },
 ];
+
+export const buildingsNames = {
+  "MB": "Maintenance and Grounds Building",
+  "AC": "Athletics Alumni and Fieldhouse",
+  "DT": "Dunton Tower",
+  "NB": "Nesbitt Biology Building",
+  "AA": "Building 22",
+  "AR": "Arise",
+  "AP": "Azrieli Pavilion",
+  "AT": "Azrieli Theatre",
+  "CB": "Canal Building",
+  "HS": "Health Sciences Building",
+  "HP": "Hezberg Laboratories",
+  "LA": "Loeb Building",
+  "ME": "Mackenzie",
+  "ML": "Macodrum Library",
+  "MC": "Minto Centre",
+  "NI": "Nicol Building",
+  "PA": "Paterson Hall",
+  "RB": "River Building",
+  "SR": "Social Sciences Research Building",
+  "SA": "Southam Hall and Kailash Mital Theatre",
+  "SC": "Steacie Building",
+  "TB": "Tory Building",
+  "UC": "University Centre",
+  "VS": "Vsim Building",
+  "FR": "Frontenac House",
+  "GH": "Glengarry House",
+  "LH": "Lanark House",
+  "LE": "Leeds House",
+  "LX": "Lennox and Addington House",
+  "PH": "Prescott House",
+  "RH": "Renfrew House",
+  "CO": "Residence Commons",
+  "RU": "Russell and Grenville House",
+  "SP": "St Patricks Building",
+  "IH": "Ice House",
+  "TC": "Tennis Centre",
+  "P9": "Parking Garage P9",
+  "PS": "Parking Garage P18",
+  "SS": "Bronson Sub-Station",
+  "TT": "CTTC Bldg",
+  "UH": "CHEER",
+  "CC": "Colonel By Child Care Centre",
+  "RO": "Robertson Hall",
+  "Z1": "Exterior Zone 1",
+  "Z2": "Exterior Zone 2",
+  "Z3": "Exterior Zone 3",
+  "Z4": "Exterior Zone 4",
+  "RD": "Roads",
+  "TU": "Tunnels"
+}
 
 export const ifcFileName = {
   AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",

@@ -1,7 +1,7 @@
 import { canada } from "../static/data/canada.js";
 import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
-import { models } from "../static/data/cdc-models.js";
+import { IfcPath, buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
 
 import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -33,6 +33,8 @@ import {
   disposeBoundsTree,
 } from "three-mesh-bvh";
 
+import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector } from "twin/twin.js";
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
@@ -40,15 +42,14 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
-let scene = {};
-let camera = {};
-let map = {};
-let renderer = {};
-let raycaster = {};
+let scene ,camera, map, renderer, raycaster, gltfMasses;
+let province, city, site;
+
 let previousSelection = {
   mesh: null,
   material: null,
 };
+
 const highlightMaterial = new MeshStandardMaterial({
   color: 0xffff70,
   flatShading: true,
@@ -56,23 +57,19 @@ const highlightMaterial = new MeshStandardMaterial({
 });
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
-const province = {},
-  city = {},
-  site = {},
-  geoJson = { fill: "", outline: "" },
+
+const geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
 
-let gltfMasses = {};
 const massesMaterial = new MeshStandardMaterial({
   color: 0x555555,
   flatShading: true,
   side: DoubleSide,
   emissive: 0x555555,
 });
-let massCode = "";
 
 // By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
 lng.current = -75.69435;
@@ -154,14 +151,11 @@ osmButton.onclick = function () {
   }
   toggleOSM = !toggleOSM;
 };
-const listedBuildings = document.getElementById("listed-buildings");
-const loadedBuildings = document.getElementById("loaded-buildings");
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
 const building = {
   current: {},
-  index: {},
   ifcFile: {},
   listed: {},
   loaded: {},
@@ -171,25 +165,11 @@ let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
-    let index = 0;
-    models.forEach((model) => {
-      let option = document.createElement("option");
-      let code = model.code;
-      option.setAttribute("id", model.code);
-      building.listed[code] = model.name;
-      building.index[code] = index;
-      option.innerHTML = model.name;
-      listedBuildings.appendChild(option);
-      let buildingName = model.name;
-      buildingName = buildingName.toUpperCase();
-      buildingName = buildingName.replace(/ /g, "_");
-      const ifcFile = `CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-${buildingName}-AS_FOUND.ifc`;
-      building.ifcFile[code] = ifcFile;
-      index++;
-    });
-    sortChildren(listedBuildings);
+    const listedBuildings = document.getElementById("listed-buildings");
+    createBuildingSelector(building, buildingsNames, listedBuildings);
+
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar,  "go-to", "osm", "bim");
+    isolateSelector(toolbar, "go-to", "osm", "bim");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -227,8 +207,8 @@ document
   .addEventListener("change", function () {
     isolateSelector(selectors, "building-select");
     let selectedOption = this[this.selectedIndex];
-    let selectedCode = selectedOption.id;
-    updateSelectBldgMenu(selectedCode)
+    let selectedId = selectedOption.id;
+    updateSelectBldgMenu(building, selectedId);
   });
 
 document.getElementById("building-select").onclick = function () {
@@ -489,11 +469,11 @@ const customLayer = {
 
     const foundItem = intersections[0];
 
-    if(isPreviousSeletion(foundItem)) return;
-    
-    restorePreviousSelection()
-    savePreviousSelectio(foundItem)
-    highlightItem(foundItem) 
+    if (isPreviousSeletion(foundItem)) return;
+
+    restorePreviousSelection();
+    savePreviousSelectio(foundItem);
+    highlightItem(foundItem);
 
     renderer.render(scene, camera);
   },
@@ -505,22 +485,27 @@ map.on("mousemove", (event) => {
 });
 
 map.on("dblclick", () => {
-  updateSelectBldgMenu(gltfMasses.selected.code);
+  let id = gltfMasses.selected.id;
+  updateSelectBldgMenu(building, id), id;
   isolateSelector(selectors, "building-select");
-  loadBuildingIFC(gltfMasses.selected.code);  
-})
+  loadBuildingIFC(IfcPath, ifcFileName[id], id);
+});
 
-const bimViewerURL = './bim-viewer.html';
-let bimURL = './bim-viewer.html';
+const bimViewerURL = "./bim-viewer.html";
+let bimURL = "./bim-viewer.html";
 map.on("click", () => {
-  bimURL = bimViewerURL + `?id=${gltfMasses.selected.code}`;
-  console.log(`${gltfMasses.selected.code} selected`)
-  document.getElementById("bim").addEventListener('click', () => window.open(bimURL))
+  let id = gltfMasses.selected.id;
+  bimURL = bimViewerURL + `?id=${id}`;
+  console.log(`${id} selected`);
+  document
+    .getElementById("bim")
+    .addEventListener("click", () => window.open(bimURL));
   if (window.event.ctrlKey) {
-window.open(bimURL);
+    window.open(bimURL);
   }
-})
+});
 
+const ifcLoader = new IFCLoader();
 const loader = document.getElementById("loader-container");
 const progressText = document.getElementById("progress-text");
 
@@ -528,13 +513,13 @@ document
   .getElementById("building-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex];
-    let code = selectedOption.id;
-    if (code in building.loaded) {
-loadBuildingIFC(code);
+    let id = selectedOption.id;
+    if (id in building.loaded) {
+      loadBuildingIFC(IfcPath, ifcFileName[id], id);
     } else {
-      let ifc = scene.getObjectByName(`ifc-${code}`);
+      let ifc = scene.getObjectByName(`ifc-${id}`);
       gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == code) {
+        if (object.isMesh && object.name == id) {
           object.visible = true;
         }
         ifc.removeFromParent();
@@ -609,15 +594,6 @@ function removeGeojson(map, geoJson) {
   }
 }
 
-function isolateSelector(selectors, ...keys) {
-  selectors.forEach((selector) => {
-    if (keys.includes(selector.id)) {
-      selector.style.display = "inline-block";
-    } else {
-      selector.style.display = "none";
-    }
-  });
-}
 // ADD DEM TERRAIN 🏔️
 function addTerrain(map) {
   map.addSource("mapbox-dem", {
@@ -632,7 +608,7 @@ function addTerrain(map) {
 
 // LOAD OSM BUILDING 🏢
 // let osmHeight = 1 *
-function loadOSM(map, opacity = 0.9, code) {
+function loadOSM(map, opacity = 0.9) {
   // Insert the layer beneath any symbol layer.
   const layers = map.getStyle().layers;
   const labelLayerId = layers.find(
@@ -659,18 +635,6 @@ function loadOSM(map, opacity = 0.9, code) {
   );
 }
 
-function sortChildren(parent) {
-  const items = Array.prototype.slice.call(parent.children);
-  items.sort(function (a, b) {
-    return a.textContent.localeCompare(b.textContent);
-  });
-  items.forEach((item) => {
-    const itemParent = item.parentNode;
-    let detatchedItem = itemParent.removeChild(item);
-    itemParent.appendChild(detatchedItem);
-  });
-}
-
 function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
@@ -689,16 +653,16 @@ function hasNotCollided(intersections) {
 
 function highlightItem(item) {
   item.object.material = highlightMaterial;
-  gltfMasses.selected = item
-  gltfMasses.selected.code = item.object.name;
+  gltfMasses.selected = item;
+  gltfMasses.selected.id = item.object.name;
 }
 
-function isPreviousSeletion(item){
+function isPreviousSeletion(item) {
   return previousSelection.mesh === item.object;
 }
 
 function restorePreviousSelection() {
-  if(previousSelection.mesh){
+  if (previousSelection.mesh) {
     previousSelection.mesh.material = previousSelection.material;
     previousSelection.mesh = null;
     previousSelection.material = null;
@@ -710,48 +674,32 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-async function loadBuildingIFC(code) {
-const ifcFile = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${building.ifcFile[code]}`;
-// const ifcFile = `../static/public-ifc/${building.ifcFile[code]}`;
-let selectedOption = document.getElementById(code).value
-const ifcLoader = new IFCLoader();
-await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-ifcLoader.load(
-  ifcFile,
- (ifcModel) => {
-    ifcModel.name = `ifc-${code}`;
-    scene.add(ifcModel);
-    gltfMasses.traverse(function (object) {
-      if (object.isMesh && object.name == code) {
-        object.visible = false;
-      }
-    });
+async function loadBuildingIFC(path, file, id) {
+  const ifcFile = `${path}${file}`;
+  let selectedOption = document.getElementById(id).value;
+  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+  ifcLoader.load(
+    ifcFile,
+    (ifcModel) => {
+      id;
+      ifcModel.name = `ifc-${id}`;
+      scene.add(ifcModel);
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh && object.name == id) {
+          object.visible = false;
+        }
+      });
 
-    loader.style.display = "none";
-  },
-  (progress) => {
-    loader.style.display = "flex";
-    progressText.textContent = `Loading ${ selectedOption }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-  },
-  (error) => {
-    console.log(error);
-  }
-);
-}
-
-function updateSelectBldgMenu(bldgCode) {
-  let selectedOption = document.getElementById(bldgCode)
-    let selectedIndex = building.index[bldgCode];
-    building.current = models[selectedIndex];
-    if (!(building.current.code in building.loaded)) {
-      delete building.listed[building.current.code];
-      building.loaded[building.current.code] = building.current.name;
-      loadedBuildings.appendChild(selectedOption);
-      sortChildren(loadedBuildings);
-    } else {
-      delete building.loaded[building.current.code];
-      building.listed[building.current.code] = building.current.name;
-      listedBuildings.appendChild(selectedOption);
-      sortChildren(listedBuildings);
+      loader.style.display = "none";
+    },
+    (progress) => {
+      loader.style.display = "flex";
+      progressText.textContent = `Loading ${selectedOption}: ${Math.round(
+        (progress.loaded * 100) / progress.total
+      )}%`;
+    },
+    (error) => {
+      console.log(error);
     }
-  }
+  );
+}
