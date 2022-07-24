@@ -1,10 +1,12 @@
-import { Color } from 'three';
+import { Color, LatheBufferGeometry } from 'three';
 import { IfcViewerAPI } from 'web-ifc-viewer';
-import { ifcFileName } from "../static/data/cdc-data.js";
+import { buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
+import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector } from "twin/twin.js";
 
 
 const container = document.getElementById('viewer-container');
 const viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
+
 
 // Create grid and axes
 viewer.grid.setGrid();
@@ -13,9 +15,23 @@ viewer.axes.setAxes();
  // Get the URL parameter
  const currentURL = window.location.href;
  const url = new URL(currentURL);
- const currentModelCode = url.searchParams.get("id");
+ const currentModelId = url.searchParams.get("id");
 
- const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelCode]}`;
+ const building = {
+    current: {currentModelId},
+    ifcFile: {},
+    listed: {},
+    loaded: {},
+  };
+
+const listedBuildings = document.getElementById("listed-buildings");
+createBuildingSelector(building, buildingsNames, listedBuildings);
+updateSelectBldgMenu(building, currentModelId);
+
+// container.addEventListener("change", () => window.open(bimURL));
+
+ const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
+
 
 loadIfc(ifcURL);
 

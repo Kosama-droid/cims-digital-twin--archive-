@@ -81,6 +81,10 @@ a {
   display: none;
 }
 
+.select-visible {
+  display: inline-block
+}
+
 .canvas {
   z-index: -1;
   position: fixed;
@@ -277,7 +281,7 @@ a {
 }
 
 #viewer-container{
-  z-index: 0;
+  z-index: -1;
   position: fixed;
   top: var(--header-heigt);
   left: 0;
@@ -287,7 +291,7 @@ a {
 }
 
 #info {
-  z-index: 10;
+  z-index: 1;
   display: table;
   position: absolute;
   right: 0;

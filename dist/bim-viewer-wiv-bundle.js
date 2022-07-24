@@ -121436,6 +121436,58 @@ class IfcViewerAPI {
     }
 }
 
+const buildingsNames = {
+  "MB": "Maintenance and Grounds Building",
+  "AC": "Athletics Alumni and Fieldhouse",
+  "DT": "Dunton Tower",
+  "NB": "Nesbitt Biology Building",
+  "AA": "Building 22",
+  "AR": "Arise",
+  "AP": "Azrieli Pavilion",
+  "AT": "Azrieli Theatre",
+  "CB": "Canal Building",
+  "HS": "Health Sciences Building",
+  "HP": "Hezberg Laboratories",
+  "LA": "Loeb Building",
+  "ME": "Mackenzie",
+  "ML": "Macodrum Library",
+  "MC": "Minto Centre",
+  "NI": "Nicol Building",
+  "PA": "Paterson Hall",
+  "RB": "River Building",
+  "SR": "Social Sciences Research Building",
+  "SA": "Southam Hall and Kailash Mital Theatre",
+  "SC": "Steacie Building",
+  "TB": "Tory Building",
+  "UC": "University Centre",
+  "VS": "Vsim Building",
+  "FR": "Frontenac House",
+  "GH": "Glengarry House",
+  "LH": "Lanark House",
+  "LE": "Leeds House",
+  "LX": "Lennox and Addington House",
+  "PH": "Prescott House",
+  "RH": "Renfrew House",
+  "CO": "Residence Commons",
+  "RU": "Russell and Grenville House",
+  "SP": "St Patricks Building",
+  "IH": "Ice House",
+  "TC": "Tennis Centre",
+  "P9": "Parking Garage P9",
+  "PS": "Parking Garage P18",
+  "SS": "Bronson Sub-Station",
+  "TT": "CTTC Bldg",
+  "UH": "CHEER",
+  "CC": "Colonel By Child Care Centre",
+  "RO": "Robertson Hall",
+  "Z1": "Exterior Zone 1",
+  "Z2": "Exterior Zone 2",
+  "Z3": "Exterior Zone 3",
+  "Z4": "Exterior Zone 4",
+  "RD": "Roads",
+  "TU": "Tunnels"
+};
+
 const ifcFileName = {
   AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
   AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
@@ -121488,8 +121540,52 @@ const ifcFileName = {
   Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
 };
 
+const listedBuildings$1 = document.getElementById("listed-buildings");
+const loadedBuildings = document.getElementById("loaded-buildings");
+
+function createBuildingSelector(building, names, selector) {
+  selector.style.display = "inline-block";
+  for (id in names) {
+    let option = document.createElement("option");
+    option.setAttribute("id", id);
+    building.listed[id] = names[id];
+    option.innerHTML = names[id];
+    selector.appendChild(option);
+  }
+  sortChildren(selector);
+}
+
+function updateSelectBldgMenu(building, id) {
+    let selectedOption = document.getElementById(id);
+      building.current.id = id;
+      if (!(building.current.id in building.loaded)) {
+        delete building.listed[id];
+        building.loaded[id] = id;
+        loadedBuildings.appendChild(selectedOption);
+        sortChildren(loadedBuildings);
+      } else {
+        delete building.loaded[id];
+        building.listed[id] = id;
+        listedBuildings$1.appendChild(selectedOption);
+        sortChildren(listedBuildings$1);
+      }
+    }
+
+function sortChildren(parent) {
+        const items = Array.prototype.slice.call(parent.children);
+        items.sort(function (a, b) {
+          return a.textContent.localeCompare(b.textContent);
+        });
+        items.forEach((item) => {
+          const itemParent = item.parentNode;
+          let detatchedItem = itemParent.removeChild(item);
+          itemParent.appendChild(detatchedItem);
+        });
+      }
+
 const container = document.getElementById('viewer-container');
 const viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
+
 
 // Create grid and axes
 viewer.grid.setGrid();
@@ -121498,9 +121594,23 @@ viewer.axes.setAxes();
  // Get the URL parameter
  const currentURL = window.location.href;
  const url = new URL(currentURL);
- const currentModelCode = url.searchParams.get("id");
+ const currentModelId = url.searchParams.get("id");
 
- const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelCode]}`;
+ const building = {
+    current: {currentModelId},
+    ifcFile: {},
+    listed: {},
+    loaded: {},
+  };
+
+const listedBuildings = document.getElementById("listed-buildings");
+createBuildingSelector(building, buildingsNames, listedBuildings);
+updateSelectBldgMenu(building, currentModelId);
+
+// container.addEventListener("change", () => window.open(bimURL));
+
+ const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
+
 
 loadIfc(ifcURL);
 
