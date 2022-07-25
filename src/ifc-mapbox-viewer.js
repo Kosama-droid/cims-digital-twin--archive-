@@ -33,7 +33,7 @@ import {
   disposeBoundsTree,
 } from "three-mesh-bvh";
 
-import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector } from "twin/twin.js";
+import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector, closeNavBar } from "twin/twin.js";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
@@ -43,7 +43,7 @@ isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
 let scene ,camera, map, renderer, raycaster, gltfMasses;
-let province, city, site;
+let province, city, site = {};
 
 let previousSelection = {
   mesh: null,
@@ -122,24 +122,10 @@ styleSelect.addEventListener("change", function () {
 });
 
 // GUI 🖱️ _____________________________________________________________
-// Toggle Nav bar _____________________
-const navigationBar = document.getElementById("selectors");
-const navigationButton = document.getElementById("close-nav-bar");
-let togglenavigationBar = false;
+closeNavBar()
+
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
-navigationButton.onclick = function () {
-  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
-  navigationButton.style.transform = togglenavigationBar
-    ? ""
-    : "rotate(180deg)";
-  const navBarBackground = document.getElementById("nav-bar");
-  navBarBackground.style.backgroundColor = togglenavigationBar
-    ? ""
-    : "#FFFFFF00";
-  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
-  togglenavigationBar = !togglenavigationBar;
-};
 // Show OSM buildings 🏢
 osmButton.onclick = function () {
   let layer = map.getLayer("OSM-buildings");

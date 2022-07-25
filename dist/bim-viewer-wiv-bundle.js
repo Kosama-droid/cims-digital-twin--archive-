@@ -121542,6 +121542,8 @@ const ifcFileName = {
 
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
+document.getElementById("selectors");
+document.getElementById("close-nav-bar");
 
 function createBuildingSelector(building, names, selector) {
   for (id in names) {

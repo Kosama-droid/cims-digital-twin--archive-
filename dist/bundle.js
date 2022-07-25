@@ -94850,6 +94850,24 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 
 const listedBuildings = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
+const navigationBar = document.getElementById("selectors");
+const navigationButton = document.getElementById("close-nav-bar");
+
+function closeNavBar() {
+let togglenavigationBar = false;
+navigationButton.onclick = function () {
+  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
+  navigationButton.style.transform = togglenavigationBar
+    ? ""
+    : "rotate(180deg)";
+  const navBarBackground = document.getElementById("nav-bar");
+  navBarBackground.style.backgroundColor = togglenavigationBar
+    ? ""
+    : "#FFFFFF00";
+  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
+  togglenavigationBar = !togglenavigationBar;
+};
+}
 
 function createBuildingSelector(building, names, selector) {
   for (id in names) {
@@ -94987,24 +95005,10 @@ styleSelect.addEventListener("change", function () {
 });
 
 // GUI 🖱️ _____________________________________________________________
-// Toggle Nav bar _____________________
-const navigationBar = document.getElementById("selectors");
-const navigationButton = document.getElementById("close-nav-bar");
-let togglenavigationBar = false;
+closeNavBar();
+
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
-navigationButton.onclick = function () {
-  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
-  navigationButton.style.transform = togglenavigationBar
-    ? ""
-    : "rotate(180deg)";
-  const navBarBackground = document.getElementById("nav-bar");
-  navBarBackground.style.backgroundColor = togglenavigationBar
-    ? ""
-    : "#FFFFFF00";
-  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
-  togglenavigationBar = !togglenavigationBar;
-};
 // Show OSM buildings 🏢
 osmButton.onclick = function () {
   map.getLayer("OSM-buildings");

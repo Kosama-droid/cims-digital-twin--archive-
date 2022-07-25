@@ -101108,11 +101108,161 @@ CSS2DObject.prototype.isCSS2DObject = true;
 
 //
 
-new Vector3();
-new Matrix4();
-new Matrix4();
-new Vector3();
-new Vector3();
+const _vector = new Vector3();
+const _viewMatrix = new Matrix4();
+const _viewProjectionMatrix = new Matrix4();
+const _a = new Vector3();
+const _b = new Vector3();
+
+class CSS2DRenderer {
+
+	constructor( parameters = {} ) {
+
+		const _this = this;
+
+		let _width, _height;
+		let _widthHalf, _heightHalf;
+
+		const cache = {
+			objects: new WeakMap()
+		};
+
+		const domElement = parameters.element !== undefined ? parameters.element : document.createElement( 'div' );
+
+		domElement.style.overflow = 'hidden';
+
+		this.domElement = domElement;
+
+		this.getSize = function () {
+
+			return {
+				width: _width,
+				height: _height
+			};
+
+		};
+
+		this.render = function ( scene, camera ) {
+
+			if ( scene.autoUpdate === true ) scene.updateMatrixWorld();
+			if ( camera.parent === null ) camera.updateMatrixWorld();
+
+			_viewMatrix.copy( camera.matrixWorldInverse );
+			_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, _viewMatrix );
+
+			renderObject( scene, scene, camera );
+			zOrder( scene );
+
+		};
+
+		this.setSize = function ( width, height ) {
+
+			_width = width;
+			_height = height;
+
+			_widthHalf = _width / 2;
+			_heightHalf = _height / 2;
+
+			domElement.style.width = width + 'px';
+			domElement.style.height = height + 'px';
+
+		};
+
+		function renderObject( object, scene, camera ) {
+
+			if ( object.isCSS2DObject ) {
+
+				object.onBeforeRender( _this, scene, camera );
+
+				_vector.setFromMatrixPosition( object.matrixWorld );
+				_vector.applyMatrix4( _viewProjectionMatrix );
+
+				const element = object.element;
+
+				if ( /apple/i.test( navigator.vendor ) ) {
+
+					// https://github.com/mrdoob/three.js/issues/21415
+					element.style.transform = 'translate(-50%,-50%) translate(' + Math.round( _vector.x * _widthHalf + _widthHalf ) + 'px,' + Math.round( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
+
+				} else {
+
+					element.style.transform = 'translate(-50%,-50%) translate(' + ( _vector.x * _widthHalf + _widthHalf ) + 'px,' + ( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
+
+				}
+
+				element.style.display = ( object.visible && _vector.z >= - 1 && _vector.z <= 1 ) ? '' : 'none';
+
+				const objectData = {
+					distanceToCameraSquared: getDistanceToSquared( camera, object )
+				};
+
+				cache.objects.set( object, objectData );
+
+				if ( element.parentNode !== domElement ) {
+
+					domElement.appendChild( element );
+
+				}
+
+				object.onAfterRender( _this, scene, camera );
+
+			}
+
+			for ( let i = 0, l = object.children.length; i < l; i ++ ) {
+
+				renderObject( object.children[ i ], scene, camera );
+
+			}
+
+		}
+
+		function getDistanceToSquared( object1, object2 ) {
+
+			_a.setFromMatrixPosition( object1.matrixWorld );
+			_b.setFromMatrixPosition( object2.matrixWorld );
+
+			return _a.distanceToSquared( _b );
+
+		}
+
+		function filterAndFlatten( scene ) {
+
+			const result = [];
+
+			scene.traverse( function ( object ) {
+
+				if ( object.isCSS2DObject ) result.push( object );
+
+			} );
+
+			return result;
+
+		}
+
+		function zOrder( scene ) {
+
+			const sorted = filterAndFlatten( scene ).sort( function ( a, b ) {
+
+				const distanceA = cache.objects.get( a ).distanceToCameraSquared;
+				const distanceB = cache.objects.get( b ).distanceToCameraSquared;
+
+				return distanceA - distanceB;
+
+			} );
+
+			const zMax = sorted.length;
+
+			for ( let i = 0, l = sorted.length; i < l; i ++ ) {
+
+				sorted[ i ].element.style.zIndex = zMax - i;
+
+			}
+
+		}
+
+	}
+
+}
 
 const buildingsNames = {
   "MB": "Maintenance and Grounds Building",
@@ -101220,6 +101370,24 @@ const ifcFileName = {
 
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
+const navigationBar = document.getElementById("selectors");
+const navigationButton = document.getElementById("close-nav-bar");
+
+function closeNavBar() {
+let togglenavigationBar = false;
+navigationButton.onclick = function () {
+  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
+  navigationButton.style.transform = togglenavigationBar
+    ? ""
+    : "rotate(180deg)";
+  const navBarBackground = document.getElementById("nav-bar");
+  navBarBackground.style.backgroundColor = togglenavigationBar
+    ? ""
+    : "#FFFFFF00";
+  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
+  togglenavigationBar = !togglenavigationBar;
+};
+}
 
 function createBuildingSelector(building, names, selector) {
   for (id in names) {
@@ -101262,6 +101430,7 @@ function sortChildren(parent) {
 
 // Get the URL parameter
 const currentURL = window.location.href;
+const currentUser = "CIMS";
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
@@ -101286,6 +101455,7 @@ document
     let newURL = currentURL.slice(0, -2) + selectedOption;
     location.href = newURL;
   });
+closeNavBar();
 
 //Creates the Three.js scene
 const scene = new Scene();
@@ -101317,6 +101487,14 @@ const threeCanvas = document.getElementById("three-canvas");
 const renderer = new WebGLRenderer({ canvas: threeCanvas, alpha: true });
 renderer.setSize(size.width, size.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0xdddddd, 1);
+
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+labelRenderer.domElement.style.position = "absolute";
+labelRenderer.domElement.style.pointerEvents = "none";
+labelRenderer.domElement.style.top = "0";
+document.body.appendChild(labelRenderer.domElement);
 
 //Creates grids and axes in the scene
 new GridHelper(50, 30);
@@ -101362,6 +101540,7 @@ window.addEventListener("resize", () => {
   camera.aspect = size.width / size.height;
   camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
+  labelRenderer.setSize(size.width, size.height);
 });
 
 function animate() {
@@ -101369,7 +101548,7 @@ function animate() {
   cameraControls.update(delta);
 
   renderer.render(scene, camera);
-  // labelRenderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 
@@ -101441,10 +101620,10 @@ async function highlight(event, material, getProps) {
         found.object.modelID,
         id
       );
-      await ifcLoader.ifcManager.prop(
-        found.object.modelID,
-        id
-      );
+      // const typeProps = await ifcLoader.ifcManager.prop(
+      //   found.object.modelID,
+      //   id
+      // );
       console.log(props);
     }
 
@@ -101465,60 +101644,80 @@ threeCanvas.ondblclick = (event) =>
   highlight(event, pickHighlihgtMateral, true);
 threeCanvas.onmousemove = (event) =>
   highlight(event, hoverHighlihgtMateral, false);
+threeCanvas.oncontextmenu = (event) => {
+  labeling(event); 
+};
 
-// 8. Picking & Labeling
+// FUNCTIONS _____________________________________________________________________________________________________
 
-// const raycaster = new Raycaster();
-// const mouse = new Vector2();
+async function loadBuildingIFC(url, models, id) {
+  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+  ifcLoader.load(
+    url,
+    (ifcModel) => {
+      ifcModel.name = `ifc-${currentModelId}`;
+      scene.add(ifcModel);
+      loadingScreen.style.display = "none";
+      const ifcBb = ifcModel.geometry.boundingBox;
+      cameraControls.fitToBox(ifcBb, true);
+      models.push(ifcModel);
+    },
+    (progress) => {
+      loadingScreen.style.display = "flex";
+      progressText.textContent = `Loading ${buildingsNames[id]}: ${Math.round(
+        (progress.loaded * 100) / progress.total
+      )}%`;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
-// window.addEventListener("dblclick", (event) => {
-//   getMousePosition(event);
+function getMousePosition(event) {
+  mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
+  mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
+}
 
-//   raycaster.setFromCamera(mouse, camera);
-//   const intersects = raycaster.intersectObject(masses);
+function labeling(event) {
+  getMousePosition(event);
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(ifcModels);
+  if (!intersects.length) return;
+  const found = intersects[0];
+  const collisionLocation = found.point;
+  const message = window.prompt("Describe the issue:");
+  
+  if (!message) return;
 
-//   if (!intersects.length) return;
+  const container = document.createElement("div");
+  container.className = "label-container canvas";
 
-//   const found = intersects[0];
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "X";
+  deleteButton.className = "delete-button hidden";
+  container.appendChild(deleteButton);
 
-//   const collisionLocation = found.point;
+    const label = document.createElement("p");
+  label.textContent = `${currentUser}: ${message}`;
+  label.classList.add("label");
+  container.appendChild(label);
 
-//   const message = window.prompt("Describe the issue:");
+    const labelObject = new CSS2DObject(container);
+  labelObject.position.copy(collisionLocation);
+  scene.add(labelObject);
 
-//   const container = document.createElement("div");
-//   container.className = "label-container";
+    deleteButton.onclick = () => {
+    labelObject.removeFromParent();
+    labelObject.element = null;
+    container.remove();
+  };
 
-//   const deleteButton = document.createElement("button");
-//   deleteButton.textContent = "X";
-//   deleteButton.className = "delete-button hidden";
-//   container.appendChild(deleteButton);
+  container.onmouseenter = () => deleteButton.classList.remove('hidden');
+  container.onmouseleave = () => deleteButton.classList.add('hidden');
+}
 
-//   const label = document.createElement("p");
-//   label.textContent = `${found.object.name} : ${message}`;
-//   label.classList.add("label");
-//   container.appendChild(label)
-
-//   const labelObject = new CSS2DObject(container);
-//   labelObject.position.copy(collisionLocation);
-//   scene.add(labelObject);
-
-//   deleteButton.onclick = () => {
-//     labelObject.removeFromParent();
-//     labelObject.element = null;
-//     container.remove()
-//   }
-
-//   container.onmouseenter = () => deleteButton.classList.remove('hidden');
-//   container.onmouseleave = () => deleteButton.classList.add('hidden');
-
-// });
-
-// function getMousePosition(event) {
-//   mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
-//   mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
-// }
-
-// 10 Debugging
+// Debugging
 
 // const gui = new GUI();
 // gui.close();
@@ -101539,27 +101738,3 @@ threeCanvas.onmousemove = (event) =>
 //   .onChange(() => {
 //     renderer.setClearColor(colorParam.value);
 //   });
-
-// FUNCTIONS _____________________________________________________________________________________________________
-
-async function loadBuildingIFC(url, models, id) {
-  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-  ifcLoader.load(
-    url,
-    (ifcModel) => {
-      ifcModel.name = `ifc-${currentModelId}`;
-      scene.add(ifcModel);
-      loadingScreen.style.display = "none";
-      const ifcBb = ifcModel.geometry.boundingBox; 
-      cameraControls.fitToBox(ifcBb, true);
-      models.push(ifcModel);
-    },
-    (progress) => {
-      loadingScreen.style.display = "flex";
-      progressText.textContent = `Loading ${ buildingsNames[id] }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
-}

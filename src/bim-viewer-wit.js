@@ -40,10 +40,15 @@ import {
 } from "three/examples/jsm/renderers/CSS2DRenderer.js";
 
 import { buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
-import { updateSelectBldgMenu, createBuildingSelector } from "twin/twin.js";
+import {
+  updateSelectBldgMenu,
+  createBuildingSelector,
+  closeNavBar,
+} from "twin/twin.js";
 
 // Get the URL parameter
 const currentURL = window.location.href;
+const currentUser = "CIMS"
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
@@ -68,6 +73,7 @@ document
     let newURL = currentURL.slice(0, -2) + selectedOption;
     location.href = newURL;
   });
+closeNavBar();
 
 //Creates the Three.js scene
 const scene = new Scene();
@@ -99,6 +105,14 @@ const threeCanvas = document.getElementById("three-canvas");
 const renderer = new WebGLRenderer({ canvas: threeCanvas, alpha: true });
 renderer.setSize(size.width, size.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0xdddddd, 1);
+
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+labelRenderer.domElement.style.position = "absolute";
+labelRenderer.domElement.style.pointerEvents = "none";
+labelRenderer.domElement.style.top = "0";
+document.body.appendChild(labelRenderer.domElement);
 
 //Creates grids and axes in the scene
 const grid = new GridHelper(50, 30);
@@ -144,6 +158,7 @@ window.addEventListener("resize", () => {
   camera.aspect = size.width / size.height;
   camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
+  labelRenderer.setSize(size.width, size.height);
 });
 
 function animate() {
@@ -151,7 +166,7 @@ function animate() {
   cameraControls.update(delta);
 
   renderer.render(scene, camera);
-  // labelRenderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 
@@ -223,10 +238,10 @@ async function highlight(event, material, getProps) {
         found.object.modelID,
         id
       );
-      const typeProps = await ifcLoader.ifcManager.prop(
-        found.object.modelID,
-        id
-      );
+      // const typeProps = await ifcLoader.ifcManager.prop(
+      //   found.object.modelID,
+      //   id
+      // );
       console.log(props);
     }
 
@@ -247,60 +262,80 @@ threeCanvas.ondblclick = (event) =>
   highlight(event, pickHighlihgtMateral, true);
 threeCanvas.onmousemove = (event) =>
   highlight(event, hoverHighlihgtMateral, false);
+threeCanvas.oncontextmenu = (event) => {
+  labeling(event) 
+};
 
-// 8. Picking & Labeling
+// FUNCTIONS _____________________________________________________________________________________________________
 
-// const raycaster = new Raycaster();
-// const mouse = new Vector2();
+async function loadBuildingIFC(url, models, id) {
+  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+  ifcLoader.load(
+    url,
+    (ifcModel) => {
+      ifcModel.name = `ifc-${currentModelId}`;
+      scene.add(ifcModel);
+      loadingScreen.style.display = "none";
+      const ifcBb = ifcModel.geometry.boundingBox;
+      cameraControls.fitToBox(ifcBb, true);
+      models.push(ifcModel);
+    },
+    (progress) => {
+      loadingScreen.style.display = "flex";
+      progressText.textContent = `Loading ${buildingsNames[id]}: ${Math.round(
+        (progress.loaded * 100) / progress.total
+      )}%`;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
-// window.addEventListener("dblclick", (event) => {
-//   getMousePosition(event);
+function getMousePosition(event) {
+  mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
+  mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
+}
 
-//   raycaster.setFromCamera(mouse, camera);
-//   const intersects = raycaster.intersectObject(masses);
+function labeling(event) {
+  getMousePosition(event);
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(ifcModels);
+  if (!intersects.length) return;
+  const found = intersects[0];
+  const collisionLocation = found.point;
+  const message = window.prompt("Describe the issue:");
+  
+  if (!message) return;
 
-//   if (!intersects.length) return;
+  const container = document.createElement("div");
+  container.className = "label-container canvas";
 
-//   const found = intersects[0];
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "X";
+  deleteButton.className = "delete-button hidden";
+  container.appendChild(deleteButton);
 
-//   const collisionLocation = found.point;
+    const label = document.createElement("p");
+  label.textContent = `${currentUser}: ${message}`;
+  label.classList.add("label");
+  container.appendChild(label)
 
-//   const message = window.prompt("Describe the issue:");
+    const labelObject = new CSS2DObject(container);
+  labelObject.position.copy(collisionLocation);
+  scene.add(labelObject);
 
-//   const container = document.createElement("div");
-//   container.className = "label-container";
+    deleteButton.onclick = () => {
+    labelObject.removeFromParent();
+    labelObject.element = null;
+    container.remove()
+  }
 
-//   const deleteButton = document.createElement("button");
-//   deleteButton.textContent = "X";
-//   deleteButton.className = "delete-button hidden";
-//   container.appendChild(deleteButton);
+  container.onmouseenter = () => deleteButton.classList.remove('hidden');
+  container.onmouseleave = () => deleteButton.classList.add('hidden');
+}
 
-//   const label = document.createElement("p");
-//   label.textContent = `${found.object.name} : ${message}`;
-//   label.classList.add("label");
-//   container.appendChild(label)
-
-//   const labelObject = new CSS2DObject(container);
-//   labelObject.position.copy(collisionLocation);
-//   scene.add(labelObject);
-
-//   deleteButton.onclick = () => {
-//     labelObject.removeFromParent();
-//     labelObject.element = null;
-//     container.remove()
-//   }
-
-//   container.onmouseenter = () => deleteButton.classList.remove('hidden');
-//   container.onmouseleave = () => deleteButton.classList.add('hidden');
-
-// });
-
-// function getMousePosition(event) {
-//   mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
-//   mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
-// }
-
-// 10 Debugging
+// Debugging
 
 // const gui = new GUI();
 // gui.close();
@@ -321,27 +356,3 @@ threeCanvas.onmousemove = (event) =>
 //   .onChange(() => {
 //     renderer.setClearColor(colorParam.value);
 //   });
-
-// FUNCTIONS _____________________________________________________________________________________________________
-
-async function loadBuildingIFC(url, models, id) {
-  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-  ifcLoader.load(
-    url,
-    (ifcModel) => {
-      ifcModel.name = `ifc-${currentModelId}`;
-      scene.add(ifcModel);
-      loadingScreen.style.display = "none";
-      const ifcBb = ifcModel.geometry.boundingBox; 
-      cameraControls.fitToBox(ifcBb, true)
-      models.push(ifcModel);
-    },
-    (progress) => {
-      loadingScreen.style.display = "flex";
-      progressText.textContent = `Loading ${ buildingsNames[id] }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
-}
