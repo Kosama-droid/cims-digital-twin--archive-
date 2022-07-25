@@ -237,9 +237,6 @@ a {
   text-transform: uppercase;
 }
 
-
-
-
 .top {
   left: 0px;
   border-radius: 0 0 var(--border-radius) 0;
@@ -251,8 +248,8 @@ a {
 
 .ifc-property-menu {
   margin: 1rem;
+  max-height: 90vh;
   right: 0;
-  font-weight: 400;
   font-size: 0.8rem;
   text-transform: uppercase;
   width: 20rem;
@@ -260,10 +257,16 @@ a {
   background-color: var(--primary-color-transp1);
   box-shadow: var(--shadow);
   backdrop-filter: var(--blur);
+  overflow: auto;
+}
+
+.ifc-property-header {
+  font-weight: 700;
 }
 
 .ifc-property-item {
   display: flex;
+  font-weight: 400;
   flex-direction: row;
   width: 100%;
   padding: 0.5rem;
@@ -273,6 +276,7 @@ a {
 .ifc-property-value {
   width: 100%;
   text-align: right;
+  text-transform: initial;
 }
 
 .loader {

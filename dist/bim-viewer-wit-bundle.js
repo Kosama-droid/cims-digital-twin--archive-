@@ -101452,16 +101452,16 @@ let toggleProp = true;
 toggleVisibility(propertyMenu, propButton, toggleProp);
 
 function toggleVisibility(object, button, toggle) {
-button.onclick = function () {
-  if (toggle) {
-    object.classList.add("hidden");
-    this.setAttribute("title", `Show ${object.title}`);
-  } else {
-    this.setAttribute("title", `Hide ${object.title}`);
-    object.classList.remove("hidden");
-  }
-  toggle = !toggle;
-};
+  button.onclick = function () {
+    if (toggle) {
+      object.classList.add("hidden");
+      this.setAttribute("title", `Show ${object.title}`);
+    } else {
+      this.setAttribute("title", `Hide ${object.title}`);
+      object.classList.remove("hidden");
+    }
+    toggle = !toggle;
+  };
 }
 
 option.innerHTML = buildingsNames[currentModelId];
@@ -101612,7 +101612,7 @@ threeCanvas.ondblclick = (event) =>
 threeCanvas.onmousemove = (event) =>
   highlight(event, hoverHighlihgtMateral, false);
 threeCanvas.oncontextmenu = (event) => {
-  labeling(event); 
+  labeling(event);
 };
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -101643,6 +101643,7 @@ async function loadBuildingIFC(url, models, id) {
 
 async function highlight(event, material, getProps) {
   const found = cast(event);
+  const manager = ifcLoader.ifcManager;
   if (found) {
     const index = found.faceIndex;
     lastModel = found.object;
@@ -101651,21 +101652,13 @@ async function highlight(event, material, getProps) {
     const id = ifc.getExpressId(geometry, index);
 
     if (getProps) {
-      const props = await ifcLoader.ifcManager.getItemProperties(
-        found.object.modelID,
-        id, 
-        true
-      );
-      // const typeProps = await ifcLoader.ifcManager.prop(
-      //   found.object.modelID,
-      //   id
-      // );
-      console.log(props);
+      const modelID = found.object.modelID;
+      const props = await manager.getItemProperties(modelID, id, true);
+      await manager.getPropertySets(modelID, id, true);
       createPropertiesMenu(props);
-      
     }
 
-    ifcLoader.ifcManager.createSubset({
+    manager.createSubset({
       modelID: found.object.modelID,
       material: material,
       ids: [id],
@@ -101673,7 +101666,7 @@ async function highlight(event, material, getProps) {
       removePrevious: true,
     });
   } else if (lastModel) {
-    ifcLoader.ifcManager.removeSubset(lastModel.modelID, material);
+    manager.removeSubset(lastModel.modelID, material);
     lastModel = undefined;
   }
 }
@@ -101691,7 +101684,7 @@ function labeling(event) {
   const found = intersects[0];
   const collisionLocation = found.point;
   const message = window.prompt("Describe the issue:");
-  
+
   if (!message) return;
 
   const container = document.createElement("div");
@@ -101702,23 +101695,23 @@ function labeling(event) {
   deleteButton.className = "delete-button hidden";
   container.appendChild(deleteButton);
 
-    const label = document.createElement("p");
+  const label = document.createElement("p");
   label.textContent = `${currentUser}: ${message}`;
   label.classList.add("label");
   container.appendChild(label);
 
-    const labelObject = new CSS2DObject(container);
+  const labelObject = new CSS2DObject(container);
   labelObject.position.copy(collisionLocation);
   scene.add(labelObject);
 
-    deleteButton.onclick = () => {
+  deleteButton.onclick = () => {
     labelObject.removeFromParent();
     labelObject.element = null;
     container.remove();
   };
 
-  container.onmouseenter = () => deleteButton.classList.remove('hidden');
-  container.onmouseleave = () => deleteButton.classList.add('hidden');
+  container.onmouseenter = () => deleteButton.classList.remove("hidden");
+  container.onmouseleave = () => deleteButton.classList.add("hidden");
 }
 
 function cast(event) {
@@ -101742,7 +101735,6 @@ function cast(event) {
 }
 
 function createPropertiesMenu(properties) {
-
   removeAllChildren(propsGUI);
 
   properties.psets;
