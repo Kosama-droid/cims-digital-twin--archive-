@@ -121614,8 +121614,8 @@ document
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex].id;
     let newURL = currentURL.slice(0, -2) + selectedOption;
-    location.href = newURL;    
-});
+    location.href = newURL;
+  });
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 

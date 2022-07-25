@@ -101114,6 +101114,58 @@ new Matrix4();
 new Vector3();
 new Vector3();
 
+const buildingsNames = {
+  "MB": "Maintenance and Grounds Building",
+  "AC": "Athletics Alumni and Fieldhouse",
+  "DT": "Dunton Tower",
+  "NB": "Nesbitt Biology Building",
+  "AA": "Building 22",
+  "AR": "Arise",
+  "AP": "Azrieli Pavilion",
+  "AT": "Azrieli Theatre",
+  "CB": "Canal Building",
+  "HS": "Health Sciences Building",
+  "HP": "Hezberg Laboratories",
+  "LA": "Loeb Building",
+  "ME": "Mackenzie",
+  "ML": "Macodrum Library",
+  "MC": "Minto Centre",
+  "NI": "Nicol Building",
+  "PA": "Paterson Hall",
+  "RB": "River Building",
+  "SR": "Social Sciences Research Building",
+  "SA": "Southam Hall and Kailash Mital Theatre",
+  "SC": "Steacie Building",
+  "TB": "Tory Building",
+  "UC": "University Centre",
+  "VS": "Vsim Building",
+  "FR": "Frontenac House",
+  "GH": "Glengarry House",
+  "LH": "Lanark House",
+  "LE": "Leeds House",
+  "LX": "Lennox and Addington House",
+  "PH": "Prescott House",
+  "RH": "Renfrew House",
+  "CO": "Residence Commons",
+  "RU": "Russell and Grenville House",
+  "SP": "St Patricks Building",
+  "IH": "Ice House",
+  "TC": "Tennis Centre",
+  "P9": "Parking Garage P9",
+  "PS": "Parking Garage P18",
+  "SS": "Bronson Sub-Station",
+  "TT": "CTTC Bldg",
+  "UH": "CHEER",
+  "CC": "Colonel By Child Care Centre",
+  "RO": "Robertson Hall",
+  "Z1": "Exterior Zone 1",
+  "Z2": "Exterior Zone 2",
+  "Z3": "Exterior Zone 3",
+  "Z4": "Exterior Zone 4",
+  "RD": "Roads",
+  "TU": "Tunnels"
+};
+
 const ifcFileName = {
   AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
   AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
@@ -101166,15 +101218,76 @@ const ifcFileName = {
   Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
 };
 
-// Get the URL parameter
-  const currentURL = window.location.href;
-  const url = new URL(currentURL);
-  const currentModelCode = url.searchParams.get("id");
+const listedBuildings$1 = document.getElementById("listed-buildings");
+const loadedBuildings = document.getElementById("loaded-buildings");
 
-  document.getElementById("loader-container");
-  document.getElementById("progress-text");
-  
-    //Creates the Three.js scene
+function createBuildingSelector(building, names, selector) {
+  for (id in names) {
+    let option = document.createElement("option");
+    option.setAttribute("id", id);
+    building.listed[id] = names[id];
+    option.innerHTML = names[id];
+    selector.appendChild(option);
+  }
+  sortChildren(selector);
+}
+
+function updateSelectBldgMenu(building, id) {
+    let selectedOption = document.getElementById(id);
+      building.current.id = id;
+      if (!(building.current.id in building.loaded)) {
+        delete building.listed[id];
+        building.loaded[id] = id;
+        loadedBuildings.appendChild(selectedOption);
+        sortChildren(loadedBuildings);
+      } else {
+        delete building.loaded[id];
+        building.listed[id] = id;
+        listedBuildings$1.appendChild(selectedOption);
+        sortChildren(listedBuildings$1);
+      }
+    }
+
+function sortChildren(parent) {
+        const items = Array.prototype.slice.call(parent.children);
+        items.sort(function (a, b) {
+          return a.textContent.localeCompare(b.textContent);
+        });
+        items.forEach((item) => {
+          const itemParent = item.parentNode;
+          let detatchedItem = itemParent.removeChild(item);
+          itemParent.appendChild(detatchedItem);
+        });
+      }
+
+// Get the URL parameter
+const currentURL = window.location.href;
+const url = new URL(currentURL);
+const currentModelId = url.searchParams.get("id");
+
+const loadingScreen = document.getElementById("loader-container");
+const progressText = document.getElementById("progress-text");
+const building = {
+  current: { currentModelId },
+  ifcFile: {},
+  listed: {},
+  loaded: {},
+};
+
+option.innerHTML = buildingsNames[currentModelId];
+const listedBuildings = document.getElementById("listed-buildings");
+createBuildingSelector(building, buildingsNames, listedBuildings);
+updateSelectBldgMenu(building, currentModelId);
+
+document
+  .getElementById("building-select")
+  .addEventListener("change", function () {
+    let selectedOption = this[this.selectedIndex].id;
+    let newURL = currentURL.slice(0, -2) + selectedOption;
+    location.href = newURL;
+  });
+
+//Creates the Three.js scene
 const scene = new Scene();
 
 //Object to store the size of the viewport
@@ -101240,9 +101353,9 @@ cameraControls.dollyToCursor = true;
 cameraControls.setLookAt(50, 100, 100, 0, 0, 0);
 
 //Animation loop
-  
+
 animate();
-  
+
 //Adjust the viewport to the size of the browser
 window.addEventListener("resize", () => {
   (size.width = window.innerWidth), (size.height = window.innerHeight);
@@ -101268,11 +101381,11 @@ ifcLoader.ifcManager.setupThreeMeshBVH(
   acceleratedRaycast
 );
 
- // IFC Loading
- const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelCode]}`;
- // const ifcURL = `../static/public-ifc/${ifcFileName[currentModelCode]}`;
- const ifcModels = [];
- loadBuildingIFC(ifcURL, ifcModels);
+// IFC Loading
+const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
+// const ifcURL = `../static/public-ifc/${ifcFileName[currentModelId]}`;
+const ifcModels = [];
+loadBuildingIFC(ifcURL, ifcModels, currentModelId);
 
 const raycaster = new Raycaster();
 raycaster.firstHitOnly = true;
@@ -101317,128 +101430,136 @@ let lastModel;
 async function highlight(event, material, getProps) {
   const found = cast(event);
   if (found) {
-      const index = found.faceIndex;
-      lastModel = found.object;
-      const geometry = found.object.geometry;
-      const ifc = ifcLoader.ifcManager;
-      const id = ifc.getExpressId(geometry, index);
-      
-      if (getProps) {
-      const props = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id);
-      await ifcLoader.ifcManager.prop(found.object.modelID, id);
-      console.log(props);
-      }
+    const index = found.faceIndex;
+    lastModel = found.object;
+    const geometry = found.object.geometry;
+    const ifc = ifcLoader.ifcManager;
+    const id = ifc.getExpressId(geometry, index);
 
-      ifcLoader.ifcManager.createSubset({
-        modelID: found.object.modelID,
-        material: material,
-        ids: [id],
-        scene,
-        removePrevious: true
-      });
-  }
-  else if(lastModel) {
+    if (getProps) {
+      const props = await ifcLoader.ifcManager.getItemProperties(
+        found.object.modelID,
+        id
+      );
+      await ifcLoader.ifcManager.prop(
+        found.object.modelID,
+        id
+      );
+      console.log(props);
+    }
+
+    ifcLoader.ifcManager.createSubset({
+      modelID: found.object.modelID,
+      material: material,
+      ids: [id],
+      scene,
+      removePrevious: true,
+    });
+  } else if (lastModel) {
     ifcLoader.ifcManager.removeSubset(lastModel.modelID, material);
     lastModel = undefined;
   }
 }
 
-threeCanvas.ondblclick = (event) => highlight(event, pickHighlihgtMateral, true);
-threeCanvas.onmousemove = (event) => highlight(event, hoverHighlihgtMateral, false);
+threeCanvas.ondblclick = (event) =>
+  highlight(event, pickHighlihgtMateral, true);
+threeCanvas.onmousemove = (event) =>
+  highlight(event, hoverHighlihgtMateral, false);
 
-  
-  // 8. Picking & Labeling
-  
-  // const raycaster = new Raycaster();
-  // const mouse = new Vector2();
-  
-  // window.addEventListener("dblclick", (event) => {
-  //   getMousePosition(event);
-  
-  //   raycaster.setFromCamera(mouse, camera);
-  //   const intersects = raycaster.intersectObject(masses);
-  
-  //   if (!intersects.length) return;
-  
-  //   const found = intersects[0];
-  
-  //   const collisionLocation = found.point;
-  
-  //   const message = window.prompt("Describe the issue:");
-  
-  //   const container = document.createElement("div");
-  //   container.className = "label-container";
-  
-  //   const deleteButton = document.createElement("button");
-  //   deleteButton.textContent = "X";
-  //   deleteButton.className = "delete-button hidden";
-  //   container.appendChild(deleteButton);
-  
-  //   const label = document.createElement("p");
-  //   label.textContent = `${found.object.name} : ${message}`;
-  //   label.classList.add("label");
-  //   container.appendChild(label)
-    
-  //   const labelObject = new CSS2DObject(container);
-  //   labelObject.position.copy(collisionLocation);
-  //   scene.add(labelObject);
-  
-  //   deleteButton.onclick = () => {
-  //     labelObject.removeFromParent();
-  //     labelObject.element = null;
-  //     container.remove()
-  //   }
-  
-  //   container.onmouseenter = () => deleteButton.classList.remove('hidden');
-  //   container.onmouseleave = () => deleteButton.classList.add('hidden');
-  
-  // });
-  
-  // function getMousePosition(event) {
-  //   mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
-  //   mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
-  // }
-  
-  // 10 Debugging
-  
-  // const gui = new GUI();
-  // gui.close();
-  
-  // const min = -3;
-  // const max = 3;
-  // const step = 0.01;
-  
-  // const transformationFolder = gui.addFolder("Transformation");
-  // const colorFolder = gui.addFolder("Colors");
-  // const colorParam = {
-  //   value: 0xff0000,
-  // };
-  
-  // colorFolder
-  //   .addColor(colorParam, "value")
-  //   .name("Background Color")
-  //   .onChange(() => {
-  //     renderer.setClearColor(colorParam.value);
-  //   });
-  
+// 8. Picking & Labeling
+
+// const raycaster = new Raycaster();
+// const mouse = new Vector2();
+
+// window.addEventListener("dblclick", (event) => {
+//   getMousePosition(event);
+
+//   raycaster.setFromCamera(mouse, camera);
+//   const intersects = raycaster.intersectObject(masses);
+
+//   if (!intersects.length) return;
+
+//   const found = intersects[0];
+
+//   const collisionLocation = found.point;
+
+//   const message = window.prompt("Describe the issue:");
+
+//   const container = document.createElement("div");
+//   container.className = "label-container";
+
+//   const deleteButton = document.createElement("button");
+//   deleteButton.textContent = "X";
+//   deleteButton.className = "delete-button hidden";
+//   container.appendChild(deleteButton);
+
+//   const label = document.createElement("p");
+//   label.textContent = `${found.object.name} : ${message}`;
+//   label.classList.add("label");
+//   container.appendChild(label)
+
+//   const labelObject = new CSS2DObject(container);
+//   labelObject.position.copy(collisionLocation);
+//   scene.add(labelObject);
+
+//   deleteButton.onclick = () => {
+//     labelObject.removeFromParent();
+//     labelObject.element = null;
+//     container.remove()
+//   }
+
+//   container.onmouseenter = () => deleteButton.classList.remove('hidden');
+//   container.onmouseleave = () => deleteButton.classList.add('hidden');
+
+// });
+
+// function getMousePosition(event) {
+//   mouse.x = (event.clientX / threeCanvas.clientWidth) * 2 - 1;
+//   mouse.y = -(event.clientY / threeCanvas.clientHeight) * 2 + 1;
+// }
+
+// 10 Debugging
+
+// const gui = new GUI();
+// gui.close();
+
+// const min = -3;
+// const max = 3;
+// const step = 0.01;
+
+// const transformationFolder = gui.addFolder("Transformation");
+// const colorFolder = gui.addFolder("Colors");
+// const colorParam = {
+//   value: 0xff0000,
+// };
+
+// colorFolder
+//   .addColor(colorParam, "value")
+//   .name("Background Color")
+//   .onChange(() => {
+//     renderer.setClearColor(colorParam.value);
+//   });
+
 // FUNCTIONS _____________________________________________________________________________________________________
 
-  async function loadBuildingIFC(url, models) {
-    await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-    ifcLoader.load(
+async function loadBuildingIFC(url, models, id) {
+  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
+  ifcLoader.load(
     url,
     (ifcModel) => {
-      ifcModel.name = `ifc-${currentModelCode}`;
+      ifcModel.name = `ifc-${currentModelId}`;
       scene.add(ifcModel);
-      // loader.style.display = "none";
+      loadingScreen.style.display = "none";
+      const ifcBb = ifcModel.geometry.boundingBox; 
+      cameraControls.fitToBox(ifcBb, true);
       models.push(ifcModel);
     },
     (progress) => {
-      // loader.style.display = "flex";
-      // progressText.textContent = `Loading ${ selectedOption }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
+      loadingScreen.style.display = "flex";
+      progressText.textContent = `Loading ${ buildingsNames[id] }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
     },
     (error) => {
       console.log(error);
     }
   );
-  }
+}

@@ -1,12 +1,7 @@
 import { Color, LatheBufferGeometry } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
-import {
-  updateSelectBldgMenu,
-  sortChildren,
-  createBuildingSelector,
-  isolateSelector,
-} from "twin/twin.js";
+import { updateSelectBldgMenu, createBuildingSelector } from "twin/twin.js";
 
 const container = document.getElementById("viewer-container");
 const viewer = new IfcViewerAPI({
@@ -40,8 +35,8 @@ document
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex].id;
     let newURL = currentURL.slice(0, -2) + selectedOption;
-    location.href = newURL;    
-});
+    location.href = newURL;
+  });
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 
