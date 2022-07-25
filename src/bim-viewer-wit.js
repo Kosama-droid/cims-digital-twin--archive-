@@ -54,6 +54,8 @@ const currentModelId = url.searchParams.get("id");
 
 const loadingScreen = document.getElementById("loader-container");
 const progressText = document.getElementById("progress-text");
+const propsGUI = document.getElementById("ifc-property-menu-root");
+
 const building = {
   current: { currentModelId },
   ifcFile: {},
@@ -188,26 +190,6 @@ const raycaster = new Raycaster();
 raycaster.firstHitOnly = true;
 const mouse = new Vector2();
 
-function cast(event) {
-  // Computes the position of the mouse on the screen
-  const bounds = threeCanvas.getBoundingClientRect();
-
-  const x1 = event.clientX - bounds.left;
-  const x2 = bounds.right - bounds.left;
-  mouse.x = (x1 / x2) * 2 - 1;
-
-  const y1 = event.clientY - bounds.top;
-  const y2 = bounds.bottom - bounds.top;
-  mouse.y = -(y1 / y2) * 2 + 1;
-
-  // Places it on the camera pointing to the mouse
-  raycaster.setFromCamera(mouse, camera);
-
-  // Casts a ray
-  const found = raycaster.intersectObjects(ifcModels)[0];
-  return found;
-}
-
 const hoverHighlihgtMateral = new MeshBasicMaterial({
   transparent: true,
   opacity: 0.6,
@@ -223,40 +205,6 @@ const pickHighlihgtMateral = new MeshBasicMaterial({
 });
 
 let lastModel;
-
-async function highlight(event, material, getProps) {
-  const found = cast(event);
-  if (found) {
-    const index = found.faceIndex;
-    lastModel = found.object;
-    const geometry = found.object.geometry;
-    const ifc = ifcLoader.ifcManager;
-    const id = ifc.getExpressId(geometry, index);
-
-    if (getProps) {
-      const props = await ifcLoader.ifcManager.getItemProperties(
-        found.object.modelID,
-        id
-      );
-      // const typeProps = await ifcLoader.ifcManager.prop(
-      //   found.object.modelID,
-      //   id
-      // );
-      console.log(props);
-    }
-
-    ifcLoader.ifcManager.createSubset({
-      modelID: found.object.modelID,
-      material: material,
-      ids: [id],
-      scene,
-      removePrevious: true,
-    });
-  } else if (lastModel) {
-    ifcLoader.ifcManager.removeSubset(lastModel.modelID, material);
-    lastModel = undefined;
-  }
-}
 
 threeCanvas.ondblclick = (event) =>
   highlight(event, pickHighlihgtMateral, true);
@@ -290,6 +238,43 @@ async function loadBuildingIFC(url, models, id) {
       console.log(error);
     }
   );
+}
+
+async function highlight(event, material, getProps) {
+  const found = cast(event);
+  if (found) {
+    const index = found.faceIndex;
+    lastModel = found.object;
+    const geometry = found.object.geometry;
+    const ifc = ifcLoader.ifcManager;
+    const id = ifc.getExpressId(geometry, index);
+
+    if (getProps) {
+      const props = await ifcLoader.ifcManager.getItemProperties(
+        found.object.modelID,
+        id, 
+        true
+      );
+      // const typeProps = await ifcLoader.ifcManager.prop(
+      //   found.object.modelID,
+      //   id
+      // );
+      console.log(props);
+      createPropertiesMenu(props);
+      
+    }
+
+    ifcLoader.ifcManager.createSubset({
+      modelID: found.object.modelID,
+      material: material,
+      ids: [id],
+      scene,
+      removePrevious: true,
+    });
+  } else if (lastModel) {
+    ifcLoader.ifcManager.removeSubset(lastModel.modelID, material);
+    lastModel = undefined;
+  }
 }
 
 function getMousePosition(event) {
@@ -333,6 +318,68 @@ function labeling(event) {
 
   container.onmouseenter = () => deleteButton.classList.remove('hidden');
   container.onmouseleave = () => deleteButton.classList.add('hidden');
+}
+
+function cast(event) {
+  // Computes the position of the mouse on the screen
+  const bounds = threeCanvas.getBoundingClientRect();
+
+  const x1 = event.clientX - bounds.left;
+  const x2 = bounds.right - bounds.left;
+  mouse.x = (x1 / x2) * 2 - 1;
+
+  const y1 = event.clientY - bounds.top;
+  const y2 = bounds.bottom - bounds.top;
+  mouse.y = -(y1 / y2) * 2 + 1;
+
+  // Places it on the camera pointing to the mouse
+  raycaster.setFromCamera(mouse, camera);
+
+  // Casts a ray
+  const found = raycaster.intersectObjects(ifcModels)[0];
+  return found;
+}
+
+function createPropertiesMenu(properties) {
+
+  removeAllChildren(propsGUI);
+
+  const psets = properties.psets;
+  const mats = properties.mats;
+  const type = properties.type;
+
+  delete properties.psets;
+  delete properties.mats;
+  delete properties.type;
+
+  for (let key in properties) {
+    createPropertyEntry(key, properties[key]);
+  }
+}
+
+function createPropertyEntry(key, value) {
+  const propContainer = document.createElement("div");
+  propContainer.classList.add("ifc-property-item");
+
+  if (value === null || value === undefined) value = "undefined";
+  else if (value.value) value = value.value;
+
+  const keyElement = document.createElement("div");
+  keyElement.textContent = key;
+  propContainer.appendChild(keyElement);
+
+  const valueElement = document.createElement("div");
+  valueElement.classList.add("ifc-property-value");
+  valueElement.textContent = value;
+  propContainer.appendChild(valueElement);
+
+  propsGUI.appendChild(propContainer);
+}
+
+function removeAllChildren(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 // Debugging
