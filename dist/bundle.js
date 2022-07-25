@@ -94852,7 +94852,6 @@ const listedBuildings = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
 
 function createBuildingSelector(building, names, selector) {
-  selector.style.display = "inline-block";
   for (id in names) {
     let option = document.createElement("option");
     option.setAttribute("id", id);
