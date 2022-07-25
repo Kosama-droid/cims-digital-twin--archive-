@@ -101653,20 +101653,10 @@ async function highlight(event, material, getProps) {
 
     if (getProps) {
       const modelID = found.object.modelID;
-      const props = await manager.getItemProperties(modelID, id);
-      const psets = await manager.getPropertySets(modelID, id);
+      const props = await manager.getItemProperties(modelID, id, true);
+      const typeProps = await manager.getTypeProperties(modelID, id);
 
-      for (const pset of psets) {
-        const realValues = [];
-        for (const prop of pset.HasProperties) {
-          const id = prop.value;
-          const value = await manager.getItemProperties(modelID, id);
-          realValues.push(value);
-        }
-        psets.HasProperties = realValues;
-      }
-
-      console.log(psets);
+      console.log(typeProps);
       createPropertiesMenu(props);
     }
 

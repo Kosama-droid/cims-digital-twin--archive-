@@ -94926,7 +94926,6 @@ isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
 
 let scene ,camera, map, renderer, raycaster, gltfMasses;
-let province, city;
 
 let previousSelection = {
   mesh: null,
@@ -94941,7 +94940,9 @@ const highlightMaterial = new MeshStandardMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const geoJson = { fill: "", outline: "" },
+const province = {},
+  city = {},
+  geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
@@ -94969,6 +94970,7 @@ map = new mapboxgl.Map({
   zoom: 4, // starting zoom
   pitch: 0,
   antialias: true,
+  doubleClickZoom: false,
   projection: "globe", // display the map as a 3D globe
 });
 // Day sky
@@ -95080,10 +95082,6 @@ document
     updateSelectBldgMenu(building, selectedId);
   });
 
-document.getElementById("building-select").onclick = function () {
-  this.selectedIndex = 0;
-};
-
 // Select province or Territory 🍁 _________________________________________________________
 const provinceNames = [];
 const provinces = canada.provinces;
@@ -95100,6 +95098,7 @@ provinces.forEach((province) => {
 document
   .getElementById("province-select")
   .addEventListener("change", function () {
+    console.log(province);
     province.index = provinceNames.indexOf(this.value);
     province.code = provinces[province.index].code;
     province.term = provinces[province.index].term;

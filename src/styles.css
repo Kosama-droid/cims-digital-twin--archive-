@@ -376,3 +376,7 @@ pointer-events: all;
   color: #222;
   background: var(--primary-color-transp1);
 }
+
+.mapboxgl-ctrl-bottom-right{
+  visibility: collapse;
+}
