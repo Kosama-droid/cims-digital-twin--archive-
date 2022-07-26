@@ -362,21 +362,41 @@ pointer-events: all;
   height: 100%;
 }
 
-#info {
-  z-index: 1;
-  display: table;
-  position: absolute;
-  right: 0;
-  bottom: 82px;
-  white-space: pre-wrap;
-  padding: 10px;
-  border-radius: 3px;
-  font-size: 0.8rem;
-  text-align: center;
-  color: #222;
-  background: var(--primary-color-transp1);
-}
-
 .mapboxgl-ctrl-bottom-right{
   visibility: collapse;
+}
+
+.info-text {
+  visibility: hidden;
+  font-weight: 300;
+  font-size: 0.8rem;
+  margin-left: -10rem;
+  width: 20rem;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.info-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--secondary-color) transparent transparent transparent;
+}
+
+.info:hover .info-text {
+  visibility: visible;
+  opacity: 1;
 }

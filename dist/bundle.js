@@ -95040,7 +95040,7 @@ goTo.onclick = function () {
     createBuildingSelector(building, buildingsNames, listedBuildings);
 
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "go-to", "osm", "bim");
+    isolateSelector(toolbar, "go-to", "osm", "info", "bim");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
