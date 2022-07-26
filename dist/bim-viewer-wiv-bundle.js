@@ -121542,8 +121542,24 @@ const ifcFileName = {
 
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
-document.getElementById("selectors");
-document.getElementById("close-nav-bar");
+const navigationBar = document.getElementById("selectors");
+const navigationButton = document.getElementById("close-nav-bar");
+
+function closeNavBar() {
+let togglenavigationBar = false;
+navigationButton.onclick = function () {
+  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
+  navigationButton.style.transform = togglenavigationBar
+    ? ""
+    : "rotate(180deg)";
+  const navBarBackground = document.getElementById("nav-bar");
+  navBarBackground.style.backgroundColor = togglenavigationBar
+    ? ""
+    : "#FFFFFF00";
+  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
+  togglenavigationBar = !togglenavigationBar;
+};
+}
 
 function createBuildingSelector(building, names, selector) {
   for (id in names) {
@@ -121584,20 +121600,27 @@ function sortChildren(parent) {
         });
       }
 
-const container = document.getElementById("viewer-container");
-const viewer = new IfcViewerAPI({
-  container,
-  backgroundColor: new Color(0xffffff),
-});
-
-// Create grid and axes
-// viewer.grid.setGrid();
-viewer.axes.setAxes();
+function toggleVisibility(object, button, toggle) {
+        button.onclick = function () {
+          if (toggle) {
+            object.classList.add("hidden");
+            this.setAttribute("title", `Show ${object.title}`);
+          } else {
+            this.setAttribute("title", `Hide ${object.title}`);
+            object.classList.remove("hidden");
+          }
+          toggle = !toggle;
+        };
+      }
 
 // Get the URL parameter
 const currentURL = window.location.href;
+document.getElementById("user").addEventListener("change", () =>  document.getElementById("user").value );
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
+
+document.getElementById("loader-container");
+document.getElementById("progress-text");
 
 const building = {
   current: { currentModelId },
@@ -121605,6 +121628,12 @@ const building = {
   listed: {},
   loaded: {},
 };
+
+// GUI
+const propertyMenu = document.getElementById("ifc-property-menu");
+const propButton = document.getElementById("prop-button");
+let toggleProp = false;
+toggleVisibility(propertyMenu, propButton, toggleProp);
 
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");
@@ -121618,6 +121647,17 @@ document
     let newURL = currentURL.slice(0, -2) + selectedOption;
     location.href = newURL;
   });
+closeNavBar();
+
+const container = document.getElementById("viewer-container");
+const viewer = new IfcViewerAPI({
+  container,
+  backgroundColor: new Color(0xffffff),
+});
+
+// Create grid and axes
+// viewer.grid.setGrid();
+viewer.axes.setAxes();
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 
@@ -121627,6 +121667,7 @@ async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
   const model = await viewer.IFC.loadIfcUrl(url);
   await viewer.shadowDropper.renderShadow(model.modelID);
+  viewer.context.renderer.postProduction.active = true;
 }
 
 loadIfc("../../../IFC/01.ifc");
@@ -121634,7 +121675,7 @@ loadIfc("../../../IFC/01.ifc");
 // Properties menu
 
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
-// window.ondblclick = () => viewer.IFC.selector.pickIfcItem();
+window.onclick = () => viewer.IFC.selector.pickIfcItem();
 
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.highlightIfcItem();

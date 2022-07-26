@@ -44,6 +44,7 @@ import {
   updateSelectBldgMenu,
   createBuildingSelector,
   closeNavBar,
+  toggleVisibility,
 } from "twin/twin.js";
 
 // Get the URL parameter
@@ -69,19 +70,6 @@ const propertyMenu = document.getElementById("ifc-property-menu");
 const propButton = document.getElementById("prop-button");
 let toggleProp = false;
 toggleVisibility(propertyMenu, propButton, toggleProp);
-
-function toggleVisibility(object, button, toggle) {
-  button.onclick = function () {
-    if (toggle) {
-      object.classList.add("hidden");
-      this.setAttribute("title", `Show ${object.title}`);
-    } else {
-      this.setAttribute("title", `Hide ${object.title}`);
-      object.classList.remove("hidden");
-    }
-    toggle = !toggle;
-  };
-}
 
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");

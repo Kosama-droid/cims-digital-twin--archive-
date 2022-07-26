@@ -25,4 +25,16 @@ export default [
     resolve(),
   ],
 },
+{
+  input: "src/bim-viewer-wiv.js",
+  output: [
+    {
+    format: "esm",
+    file: "./dist/bim-viewer-wiv-bundle.js"
+    }
+  ],
+  plugins: [
+    resolve(),
+  ],
+},
 ]
