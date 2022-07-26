@@ -94923,7 +94923,7 @@ const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
 
 isolateSelector(selectors, "province-select", "style-select");
-isolateSelector(toolbar, "go-to", "lng", "lat", "msl");
+isolateSelector(toolbar, "go-to", "coordinates");
 
 let scene ,camera, map, renderer, raycaster, gltfMasses;
 
@@ -95148,7 +95148,7 @@ document
             province.code
         ).then((cityGeojson) => {
           isolateSelector(selectors, "site-select", "style-select");
-          isolateSelector(toolbar, "osm", "go-to", "lng", "lat");
+          isolateSelector(toolbar, "osm", "go-to", "coordinates");
           geoJson.current = cityGeojson;
           geoJson.bbox = turf.bbox(cityGeojson);
           map.fitBounds(geoJson.bbox);

@@ -9,6 +9,7 @@
   --primary-color-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
   --secondary-color: #555;
+  --secondary-transp1:  rgba(85, 85, 85, 0.9);
   --blue-color: #1ca6f4;
   --shadow: 0.4rem 0.4rem 0.6rem #00000040;
   --blur: blur(2px);
@@ -22,8 +23,8 @@ body {
 
 input {
   z-index: 2;
-  display: inline-block;
   cursor: pointer;
+  backdrop-filter: var(--blur);
 }
 
 hide-overflow {
@@ -80,10 +81,6 @@ a {
 }
 
 .hidden {
-  visibility: collapse;
-}
-
-.select {
   display: none;
 }
 
@@ -129,23 +126,16 @@ a {
   pointer-events: all;
 }
 
-.toolbar a {
-  margin: 0.5rem;
-}
-
 .toolbar input {
   border: none;
   border-radius: var(--border-radius);
   height: 2rem;
   padding: 0.3rem;
-  margin: 0.3rem;
   background-color: var(--primary-color-transp1);
   box-shadow: var(--shadow);
   max-width: 3rem;
-  display: none;
   text-align: center;
   font-size: 0.8rem;
-  text-transform: uppercase;
 }
 
 .toolbar input:hover {
@@ -370,10 +360,10 @@ pointer-events: all;
   visibility: hidden;
   font-weight: 300;
   font-size: 0.8rem;
-  margin-left: -10rem;
   width: 20rem;
-  background-color: #555;
-  color: #fff;
+  margin-left: -10rem;
+  background-color: var(--secondary-transp1);
+  color: var(--primary-color);
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
@@ -381,8 +371,10 @@ pointer-events: all;
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  opacity: 0;
+  opacity: 0.5;
+  text-transform: uppercase;
   transition: opacity 0.3s;
+  backdrop-filter: var(--blur);
 }
 
 .info-text::after {
@@ -393,7 +385,7 @@ pointer-events: all;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: var(--secondary-color) transparent transparent transparent;
+  border-color: var(--secondary-transp1) transparent transparent transparent;
 }
 
 .info:hover .info-text {

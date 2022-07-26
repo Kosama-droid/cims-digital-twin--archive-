@@ -51,7 +51,6 @@
         </optgroup>
         <optgroup label="Available buildings" id="listed-buildings" class="unloaded"></optgroup>
       </select>
-      <input type="file" name="load" id="file-input" class="select" />
     </div>
     <div id="loader-container">
       <div class="loader"></div>
@@ -72,14 +71,17 @@
             d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" />
         </svg>
       </a>
-      <a id="prop-button" class="button circular" title="Hide Properties">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="m22 17.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-2.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-1.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-3.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-4.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75z" fill-rule="nonzero"/></svg>
-        </svg>
+      <a class="info">
+        <input id="user" type="text" name="User" autocomplete="off" placeholder="USER" value="">
+        <span class="info-text">Add user name <br>Right click on elements to leave comments</span>
       </a>
-      <a class="button circular info" id="info" title="Info">
-        <span class="info-text">Click to select elements <br>Doubleclick to get properties <br> Right click to leave comments on elements</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 18h-2v-8h2v8zm-1-12.25c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25z"/></svg>
+      <a id="prop-button" class="button circular info" title="Hide Properties">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="m22 17.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-2.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-1.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-3.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25-.25c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75zm-18.25-4.75c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75zm18.25.75c0-.414-.336-.75-.75-.75h-13.5c-.414 0-.75.336-.75.75s.336.75.75.75h13.5c.414 0 .75-.336.75-.75z"
+            fill-rule="nonzero" />
+       <span class="info-text">Click on elements to select them <br> Doubleclick to get properties</span>     
+        </svg>
       </a>
     </div>
   </div>
@@ -91,13 +93,13 @@
       </svg>
 </div> -->
 
-<div class="ifc-property-menu" id="ifc-property-menu" title="Properties">
-  <div class="ifc-property-item">
-      <div class="ifc-property-header" >Property</div>
+  <div class="ifc-property-menu hidden" id="ifc-property-menu" title="Properties">
+    <div class="ifc-property-item">
+      <div class="ifc-property-header">Property</div>
       <div class="ifc-property-header ifc-property-value">Value</div>
+    </div>
+    <div id="ifc-property-menu-root"></div>
   </div>
-  <div id="ifc-property-menu-root"></div>
-</div>
 
   <!-- <div id="viewer-container"></div>
   <script src="../dist/bim-viewer-wiv-bundle.js"></script> -->

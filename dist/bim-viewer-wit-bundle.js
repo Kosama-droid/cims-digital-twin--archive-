@@ -101430,7 +101430,8 @@ function sortChildren(parent) {
 
 // Get the URL parameter
 const currentURL = window.location.href;
-const currentUser = "CIMS";
+let currentUser = "User";
+document.getElementById("user").addEventListener("change", () =>  currentUser = document.getElementById("user").value );
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
@@ -101448,7 +101449,7 @@ const building = {
 // GUI
 const propertyMenu = document.getElementById("ifc-property-menu");
 const propButton = document.getElementById("prop-button");
-let toggleProp = true;
+let toggleProp = false;
 toggleVisibility(propertyMenu, propButton, toggleProp);
 
 function toggleVisibility(object, button, toggle) {
