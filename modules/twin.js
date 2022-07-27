@@ -3,7 +3,7 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
 
-function isolateSelector(selectors, ...keys) {
+export function isolateSelector(selectors, ...keys) {
     selectors.forEach((selector) => {
       if (keys.includes(selector.id)) {
         selector.style.display = "inline-block";
@@ -13,7 +13,7 @@ function isolateSelector(selectors, ...keys) {
     });
   }
 
-function closeNavBar() {
+export function closeNavBar() {
 let togglenavigationBar = false;
 navigationButton.onclick = function () {
   navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
@@ -29,7 +29,7 @@ navigationButton.onclick = function () {
 };
 }
 
-function createBuildingSelector(building, names, selector) {
+export function createBuildingSelector(building, names, selector) {
   for (id in names) {
     let option = document.createElement("option");
     option.setAttribute("id", id);
@@ -40,7 +40,7 @@ function createBuildingSelector(building, names, selector) {
   sortChildren(selector);
 }
 
-function updateSelectBldgMenu(building, id) {
+export function updateSelectBldgMenu(building, id) {
     let selectedOption = document.getElementById(id);
       building.current.id = id;
       if (!(building.current.id in building.loaded)) {
@@ -56,7 +56,7 @@ function updateSelectBldgMenu(building, id) {
       }
     }
 
-function sortChildren(parent) {
+export function sortChildren(parent) {
         const items = Array.prototype.slice.call(parent.children);
         items.sort(function (a, b) {
           return a.textContent.localeCompare(b.textContent);
@@ -68,7 +68,7 @@ function sortChildren(parent) {
         });
       }
 
-function toggleVisibility(object, button, toggle) {
+export function toggleVisibility(object, button, toggle) {
         button.onclick = function () {
           if (toggle) {
             object.classList.add("hidden");
@@ -82,7 +82,7 @@ function toggleVisibility(object, button, toggle) {
       }
 
 
-function createTreeMenu(ifcProject) {
+export function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root")
   removeAllChildren(root);
   const ifcProjectNode = createNestedChild(root, ifcProject);
@@ -91,7 +91,7 @@ function createTreeMenu(ifcProject) {
   }
 }
 
-function constructTreeMenuNode(parent, node) {
+export function constructTreeMenuNode(parent, node) {
   const children = node.children;
   if(children.length === 0) {
     createSimpleChild(parent, node);
@@ -103,7 +103,7 @@ function constructTreeMenuNode(parent, node) {
   }
 }
 
-function createSimpleChild(parent, node) {
+export function createSimpleChild(parent, node) {
   const content = nodeToString(node);
   const childNode = document.createElement('li');
   childNode.classList.add('leaf-node');
@@ -111,7 +111,7 @@ function createSimpleChild(parent, node) {
   parent.appendChild(childNode);
 }
 
-function createNestedChild(parent, node) {
+export function createNestedChild(parent, node) {
   const content = nodeToString(node);
   const root = document.createElement('li');
   createTitle(root, content);
@@ -120,10 +120,9 @@ function createNestedChild(parent, node) {
   root.appendChild(childrenContainer);
   parent.appendChild(root);
   return childrenContainer;
->>>>>>> Stashed changes
 }
 
-function createTitle(parent, content) {
+export function createTitle(parent, content) {
   const title = document.createElement('span')
   title.classList.add('caret');
   title.onclick = () => {
@@ -135,11 +134,11 @@ function createTitle(parent, content) {
   parent.appendChild(title)
 }
 
-function nodeToString(node) {
+export function nodeToString(node) {
   return `${node.type} - ${node.expressID}`;
 }
 
-function removeAllChildren(element) {
+export function removeAllChildren(element) {
   while(element.firstChild) {
     element.removeChild(element.firstChild)
   }

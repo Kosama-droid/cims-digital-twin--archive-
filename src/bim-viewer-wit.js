@@ -71,10 +71,25 @@ const propButton = document.getElementById("prop-button");
 let toggleProp = false;
 toggleVisibility(propertyMenu, propButton, toggleProp);
 
+const treeMenu = document.getElementById("ifc-tree-menu");
+const treeButton = document.getElementById("tree-button");
+let toggleTree = false;
+toggleVisibility(treeMenu, treeButton, toggleTree);
+
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");
 createBuildingSelector(building, buildingsNames, listedBuildings);
 updateSelectBldgMenu(building, currentModelId);
+
+const toggler = document.getElementsByClassName("caret");
+let i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
 
 document
   .getElementById("building-select")

@@ -236,18 +236,27 @@ a {
   color: var(--secondary-color);
 }
 
-.ifc-property-menu {
+.side-menu {
   margin: 1rem;
   max-height: 90vh;
-  right: 0;
   font-size: 0.8rem;
   text-transform: uppercase;
-  width: 20rem;
   position: absolute;
   background-color: var(--primary-color-transp1);
   box-shadow: var(--shadow);
   backdrop-filter: var(--blur);
   overflow: auto;
+}
+
+.right{
+  right: 0;
+  width: 20rem;
+}
+
+.left{
+ left: 0;
+ width: fit-content;
+ padding: 0.5rem;
 }
 
 .ifc-property-header {
@@ -391,4 +400,54 @@ pointer-events: all;
 .info:hover .info-text {
   visibility: visible;
   opacity: 1;
+}
+
+/*Tree view: https://www.w3schools.com/howto/howto_js_treeview.asp*/
+
+li ul {
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Remove default bullets */
+ul, #myUL {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0.5rem;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+  user-select: none;
+  font-weight: 700;
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.2rem;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+  margin-left: 10px;
 }

@@ -1,5 +1,3 @@
-import { toggleVisibility, createBuildingSelector, updateSelectBldgMenu, closeNavBar } from '.modules/twin.js';
-
 /**
  * @license
  * Copyright 2010-2021 Three.js Authors
@@ -101370,6 +101368,79 @@ const ifcFileName = {
   Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
 };
 
+const listedBuildings$1 = document.getElementById("listed-buildings");
+const loadedBuildings = document.getElementById("loaded-buildings");
+const navigationBar = document.getElementById("selectors");
+const navigationButton = document.getElementById("close-nav-bar");
+
+function closeNavBar() {
+let togglenavigationBar = false;
+navigationButton.onclick = function () {
+  navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
+  navigationButton.style.transform = togglenavigationBar
+    ? ""
+    : "rotate(180deg)";
+  const navBarBackground = document.getElementById("nav-bar");
+  navBarBackground.style.backgroundColor = togglenavigationBar
+    ? ""
+    : "#FFFFFF00";
+  navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
+  togglenavigationBar = !togglenavigationBar;
+};
+}
+
+function createBuildingSelector(building, names, selector) {
+  for (id in names) {
+    let option = document.createElement("option");
+    option.setAttribute("id", id);
+    building.listed[id] = names[id];
+    option.innerHTML = names[id];
+    selector.appendChild(option);
+  }
+  sortChildren(selector);
+}
+
+function updateSelectBldgMenu(building, id) {
+    let selectedOption = document.getElementById(id);
+      building.current.id = id;
+      if (!(building.current.id in building.loaded)) {
+        delete building.listed[id];
+        building.loaded[id] = id;
+        loadedBuildings.appendChild(selectedOption);
+        sortChildren(loadedBuildings);
+      } else {
+        delete building.loaded[id];
+        building.listed[id] = id;
+        listedBuildings$1.appendChild(selectedOption);
+        sortChildren(listedBuildings$1);
+      }
+    }
+
+function sortChildren(parent) {
+        const items = Array.prototype.slice.call(parent.children);
+        items.sort(function (a, b) {
+          return a.textContent.localeCompare(b.textContent);
+        });
+        items.forEach((item) => {
+          const itemParent = item.parentNode;
+          let detatchedItem = itemParent.removeChild(item);
+          itemParent.appendChild(detatchedItem);
+        });
+      }
+
+function toggleVisibility(object, button, toggle) {
+        button.onclick = function () {
+          if (toggle) {
+            object.classList.add("hidden");
+            this.setAttribute("title", `Show ${object.title}`);
+          } else {
+            this.setAttribute("title", `Hide ${object.title}`);
+            object.classList.remove("hidden");
+          }
+          toggle = !toggle;
+        };
+      }
+
 // Get the URL parameter
 const currentURL = window.location.href;
 let currentUser = "User";
@@ -101394,10 +101465,25 @@ const propButton = document.getElementById("prop-button");
 let toggleProp = false;
 toggleVisibility(propertyMenu, propButton, toggleProp);
 
+const treeMenu = document.getElementById("ifc-tree-menu");
+const treeButton = document.getElementById("tree-button");
+let toggleTree = false;
+toggleVisibility(treeMenu, treeButton, toggleTree);
+
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");
 createBuildingSelector(building, buildingsNames, listedBuildings);
 updateSelectBldgMenu(building, currentModelId);
+
+const toggler = document.getElementsByClassName("caret");
+let i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
 
 document
   .getElementById("building-select")
