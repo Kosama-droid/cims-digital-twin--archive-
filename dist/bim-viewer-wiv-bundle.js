@@ -121680,6 +121680,14 @@ const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/ca
 loadIfc(ifcURL);
 let model;
 
+async function setUpMultiThreading() {
+  const manager = ifcLoader.ifcManager;
+  // These paths depend on how you structure your project
+  await manager.useWebWorkers(true, '../src/wasm/IFCWorker.js');
+}
+
+setUpMultiThreading();
+
 async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
   model = await viewer.IFC.loadIfcUrl(url);
@@ -121687,7 +121695,6 @@ async function loadIfc(url) {
   viewer.context.renderer.postProduction.active = true;
 
   const ifcProject = await viewer.IFC.getSpatialStructure(model.modelID);
-  console.log(ifcProject);
   createTreeMenu(ifcProject);
 }
 
@@ -121707,8 +121714,6 @@ window.ondblclick = async () => {
 const propsGUI = document.getElementById("ifc-property-menu-root");
 
 function createPropertiesMenu(properties) {
-  console.log(properties);
-
   removeAllChildren(propsGUI);
 
   properties.psets;
