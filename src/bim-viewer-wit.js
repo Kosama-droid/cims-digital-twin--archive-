@@ -45,7 +45,7 @@ import {
   createBuildingSelector,
   closeNavBar,
   toggleVisibility,
-} from "twin/twin.js";
+} from "../modules/twin.js";
 
 // Get the URL parameter
 const currentURL = window.location.href;

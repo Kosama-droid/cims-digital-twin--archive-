@@ -33,7 +33,7 @@ import {
   disposeBoundsTree,
 } from "three-mesh-bvh";
 
-import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector, closeNavBar } from "twin/twin.js";
+import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector, closeNavBar } from "../modules/twin.js";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
