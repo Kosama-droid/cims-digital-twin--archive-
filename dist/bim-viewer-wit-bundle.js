@@ -9439,7 +9439,7 @@ let _id = 0;
 const _m1 = /*@__PURE__*/ new Matrix4();
 const _obj = /*@__PURE__*/ new Object3D();
 const _offset = /*@__PURE__*/ new Vector3();
-const _box$1 = /*@__PURE__*/ new Box3();
+const _box$1$1 = /*@__PURE__*/ new Box3();
 const _boxMorphTargets = /*@__PURE__*/ new Box3();
 const _vector$8 = /*@__PURE__*/ new Vector3();
 
@@ -9744,20 +9744,20 @@ class BufferGeometry extends EventDispatcher$1 {
 				for ( let i = 0, il = morphAttributesPosition.length; i < il; i ++ ) {
 
 					const morphAttribute = morphAttributesPosition[ i ];
-					_box$1.setFromBufferAttribute( morphAttribute );
+					_box$1$1.setFromBufferAttribute( morphAttribute );
 
 					if ( this.morphTargetsRelative ) {
 
-						_vector$8.addVectors( this.boundingBox.min, _box$1.min );
+						_vector$8.addVectors( this.boundingBox.min, _box$1$1.min );
 						this.boundingBox.expandByPoint( _vector$8 );
 
-						_vector$8.addVectors( this.boundingBox.max, _box$1.max );
+						_vector$8.addVectors( this.boundingBox.max, _box$1$1.max );
 						this.boundingBox.expandByPoint( _vector$8 );
 
 					} else {
 
-						this.boundingBox.expandByPoint( _box$1.min );
-						this.boundingBox.expandByPoint( _box$1.max );
+						this.boundingBox.expandByPoint( _box$1$1.min );
+						this.boundingBox.expandByPoint( _box$1$1.max );
 
 					}
 
@@ -9806,7 +9806,7 @@ class BufferGeometry extends EventDispatcher$1 {
 
 			const center = this.boundingSphere.center;
 
-			_box$1.setFromBufferAttribute( position );
+			_box$1$1.setFromBufferAttribute( position );
 
 			// process morph attributes if present
 
@@ -9819,16 +9819,16 @@ class BufferGeometry extends EventDispatcher$1 {
 
 					if ( this.morphTargetsRelative ) {
 
-						_vector$8.addVectors( _box$1.min, _boxMorphTargets.min );
-						_box$1.expandByPoint( _vector$8 );
+						_vector$8.addVectors( _box$1$1.min, _boxMorphTargets.min );
+						_box$1$1.expandByPoint( _vector$8 );
 
-						_vector$8.addVectors( _box$1.max, _boxMorphTargets.max );
-						_box$1.expandByPoint( _vector$8 );
+						_vector$8.addVectors( _box$1$1.max, _boxMorphTargets.max );
+						_box$1$1.expandByPoint( _vector$8 );
 
 					} else {
 
-						_box$1.expandByPoint( _boxMorphTargets.min );
-						_box$1.expandByPoint( _boxMorphTargets.max );
+						_box$1$1.expandByPoint( _boxMorphTargets.min );
+						_box$1$1.expandByPoint( _boxMorphTargets.max );
 
 					}
 
@@ -9836,7 +9836,7 @@ class BufferGeometry extends EventDispatcher$1 {
 
 			}
 
-			_box$1.getCenter( center );
+			_box$1$1.getCenter( center );
 
 			// second, try to find a boundingSphere with a radius smaller than the
 			// boundingSphere of the boundingBox: sqrt(3) smaller in the best case
@@ -27976,7 +27976,7 @@ class SpriteMaterial extends Material {
 
 SpriteMaterial.prototype.isSpriteMaterial = true;
 
-let _geometry;
+let _geometry$2;
 
 const _intersectPoint = /*@__PURE__*/ new Vector3();
 const _worldScale = /*@__PURE__*/ new Vector3();
@@ -28002,9 +28002,9 @@ class Sprite extends Object3D {
 
 		this.type = 'Sprite';
 
-		if ( _geometry === undefined ) {
+		if ( _geometry$2 === undefined ) {
 
-			_geometry = new BufferGeometry();
+			_geometry$2 = new BufferGeometry();
 
 			const float32Array = new Float32Array( [
 				- 0.5, - 0.5, 0, 0, 0,
@@ -28015,13 +28015,13 @@ class Sprite extends Object3D {
 
 			const interleavedBuffer = new InterleavedBuffer( float32Array, 5 );
 
-			_geometry.setIndex( [ 0, 1, 2,	0, 2, 3 ] );
-			_geometry.setAttribute( 'position', new InterleavedBufferAttribute( interleavedBuffer, 3, 0, false ) );
-			_geometry.setAttribute( 'uv', new InterleavedBufferAttribute( interleavedBuffer, 2, 3, false ) );
+			_geometry$2.setIndex( [ 0, 1, 2,	0, 2, 3 ] );
+			_geometry$2.setAttribute( 'position', new InterleavedBufferAttribute( interleavedBuffer, 3, 0, false ) );
+			_geometry$2.setAttribute( 'uv', new InterleavedBufferAttribute( interleavedBuffer, 2, 3, false ) );
 
 		}
 
-		this.geometry = _geometry;
+		this.geometry = _geometry$2;
 		this.material = ( material !== undefined ) ? material : new SpriteMaterial();
 
 		this.center = new Vector2( 0.5, 0.5 );
@@ -28820,7 +28820,7 @@ const _start$1 = /*@__PURE__*/ new Vector3();
 const _end$1 = /*@__PURE__*/ new Vector3();
 const _inverseMatrix$1 = /*@__PURE__*/ new Matrix4();
 const _ray$1 = /*@__PURE__*/ new Ray();
-const _sphere$1 = /*@__PURE__*/ new Sphere();
+const _sphere$1$1 = /*@__PURE__*/ new Sphere();
 
 class Line extends Object3D {
 
@@ -28900,11 +28900,11 @@ class Line extends Object3D {
 
 		if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
 
-		_sphere$1.copy( geometry.boundingSphere );
-		_sphere$1.applyMatrix4( matrixWorld );
-		_sphere$1.radius += threshold;
+		_sphere$1$1.copy( geometry.boundingSphere );
+		_sphere$1$1.applyMatrix4( matrixWorld );
+		_sphere$1$1.radius += threshold;
 
-		if ( raycaster.ray.intersectsSphere( _sphere$1 ) === false ) return;
+		if ( raycaster.ray.intersectsSphere( _sphere$1$1 ) === false ) return;
 
 		//
 
@@ -29058,8 +29058,8 @@ class Line extends Object3D {
 
 Line.prototype.isLine = true;
 
-const _start = /*@__PURE__*/ new Vector3();
-const _end = /*@__PURE__*/ new Vector3();
+const _start$2 = /*@__PURE__*/ new Vector3();
+const _end$2 = /*@__PURE__*/ new Vector3();
 
 class LineSegments extends Line {
 
@@ -29086,11 +29086,11 @@ class LineSegments extends Line {
 
 				for ( let i = 0, l = positionAttribute.count; i < l; i += 2 ) {
 
-					_start.fromBufferAttribute( positionAttribute, i );
-					_end.fromBufferAttribute( positionAttribute, i + 1 );
+					_start$2.fromBufferAttribute( positionAttribute, i );
+					_end$2.fromBufferAttribute( positionAttribute, i + 1 );
 
 					lineDistances[ i ] = ( i === 0 ) ? 0 : lineDistances[ i - 1 ];
-					lineDistances[ i + 1 ] = lineDistances[ i ] + _start.distanceTo( _end );
+					lineDistances[ i + 1 ] = lineDistances[ i ] + _start$2.distanceTo( _end$2 );
 
 				}
 
@@ -29455,6 +29455,577 @@ class CanvasTexture extends Texture {
 }
 
 CanvasTexture.prototype.isCanvasTexture = true;
+
+class CylinderGeometry extends BufferGeometry {
+
+	constructor( radiusTop = 1, radiusBottom = 1, height = 1, radialSegments = 8, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2 ) {
+
+		super();
+		this.type = 'CylinderGeometry';
+
+		this.parameters = {
+			radiusTop: radiusTop,
+			radiusBottom: radiusBottom,
+			height: height,
+			radialSegments: radialSegments,
+			heightSegments: heightSegments,
+			openEnded: openEnded,
+			thetaStart: thetaStart,
+			thetaLength: thetaLength
+		};
+
+		const scope = this;
+
+		radialSegments = Math.floor( radialSegments );
+		heightSegments = Math.floor( heightSegments );
+
+		// buffers
+
+		const indices = [];
+		const vertices = [];
+		const normals = [];
+		const uvs = [];
+
+		// helper variables
+
+		let index = 0;
+		const indexArray = [];
+		const halfHeight = height / 2;
+		let groupStart = 0;
+
+		// generate geometry
+
+		generateTorso();
+
+		if ( openEnded === false ) {
+
+			if ( radiusTop > 0 ) generateCap( true );
+			if ( radiusBottom > 0 ) generateCap( false );
+
+		}
+
+		// build geometry
+
+		this.setIndex( indices );
+		this.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+		this.setAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+		function generateTorso() {
+
+			const normal = new Vector3();
+			const vertex = new Vector3();
+
+			let groupCount = 0;
+
+			// this will be used to calculate the normal
+			const slope = ( radiusBottom - radiusTop ) / height;
+
+			// generate vertices, normals and uvs
+
+			for ( let y = 0; y <= heightSegments; y ++ ) {
+
+				const indexRow = [];
+
+				const v = y / heightSegments;
+
+				// calculate the radius of the current row
+
+				const radius = v * ( radiusBottom - radiusTop ) + radiusTop;
+
+				for ( let x = 0; x <= radialSegments; x ++ ) {
+
+					const u = x / radialSegments;
+
+					const theta = u * thetaLength + thetaStart;
+
+					const sinTheta = Math.sin( theta );
+					const cosTheta = Math.cos( theta );
+
+					// vertex
+
+					vertex.x = radius * sinTheta;
+					vertex.y = - v * height + halfHeight;
+					vertex.z = radius * cosTheta;
+					vertices.push( vertex.x, vertex.y, vertex.z );
+
+					// normal
+
+					normal.set( sinTheta, slope, cosTheta ).normalize();
+					normals.push( normal.x, normal.y, normal.z );
+
+					// uv
+
+					uvs.push( u, 1 - v );
+
+					// save index of vertex in respective row
+
+					indexRow.push( index ++ );
+
+				}
+
+				// now save vertices of the row in our index array
+
+				indexArray.push( indexRow );
+
+			}
+
+			// generate indices
+
+			for ( let x = 0; x < radialSegments; x ++ ) {
+
+				for ( let y = 0; y < heightSegments; y ++ ) {
+
+					// we use the index array to access the correct indices
+
+					const a = indexArray[ y ][ x ];
+					const b = indexArray[ y + 1 ][ x ];
+					const c = indexArray[ y + 1 ][ x + 1 ];
+					const d = indexArray[ y ][ x + 1 ];
+
+					// faces
+
+					indices.push( a, b, d );
+					indices.push( b, c, d );
+
+					// update group counter
+
+					groupCount += 6;
+
+				}
+
+			}
+
+			// add a group to the geometry. this will ensure multi material support
+
+			scope.addGroup( groupStart, groupCount, 0 );
+
+			// calculate new start value for groups
+
+			groupStart += groupCount;
+
+		}
+
+		function generateCap( top ) {
+
+			// save the index of the first center vertex
+			const centerIndexStart = index;
+
+			const uv = new Vector2();
+			const vertex = new Vector3();
+
+			let groupCount = 0;
+
+			const radius = ( top === true ) ? radiusTop : radiusBottom;
+			const sign = ( top === true ) ? 1 : - 1;
+
+			// first we generate the center vertex data of the cap.
+			// because the geometry needs one set of uvs per face,
+			// we must generate a center vertex per face/segment
+
+			for ( let x = 1; x <= radialSegments; x ++ ) {
+
+				// vertex
+
+				vertices.push( 0, halfHeight * sign, 0 );
+
+				// normal
+
+				normals.push( 0, sign, 0 );
+
+				// uv
+
+				uvs.push( 0.5, 0.5 );
+
+				// increase index
+
+				index ++;
+
+			}
+
+			// save the index of the last center vertex
+			const centerIndexEnd = index;
+
+			// now we generate the surrounding vertices, normals and uvs
+
+			for ( let x = 0; x <= radialSegments; x ++ ) {
+
+				const u = x / radialSegments;
+				const theta = u * thetaLength + thetaStart;
+
+				const cosTheta = Math.cos( theta );
+				const sinTheta = Math.sin( theta );
+
+				// vertex
+
+				vertex.x = radius * sinTheta;
+				vertex.y = halfHeight * sign;
+				vertex.z = radius * cosTheta;
+				vertices.push( vertex.x, vertex.y, vertex.z );
+
+				// normal
+
+				normals.push( 0, sign, 0 );
+
+				// uv
+
+				uv.x = ( cosTheta * 0.5 ) + 0.5;
+				uv.y = ( sinTheta * 0.5 * sign ) + 0.5;
+				uvs.push( uv.x, uv.y );
+
+				// increase index
+
+				index ++;
+
+			}
+
+			// generate indices
+
+			for ( let x = 0; x < radialSegments; x ++ ) {
+
+				const c = centerIndexStart + x;
+				const i = centerIndexEnd + x;
+
+				if ( top === true ) {
+
+					// face top
+
+					indices.push( i, i + 1, c );
+
+				} else {
+
+					// face bottom
+
+					indices.push( i + 1, i, c );
+
+				}
+
+				groupCount += 3;
+
+			}
+
+			// add a group to the geometry. this will ensure multi material support
+
+			scope.addGroup( groupStart, groupCount, top === true ? 1 : 2 );
+
+			// calculate new start value for groups
+
+			groupStart += groupCount;
+
+		}
+
+	}
+
+	static fromJSON( data ) {
+
+		return new CylinderGeometry( data.radiusTop, data.radiusBottom, data.height, data.radialSegments, data.heightSegments, data.openEnded, data.thetaStart, data.thetaLength );
+
+	}
+
+}
+
+class PolyhedronGeometry extends BufferGeometry {
+
+	constructor( vertices = [], indices = [], radius = 1, detail = 0 ) {
+
+		super();
+
+		this.type = 'PolyhedronGeometry';
+
+		this.parameters = {
+			vertices: vertices,
+			indices: indices,
+			radius: radius,
+			detail: detail
+		};
+
+		// default buffer data
+
+		const vertexBuffer = [];
+		const uvBuffer = [];
+
+		// the subdivision creates the vertex buffer data
+
+		subdivide( detail );
+
+		// all vertices should lie on a conceptual sphere with a given radius
+
+		applyRadius( radius );
+
+		// finally, create the uv data
+
+		generateUVs();
+
+		// build non-indexed geometry
+
+		this.setAttribute( 'position', new Float32BufferAttribute( vertexBuffer, 3 ) );
+		this.setAttribute( 'normal', new Float32BufferAttribute( vertexBuffer.slice(), 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvBuffer, 2 ) );
+
+		if ( detail === 0 ) {
+
+			this.computeVertexNormals(); // flat normals
+
+		} else {
+
+			this.normalizeNormals(); // smooth normals
+
+		}
+
+		// helper functions
+
+		function subdivide( detail ) {
+
+			const a = new Vector3();
+			const b = new Vector3();
+			const c = new Vector3();
+
+			// iterate over all faces and apply a subdivison with the given detail value
+
+			for ( let i = 0; i < indices.length; i += 3 ) {
+
+				// get the vertices of the face
+
+				getVertexByIndex( indices[ i + 0 ], a );
+				getVertexByIndex( indices[ i + 1 ], b );
+				getVertexByIndex( indices[ i + 2 ], c );
+
+				// perform subdivision
+
+				subdivideFace( a, b, c, detail );
+
+			}
+
+		}
+
+		function subdivideFace( a, b, c, detail ) {
+
+			const cols = detail + 1;
+
+			// we use this multidimensional array as a data structure for creating the subdivision
+
+			const v = [];
+
+			// construct all of the vertices for this subdivision
+
+			for ( let i = 0; i <= cols; i ++ ) {
+
+				v[ i ] = [];
+
+				const aj = a.clone().lerp( c, i / cols );
+				const bj = b.clone().lerp( c, i / cols );
+
+				const rows = cols - i;
+
+				for ( let j = 0; j <= rows; j ++ ) {
+
+					if ( j === 0 && i === cols ) {
+
+						v[ i ][ j ] = aj;
+
+					} else {
+
+						v[ i ][ j ] = aj.clone().lerp( bj, j / rows );
+
+					}
+
+				}
+
+			}
+
+			// construct all of the faces
+
+			for ( let i = 0; i < cols; i ++ ) {
+
+				for ( let j = 0; j < 2 * ( cols - i ) - 1; j ++ ) {
+
+					const k = Math.floor( j / 2 );
+
+					if ( j % 2 === 0 ) {
+
+						pushVertex( v[ i ][ k + 1 ] );
+						pushVertex( v[ i + 1 ][ k ] );
+						pushVertex( v[ i ][ k ] );
+
+					} else {
+
+						pushVertex( v[ i ][ k + 1 ] );
+						pushVertex( v[ i + 1 ][ k + 1 ] );
+						pushVertex( v[ i + 1 ][ k ] );
+
+					}
+
+				}
+
+			}
+
+		}
+
+		function applyRadius( radius ) {
+
+			const vertex = new Vector3();
+
+			// iterate over the entire buffer and apply the radius to each vertex
+
+			for ( let i = 0; i < vertexBuffer.length; i += 3 ) {
+
+				vertex.x = vertexBuffer[ i + 0 ];
+				vertex.y = vertexBuffer[ i + 1 ];
+				vertex.z = vertexBuffer[ i + 2 ];
+
+				vertex.normalize().multiplyScalar( radius );
+
+				vertexBuffer[ i + 0 ] = vertex.x;
+				vertexBuffer[ i + 1 ] = vertex.y;
+				vertexBuffer[ i + 2 ] = vertex.z;
+
+			}
+
+		}
+
+		function generateUVs() {
+
+			const vertex = new Vector3();
+
+			for ( let i = 0; i < vertexBuffer.length; i += 3 ) {
+
+				vertex.x = vertexBuffer[ i + 0 ];
+				vertex.y = vertexBuffer[ i + 1 ];
+				vertex.z = vertexBuffer[ i + 2 ];
+
+				const u = azimuth( vertex ) / 2 / Math.PI + 0.5;
+				const v = inclination( vertex ) / Math.PI + 0.5;
+				uvBuffer.push( u, 1 - v );
+
+			}
+
+			correctUVs();
+
+			correctSeam();
+
+		}
+
+		function correctSeam() {
+
+			// handle case when face straddles the seam, see #3269
+
+			for ( let i = 0; i < uvBuffer.length; i += 6 ) {
+
+				// uv data of a single face
+
+				const x0 = uvBuffer[ i + 0 ];
+				const x1 = uvBuffer[ i + 2 ];
+				const x2 = uvBuffer[ i + 4 ];
+
+				const max = Math.max( x0, x1, x2 );
+				const min = Math.min( x0, x1, x2 );
+
+				// 0.9 is somewhat arbitrary
+
+				if ( max > 0.9 && min < 0.1 ) {
+
+					if ( x0 < 0.2 ) uvBuffer[ i + 0 ] += 1;
+					if ( x1 < 0.2 ) uvBuffer[ i + 2 ] += 1;
+					if ( x2 < 0.2 ) uvBuffer[ i + 4 ] += 1;
+
+				}
+
+			}
+
+		}
+
+		function pushVertex( vertex ) {
+
+			vertexBuffer.push( vertex.x, vertex.y, vertex.z );
+
+		}
+
+		function getVertexByIndex( index, vertex ) {
+
+			const stride = index * 3;
+
+			vertex.x = vertices[ stride + 0 ];
+			vertex.y = vertices[ stride + 1 ];
+			vertex.z = vertices[ stride + 2 ];
+
+		}
+
+		function correctUVs() {
+
+			const a = new Vector3();
+			const b = new Vector3();
+			const c = new Vector3();
+
+			const centroid = new Vector3();
+
+			const uvA = new Vector2();
+			const uvB = new Vector2();
+			const uvC = new Vector2();
+
+			for ( let i = 0, j = 0; i < vertexBuffer.length; i += 9, j += 6 ) {
+
+				a.set( vertexBuffer[ i + 0 ], vertexBuffer[ i + 1 ], vertexBuffer[ i + 2 ] );
+				b.set( vertexBuffer[ i + 3 ], vertexBuffer[ i + 4 ], vertexBuffer[ i + 5 ] );
+				c.set( vertexBuffer[ i + 6 ], vertexBuffer[ i + 7 ], vertexBuffer[ i + 8 ] );
+
+				uvA.set( uvBuffer[ j + 0 ], uvBuffer[ j + 1 ] );
+				uvB.set( uvBuffer[ j + 2 ], uvBuffer[ j + 3 ] );
+				uvC.set( uvBuffer[ j + 4 ], uvBuffer[ j + 5 ] );
+
+				centroid.copy( a ).add( b ).add( c ).divideScalar( 3 );
+
+				const azi = azimuth( centroid );
+
+				correctUV( uvA, j + 0, a, azi );
+				correctUV( uvB, j + 2, b, azi );
+				correctUV( uvC, j + 4, c, azi );
+
+			}
+
+		}
+
+		function correctUV( uv, stride, vector, azimuth ) {
+
+			if ( ( azimuth < 0 ) && ( uv.x === 1 ) ) {
+
+				uvBuffer[ stride ] = uv.x - 1;
+
+			}
+
+			if ( ( vector.x === 0 ) && ( vector.z === 0 ) ) {
+
+				uvBuffer[ stride ] = azimuth / 2 / Math.PI + 0.5;
+
+			}
+
+		}
+
+		// Angle around the Y axis, counter-clockwise when looking from above.
+
+		function azimuth( vector ) {
+
+			return Math.atan2( vector.z, - vector.x );
+
+		}
+
+
+		// Angle above the XZ plane.
+
+		function inclination( vector ) {
+
+			return Math.atan2( - vector.y, Math.sqrt( ( vector.x * vector.x ) + ( vector.z * vector.z ) ) );
+
+		}
+
+	}
+
+	static fromJSON( data ) {
+
+		return new PolyhedronGeometry( data.vertices, data.indices, data.radius, data.details );
+
+	}
+
+}
 
 new Vector3();
 new Vector3();
@@ -33118,6 +33689,40 @@ function toJSON$1( shapes, options, data ) {
 
 }
 
+class OctahedronGeometry extends PolyhedronGeometry {
+
+	constructor( radius = 1, detail = 0 ) {
+
+		const vertices = [
+			1, 0, 0, 	- 1, 0, 0,	0, 1, 0,
+			0, - 1, 0, 	0, 0, 1,	0, 0, - 1
+		];
+
+		const indices = [
+			0, 2, 4,	0, 4, 3,	0, 3, 5,
+			0, 5, 2,	1, 2, 5,	1, 5, 3,
+			1, 3, 4,	1, 4, 2
+		];
+
+		super( vertices, indices, radius, detail );
+
+		this.type = 'OctahedronGeometry';
+
+		this.parameters = {
+			radius: radius,
+			detail: detail
+		};
+
+	}
+
+	static fromJSON( data ) {
+
+		return new OctahedronGeometry( data.radius, data.detail );
+
+	}
+
+}
+
 class ShapeGeometry extends BufferGeometry {
 
 	constructor( shapes = new Shape( [ new Vector2( 0, 0.5 ), new Vector2( - 0.5, - 0.5 ), new Vector2( 0.5, - 0.5 ) ] ), curveSegments = 12 ) {
@@ -33292,6 +33897,360 @@ function toJSON( shapes, data ) {
 	}
 
 	return data;
+
+}
+
+class SphereGeometry extends BufferGeometry {
+
+	constructor( radius = 1, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI ) {
+
+		super();
+		this.type = 'SphereGeometry';
+
+		this.parameters = {
+			radius: radius,
+			widthSegments: widthSegments,
+			heightSegments: heightSegments,
+			phiStart: phiStart,
+			phiLength: phiLength,
+			thetaStart: thetaStart,
+			thetaLength: thetaLength
+		};
+
+		widthSegments = Math.max( 3, Math.floor( widthSegments ) );
+		heightSegments = Math.max( 2, Math.floor( heightSegments ) );
+
+		const thetaEnd = Math.min( thetaStart + thetaLength, Math.PI );
+
+		let index = 0;
+		const grid = [];
+
+		const vertex = new Vector3();
+		const normal = new Vector3();
+
+		// buffers
+
+		const indices = [];
+		const vertices = [];
+		const normals = [];
+		const uvs = [];
+
+		// generate vertices, normals and uvs
+
+		for ( let iy = 0; iy <= heightSegments; iy ++ ) {
+
+			const verticesRow = [];
+
+			const v = iy / heightSegments;
+
+			// special case for the poles
+
+			let uOffset = 0;
+
+			if ( iy == 0 && thetaStart == 0 ) {
+
+				uOffset = 0.5 / widthSegments;
+
+			} else if ( iy == heightSegments && thetaEnd == Math.PI ) {
+
+				uOffset = - 0.5 / widthSegments;
+
+			}
+
+			for ( let ix = 0; ix <= widthSegments; ix ++ ) {
+
+				const u = ix / widthSegments;
+
+				// vertex
+
+				vertex.x = - radius * Math.cos( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
+				vertex.y = radius * Math.cos( thetaStart + v * thetaLength );
+				vertex.z = radius * Math.sin( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
+
+				vertices.push( vertex.x, vertex.y, vertex.z );
+
+				// normal
+
+				normal.copy( vertex ).normalize();
+				normals.push( normal.x, normal.y, normal.z );
+
+				// uv
+
+				uvs.push( u + uOffset, 1 - v );
+
+				verticesRow.push( index ++ );
+
+			}
+
+			grid.push( verticesRow );
+
+		}
+
+		// indices
+
+		for ( let iy = 0; iy < heightSegments; iy ++ ) {
+
+			for ( let ix = 0; ix < widthSegments; ix ++ ) {
+
+				const a = grid[ iy ][ ix + 1 ];
+				const b = grid[ iy ][ ix ];
+				const c = grid[ iy + 1 ][ ix ];
+				const d = grid[ iy + 1 ][ ix + 1 ];
+
+				if ( iy !== 0 || thetaStart > 0 ) indices.push( a, b, d );
+				if ( iy !== heightSegments - 1 || thetaEnd < Math.PI ) indices.push( b, c, d );
+
+			}
+
+		}
+
+		// build geometry
+
+		this.setIndex( indices );
+		this.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+		this.setAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+	}
+
+	static fromJSON( data ) {
+
+		return new SphereGeometry( data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength );
+
+	}
+
+}
+
+class TorusGeometry extends BufferGeometry {
+
+	constructor( radius = 1, tube = 0.4, radialSegments = 8, tubularSegments = 6, arc = Math.PI * 2 ) {
+
+		super();
+		this.type = 'TorusGeometry';
+
+		this.parameters = {
+			radius: radius,
+			tube: tube,
+			radialSegments: radialSegments,
+			tubularSegments: tubularSegments,
+			arc: arc
+		};
+
+		radialSegments = Math.floor( radialSegments );
+		tubularSegments = Math.floor( tubularSegments );
+
+		// buffers
+
+		const indices = [];
+		const vertices = [];
+		const normals = [];
+		const uvs = [];
+
+		// helper variables
+
+		const center = new Vector3();
+		const vertex = new Vector3();
+		const normal = new Vector3();
+
+		// generate vertices, normals and uvs
+
+		for ( let j = 0; j <= radialSegments; j ++ ) {
+
+			for ( let i = 0; i <= tubularSegments; i ++ ) {
+
+				const u = i / tubularSegments * arc;
+				const v = j / radialSegments * Math.PI * 2;
+
+				// vertex
+
+				vertex.x = ( radius + tube * Math.cos( v ) ) * Math.cos( u );
+				vertex.y = ( radius + tube * Math.cos( v ) ) * Math.sin( u );
+				vertex.z = tube * Math.sin( v );
+
+				vertices.push( vertex.x, vertex.y, vertex.z );
+
+				// normal
+
+				center.x = radius * Math.cos( u );
+				center.y = radius * Math.sin( u );
+				normal.subVectors( vertex, center ).normalize();
+
+				normals.push( normal.x, normal.y, normal.z );
+
+				// uv
+
+				uvs.push( i / tubularSegments );
+				uvs.push( j / radialSegments );
+
+			}
+
+		}
+
+		// generate indices
+
+		for ( let j = 1; j <= radialSegments; j ++ ) {
+
+			for ( let i = 1; i <= tubularSegments; i ++ ) {
+
+				// indices
+
+				const a = ( tubularSegments + 1 ) * j + i - 1;
+				const b = ( tubularSegments + 1 ) * ( j - 1 ) + i - 1;
+				const c = ( tubularSegments + 1 ) * ( j - 1 ) + i;
+				const d = ( tubularSegments + 1 ) * j + i;
+
+				// faces
+
+				indices.push( a, b, d );
+				indices.push( b, c, d );
+
+			}
+
+		}
+
+		// build geometry
+
+		this.setIndex( indices );
+		this.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+		this.setAttribute( 'normal', new Float32BufferAttribute( normals, 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+	}
+
+	static fromJSON( data ) {
+
+		return new TorusGeometry( data.radius, data.tube, data.radialSegments, data.tubularSegments, data.arc );
+
+	}
+
+}
+
+class WireframeGeometry extends BufferGeometry {
+
+	constructor( geometry = null ) {
+
+		super();
+		this.type = 'WireframeGeometry';
+
+		this.parameters = {
+			geometry: geometry
+		};
+
+		if ( geometry !== null ) {
+
+			// buffer
+
+			const vertices = [];
+			const edges = new Set();
+
+			// helper variables
+
+			const start = new Vector3();
+			const end = new Vector3();
+
+			if ( geometry.index !== null ) {
+
+				// indexed BufferGeometry
+
+				const position = geometry.attributes.position;
+				const indices = geometry.index;
+				let groups = geometry.groups;
+
+				if ( groups.length === 0 ) {
+
+					groups = [ { start: 0, count: indices.count, materialIndex: 0 } ];
+
+				}
+
+				// create a data structure that contains all eges without duplicates
+
+				for ( let o = 0, ol = groups.length; o < ol; ++ o ) {
+
+					const group = groups[ o ];
+
+					const groupStart = group.start;
+					const groupCount = group.count;
+
+					for ( let i = groupStart, l = ( groupStart + groupCount ); i < l; i += 3 ) {
+
+						for ( let j = 0; j < 3; j ++ ) {
+
+							const index1 = indices.getX( i + j );
+							const index2 = indices.getX( i + ( j + 1 ) % 3 );
+
+							start.fromBufferAttribute( position, index1 );
+							end.fromBufferAttribute( position, index2 );
+
+							if ( isUniqueEdge( start, end, edges ) === true ) {
+
+								vertices.push( start.x, start.y, start.z );
+								vertices.push( end.x, end.y, end.z );
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				// non-indexed BufferGeometry
+
+				const position = geometry.attributes.position;
+
+				for ( let i = 0, l = ( position.count / 3 ); i < l; i ++ ) {
+
+					for ( let j = 0; j < 3; j ++ ) {
+
+						// three edges per triangle, an edge is represented as (index1, index2)
+						// e.g. the first triangle has the following edges: (0,1),(1,2),(2,0)
+
+						const index1 = 3 * i + j;
+						const index2 = 3 * i + ( ( j + 1 ) % 3 );
+
+						start.fromBufferAttribute( position, index1 );
+						end.fromBufferAttribute( position, index2 );
+
+						if ( isUniqueEdge( start, end, edges ) === true ) {
+
+							vertices.push( start.x, start.y, start.z );
+							vertices.push( end.x, end.y, end.z );
+
+						}
+
+					}
+
+				}
+
+			}
+
+			// build geometry
+
+			this.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+
+		}
+
+	}
+
+}
+
+function isUniqueEdge( start, end, edges ) {
+
+	const hash1 = `${start.x},${start.y},${start.z}-${end.x},${end.y},${end.z}`;
+	const hash2 = `${end.x},${end.y},${end.z}-${start.x},${start.y},${start.z}`; // coincident edge
+
+	if ( edges.has( hash1 ) === true || edges.has( hash2 ) === true ) {
+
+		return false;
+
+	} else {
+
+		edges.add( hash1, hash2 );
+		return true;
+
+	}
 
 }
 
@@ -43074,11 +44033,11 @@ function isOrthographicCamera(camera) {
 const PI_2 = Math.PI * 2;
 const PI_HALF = Math.PI / 2;
 
-const EPSILON = 1e-5;
-function approxZero(number, error = EPSILON) {
+const EPSILON$1 = 1e-5;
+function approxZero(number, error = EPSILON$1) {
     return Math.abs(number) < error;
 }
-function approxEquals(a, b, error = EPSILON) {
+function approxEquals(a, b, error = EPSILON$1) {
     return approxZero(a - b, error);
 }
 function roundToStep(value, step) {
@@ -43206,7 +44165,7 @@ let THREE;
 let _ORIGIN;
 let _AXIS_Y;
 let _AXIS_Z;
-let _v2;
+let _v2$1;
 let _v3A;
 let _v3B;
 let _v3C;
@@ -43219,11 +44178,11 @@ let _sphericalA;
 let _sphericalB;
 let _box3A;
 let _box3B;
-let _sphere;
+let _sphere$1;
 let _quaternionA;
 let _quaternionB;
 let _rotationMatrix;
-let _raycaster;
+let _raycaster$1;
 class CameraControls extends EventDispatcher {
     /**
      * Creates a `CameraControls` instance.
@@ -43773,15 +44732,15 @@ class CameraControls extends EventDispatcher {
             const startDragging = () => {
                 if (!this._enabled)
                     return;
-                extractClientCoordFromEvent(this._activePointers, _v2);
+                extractClientCoordFromEvent(this._activePointers, _v2$1);
                 this._getClientRect(this._elementRect);
-                dragStartPosition.copy(_v2);
-                lastDragPosition.copy(_v2);
+                dragStartPosition.copy(_v2$1);
+                lastDragPosition.copy(_v2$1);
                 const isMultiTouch = this._activePointers.length >= 2;
                 if (isMultiTouch) {
                     // 2 finger pinch
-                    const dx = _v2.x - this._activePointers[1].clientX;
-                    const dy = _v2.y - this._activePointers[1].clientY;
+                    const dx = _v2$1.x - this._activePointers[1].clientX;
+                    const dy = _v2$1.y - this._activePointers[1].clientY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     dollyStart.set(0, distance);
                     // center coords of 2 finger truck
@@ -43794,13 +44753,13 @@ class CameraControls extends EventDispatcher {
             const dragging = () => {
                 if (!this._enabled)
                     return;
-                extractClientCoordFromEvent(this._activePointers, _v2);
+                extractClientCoordFromEvent(this._activePointers, _v2$1);
                 // When pointer lock is enabled clientX, clientY, screenX, and screenY remain 0.
                 // If pointer lock is enabled, use the Delta directory, and assume active-pointer is not multiple.
                 const isPointerLockActive = this._domElement && document.pointerLockElement === this._domElement;
-                const deltaX = isPointerLockActive ? -this._activePointers[0].deltaX : lastDragPosition.x - _v2.x;
-                const deltaY = isPointerLockActive ? -this._activePointers[0].deltaY : lastDragPosition.y - _v2.y;
-                lastDragPosition.copy(_v2);
+                const deltaX = isPointerLockActive ? -this._activePointers[0].deltaX : lastDragPosition.x - _v2$1.x;
+                const deltaY = isPointerLockActive ? -this._activePointers[0].deltaY : lastDragPosition.y - _v2$1.y;
+                lastDragPosition.copy(_v2$1);
                 if ((this._state & ACTION.ROTATE) === ACTION.ROTATE ||
                     (this._state & ACTION.TOUCH_ROTATE) === ACTION.TOUCH_ROTATE) {
                     this._rotateInternal(deltaX, deltaY);
@@ -43819,8 +44778,8 @@ class CameraControls extends EventDispatcher {
                     (this._state & ACTION.TOUCH_ZOOM_TRUCK) === ACTION.TOUCH_ZOOM_TRUCK ||
                     (this._state & ACTION.TOUCH_DOLLY_OFFSET) === ACTION.TOUCH_DOLLY_OFFSET ||
                     (this._state & ACTION.TOUCH_ZOOM_OFFSET) === ACTION.TOUCH_ZOOM_OFFSET) {
-                    const dx = _v2.x - this._activePointers[1].clientX;
-                    const dy = _v2.y - this._activePointers[1].clientY;
+                    const dx = _v2$1.x - this._activePointers[1].clientX;
+                    const dy = _v2$1.y - this._activePointers[1].clientY;
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     const dollyDelta = dollyStart.y - distance;
                     dollyStart.set(0, distance);
@@ -43847,8 +44806,8 @@ class CameraControls extends EventDispatcher {
                 this.dispatchEvent({ type: 'control' });
             };
             const endDragging = () => {
-                extractClientCoordFromEvent(this._activePointers, _v2);
-                lastDragPosition.copy(_v2);
+                extractClientCoordFromEvent(this._activePointers, _v2$1);
+                lastDragPosition.copy(_v2$1);
                 if (this._activePointers.length === 0) {
                     // eslint-disable-next-line no-undef
                     this._domElement.ownerDocument.removeEventListener('pointermove', onPointerMove, { passive: false });
@@ -43944,7 +44903,7 @@ class CameraControls extends EventDispatcher {
         _ORIGIN = Object.freeze(new THREE.Vector3(0, 0, 0));
         _AXIS_Y = Object.freeze(new THREE.Vector3(0, 1, 0));
         _AXIS_Z = Object.freeze(new THREE.Vector3(0, 0, 1));
-        _v2 = new THREE.Vector2();
+        _v2$1 = new THREE.Vector2();
         _v3A = new THREE.Vector3();
         _v3B = new THREE.Vector3();
         _v3C = new THREE.Vector3();
@@ -43957,11 +44916,11 @@ class CameraControls extends EventDispatcher {
         _sphericalB = new THREE.Spherical();
         _box3A = new THREE.Box3();
         _box3B = new THREE.Box3();
-        _sphere = new THREE.Sphere();
+        _sphere$1 = new THREE.Sphere();
         _quaternionA = new THREE.Quaternion();
         _quaternionB = new THREE.Quaternion();
         _rotationMatrix = new THREE.Matrix4();
-        _raycaster = new THREE.Raycaster();
+        _raycaster$1 = new THREE.Raycaster();
     }
     /**
      * list all ACTIONs
@@ -44430,8 +45389,8 @@ class CameraControls extends EventDispatcher {
         const promises = [];
         const isSphere = sphereOrMesh instanceof THREE.Sphere;
         const boundingSphere = isSphere ?
-            _sphere.copy(sphereOrMesh) :
-            createBoundingSphere(sphereOrMesh, _sphere);
+            _sphere$1.copy(sphereOrMesh) :
+            createBoundingSphere(sphereOrMesh, _sphere$1);
         promises.push(this.moveTo(boundingSphere.center.x, boundingSphere.center.y, boundingSphere.center.z, enableTransition));
         if (isPerspectiveCamera(this._camera)) {
             const distanceToFit = this.getDistanceToFitSphere(boundingSphere.radius);
@@ -45010,9 +45969,9 @@ class CameraControls extends EventDispatcher {
             const nearPlaneCorner = _v3B.copy(this._nearPlaneCorners[i]);
             nearPlaneCorner.applyMatrix4(_rotationMatrix);
             const origin = _v3C.addVectors(this._target, nearPlaneCorner);
-            _raycaster.set(origin, direction);
-            _raycaster.far = this._spherical.radius + 1;
-            const intersects = _raycaster.intersectObjects(this.colliderMeshes);
+            _raycaster$1.set(origin, direction);
+            _raycaster$1.far = this._spherical.radius + 1;
+            const intersects = _raycaster$1.intersectObjects(this.colliderMeshes);
             if (intersects.length !== 0 && intersects[0].distance < distance) {
                 distance = intersects[0].distance;
             }
@@ -56894,7 +57853,7 @@ var IFCWORKSCHEDULE = 3342526732;
 var IFCWORKTIME = 1236880293;
 var IFCZSHAPEPROFILEDEF = 2543172580;
 var IFCZONE = 1033361043;
-var IfcElements$1 = [
+var IfcElements$2 = [
   IFCACTUATOR,
   IFCAIRTERMINAL,
   IFCAIRTERMINALBOX,
@@ -57862,7 +58821,7 @@ FromRawLineData[IFCEVAPORATORTYPE] = (d) => {
   return IfcEvaporatorType.FromTape(d.ID, d.type, d.arguments);
 };
 FromRawLineData[IFCEVENT] = (d) => {
-  return IfcEvent.FromTape(d.ID, d.type, d.arguments);
+  return IfcEvent$1.FromTape(d.ID, d.type, d.arguments);
 };
 FromRawLineData[IFCEVENTTIME] = (d) => {
   return IfcEventTime.FromTape(d.ID, d.type, d.arguments);
@@ -58450,7 +59409,7 @@ FromRawLineData[IFCPLANAREXTENT] = (d) => {
   return IfcPlanarExtent.FromTape(d.ID, d.type, d.arguments);
 };
 FromRawLineData[IFCPLANE] = (d) => {
-  return IfcPlane.FromTape(d.ID, d.type, d.arguments);
+  return IfcPlane$1.FromTape(d.ID, d.type, d.arguments);
 };
 FromRawLineData[IFCPLATE] = (d) => {
   return IfcPlate.FromTape(d.ID, d.type, d.arguments);
@@ -68637,7 +69596,7 @@ var IfcEvaporatorType = class {
     return args;
   }
 };
-var IfcEvent = class {
+var IfcEvent$1 = class {
   constructor(expressID, type, GlobalId, OwnerHistory, Name, Description, ObjectType, Identification, LongDescription, PredefinedType, EventTriggerType, UserDefinedEventTriggerType, EventOccurenceTime) {
     this.expressID = expressID;
     this.type = type;
@@ -68666,7 +69625,7 @@ var IfcEvent = class {
     let EventTriggerType = tape[ptr++];
     let UserDefinedEventTriggerType = tape[ptr++];
     let EventOccurenceTime = tape[ptr++];
-    return new IfcEvent(expressID, type, GlobalId, OwnerHistory, Name, Description, ObjectType, Identification, LongDescription, PredefinedType, EventTriggerType, UserDefinedEventTriggerType, EventOccurenceTime);
+    return new IfcEvent$1(expressID, type, GlobalId, OwnerHistory, Name, Description, ObjectType, Identification, LongDescription, PredefinedType, EventTriggerType, UserDefinedEventTriggerType, EventOccurenceTime);
   }
   ToTape() {
     let args = [];
@@ -75036,7 +75995,7 @@ var IfcPlanarExtent = class {
     return args;
   }
 };
-var IfcPlane = class {
+var IfcPlane$1 = class {
   constructor(expressID, type, Position) {
     this.expressID = expressID;
     this.type = type;
@@ -75045,7 +76004,7 @@ var IfcPlane = class {
   static FromTape(expressID, type, tape) {
     let ptr = 0;
     let Position = tape[ptr++];
-    return new IfcPlane(expressID, type, Position);
+    return new IfcPlane$1(expressID, type, Position);
   }
   ToTape() {
     let args = [];
@@ -87672,7 +88631,7 @@ var IfcElements2 = {
 };
 
 // dist/helpers/types-map.ts
-var IfcTypesMap$1 = {
+var IfcTypesMap$2 = {
   3821786052: "IFCACTIONREQUEST",
   2296667514: "IFCACTOR",
   3630933823: "IFCACTORROLE",
@@ -88492,7 +89451,7 @@ var IfcTypesMap$1 = {
 };
 
 // dist/helpers/properties.ts
-var PropsNames$1 = {
+var PropsNames$2 = {
   aggregates: {
     name: IFCRELAGGREGATES,
     relating: "RelatingObject",
@@ -88529,7 +89488,7 @@ var Properties = class {
     this.api = api;
   }
   getIfcType(type) {
-    return IfcTypesMap$1[type];
+    return IfcTypesMap$2[type];
   }
   getItemProperties(modelID, id, recursive = false) {
     return __async(this, null, function* () {
@@ -88538,17 +89497,17 @@ var Properties = class {
   }
   getPropertySets(modelID, elementID, recursive = false) {
     return __async(this, null, function* () {
-      return yield this.getProperty(modelID, elementID, recursive, PropsNames$1.psets);
+      return yield this.getProperty(modelID, elementID, recursive, PropsNames$2.psets);
     });
   }
   getTypeProperties(modelID, elementID, recursive = false) {
     return __async(this, null, function* () {
-      return yield this.getProperty(modelID, elementID, recursive, PropsNames$1.type);
+      return yield this.getProperty(modelID, elementID, recursive, PropsNames$2.type);
     });
   }
   getMaterialsProperties(modelID, elementID, recursive = false) {
     return __async(this, null, function* () {
-      return yield this.getProperty(modelID, elementID, recursive, PropsNames$1.materials);
+      return yield this.getProperty(modelID, elementID, recursive, PropsNames$2.materials);
     });
   }
   getSpatialStructure(modelID, includeProperties) {
@@ -88614,8 +89573,8 @@ var Properties = class {
   }
   getSpatialNode(modelID, node, treeChunks, includeProperties) {
     return __async(this, null, function* () {
-      yield this.getChildren(modelID, node, treeChunks, PropsNames$1.aggregates, includeProperties);
-      yield this.getChildren(modelID, node, treeChunks, PropsNames$1.spatial, includeProperties);
+      yield this.getChildren(modelID, node, treeChunks, PropsNames$2.aggregates, includeProperties);
+      yield this.getChildren(modelID, node, treeChunks, PropsNames$2.spatial, includeProperties);
     });
   }
   getChildren(modelID, node, treeChunks, propNames, includeProperties) {
@@ -88653,8 +89612,8 @@ var Properties = class {
   getSpatialTreeChunks(modelID) {
     return __async(this, null, function* () {
       const treeChunks = {};
-      yield this.getChunks(modelID, treeChunks, PropsNames$1.aggregates);
-      yield this.getChunks(modelID, treeChunks, PropsNames$1.spatial);
+      yield this.getChunks(modelID, treeChunks, PropsNames$2.aggregates);
+      yield this.getChunks(modelID, treeChunks, PropsNames$2.spatial);
       return treeChunks;
     });
   }
@@ -88885,8 +89844,8 @@ var IfcAPI2 = class {
   }
   CreateIfcGuidToExpressIdMapping(modelID) {
     const map = new Map();
-    for (let x = 0; x < IfcElements$1.length; x++) {
-      const type = IfcElements$1[x];
+    for (let x = 0; x < IfcElements$2.length; x++) {
+      const type = IfcElements$2[x];
       const lines = this.GetLineIDsWithType(modelID, type);
       const size = lines.size();
       for (let y = 0; y < size; y++) {
@@ -89171,19 +90130,19 @@ function mergeBufferAttributes( attributes ) {
 
 }
 
-const nullIfcManagerErrorMessage = 'IfcManager is null!';
+const nullIfcManagerErrorMessage$1 = 'IfcManager is null!';
 
-class IFCModel extends Mesh {
+class IFCModel$1 extends Mesh {
 
   constructor() {
     super(...arguments);
-    this.modelID = IFCModel.modelIdCounter++;
+    this.modelID = IFCModel$1.modelIdCounter++;
     this.ifcManager = null;
     this.mesh = this;
   }
 
   static dispose() {
-    IFCModel.modelIdCounter = 0;
+    IFCModel$1.modelIdCounter = 0;
   }
 
   setIFCManager(manager) {
@@ -89192,73 +90151,73 @@ class IFCModel extends Mesh {
 
   setWasmPath(path) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     this.ifcManager.setWasmPath(path);
   }
 
   close(scene) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     this.ifcManager.close(this.modelID, scene);
   }
 
   getExpressId(geometry, faceIndex) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getExpressId(geometry, faceIndex);
   }
 
   getAllItemsOfType(type, verbose) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getAllItemsOfType(this.modelID, type, verbose);
   }
 
   getItemProperties(id, recursive = false) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getItemProperties(this.modelID, id, recursive);
   }
 
   getPropertySets(id, recursive = false) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getPropertySets(this.modelID, id, recursive);
   }
 
   getTypeProperties(id, recursive = false) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getTypeProperties(this.modelID, id, recursive);
   }
 
   getIfcType(id) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getIfcType(this.modelID, id);
   }
 
   getSpatialStructure() {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getSpatialStructure(this.modelID);
   }
 
   getSubset(material) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     return this.ifcManager.getSubset(this.modelID, material);
   }
 
   removeSubset(material, customID) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     this.ifcManager.removeSubset(this.modelID, material, customID);
   }
 
   createSubset(config) {
     if (this.ifcManager === null)
-      throw new Error(nullIfcManagerErrorMessage);
+      throw new Error(nullIfcManagerErrorMessage$1);
     const modelConfig = {
       ...config,
       modelID: this.modelID
@@ -89268,9 +90227,9 @@ class IFCModel extends Mesh {
 
 }
 
-IFCModel.modelIdCounter = 0;
+IFCModel$1.modelIdCounter = 0;
 
-class IFCParser {
+class IFCParser$1 {
 
   constructor(state, BVH) {
     this.state = state;
@@ -89347,7 +90306,7 @@ class IFCParser {
     this.cleanUpGeometryMemory(geometries);
     if (this.BVH)
       this.BVH.applyThreeMeshBVH(combinedGeometry);
-    const model = new IFCModel(combinedGeometry, materials);
+    const model = new IFCModel$1(combinedGeometry, materials);
     this.state.models[this.currentModelID].mesh = model;
     return model;
   }
@@ -89474,7 +90433,7 @@ class IFCParser {
 
 }
 
-class ItemsMap {
+class ItemsMap$1 {
 
   constructor(state) {
     this.state = state;
@@ -89568,7 +90527,7 @@ class ItemsMap {
 
 }
 
-class SubsetUtils {
+class SubsetUtils$1 {
 
   static getAllIndicesOfGroup(modelID, ids, materialIndex, items, flatten = true) {
     const indicesByGroup = [];
@@ -89579,7 +90538,7 @@ class SubsetUtils {
       const value = entry[materialIndex];
       if (!value)
         continue;
-      SubsetUtils.getIndexChunk(value, indicesByGroup, materialIndex, items, flatten);
+      SubsetUtils$1.getIndexChunk(value, indicesByGroup, materialIndex, items, flatten);
     }
     return indicesByGroup;
   }
@@ -89604,7 +90563,7 @@ class SubsetUtils {
 
 }
 
-class SubsetCreator {
+class SubsetCreator$1 {
 
   constructor(state, items, subsets, BVH) {
     this.state = state;
@@ -89690,7 +90649,7 @@ class SubsetCreator {
 
   insertNewIndices(config, subsetID, materialIndex, newIndices) {
     const items = this.items.map[config.modelID];
-    const indicesOfOneMaterial = SubsetUtils.getAllIndicesOfGroup(config.modelID, config.ids, materialIndex, items);
+    const indicesOfOneMaterial = SubsetUtils$1.getAllIndicesOfGroup(config.modelID, config.ids, materialIndex, items);
     if (!config.material) {
       this.insertIndicesAtGroup(subsetID, indicesOfOneMaterial, materialIndex, newIndices);
     } else {
@@ -89726,14 +90685,14 @@ class SubsetCreator {
 
 }
 
-class SubsetManager {
+class SubsetManager$1 {
 
   constructor(state, BVH) {
     this.subsets = {};
     this.state = state;
-    this.items = new ItemsMap(state);
+    this.items = new ItemsMap$1(state);
     this.BVH = BVH;
-    this.subsetCreator = new SubsetCreator(state, this.items, this.subsets, this.BVH);
+    this.subsetCreator = new SubsetCreator$1(state, this.items, this.subsets, this.BVH);
   }
 
   getAllSubsets() {
@@ -89822,8 +90781,8 @@ class SubsetManager {
 
 }
 
-const IdAttrName = 'expressID';
-const PropsNames = {
+const IdAttrName$1 = 'expressID';
+const PropsNames$1 = {
   aggregates: {
     name: IFCRELAGGREGATES,
     relating: 'RelatingObject',
@@ -89856,27 +90815,27 @@ const PropsNames = {
   }
 };
 
-class BasePropertyManager {
+class BasePropertyManager$1 {
 
   constructor(state) {
     this.state = state;
   }
 
   async getPropertySets(modelID, elementID, recursive = false) {
-    return await this.getProperty(modelID, elementID, recursive, PropsNames.psets);
+    return await this.getProperty(modelID, elementID, recursive, PropsNames$1.psets);
   }
 
   async getTypeProperties(modelID, elementID, recursive = false) {
-    return await this.getProperty(modelID, elementID, recursive, PropsNames.type);
+    return await this.getProperty(modelID, elementID, recursive, PropsNames$1.type);
   }
 
   async getMaterialsProperties(modelID, elementID, recursive = false) {
-    return await this.getProperty(modelID, elementID, recursive, PropsNames.materials);
+    return await this.getProperty(modelID, elementID, recursive, PropsNames$1.materials);
   }
 
   async getSpatialNode(modelID, node, treeChunks, includeProperties) {
-    await this.getChildren(modelID, node, treeChunks, PropsNames.aggregates, includeProperties);
-    await this.getChildren(modelID, node, treeChunks, PropsNames.spatial, includeProperties);
+    await this.getChildren(modelID, node, treeChunks, PropsNames$1.aggregates, includeProperties);
+    await this.getChildren(modelID, node, treeChunks, PropsNames$1.spatial, includeProperties);
   }
 
   async getChildren(modelID, node, treeChunks, propNames, includeProperties) {
@@ -89911,8 +90870,8 @@ class BasePropertyManager {
 
   async getSpatialTreeChunks(modelID) {
     const treeChunks = {};
-    await this.getChunks(modelID, treeChunks, PropsNames.aggregates);
-    await this.getChunks(modelID, treeChunks, PropsNames.spatial);
+    await this.getChunks(modelID, treeChunks, PropsNames$1.aggregates);
+    await this.getChunks(modelID, treeChunks, PropsNames$1.spatial);
     return treeChunks;
   }
 
@@ -89964,7 +90923,7 @@ class BasePropertyManager {
 
 }
 
-let IfcElements = {
+let IfcElements$1 = {
   103090709: 'IFCPROJECT',
   4097777520: 'IFCSITE',
   4031249490: 'IFCBUILDING',
@@ -90104,7 +91063,7 @@ let IfcElements = {
   3009204131: 'IFCGRID'
 };
 
-class WebIfcPropertyManager extends BasePropertyManager {
+class WebIfcPropertyManager$1 extends BasePropertyManager$1 {
 
   async getItemProperties(modelID, id, recursive = false) {
     return this.state.api.GetLine(modelID, id, recursive);
@@ -90114,7 +91073,7 @@ class WebIfcPropertyManager extends BasePropertyManager {
     const chunks = await this.getSpatialTreeChunks(modelID);
     const allLines = await this.state.api.GetLineIDsWithType(modelID, IFCPROJECT);
     const projectID = allLines.get(0);
-    const project = WebIfcPropertyManager.newIfcProject(projectID);
+    const project = WebIfcPropertyManager$1.newIfcProject(projectID);
     await this.getSpatialNode(modelID, project, chunks, includeProperties);
     return project;
   }
@@ -90144,7 +91103,7 @@ class WebIfcPropertyManager extends BasePropertyManager {
 
   getNodeType(modelID, id) {
     const typeID = this.state.models[modelID].types[id];
-    return IfcElements[typeID];
+    return IfcElements$1[typeID];
   }
 
   async getChunks(modelID, chunks, propNames) {
@@ -90160,7 +91119,7 @@ class WebIfcPropertyManager extends BasePropertyManager {
     const IDs = [];
     for (let i = 0; i < lines.size(); i++) {
       const rel = await this.state.api.GetLine(modelID, lines.get(i));
-      const isRelated = BasePropertyManager.isRelated(id, rel, propNames);
+      const isRelated = BasePropertyManager$1.isRelated(id, rel, propNames);
       if (isRelated)
         this.getRelated(rel, propNames, IDs);
     }
@@ -90169,7 +91128,7 @@ class WebIfcPropertyManager extends BasePropertyManager {
 
 }
 
-let IfcTypesMap = {
+let IfcTypesMap$1 = {
   3821786052: "IFCACTIONREQUEST",
   2296667514: "IFCACTOR",
   3630933823: "IFCACTORROLE",
@@ -90988,7 +91947,7 @@ let IfcTypesMap = {
   1033361043: "IFCZONE",
 };
 
-class JSONPropertyManager extends BasePropertyManager {
+class JSONPropertyManager$1 extends BasePropertyManager$1 {
 
   async getItemProperties(modelID, id, recursive = false) {
     return {
@@ -91000,7 +91959,7 @@ class JSONPropertyManager extends BasePropertyManager {
     const chunks = await this.getSpatialTreeChunks(modelID);
     const projectsIDs = await this.getAllItemsOfType(modelID, IFCPROJECT, false);
     const projectID = projectsIDs[0];
-    const project = JSONPropertyManager.newIfcProject(projectID);
+    const project = JSONPropertyManager$1.newIfcProject(projectID);
     await this.getSpatialNode(modelID, project, chunks, includeProperties);
     return {
       ...project
@@ -91009,7 +91968,7 @@ class JSONPropertyManager extends BasePropertyManager {
 
   async getAllItemsOfType(modelID, type, verbose) {
     const data = this.state.models[modelID].jsonData;
-    const typeName = IfcTypesMap[type];
+    const typeName = IfcTypesMap$1[type];
     if (!typeName) {
       throw new Error(`Type not found: ${type}`);
     }
@@ -91053,7 +92012,7 @@ class JSONPropertyManager extends BasePropertyManager {
     const lines = await this.getAllItemsOfType(modelID, propNames.name, true);
     const IDs = [];
     lines.forEach(line => {
-      const isRelated = JSONPropertyManager.isRelated(id, line, propNames);
+      const isRelated = JSONPropertyManager$1.isRelated(id, line, propNames);
       if (isRelated)
         this.getRelated(line, propNames, IDs);
     });
@@ -91101,12 +92060,12 @@ class JSONPropertyManager extends BasePropertyManager {
 
 }
 
-class PropertyManager {
+class PropertyManager$1 {
 
   constructor(state) {
     this.state = state;
-    this.webIfcProps = new WebIfcPropertyManager(state);
-    this.jsonProps = new JSONPropertyManager(state);
+    this.webIfcProps = new WebIfcPropertyManager$1(state);
+    this.jsonProps = new JSONPropertyManager$1(state);
     this.currentProps = this.webIfcProps;
   }
 
@@ -91114,7 +92073,7 @@ class PropertyManager {
     if (!geometry.index)
       throw new Error('Geometry does not have index information.');
     const geoIndex = geometry.index.array;
-    return geometry.attributes[IdAttrName].getX(geoIndex[3 * faceIndex]);
+    return geometry.attributes[IdAttrName$1].getX(geoIndex[3 * faceIndex]);
   }
 
   async getItemProperties(modelID, elementID, recursive = false) {
@@ -91156,7 +92115,7 @@ class PropertyManager {
 
 }
 
-class TypeManager {
+class TypeManager$1 {
 
   constructor(state) {
     this.state = state;
@@ -91176,7 +92135,7 @@ class TypeManager {
 
   async getAllTypesOfModel(modelID, worker) {
     const result = {};
-    const elements = Object.keys(IfcElements).map((e) => parseInt(e));
+    const elements = Object.keys(IfcElements$1).map((e) => parseInt(e));
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];
       const lines = await this.state.api.GetLineIDsWithType(modelID, element);
@@ -91192,7 +92151,7 @@ class TypeManager {
 
 }
 
-class BvhManager {
+class BvhManager$1 {
 
   initializeMeshBVH(computeBoundsTree, disposeBoundsTree, acceleratedRaycast) {
     this.computeBoundsTree = computeBoundsTree;
@@ -91216,7 +92175,7 @@ class BvhManager {
 
 }
 
-var WorkerActions;
+var WorkerActions$1;
 (function(WorkerActions) {
   WorkerActions["updateStateUseJson"] = "updateStateUseJson";
   WorkerActions["updateStateWebIfcSettings"] = "updateStateWebIfcSettings";
@@ -91261,16 +92220,16 @@ var WorkerActions;
   WorkerActions["getPropertySets"] = "getPropertySets";
   WorkerActions["getSpatialStructure"] = "getSpatialStructure";
   WorkerActions["getTypeProperties"] = "getTypeProperties";
-})(WorkerActions || (WorkerActions = {}));
-var WorkerAPIs;
+})(WorkerActions$1 || (WorkerActions$1 = {}));
+var WorkerAPIs$1;
 (function(WorkerAPIs) {
   WorkerAPIs["workerState"] = "workerState";
   WorkerAPIs["webIfc"] = "webIfc";
   WorkerAPIs["properties"] = "properties";
   WorkerAPIs["parser"] = "parser";
-})(WorkerAPIs || (WorkerAPIs = {}));
+})(WorkerAPIs$1 || (WorkerAPIs$1 = {}));
 
-class Vector {
+class Vector$1 {
 
   constructor(vector) {
     this._data = {};
@@ -91289,7 +92248,7 @@ class Vector {
 
 }
 
-class IfcGeometry {
+class IfcGeometry$1 {
 
   constructor(vector) {
     this._GetVertexData = vector.GetVertexData;
@@ -91316,7 +92275,7 @@ class IfcGeometry {
 
 }
 
-class FlatMesh {
+class FlatMesh$1 {
 
   constructor(serializer, flatMesh) {
     this.expressID = flatMesh.expressID;
@@ -91325,7 +92284,7 @@ class FlatMesh {
 
 }
 
-class FlatMeshVector {
+class FlatMeshVector$1 {
 
   constructor(serializer, vector) {
     this._data = {};
@@ -91344,7 +92303,7 @@ class FlatMeshVector {
 
 }
 
-class SerializedMaterial {
+class SerializedMaterial$1 {
 
   constructor(material) {
     this.color = [material.color.r, material.color.g, material.color.b];
@@ -91354,7 +92313,7 @@ class SerializedMaterial {
 
 }
 
-class MaterialReconstructor {
+class MaterialReconstructor$1 {
 
   static new(material) {
     return new MeshLambertMaterial({
@@ -91367,7 +92326,7 @@ class MaterialReconstructor {
 
 }
 
-class SerializedGeometry {
+class SerializedGeometry$1 {
 
   constructor(geometry) {
     var _a,
@@ -91383,13 +92342,13 @@ class SerializedGeometry {
 
 }
 
-class GeometryReconstructor {
+class GeometryReconstructor$1 {
 
   static new(serialized) {
     const geom = new BufferGeometry();
-    GeometryReconstructor.set(geom, 'expressID', new Uint32Array(serialized.expressID), 1);
-    GeometryReconstructor.set(geom, 'position', new Float32Array(serialized.position), 3);
-    GeometryReconstructor.set(geom, 'normal', new Float32Array(serialized.normal), 3);
+    GeometryReconstructor$1.set(geom, 'expressID', new Uint32Array(serialized.expressID), 1);
+    GeometryReconstructor$1.set(geom, 'position', new Float32Array(serialized.position), 3);
+    GeometryReconstructor$1.set(geom, 'normal', new Float32Array(serialized.normal), 3);
     geom.setIndex(Array. from (serialized.index));
     geom.groups = serialized.groups;
     return geom;
@@ -91403,30 +92362,30 @@ class GeometryReconstructor {
 
 }
 
-class SerializedMesh {
+class SerializedMesh$1 {
 
   constructor(model) {
     this.materials = [];
     this.modelID = model.modelID;
-    this.geometry = new SerializedGeometry(model.geometry);
+    this.geometry = new SerializedGeometry$1(model.geometry);
     if (Array.isArray(model.material)) {
       model.material.forEach(mat => {
-        this.materials.push(new SerializedMaterial(mat));
+        this.materials.push(new SerializedMaterial$1(mat));
       });
     } else {
-      this.materials.push(new SerializedMaterial(model.material));
+      this.materials.push(new SerializedMaterial$1(model.material));
     }
   }
 
 }
 
-class MeshReconstructor {
+class MeshReconstructor$1 {
 
   static new(serialized) {
-    const model = new IFCModel();
+    const model = new IFCModel$1();
     model.modelID = serialized.modelID;
-    model.geometry = GeometryReconstructor.new(serialized.geometry);
-    MeshReconstructor.getMaterials(serialized, model);
+    model.geometry = GeometryReconstructor$1.new(serialized.geometry);
+    MeshReconstructor$1.getMaterials(serialized, model);
     return model;
   }
 
@@ -91434,13 +92393,13 @@ class MeshReconstructor {
     model.material = [];
     const mats = model.material;
     serialized.materials.forEach(mat => {
-      mats.push(MaterialReconstructor.new(mat));
+      mats.push(MaterialReconstructor$1.new(mat));
     });
   }
 
 }
 
-class Serializer {
+class Serializer$1 {
 
   serializeVector(vector) {
     const size = vector.size();
@@ -91454,7 +92413,7 @@ class Serializer {
   }
 
   reconstructVector(vector) {
-    return new Vector(vector);
+    return new Vector$1(vector);
   }
 
   serializeIfcGeometry(geometry) {
@@ -91471,7 +92430,7 @@ class Serializer {
   }
 
   reconstructIfcGeometry(geometry) {
-    return new IfcGeometry(geometry);
+    return new IfcGeometry$1(geometry);
   }
 
   serializeFlatMesh(flatMesh) {
@@ -91482,7 +92441,7 @@ class Serializer {
   }
 
   reconstructFlatMesh(flatMesh) {
-    return new FlatMesh(this, flatMesh);
+    return new FlatMesh$1(this, flatMesh);
   }
 
   serializeFlatMeshVector(vector) {
@@ -91498,35 +92457,35 @@ class Serializer {
   }
 
   reconstructFlatMeshVector(vector) {
-    return new FlatMeshVector(this, vector);
+    return new FlatMeshVector$1(this, vector);
   }
 
   serializeIfcModel(model) {
-    return new SerializedMesh(model);
+    return new SerializedMesh$1(model);
   }
 
   reconstructIfcModel(model) {
-    return MeshReconstructor.new(model);
+    return MeshReconstructor$1.new(model);
   }
 
 }
 
-class PropertyHandler {
+class PropertyHandler$1 {
 
   constructor(handler) {
     this.handler = handler;
-    this.API = WorkerAPIs.properties;
+    this.API = WorkerAPIs$1.properties;
   }
 
   getExpressId(geometry, faceIndex) {
     if (!geometry.index)
       throw new Error('Geometry does not have index information.');
     const geoIndex = geometry.index.array;
-    return geometry.attributes[IdAttrName].getX(geoIndex[3 * faceIndex]);
+    return geometry.attributes[IdAttrName$1].getX(geoIndex[3 * faceIndex]);
   }
 
   getAllItemsOfType(modelID, type, verbose) {
-    return this.handler.request(this.API, WorkerActions.getAllItemsOfType, {
+    return this.handler.request(this.API, WorkerActions$1.getAllItemsOfType, {
       modelID,
       type,
       verbose
@@ -91534,7 +92493,7 @@ class PropertyHandler {
   }
 
   getItemProperties(modelID, elementID, recursive) {
-    return this.handler.request(this.API, WorkerActions.getItemProperties, {
+    return this.handler.request(this.API, WorkerActions$1.getItemProperties, {
       modelID,
       elementID,
       recursive
@@ -91542,7 +92501,7 @@ class PropertyHandler {
   }
 
   getMaterialsProperties(modelID, elementID, recursive) {
-    return this.handler.request(this.API, WorkerActions.getMaterialsProperties, {
+    return this.handler.request(this.API, WorkerActions$1.getMaterialsProperties, {
       modelID,
       elementID,
       recursive
@@ -91550,7 +92509,7 @@ class PropertyHandler {
   }
 
   getPropertySets(modelID, elementID, recursive) {
-    return this.handler.request(this.API, WorkerActions.getPropertySets, {
+    return this.handler.request(this.API, WorkerActions$1.getPropertySets, {
       modelID,
       elementID,
       recursive
@@ -91558,7 +92517,7 @@ class PropertyHandler {
   }
 
   getTypeProperties(modelID, elementID, recursive) {
-    return this.handler.request(this.API, WorkerActions.getTypeProperties, {
+    return this.handler.request(this.API, WorkerActions$1.getTypeProperties, {
       modelID,
       elementID,
       recursive
@@ -91566,7 +92525,7 @@ class PropertyHandler {
   }
 
   getSpatialStructure(modelID, includeProperties) {
-    return this.handler.request(this.API, WorkerActions.getSpatialStructure, {
+    return this.handler.request(this.API, WorkerActions$1.getSpatialStructure, {
       modelID,
       includeProperties
     });
@@ -91574,34 +92533,34 @@ class PropertyHandler {
 
 }
 
-class WebIfcHandler {
+class WebIfcHandler$1 {
 
   constructor(handler, serializer) {
     this.handler = handler;
     this.serializer = serializer;
-    this.API = WorkerAPIs.webIfc;
+    this.API = WorkerAPIs$1.webIfc;
   }
 
   async Init() {
     this.wasmModule = true;
-    return this.handler.request(this.API, WorkerActions.Init);
+    return this.handler.request(this.API, WorkerActions$1.Init);
   }
 
   async OpenModel(data, settings) {
-    return this.handler.request(this.API, WorkerActions.OpenModel, {
+    return this.handler.request(this.API, WorkerActions$1.OpenModel, {
       data,
       settings
     });
   }
 
   async CreateModel(settings) {
-    return this.handler.request(this.API, WorkerActions.CreateModel, {
+    return this.handler.request(this.API, WorkerActions$1.CreateModel, {
       settings
     });
   }
 
   async ExportFileAsIFC(modelID) {
-    return this.handler.request(this.API, WorkerActions.ExportFileAsIFC, {
+    return this.handler.request(this.API, WorkerActions$1.ExportFileAsIFC, {
       modelID
     });
   }
@@ -91610,14 +92569,14 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (geom) => {
       return this.serializer.reconstructIfcGeometry(geom);
     };
-    return this.handler.request(this.API, WorkerActions.GetGeometry, {
+    return this.handler.request(this.API, WorkerActions$1.GetGeometry, {
       modelID,
       geometryExpressID
     });
   }
 
   async GetLine(modelID, expressID, flatten) {
-    return this.handler.request(this.API, WorkerActions.GetLine, {
+    return this.handler.request(this.API, WorkerActions$1.GetLine, {
       modelID,
       expressID,
       flatten
@@ -91628,34 +92587,34 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
       return this.serializer.reconstructVector(vector);
     };
-    return this.handler.request(this.API, WorkerActions.GetAndClearErrors, {
+    return this.handler.request(this.API, WorkerActions$1.GetAndClearErrors, {
       modelID
     });
   }
 
   async WriteLine(modelID, lineObject) {
-    return this.handler.request(this.API, WorkerActions.WriteLine, {
+    return this.handler.request(this.API, WorkerActions$1.WriteLine, {
       modelID,
       lineObject
     });
   }
 
   async FlattenLine(modelID, line) {
-    return this.handler.request(this.API, WorkerActions.FlattenLine, {
+    return this.handler.request(this.API, WorkerActions$1.FlattenLine, {
       modelID,
       line
     });
   }
 
   async GetRawLineData(modelID, expressID) {
-    return this.handler.request(this.API, WorkerActions.GetRawLineData, {
+    return this.handler.request(this.API, WorkerActions$1.GetRawLineData, {
       modelID,
       expressID
     });
   }
 
   async WriteRawLineData(modelID, data) {
-    return this.handler.request(this.API, WorkerActions.WriteRawLineData, {
+    return this.handler.request(this.API, WorkerActions$1.WriteRawLineData, {
       modelID,
       data
     });
@@ -91665,7 +92624,7 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
       return this.serializer.reconstructVector(vector);
     };
-    return this.handler.request(this.API, WorkerActions.GetLineIDsWithType, {
+    return this.handler.request(this.API, WorkerActions$1.GetLineIDsWithType, {
       modelID,
       type
     });
@@ -91675,40 +92634,40 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
       return this.serializer.reconstructVector(vector);
     };
-    return this.handler.request(this.API, WorkerActions.GetAllLines, {
+    return this.handler.request(this.API, WorkerActions$1.GetAllLines, {
       modelID
     });
   }
 
   async SetGeometryTransformation(modelID, transformationMatrix) {
-    return this.handler.request(this.API, WorkerActions.SetGeometryTransformation, {
+    return this.handler.request(this.API, WorkerActions$1.SetGeometryTransformation, {
       modelID,
       transformationMatrix
     });
   }
 
   async GetCoordinationMatrix(modelID) {
-    return this.handler.request(this.API, WorkerActions.GetCoordinationMatrix, {
+    return this.handler.request(this.API, WorkerActions$1.GetCoordinationMatrix, {
       modelID
     });
   }
 
   async GetVertexArray(ptr, size) {
-    return this.handler.request(this.API, WorkerActions.GetVertexArray, {
+    return this.handler.request(this.API, WorkerActions$1.GetVertexArray, {
       ptr,
       size
     });
   }
 
   async GetIndexArray(ptr, size) {
-    return this.handler.request(this.API, WorkerActions.GetIndexArray, {
+    return this.handler.request(this.API, WorkerActions$1.GetIndexArray, {
       ptr,
       size
     });
   }
 
   async getSubArray(heap, startPtr, sizeBytes) {
-    return this.handler.request(this.API, WorkerActions.getSubArray, {
+    return this.handler.request(this.API, WorkerActions$1.getSubArray, {
       heap,
       startPtr,
       sizeBytes
@@ -91716,7 +92675,7 @@ class WebIfcHandler {
   }
 
   async CloseModel(modelID) {
-    return this.handler.request(this.API, WorkerActions.CloseModel, {
+    return this.handler.request(this.API, WorkerActions$1.CloseModel, {
       modelID
     });
   }
@@ -91726,7 +92685,7 @@ class WebIfcHandler {
       action: meshCallback,
       serializer: this.serializer.reconstructFlatMesh
     };
-    return this.handler.request(this.API, WorkerActions.StreamAllMeshes, {
+    return this.handler.request(this.API, WorkerActions$1.StreamAllMeshes, {
       modelID
     });
   }
@@ -91736,14 +92695,14 @@ class WebIfcHandler {
       action: meshCallback,
       serializer: this.serializer.reconstructFlatMesh
     };
-    return this.handler.request(this.API, WorkerActions.StreamAllMeshesWithTypes, {
+    return this.handler.request(this.API, WorkerActions$1.StreamAllMeshesWithTypes, {
       modelID,
       types
     });
   }
 
   async IsModelOpen(modelID) {
-    return this.handler.request(this.API, WorkerActions.IsModelOpen, {
+    return this.handler.request(this.API, WorkerActions$1.IsModelOpen, {
       modelID
     });
   }
@@ -91752,7 +92711,7 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
       return this.serializer.reconstructFlatMeshVector(vector);
     };
-    return this.handler.request(this.API, WorkerActions.LoadAllGeometry, {
+    return this.handler.request(this.API, WorkerActions$1.LoadAllGeometry, {
       modelID
     });
   }
@@ -91761,58 +92720,58 @@ class WebIfcHandler {
     this.handler.serializeHandlers[this.handler.requestID] = (flatMesh) => {
       return this.serializer.reconstructFlatMesh(flatMesh);
     };
-    return this.handler.request(this.API, WorkerActions.GetFlatMesh, {
+    return this.handler.request(this.API, WorkerActions$1.GetFlatMesh, {
       modelID,
       expressID
     });
   }
 
   async SetWasmPath(path) {
-    return this.handler.request(this.API, WorkerActions.SetWasmPath, {
+    return this.handler.request(this.API, WorkerActions$1.SetWasmPath, {
       path
     });
   }
 
 }
 
-class WorkerStateHandler {
+class WorkerStateHandler$1 {
 
   constructor(handler) {
     this.handler = handler;
-    this.API = WorkerAPIs.workerState;
+    this.API = WorkerAPIs$1.workerState;
     this.state = this.handler.state;
   }
 
   async updateStateUseJson() {
     const useJson = this.state.useJSON;
-    return this.handler.request(this.API, WorkerActions.updateStateUseJson, {
+    return this.handler.request(this.API, WorkerActions$1.updateStateUseJson, {
       useJson
     });
   }
 
   async updateStateWebIfcSettings() {
     const webIfcSettings = this.state.webIfcSettings;
-    return this.handler.request(this.API, WorkerActions.updateStateWebIfcSettings, {
+    return this.handler.request(this.API, WorkerActions$1.updateStateWebIfcSettings, {
       webIfcSettings
     });
   }
 
   async updateModelStateTypes(modelID, types) {
-    return this.handler.request(this.API, WorkerActions.updateModelStateTypes, {
+    return this.handler.request(this.API, WorkerActions$1.updateModelStateTypes, {
       modelID,
       types
     });
   }
 
   async updateModelStateJsonData(modelID, jsonData) {
-    return this.handler.request(this.API, WorkerActions.updateModelStateJsonData, {
+    return this.handler.request(this.API, WorkerActions$1.updateModelStateJsonData, {
       modelID,
       jsonData
     });
   }
 
   async loadJsonDataFromWorker(modelID, path) {
-    return this.handler.request(this.API, WorkerActions.loadJsonDataFromWorker, {
+    return this.handler.request(this.API, WorkerActions$1.loadJsonDataFromWorker, {
       modelID,
       path
     });
@@ -91820,16 +92779,16 @@ class WorkerStateHandler {
 
 }
 
-var DBOperation;
+var DBOperation$1;
 (function(DBOperation) {
   DBOperation[DBOperation["transferIfcModel"] = 0] = "transferIfcModel";
   DBOperation[DBOperation["transferIndividualItems"] = 1] = "transferIndividualItems";
-})(DBOperation || (DBOperation = {}));
+})(DBOperation$1 || (DBOperation$1 = {}));
 
-class IndexedDatabase {
+class IndexedDatabase$1 {
 
   async save(item, id) {
-    const open = IndexedDatabase.openOrCreateDB(id);
+    const open = IndexedDatabase$1.openOrCreateDB(id);
     this.createSchema(open, id);
     return new Promise((resolve, reject) => {
       open.onsuccess = () => this.saveItem(item, open, id, resolve);
@@ -91837,7 +92796,7 @@ class IndexedDatabase {
   }
 
   async load(id) {
-    const open = IndexedDatabase.openOrCreateDB(id);
+    const open = IndexedDatabase$1.openOrCreateDB(id);
     return new Promise((resolve, reject) => {
       open.onsuccess = () => this.loadItem(open, id, resolve);
     });
@@ -91853,20 +92812,20 @@ class IndexedDatabase {
   }
 
   saveItem(item, open, id, resolve) {
-    const {db, tx, store} = IndexedDatabase.getDBItems(open, id);
+    const {db, tx, store} = IndexedDatabase$1.getDBItems(open, id);
     item.id = id;
     store.put(item);
-    tx.oncomplete = () => IndexedDatabase.closeDB(db, tx, resolve);
+    tx.oncomplete = () => IndexedDatabase$1.closeDB(db, tx, resolve);
   }
 
   loadItem(open, id, resolve) {
-    const {db, tx, store} = IndexedDatabase.getDBItems(open, id);
+    const {db, tx, store} = IndexedDatabase$1.getDBItems(open, id);
     const item = store.get(id);
     const callback = () => {
       delete item.result.id;
       resolve(item.result);
     };
-    tx.oncomplete = () => IndexedDatabase.closeDB(db, tx, callback);
+    tx.oncomplete = () => IndexedDatabase$1.closeDB(db, tx, callback);
   }
 
   static getDBItems(open, id) {
@@ -91891,7 +92850,7 @@ class IndexedDatabase {
 
 }
 
-class ParserHandler {
+class ParserHandler$1 {
 
   constructor(handler, serializer, BVH, IDB) {
     this.handler = handler;
@@ -91902,12 +92861,12 @@ class ParserHandler {
       [IFCSPACE]: true,
       [IFCOPENINGELEMENT]: false
     };
-    this.API = WorkerAPIs.parser;
+    this.API = WorkerAPIs$1.parser;
   }
 
   async setupOptionalCategories(config) {
     this.optionalCategories = config;
-    return this.handler.request(this.API, WorkerActions.setupOptionalCategories, {
+    return this.handler.request(this.API, WorkerActions$1.setupOptionalCategories, {
       config
     });
   }
@@ -91921,7 +92880,7 @@ class ParserHandler {
       this.updateState(result.modelID);
       return this.getModel();
     };
-    return this.handler.request(this.API, WorkerActions.parse, {
+    return this.handler.request(this.API, WorkerActions$1.parse, {
       buffer,
       coordinationMatrix
     });
@@ -91939,7 +92898,7 @@ class ParserHandler {
   }
 
   async getModel() {
-    const serializedModel = await this.IDB.load(DBOperation.transferIfcModel);
+    const serializedModel = await this.IDB.load(DBOperation$1.transferIfcModel);
     const model = this.serializer.reconstructIfcModel(serializedModel);
     this.BVH.applyThreeMeshBVH(model.geometry);
     this.handler.state.models[model.modelID].mesh = model;
@@ -91948,7 +92907,7 @@ class ParserHandler {
 
 }
 
-class IFCWorkerHandler {
+class IFCWorkerHandler$1 {
 
   constructor(state, BVH) {
     this.state = state;
@@ -91959,15 +92918,15 @@ class IFCWorkerHandler {
     this.serializeHandlers = {};
     this.callbackHandlers = {};
     this.onprogressHandlers = {};
-    this.serializer = new Serializer();
-    this.IDB = new IndexedDatabase();
+    this.serializer = new Serializer$1();
+    this.IDB = new IndexedDatabase$1();
     this.workerPath = this.state.worker.path;
     this.ifcWorker = new Worker(this.workerPath);
     this.ifcWorker.onmessage = (data) => this.handleResponse(data);
-    this.properties = new PropertyHandler(this);
-    this.parser = new ParserHandler(this, this.serializer, this.BVH, this.IDB);
-    this.webIfc = new WebIfcHandler(this, this.serializer);
-    this.workerState = new WorkerStateHandler(this);
+    this.properties = new PropertyHandler$1(this);
+    this.parser = new ParserHandler$1(this, this.serializer, this.BVH, this.IDB);
+    this.webIfc = new WebIfcHandler$1(this, this.serializer);
+    this.workerState = new WorkerStateHandler$1(this);
   }
 
   request(worker, action, args) {
@@ -91988,13 +92947,13 @@ class IFCWorkerHandler {
   }
 
   async terminate() {
-    await this.request(WorkerAPIs.workerState, WorkerActions.dispose);
-    await this.request(WorkerAPIs.webIfc, WorkerActions.DisposeWebIfc);
+    await this.request(WorkerAPIs$1.workerState, WorkerActions$1.dispose);
+    await this.request(WorkerAPIs$1.webIfc, WorkerActions$1.DisposeWebIfc);
     this.ifcWorker.terminate();
   }
 
   async Close() {
-    await this.request(WorkerAPIs.webIfc, WorkerActions.Close);
+    await this.request(WorkerAPIs$1.webIfc, WorkerActions$1.Close);
   }
 
   handleResponse(event) {
@@ -92044,7 +93003,7 @@ class IFCWorkerHandler {
 
 }
 
-class MemoryCleaner {
+class MemoryCleaner$1 {
 
   constructor(state) {
     this.state = state;
@@ -92072,7 +93031,7 @@ class MemoryCleaner {
 
 }
 
-class IFCUtils {
+class IFCUtils$1 {
 
   constructor(state) {
     this.state = state;
@@ -92080,7 +93039,7 @@ class IFCUtils {
   }
 
   getMapping() {
-    this.map = this.reverseElementMapping(IfcTypesMap);
+    this.map = this.reverseElementMapping(IfcTypesMap$1);
   }
 
   releaseMapping() {
@@ -92098,12 +93057,12 @@ class IFCUtils {
   isA(entity, entity_class) {
     var test = false;
     if (entity_class) {
-      if (IfcTypesMap[entity.type] === entity_class.toUpperCase()) {
+      if (IfcTypesMap$1[entity.type] === entity_class.toUpperCase()) {
         test = true;
       }
       return test;
     } else {
-      return IfcTypesMap[entity.type];
+      return IfcTypesMap$1[entity.type];
     }
   }
 
@@ -92134,7 +93093,7 @@ class IFCUtils {
 
 }
 
-class Data {
+class Data$1 {
 
   constructor(state) {
     this.state = state;
@@ -92149,7 +93108,7 @@ class Data {
     this.task_times = {};
     this.lag_times = {};
     this.sequences = {};
-    this.utils = new IFCUtils(this.state);
+    this.utils = new IFCUtils$1(this.state);
   }
 
   async load(modelID) {
@@ -92281,7 +93240,7 @@ class Data {
 
 }
 
-class IFCManager {
+class IFCManager$1 {
 
   constructor() {
     this.state = {
@@ -92293,15 +93252,15 @@ class IFCManager {
         path: ''
       }
     };
-    this.BVH = new BvhManager();
-    this.typesMap = IfcTypesMap;
-    this.parser = new IFCParser(this.state, this.BVH);
-    this.subsets = new SubsetManager(this.state, this.BVH);
-    this.utils = new IFCUtils(this.state);
-    this.sequenceData = new Data(this.state);
-    this.properties = new PropertyManager(this.state);
-    this.types = new TypeManager(this.state);
-    this.cleaner = new MemoryCleaner(this.state);
+    this.BVH = new BvhManager$1();
+    this.typesMap = IfcTypesMap$1;
+    this.parser = new IFCParser$1(this.state, this.BVH);
+    this.subsets = new SubsetManager$1(this.state, this.BVH);
+    this.utils = new IFCUtils$1(this.state);
+    this.sequenceData = new Data$1(this.state);
+    this.properties = new PropertyManager$1(this.state);
+    this.types = new TypeManager$1(this.state);
+    this.cleaner = new MemoryCleaner$1(this.state);
   }
 
   get ifcAPI() {
@@ -92422,7 +93381,7 @@ class IFCManager {
 
   getIfcType(modelID, id) {
     const typeID = this.state.models[modelID].types[id];
-    return IfcElements[typeID];
+    return IfcElements$1[typeID];
   }
 
   getSpatialStructure(modelID, includeProperties) {
@@ -92471,7 +93430,7 @@ class IFCManager {
   }
 
   async dispose() {
-    IFCModel.dispose();
+    IFCModel$1.dispose();
     await this.cleaner.dispose();
     this.subsets.dispose();
     if (this.worker && this.state.worker.active)
@@ -92495,7 +93454,7 @@ class IFCManager {
   }
 
   async initializeWorkers() {
-    this.worker = new IFCWorkerHandler(this.state, this.BVH);
+    this.worker = new IFCWorkerHandler$1(this.state, this.BVH);
     this.state.api = this.worker.webIfc;
     this.properties = this.worker.properties;
     await this.worker.parser.setupOptionalCategories(this.parser.optionalCategories);
@@ -92506,11 +93465,11 @@ class IFCManager {
 
 }
 
-class IFCLoader extends Loader {
+class IFCLoader$1 extends Loader {
 
   constructor(manager) {
     super(manager);
-    this.ifcManager = new IFCManager();
+    this.ifcManager = new IFCManager$1();
   }
 
   load(url, onLoad, onProgress, onError) {
@@ -94373,7 +95332,7 @@ class GLTFCubicSplineQuaternionInterpolant extends GLTFCubicSplineInterpolant {
 
 /* CONSTANTS */
 
-const WEBGL_CONSTANTS = {
+const WEBGL_CONSTANTS$1 = {
 	FLOAT: 5126,
 	//FLOAT_MAT2: 35674,
 	FLOAT_MAT3: 35675,
@@ -95877,9 +96836,9 @@ class GLTFParser {
 
 				const material = materials[ i ];
 
-				if ( primitive.mode === WEBGL_CONSTANTS.TRIANGLES ||
-						primitive.mode === WEBGL_CONSTANTS.TRIANGLE_STRIP ||
-						primitive.mode === WEBGL_CONSTANTS.TRIANGLE_FAN ||
+				if ( primitive.mode === WEBGL_CONSTANTS$1.TRIANGLES ||
+						primitive.mode === WEBGL_CONSTANTS$1.TRIANGLE_STRIP ||
+						primitive.mode === WEBGL_CONSTANTS$1.TRIANGLE_FAN ||
 						primitive.mode === undefined ) {
 
 					// .isSkinnedMesh isn't in glTF spec. See ._markDefs()
@@ -95895,29 +96854,29 @@ class GLTFParser {
 
 					}
 
-					if ( primitive.mode === WEBGL_CONSTANTS.TRIANGLE_STRIP ) {
+					if ( primitive.mode === WEBGL_CONSTANTS$1.TRIANGLE_STRIP ) {
 
 						mesh.geometry = toTrianglesDrawMode( mesh.geometry, TriangleStripDrawMode );
 
-					} else if ( primitive.mode === WEBGL_CONSTANTS.TRIANGLE_FAN ) {
+					} else if ( primitive.mode === WEBGL_CONSTANTS$1.TRIANGLE_FAN ) {
 
 						mesh.geometry = toTrianglesDrawMode( mesh.geometry, TriangleFanDrawMode );
 
 					}
 
-				} else if ( primitive.mode === WEBGL_CONSTANTS.LINES ) {
+				} else if ( primitive.mode === WEBGL_CONSTANTS$1.LINES ) {
 
 					mesh = new LineSegments( geometry, material );
 
-				} else if ( primitive.mode === WEBGL_CONSTANTS.LINE_STRIP ) {
+				} else if ( primitive.mode === WEBGL_CONSTANTS$1.LINE_STRIP ) {
 
 					mesh = new Line( geometry, material );
 
-				} else if ( primitive.mode === WEBGL_CONSTANTS.LINE_LOOP ) {
+				} else if ( primitive.mode === WEBGL_CONSTANTS$1.LINE_LOOP ) {
 
 					mesh = new LineLoop( geometry, material );
 
-				} else if ( primitive.mode === WEBGL_CONSTANTS.POINTS ) {
+				} else if ( primitive.mode === WEBGL_CONSTANTS$1.POINTS ) {
 
 					mesh = new Points( geometry, material );
 
@@ -101108,7 +102067,7 @@ CSS2DObject.prototype.isCSS2DObject = true;
 
 //
 
-const _vector = new Vector3();
+const _vector$1 = new Vector3();
 const _viewMatrix = new Matrix4();
 const _viewProjectionMatrix = new Matrix4();
 const _a = new Vector3();
@@ -101174,23 +102133,23 @@ class CSS2DRenderer {
 
 				object.onBeforeRender( _this, scene, camera );
 
-				_vector.setFromMatrixPosition( object.matrixWorld );
-				_vector.applyMatrix4( _viewProjectionMatrix );
+				_vector$1.setFromMatrixPosition( object.matrixWorld );
+				_vector$1.applyMatrix4( _viewProjectionMatrix );
 
 				const element = object.element;
 
 				if ( /apple/i.test( navigator.vendor ) ) {
 
 					// https://github.com/mrdoob/three.js/issues/21415
-					element.style.transform = 'translate(-50%,-50%) translate(' + Math.round( _vector.x * _widthHalf + _widthHalf ) + 'px,' + Math.round( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
+					element.style.transform = 'translate(-50%,-50%) translate(' + Math.round( _vector$1.x * _widthHalf + _widthHalf ) + 'px,' + Math.round( - _vector$1.y * _heightHalf + _heightHalf ) + 'px)';
 
 				} else {
 
-					element.style.transform = 'translate(-50%,-50%) translate(' + ( _vector.x * _widthHalf + _widthHalf ) + 'px,' + ( - _vector.y * _heightHalf + _heightHalf ) + 'px)';
+					element.style.transform = 'translate(-50%,-50%) translate(' + ( _vector$1.x * _widthHalf + _widthHalf ) + 'px,' + ( - _vector$1.y * _heightHalf + _heightHalf ) + 'px)';
 
 				}
 
-				element.style.display = ( object.visible && _vector.z >= - 1 && _vector.z <= 1 ) ? '' : 'none';
+				element.style.display = ( object.visible && _vector$1.z >= - 1 && _vector$1.z <= 1 ) ? '' : 'none';
 
 				const objectData = {
 					distanceToCameraSquared: getDistanceToSquared( camera, object )
@@ -101368,6 +102327,8552 @@ const ifcFileName = {
   Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
 };
 
+var NavigationModes;
+(function (NavigationModes) {
+    NavigationModes[NavigationModes["Orbit"] = 0] = "Orbit";
+    NavigationModes[NavigationModes["FirstPerson"] = 1] = "FirstPerson";
+    NavigationModes[NavigationModes["Plan"] = 2] = "Plan";
+})(NavigationModes || (NavigationModes = {}));
+var CameraProjections;
+(function (CameraProjections) {
+    CameraProjections[CameraProjections["Perspective"] = 0] = "Perspective";
+    CameraProjections[CameraProjections["Orthographic"] = 1] = "Orthographic";
+})(CameraProjections || (CameraProjections = {}));
+class IfcComponent {
+    constructor(context) {
+        context.addComponent(this);
+    }
+    update(_delta) { }
+}
+var dimension;
+(function (dimension) {
+    dimension["x"] = "x";
+    dimension["y"] = "y";
+    dimension["z"] = "z";
+})(dimension || (dimension = {}));
+
+const _raycaster = new Raycaster();
+
+const _tempVector = new Vector3();
+const _tempVector2 = new Vector3();
+const _tempQuaternion = new Quaternion();
+const _unit = {
+	X: new Vector3( 1, 0, 0 ),
+	Y: new Vector3( 0, 1, 0 ),
+	Z: new Vector3( 0, 0, 1 )
+};
+
+const _changeEvent = { type: 'change' };
+const _mouseDownEvent = { type: 'mouseDown' };
+const _mouseUpEvent = { type: 'mouseUp', mode: null };
+const _objectChangeEvent = { type: 'objectChange' };
+
+class TransformControls extends Object3D {
+
+	constructor( camera, domElement ) {
+
+		super();
+
+		if ( domElement === undefined ) {
+
+			console.warn( 'THREE.TransformControls: The second parameter "domElement" is now mandatory.' );
+			domElement = document;
+
+		}
+
+		this.visible = false;
+		this.domElement = domElement;
+		this.domElement.style.touchAction = 'none'; // disable touch scroll
+
+		const _gizmo = new TransformControlsGizmo();
+		this._gizmo = _gizmo;
+		this.add( _gizmo );
+
+		const _plane = new TransformControlsPlane();
+		this._plane = _plane;
+		this.add( _plane );
+
+		const scope = this;
+
+		// Defined getter, setter and store for a property
+		function defineProperty( propName, defaultValue ) {
+
+			let propValue = defaultValue;
+
+			Object.defineProperty( scope, propName, {
+
+				get: function () {
+
+					return propValue !== undefined ? propValue : defaultValue;
+
+				},
+
+				set: function ( value ) {
+
+					if ( propValue !== value ) {
+
+						propValue = value;
+						_plane[ propName ] = value;
+						_gizmo[ propName ] = value;
+
+						scope.dispatchEvent( { type: propName + '-changed', value: value } );
+						scope.dispatchEvent( _changeEvent );
+
+					}
+
+				}
+
+			} );
+
+			scope[ propName ] = defaultValue;
+			_plane[ propName ] = defaultValue;
+			_gizmo[ propName ] = defaultValue;
+
+		}
+
+		// Define properties with getters/setter
+		// Setting the defined property will automatically trigger change event
+		// Defined properties are passed down to gizmo and plane
+
+		defineProperty( 'camera', camera );
+		defineProperty( 'object', undefined );
+		defineProperty( 'enabled', true );
+		defineProperty( 'axis', null );
+		defineProperty( 'mode', 'translate' );
+		defineProperty( 'translationSnap', null );
+		defineProperty( 'rotationSnap', null );
+		defineProperty( 'scaleSnap', null );
+		defineProperty( 'space', 'world' );
+		defineProperty( 'size', 1 );
+		defineProperty( 'dragging', false );
+		defineProperty( 'showX', true );
+		defineProperty( 'showY', true );
+		defineProperty( 'showZ', true );
+
+		// Reusable utility variables
+
+		const worldPosition = new Vector3();
+		const worldPositionStart = new Vector3();
+		const worldQuaternion = new Quaternion();
+		const worldQuaternionStart = new Quaternion();
+		const cameraPosition = new Vector3();
+		const cameraQuaternion = new Quaternion();
+		const pointStart = new Vector3();
+		const pointEnd = new Vector3();
+		const rotationAxis = new Vector3();
+		const rotationAngle = 0;
+		const eye = new Vector3();
+
+		// TODO: remove properties unused in plane and gizmo
+
+		defineProperty( 'worldPosition', worldPosition );
+		defineProperty( 'worldPositionStart', worldPositionStart );
+		defineProperty( 'worldQuaternion', worldQuaternion );
+		defineProperty( 'worldQuaternionStart', worldQuaternionStart );
+		defineProperty( 'cameraPosition', cameraPosition );
+		defineProperty( 'cameraQuaternion', cameraQuaternion );
+		defineProperty( 'pointStart', pointStart );
+		defineProperty( 'pointEnd', pointEnd );
+		defineProperty( 'rotationAxis', rotationAxis );
+		defineProperty( 'rotationAngle', rotationAngle );
+		defineProperty( 'eye', eye );
+
+		this._offset = new Vector3();
+		this._startNorm = new Vector3();
+		this._endNorm = new Vector3();
+		this._cameraScale = new Vector3();
+
+		this._parentPosition = new Vector3();
+		this._parentQuaternion = new Quaternion();
+		this._parentQuaternionInv = new Quaternion();
+		this._parentScale = new Vector3();
+
+		this._worldScaleStart = new Vector3();
+		this._worldQuaternionInv = new Quaternion();
+		this._worldScale = new Vector3();
+
+		this._positionStart = new Vector3();
+		this._quaternionStart = new Quaternion();
+		this._scaleStart = new Vector3();
+
+		this._getPointer = getPointer.bind( this );
+		this._onPointerDown = onPointerDown.bind( this );
+		this._onPointerHover = onPointerHover.bind( this );
+		this._onPointerMove = onPointerMove.bind( this );
+		this._onPointerUp = onPointerUp.bind( this );
+
+		this.domElement.addEventListener( 'pointerdown', this._onPointerDown );
+		this.domElement.addEventListener( 'pointermove', this._onPointerHover );
+		this.domElement.addEventListener( 'pointerup', this._onPointerUp );
+
+	}
+
+	// updateMatrixWorld  updates key transformation variables
+	updateMatrixWorld() {
+
+		if ( this.object !== undefined ) {
+
+			this.object.updateMatrixWorld();
+
+			if ( this.object.parent === null ) {
+
+				console.error( 'TransformControls: The attached 3D object must be a part of the scene graph.' );
+
+			} else {
+
+				this.object.parent.matrixWorld.decompose( this._parentPosition, this._parentQuaternion, this._parentScale );
+
+			}
+
+			this.object.matrixWorld.decompose( this.worldPosition, this.worldQuaternion, this._worldScale );
+
+			this._parentQuaternionInv.copy( this._parentQuaternion ).invert();
+			this._worldQuaternionInv.copy( this.worldQuaternion ).invert();
+
+		}
+
+		this.camera.updateMatrixWorld();
+		this.camera.matrixWorld.decompose( this.cameraPosition, this.cameraQuaternion, this._cameraScale );
+
+		this.eye.copy( this.cameraPosition ).sub( this.worldPosition ).normalize();
+
+		super.updateMatrixWorld( this );
+
+	}
+
+	pointerHover( pointer ) {
+
+		if ( this.object === undefined || this.dragging === true ) return;
+
+		_raycaster.setFromCamera( pointer, this.camera );
+
+		const intersect = intersectObjectWithRay( this._gizmo.picker[ this.mode ], _raycaster );
+
+		if ( intersect ) {
+
+			this.axis = intersect.object.name;
+
+		} else {
+
+			this.axis = null;
+
+		}
+
+	}
+
+	pointerDown( pointer ) {
+
+		if ( this.object === undefined || this.dragging === true || pointer.button !== 0 ) return;
+
+		if ( this.axis !== null ) {
+
+			_raycaster.setFromCamera( pointer, this.camera );
+
+			const planeIntersect = intersectObjectWithRay( this._plane, _raycaster, true );
+
+			if ( planeIntersect ) {
+
+				this.object.updateMatrixWorld();
+				this.object.parent.updateMatrixWorld();
+
+				this._positionStart.copy( this.object.position );
+				this._quaternionStart.copy( this.object.quaternion );
+				this._scaleStart.copy( this.object.scale );
+
+				this.object.matrixWorld.decompose( this.worldPositionStart, this.worldQuaternionStart, this._worldScaleStart );
+
+				this.pointStart.copy( planeIntersect.point ).sub( this.worldPositionStart );
+
+			}
+
+			this.dragging = true;
+			_mouseDownEvent.mode = this.mode;
+			this.dispatchEvent( _mouseDownEvent );
+
+		}
+
+	}
+
+	pointerMove( pointer ) {
+
+		const axis = this.axis;
+		const mode = this.mode;
+		const object = this.object;
+		let space = this.space;
+
+		if ( mode === 'scale' ) {
+
+			space = 'local';
+
+		} else if ( axis === 'E' || axis === 'XYZE' || axis === 'XYZ' ) {
+
+			space = 'world';
+
+		}
+
+		if ( object === undefined || axis === null || this.dragging === false || pointer.button !== - 1 ) return;
+
+		_raycaster.setFromCamera( pointer, this.camera );
+
+		const planeIntersect = intersectObjectWithRay( this._plane, _raycaster, true );
+
+		if ( ! planeIntersect ) return;
+
+		this.pointEnd.copy( planeIntersect.point ).sub( this.worldPositionStart );
+
+		if ( mode === 'translate' ) {
+
+			// Apply translate
+
+			this._offset.copy( this.pointEnd ).sub( this.pointStart );
+
+			if ( space === 'local' && axis !== 'XYZ' ) {
+
+				this._offset.applyQuaternion( this._worldQuaternionInv );
+
+			}
+
+			if ( axis.indexOf( 'X' ) === - 1 ) this._offset.x = 0;
+			if ( axis.indexOf( 'Y' ) === - 1 ) this._offset.y = 0;
+			if ( axis.indexOf( 'Z' ) === - 1 ) this._offset.z = 0;
+
+			if ( space === 'local' && axis !== 'XYZ' ) {
+
+				this._offset.applyQuaternion( this._quaternionStart ).divide( this._parentScale );
+
+			} else {
+
+				this._offset.applyQuaternion( this._parentQuaternionInv ).divide( this._parentScale );
+
+			}
+
+			object.position.copy( this._offset ).add( this._positionStart );
+
+			// Apply translation snap
+
+			if ( this.translationSnap ) {
+
+				if ( space === 'local' ) {
+
+					object.position.applyQuaternion( _tempQuaternion.copy( this._quaternionStart ).invert() );
+
+					if ( axis.search( 'X' ) !== - 1 ) {
+
+						object.position.x = Math.round( object.position.x / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					if ( axis.search( 'Y' ) !== - 1 ) {
+
+						object.position.y = Math.round( object.position.y / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					if ( axis.search( 'Z' ) !== - 1 ) {
+
+						object.position.z = Math.round( object.position.z / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					object.position.applyQuaternion( this._quaternionStart );
+
+				}
+
+				if ( space === 'world' ) {
+
+					if ( object.parent ) {
+
+						object.position.add( _tempVector.setFromMatrixPosition( object.parent.matrixWorld ) );
+
+					}
+
+					if ( axis.search( 'X' ) !== - 1 ) {
+
+						object.position.x = Math.round( object.position.x / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					if ( axis.search( 'Y' ) !== - 1 ) {
+
+						object.position.y = Math.round( object.position.y / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					if ( axis.search( 'Z' ) !== - 1 ) {
+
+						object.position.z = Math.round( object.position.z / this.translationSnap ) * this.translationSnap;
+
+					}
+
+					if ( object.parent ) {
+
+						object.position.sub( _tempVector.setFromMatrixPosition( object.parent.matrixWorld ) );
+
+					}
+
+				}
+
+			}
+
+		} else if ( mode === 'scale' ) {
+
+			if ( axis.search( 'XYZ' ) !== - 1 ) {
+
+				let d = this.pointEnd.length() / this.pointStart.length();
+
+				if ( this.pointEnd.dot( this.pointStart ) < 0 ) d *= - 1;
+
+				_tempVector2.set( d, d, d );
+
+			} else {
+
+				_tempVector.copy( this.pointStart );
+				_tempVector2.copy( this.pointEnd );
+
+				_tempVector.applyQuaternion( this._worldQuaternionInv );
+				_tempVector2.applyQuaternion( this._worldQuaternionInv );
+
+				_tempVector2.divide( _tempVector );
+
+				if ( axis.search( 'X' ) === - 1 ) {
+
+					_tempVector2.x = 1;
+
+				}
+
+				if ( axis.search( 'Y' ) === - 1 ) {
+
+					_tempVector2.y = 1;
+
+				}
+
+				if ( axis.search( 'Z' ) === - 1 ) {
+
+					_tempVector2.z = 1;
+
+				}
+
+			}
+
+			// Apply scale
+
+			object.scale.copy( this._scaleStart ).multiply( _tempVector2 );
+
+			if ( this.scaleSnap ) {
+
+				if ( axis.search( 'X' ) !== - 1 ) {
+
+					object.scale.x = Math.round( object.scale.x / this.scaleSnap ) * this.scaleSnap || this.scaleSnap;
+
+				}
+
+				if ( axis.search( 'Y' ) !== - 1 ) {
+
+					object.scale.y = Math.round( object.scale.y / this.scaleSnap ) * this.scaleSnap || this.scaleSnap;
+
+				}
+
+				if ( axis.search( 'Z' ) !== - 1 ) {
+
+					object.scale.z = Math.round( object.scale.z / this.scaleSnap ) * this.scaleSnap || this.scaleSnap;
+
+				}
+
+			}
+
+		} else if ( mode === 'rotate' ) {
+
+			this._offset.copy( this.pointEnd ).sub( this.pointStart );
+
+			const ROTATION_SPEED = 20 / this.worldPosition.distanceTo( _tempVector.setFromMatrixPosition( this.camera.matrixWorld ) );
+
+			if ( axis === 'E' ) {
+
+				this.rotationAxis.copy( this.eye );
+				this.rotationAngle = this.pointEnd.angleTo( this.pointStart );
+
+				this._startNorm.copy( this.pointStart ).normalize();
+				this._endNorm.copy( this.pointEnd ).normalize();
+
+				this.rotationAngle *= ( this._endNorm.cross( this._startNorm ).dot( this.eye ) < 0 ? 1 : - 1 );
+
+			} else if ( axis === 'XYZE' ) {
+
+				this.rotationAxis.copy( this._offset ).cross( this.eye ).normalize();
+				this.rotationAngle = this._offset.dot( _tempVector.copy( this.rotationAxis ).cross( this.eye ) ) * ROTATION_SPEED;
+
+			} else if ( axis === 'X' || axis === 'Y' || axis === 'Z' ) {
+
+				this.rotationAxis.copy( _unit[ axis ] );
+
+				_tempVector.copy( _unit[ axis ] );
+
+				if ( space === 'local' ) {
+
+					_tempVector.applyQuaternion( this.worldQuaternion );
+
+				}
+
+				this.rotationAngle = this._offset.dot( _tempVector.cross( this.eye ).normalize() ) * ROTATION_SPEED;
+
+			}
+
+			// Apply rotation snap
+
+			if ( this.rotationSnap ) this.rotationAngle = Math.round( this.rotationAngle / this.rotationSnap ) * this.rotationSnap;
+
+			// Apply rotate
+			if ( space === 'local' && axis !== 'E' && axis !== 'XYZE' ) {
+
+				object.quaternion.copy( this._quaternionStart );
+				object.quaternion.multiply( _tempQuaternion.setFromAxisAngle( this.rotationAxis, this.rotationAngle ) ).normalize();
+
+			} else {
+
+				this.rotationAxis.applyQuaternion( this._parentQuaternionInv );
+				object.quaternion.copy( _tempQuaternion.setFromAxisAngle( this.rotationAxis, this.rotationAngle ) );
+				object.quaternion.multiply( this._quaternionStart ).normalize();
+
+			}
+
+		}
+
+		this.dispatchEvent( _changeEvent );
+		this.dispatchEvent( _objectChangeEvent );
+
+	}
+
+	pointerUp( pointer ) {
+
+		if ( pointer.button !== 0 ) return;
+
+		if ( this.dragging && ( this.axis !== null ) ) {
+
+			_mouseUpEvent.mode = this.mode;
+			this.dispatchEvent( _mouseUpEvent );
+
+		}
+
+		this.dragging = false;
+		this.axis = null;
+
+	}
+
+	dispose() {
+
+		this.domElement.removeEventListener( 'pointerdown', this._onPointerDown );
+		this.domElement.removeEventListener( 'pointermove', this._onPointerHover );
+		this.domElement.removeEventListener( 'pointermove', this._onPointerMove );
+		this.domElement.removeEventListener( 'pointerup', this._onPointerUp );
+
+		this.traverse( function ( child ) {
+
+			if ( child.geometry ) child.geometry.dispose();
+			if ( child.material ) child.material.dispose();
+
+		} );
+
+	}
+
+	// Set current object
+	attach( object ) {
+
+		this.object = object;
+		this.visible = true;
+
+		return this;
+
+	}
+
+	// Detatch from object
+	detach() {
+
+		this.object = undefined;
+		this.visible = false;
+		this.axis = null;
+
+		return this;
+
+	}
+
+	getRaycaster() {
+
+		return _raycaster;
+
+	}
+
+	// TODO: deprecate
+
+	getMode() {
+
+		return this.mode;
+
+	}
+
+	setMode( mode ) {
+
+		this.mode = mode;
+
+	}
+
+	setTranslationSnap( translationSnap ) {
+
+		this.translationSnap = translationSnap;
+
+	}
+
+	setRotationSnap( rotationSnap ) {
+
+		this.rotationSnap = rotationSnap;
+
+	}
+
+	setScaleSnap( scaleSnap ) {
+
+		this.scaleSnap = scaleSnap;
+
+	}
+
+	setSize( size ) {
+
+		this.size = size;
+
+	}
+
+	setSpace( space ) {
+
+		this.space = space;
+
+	}
+
+	update() {
+
+		console.warn( 'THREE.TransformControls: update function has no more functionality and therefore has been deprecated.' );
+
+	}
+
+}
+
+TransformControls.prototype.isTransformControls = true;
+
+// mouse / touch event handlers
+
+function getPointer( event ) {
+
+	if ( this.domElement.ownerDocument.pointerLockElement ) {
+
+		return {
+			x: 0,
+			y: 0,
+			button: event.button
+		};
+
+	} else {
+
+		const rect = this.domElement.getBoundingClientRect();
+
+		return {
+			x: ( event.clientX - rect.left ) / rect.width * 2 - 1,
+			y: - ( event.clientY - rect.top ) / rect.height * 2 + 1,
+			button: event.button
+		};
+
+	}
+
+}
+
+function onPointerHover( event ) {
+
+	if ( ! this.enabled ) return;
+
+	switch ( event.pointerType ) {
+
+		case 'mouse':
+		case 'pen':
+			this.pointerHover( this._getPointer( event ) );
+			break;
+
+	}
+
+}
+
+function onPointerDown( event ) {
+
+	if ( ! this.enabled ) return;
+
+	this.domElement.setPointerCapture( event.pointerId );
+
+	this.domElement.addEventListener( 'pointermove', this._onPointerMove );
+
+	this.pointerHover( this._getPointer( event ) );
+	this.pointerDown( this._getPointer( event ) );
+
+}
+
+function onPointerMove( event ) {
+
+	if ( ! this.enabled ) return;
+
+	this.pointerMove( this._getPointer( event ) );
+
+}
+
+function onPointerUp( event ) {
+
+	if ( ! this.enabled ) return;
+
+	this.domElement.releasePointerCapture( event.pointerId );
+
+	this.domElement.removeEventListener( 'pointermove', this._onPointerMove );
+
+	this.pointerUp( this._getPointer( event ) );
+
+}
+
+function intersectObjectWithRay( object, raycaster, includeInvisible ) {
+
+	const allIntersections = raycaster.intersectObject( object, true );
+
+	for ( let i = 0; i < allIntersections.length; i ++ ) {
+
+		if ( allIntersections[ i ].object.visible || includeInvisible ) {
+
+			return allIntersections[ i ];
+
+		}
+
+	}
+
+	return false;
+
+}
+
+//
+
+// Reusable utility variables
+
+const _tempEuler = new Euler();
+const _alignVector = new Vector3( 0, 1, 0 );
+const _zeroVector = new Vector3( 0, 0, 0 );
+const _lookAtMatrix = new Matrix4();
+const _tempQuaternion2 = new Quaternion();
+const _identityQuaternion = new Quaternion();
+const _dirVector = new Vector3();
+const _tempMatrix = new Matrix4();
+
+const _unitX = new Vector3( 1, 0, 0 );
+const _unitY = new Vector3( 0, 1, 0 );
+const _unitZ = new Vector3( 0, 0, 1 );
+
+const _v1 = new Vector3();
+const _v2 = new Vector3();
+const _v3 = new Vector3();
+
+class TransformControlsGizmo extends Object3D {
+
+	constructor() {
+
+		super();
+
+		this.type = 'TransformControlsGizmo';
+
+		// shared materials
+
+		const gizmoMaterial = new MeshBasicMaterial( {
+			depthTest: false,
+			depthWrite: false,
+			fog: false,
+			toneMapped: false,
+			transparent: true
+		} );
+
+		const gizmoLineMaterial = new LineBasicMaterial( {
+			depthTest: false,
+			depthWrite: false,
+			fog: false,
+			toneMapped: false,
+			transparent: true
+		} );
+
+		// Make unique material for each axis/color
+
+		const matInvisible = gizmoMaterial.clone();
+		matInvisible.opacity = 0.15;
+
+		const matHelper = gizmoLineMaterial.clone();
+		matHelper.opacity = 0.5;
+
+		const matRed = gizmoMaterial.clone();
+		matRed.color.setHex( 0xff0000 );
+
+		const matGreen = gizmoMaterial.clone();
+		matGreen.color.setHex( 0x00ff00 );
+
+		const matBlue = gizmoMaterial.clone();
+		matBlue.color.setHex( 0x0000ff );
+
+		const matRedTransparent = gizmoMaterial.clone();
+		matRedTransparent.color.setHex( 0xff0000 );
+		matRedTransparent.opacity = 0.5;
+
+		const matGreenTransparent = gizmoMaterial.clone();
+		matGreenTransparent.color.setHex( 0x00ff00 );
+		matGreenTransparent.opacity = 0.5;
+
+		const matBlueTransparent = gizmoMaterial.clone();
+		matBlueTransparent.color.setHex( 0x0000ff );
+		matBlueTransparent.opacity = 0.5;
+
+		const matWhiteTransparent = gizmoMaterial.clone();
+		matWhiteTransparent.opacity = 0.25;
+
+		const matYellowTransparent = gizmoMaterial.clone();
+		matYellowTransparent.color.setHex( 0xffff00 );
+		matYellowTransparent.opacity = 0.25;
+
+		const matYellow = gizmoMaterial.clone();
+		matYellow.color.setHex( 0xffff00 );
+
+		const matGray = gizmoMaterial.clone();
+		matGray.color.setHex( 0x787878 );
+
+		// reusable geometry
+
+		const arrowGeometry = new CylinderGeometry( 0, 0.04, 0.1, 12 );
+		arrowGeometry.translate( 0, 0.05, 0 );
+
+		const scaleHandleGeometry = new BoxGeometry( 0.08, 0.08, 0.08 );
+		scaleHandleGeometry.translate( 0, 0.04, 0 );
+
+		const lineGeometry = new BufferGeometry();
+		lineGeometry.setAttribute( 'position', new Float32BufferAttribute( [ 0, 0, 0,	1, 0, 0 ], 3 ) );
+
+		const lineGeometry2 = new CylinderGeometry( 0.0075, 0.0075, 0.5, 3 );
+		lineGeometry2.translate( 0, 0.25, 0 );
+
+		function CircleGeometry( radius, arc ) {
+
+			const geometry = new TorusGeometry( radius, 0.0075, 3, 64, arc * Math.PI * 2 );
+			geometry.rotateY( Math.PI / 2 );
+			geometry.rotateX( Math.PI / 2 );
+			return geometry;
+
+		}
+
+		// Special geometry for transform helper. If scaled with position vector it spans from [0,0,0] to position
+
+		function TranslateHelperGeometry() {
+
+			const geometry = new BufferGeometry();
+
+			geometry.setAttribute( 'position', new Float32BufferAttribute( [ 0, 0, 0, 1, 1, 1 ], 3 ) );
+
+			return geometry;
+
+		}
+
+		// Gizmo definitions - custom hierarchy definitions for setupGizmo() function
+
+		const gizmoTranslate = {
+			X: [
+				[ new Mesh( arrowGeometry, matRed ), [ 0.5, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+				[ new Mesh( arrowGeometry, matRed ), [ - 0.5, 0, 0 ], [ 0, 0, Math.PI / 2 ]],
+				[ new Mesh( lineGeometry2, matRed ), [ 0, 0, 0 ], [ 0, 0, - Math.PI / 2 ]]
+			],
+			Y: [
+				[ new Mesh( arrowGeometry, matGreen ), [ 0, 0.5, 0 ]],
+				[ new Mesh( arrowGeometry, matGreen ), [ 0, - 0.5, 0 ], [ Math.PI, 0, 0 ]],
+				[ new Mesh( lineGeometry2, matGreen ) ]
+			],
+			Z: [
+				[ new Mesh( arrowGeometry, matBlue ), [ 0, 0, 0.5 ], [ Math.PI / 2, 0, 0 ]],
+				[ new Mesh( arrowGeometry, matBlue ), [ 0, 0, - 0.5 ], [ - Math.PI / 2, 0, 0 ]],
+				[ new Mesh( lineGeometry2, matBlue ), null, [ Math.PI / 2, 0, 0 ]]
+			],
+			XYZ: [
+				[ new Mesh( new OctahedronGeometry( 0.1, 0 ), matWhiteTransparent.clone() ), [ 0, 0, 0 ]]
+			],
+			XY: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matBlueTransparent.clone() ), [ 0.15, 0.15, 0 ]]
+			],
+			YZ: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matRedTransparent.clone() ), [ 0, 0.15, 0.15 ], [ 0, Math.PI / 2, 0 ]]
+			],
+			XZ: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matGreenTransparent.clone() ), [ 0.15, 0, 0.15 ], [ - Math.PI / 2, 0, 0 ]]
+			]
+		};
+
+		const pickerTranslate = {
+			X: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0.3, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ - 0.3, 0, 0 ], [ 0, 0, Math.PI / 2 ]]
+			],
+			Y: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0.3, 0 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, - 0.3, 0 ], [ 0, 0, Math.PI ]]
+			],
+			Z: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0, 0.3 ], [ Math.PI / 2, 0, 0 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0, - 0.3 ], [ - Math.PI / 2, 0, 0 ]]
+			],
+			XYZ: [
+				[ new Mesh( new OctahedronGeometry( 0.2, 0 ), matInvisible ) ]
+			],
+			XY: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0.15, 0.15, 0 ]]
+			],
+			YZ: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0, 0.15, 0.15 ], [ 0, Math.PI / 2, 0 ]]
+			],
+			XZ: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0.15, 0, 0.15 ], [ - Math.PI / 2, 0, 0 ]]
+			]
+		};
+
+		const helperTranslate = {
+			START: [
+				[ new Mesh( new OctahedronGeometry( 0.01, 2 ), matHelper ), null, null, null, 'helper' ]
+			],
+			END: [
+				[ new Mesh( new OctahedronGeometry( 0.01, 2 ), matHelper ), null, null, null, 'helper' ]
+			],
+			DELTA: [
+				[ new Line( TranslateHelperGeometry(), matHelper ), null, null, null, 'helper' ]
+			],
+			X: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ - 1e3, 0, 0 ], null, [ 1e6, 1, 1 ], 'helper' ]
+			],
+			Y: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ 0, - 1e3, 0 ], [ 0, 0, Math.PI / 2 ], [ 1e6, 1, 1 ], 'helper' ]
+			],
+			Z: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ 0, 0, - 1e3 ], [ 0, - Math.PI / 2, 0 ], [ 1e6, 1, 1 ], 'helper' ]
+			]
+		};
+
+		const gizmoRotate = {
+			XYZE: [
+				[ new Mesh( CircleGeometry( 0.5, 1 ), matGray ), null, [ 0, Math.PI / 2, 0 ]]
+			],
+			X: [
+				[ new Mesh( CircleGeometry( 0.5, 0.5 ), matRed ) ]
+			],
+			Y: [
+				[ new Mesh( CircleGeometry( 0.5, 0.5 ), matGreen ), null, [ 0, 0, - Math.PI / 2 ]]
+			],
+			Z: [
+				[ new Mesh( CircleGeometry( 0.5, 0.5 ), matBlue ), null, [ 0, Math.PI / 2, 0 ]]
+			],
+			E: [
+				[ new Mesh( CircleGeometry( 0.75, 1 ), matYellowTransparent ), null, [ 0, Math.PI / 2, 0 ]]
+			]
+		};
+
+		const helperRotate = {
+			AXIS: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ - 1e3, 0, 0 ], null, [ 1e6, 1, 1 ], 'helper' ]
+			]
+		};
+
+		const pickerRotate = {
+			XYZE: [
+				[ new Mesh( new SphereGeometry( 0.25, 10, 8 ), matInvisible ) ]
+			],
+			X: [
+				[ new Mesh( new TorusGeometry( 0.5, 0.1, 4, 24 ), matInvisible ), [ 0, 0, 0 ], [ 0, - Math.PI / 2, - Math.PI / 2 ]],
+			],
+			Y: [
+				[ new Mesh( new TorusGeometry( 0.5, 0.1, 4, 24 ), matInvisible ), [ 0, 0, 0 ], [ Math.PI / 2, 0, 0 ]],
+			],
+			Z: [
+				[ new Mesh( new TorusGeometry( 0.5, 0.1, 4, 24 ), matInvisible ), [ 0, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+			],
+			E: [
+				[ new Mesh( new TorusGeometry( 0.75, 0.1, 2, 24 ), matInvisible ) ]
+			]
+		};
+
+		const gizmoScale = {
+			X: [
+				[ new Mesh( scaleHandleGeometry, matRed ), [ 0.5, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+				[ new Mesh( lineGeometry2, matRed ), [ 0, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+				[ new Mesh( scaleHandleGeometry, matRed ), [ - 0.5, 0, 0 ], [ 0, 0, Math.PI / 2 ]],
+			],
+			Y: [
+				[ new Mesh( scaleHandleGeometry, matGreen ), [ 0, 0.5, 0 ]],
+				[ new Mesh( lineGeometry2, matGreen ) ],
+				[ new Mesh( scaleHandleGeometry, matGreen ), [ 0, - 0.5, 0 ], [ 0, 0, Math.PI ]],
+			],
+			Z: [
+				[ new Mesh( scaleHandleGeometry, matBlue ), [ 0, 0, 0.5 ], [ Math.PI / 2, 0, 0 ]],
+				[ new Mesh( lineGeometry2, matBlue ), [ 0, 0, 0 ], [ Math.PI / 2, 0, 0 ]],
+				[ new Mesh( scaleHandleGeometry, matBlue ), [ 0, 0, - 0.5 ], [ - Math.PI / 2, 0, 0 ]]
+			],
+			XY: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matBlueTransparent ), [ 0.15, 0.15, 0 ]]
+			],
+			YZ: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matRedTransparent ), [ 0, 0.15, 0.15 ], [ 0, Math.PI / 2, 0 ]]
+			],
+			XZ: [
+				[ new Mesh( new BoxGeometry( 0.15, 0.15, 0.01 ), matGreenTransparent ), [ 0.15, 0, 0.15 ], [ - Math.PI / 2, 0, 0 ]]
+			],
+			XYZ: [
+				[ new Mesh( new BoxGeometry( 0.1, 0.1, 0.1 ), matWhiteTransparent.clone() ) ],
+			]
+		};
+
+		const pickerScale = {
+			X: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0.3, 0, 0 ], [ 0, 0, - Math.PI / 2 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ - 0.3, 0, 0 ], [ 0, 0, Math.PI / 2 ]]
+			],
+			Y: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0.3, 0 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, - 0.3, 0 ], [ 0, 0, Math.PI ]]
+			],
+			Z: [
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0, 0.3 ], [ Math.PI / 2, 0, 0 ]],
+				[ new Mesh( new CylinderGeometry( 0.2, 0, 0.6, 4 ), matInvisible ), [ 0, 0, - 0.3 ], [ - Math.PI / 2, 0, 0 ]]
+			],
+			XY: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0.15, 0.15, 0 ]],
+			],
+			YZ: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0, 0.15, 0.15 ], [ 0, Math.PI / 2, 0 ]],
+			],
+			XZ: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.01 ), matInvisible ), [ 0.15, 0, 0.15 ], [ - Math.PI / 2, 0, 0 ]],
+			],
+			XYZ: [
+				[ new Mesh( new BoxGeometry( 0.2, 0.2, 0.2 ), matInvisible ), [ 0, 0, 0 ]],
+			]
+		};
+
+		const helperScale = {
+			X: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ - 1e3, 0, 0 ], null, [ 1e6, 1, 1 ], 'helper' ]
+			],
+			Y: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ 0, - 1e3, 0 ], [ 0, 0, Math.PI / 2 ], [ 1e6, 1, 1 ], 'helper' ]
+			],
+			Z: [
+				[ new Line( lineGeometry, matHelper.clone() ), [ 0, 0, - 1e3 ], [ 0, - Math.PI / 2, 0 ], [ 1e6, 1, 1 ], 'helper' ]
+			]
+		};
+
+		// Creates an Object3D with gizmos described in custom hierarchy definition.
+
+		function setupGizmo( gizmoMap ) {
+
+			const gizmo = new Object3D();
+
+			for ( const name in gizmoMap ) {
+
+				for ( let i = gizmoMap[ name ].length; i --; ) {
+
+					const object = gizmoMap[ name ][ i ][ 0 ].clone();
+					const position = gizmoMap[ name ][ i ][ 1 ];
+					const rotation = gizmoMap[ name ][ i ][ 2 ];
+					const scale = gizmoMap[ name ][ i ][ 3 ];
+					const tag = gizmoMap[ name ][ i ][ 4 ];
+
+					// name and tag properties are essential for picking and updating logic.
+					object.name = name;
+					object.tag = tag;
+
+					if ( position ) {
+
+						object.position.set( position[ 0 ], position[ 1 ], position[ 2 ] );
+
+					}
+
+					if ( rotation ) {
+
+						object.rotation.set( rotation[ 0 ], rotation[ 1 ], rotation[ 2 ] );
+
+					}
+
+					if ( scale ) {
+
+						object.scale.set( scale[ 0 ], scale[ 1 ], scale[ 2 ] );
+
+					}
+
+					object.updateMatrix();
+
+					const tempGeometry = object.geometry.clone();
+					tempGeometry.applyMatrix4( object.matrix );
+					object.geometry = tempGeometry;
+					object.renderOrder = Infinity;
+
+					object.position.set( 0, 0, 0 );
+					object.rotation.set( 0, 0, 0 );
+					object.scale.set( 1, 1, 1 );
+
+					gizmo.add( object );
+
+				}
+
+			}
+
+			return gizmo;
+
+		}
+
+		// Gizmo creation
+
+		this.gizmo = {};
+		this.picker = {};
+		this.helper = {};
+
+		this.add( this.gizmo[ 'translate' ] = setupGizmo( gizmoTranslate ) );
+		this.add( this.gizmo[ 'rotate' ] = setupGizmo( gizmoRotate ) );
+		this.add( this.gizmo[ 'scale' ] = setupGizmo( gizmoScale ) );
+		this.add( this.picker[ 'translate' ] = setupGizmo( pickerTranslate ) );
+		this.add( this.picker[ 'rotate' ] = setupGizmo( pickerRotate ) );
+		this.add( this.picker[ 'scale' ] = setupGizmo( pickerScale ) );
+		this.add( this.helper[ 'translate' ] = setupGizmo( helperTranslate ) );
+		this.add( this.helper[ 'rotate' ] = setupGizmo( helperRotate ) );
+		this.add( this.helper[ 'scale' ] = setupGizmo( helperScale ) );
+
+		// Pickers should be hidden always
+
+		this.picker[ 'translate' ].visible = false;
+		this.picker[ 'rotate' ].visible = false;
+		this.picker[ 'scale' ].visible = false;
+
+	}
+
+	// updateMatrixWorld will update transformations and appearance of individual handles
+
+	updateMatrixWorld( force ) {
+
+		const space = ( this.mode === 'scale' ) ? 'local' : this.space; // scale always oriented to local rotation
+
+		const quaternion = ( space === 'local' ) ? this.worldQuaternion : _identityQuaternion;
+
+		// Show only gizmos for current transform mode
+
+		this.gizmo[ 'translate' ].visible = this.mode === 'translate';
+		this.gizmo[ 'rotate' ].visible = this.mode === 'rotate';
+		this.gizmo[ 'scale' ].visible = this.mode === 'scale';
+
+		this.helper[ 'translate' ].visible = this.mode === 'translate';
+		this.helper[ 'rotate' ].visible = this.mode === 'rotate';
+		this.helper[ 'scale' ].visible = this.mode === 'scale';
+
+
+		let handles = [];
+		handles = handles.concat( this.picker[ this.mode ].children );
+		handles = handles.concat( this.gizmo[ this.mode ].children );
+		handles = handles.concat( this.helper[ this.mode ].children );
+
+		for ( let i = 0; i < handles.length; i ++ ) {
+
+			const handle = handles[ i ];
+
+			// hide aligned to camera
+
+			handle.visible = true;
+			handle.rotation.set( 0, 0, 0 );
+			handle.position.copy( this.worldPosition );
+
+			let factor;
+
+			if ( this.camera.isOrthographicCamera ) {
+
+				factor = ( this.camera.top - this.camera.bottom ) / this.camera.zoom;
+
+			} else {
+
+				factor = this.worldPosition.distanceTo( this.cameraPosition ) * Math.min( 1.9 * Math.tan( Math.PI * this.camera.fov / 360 ) / this.camera.zoom, 7 );
+
+			}
+
+			handle.scale.set( 1, 1, 1 ).multiplyScalar( factor * this.size / 4 );
+
+			// TODO: simplify helpers and consider decoupling from gizmo
+
+			if ( handle.tag === 'helper' ) {
+
+				handle.visible = false;
+
+				if ( handle.name === 'AXIS' ) {
+
+					handle.position.copy( this.worldPositionStart );
+					handle.visible = !! this.axis;
+
+					if ( this.axis === 'X' ) {
+
+						_tempQuaternion.setFromEuler( _tempEuler.set( 0, 0, 0 ) );
+						handle.quaternion.copy( quaternion ).multiply( _tempQuaternion );
+
+						if ( Math.abs( _alignVector.copy( _unitX ).applyQuaternion( quaternion ).dot( this.eye ) ) > 0.9 ) {
+
+							handle.visible = false;
+
+						}
+
+					}
+
+					if ( this.axis === 'Y' ) {
+
+						_tempQuaternion.setFromEuler( _tempEuler.set( 0, 0, Math.PI / 2 ) );
+						handle.quaternion.copy( quaternion ).multiply( _tempQuaternion );
+
+						if ( Math.abs( _alignVector.copy( _unitY ).applyQuaternion( quaternion ).dot( this.eye ) ) > 0.9 ) {
+
+							handle.visible = false;
+
+						}
+
+					}
+
+					if ( this.axis === 'Z' ) {
+
+						_tempQuaternion.setFromEuler( _tempEuler.set( 0, Math.PI / 2, 0 ) );
+						handle.quaternion.copy( quaternion ).multiply( _tempQuaternion );
+
+						if ( Math.abs( _alignVector.copy( _unitZ ).applyQuaternion( quaternion ).dot( this.eye ) ) > 0.9 ) {
+
+							handle.visible = false;
+
+						}
+
+					}
+
+					if ( this.axis === 'XYZE' ) {
+
+						_tempQuaternion.setFromEuler( _tempEuler.set( 0, Math.PI / 2, 0 ) );
+						_alignVector.copy( this.rotationAxis );
+						handle.quaternion.setFromRotationMatrix( _lookAtMatrix.lookAt( _zeroVector, _alignVector, _unitY ) );
+						handle.quaternion.multiply( _tempQuaternion );
+						handle.visible = this.dragging;
+
+					}
+
+					if ( this.axis === 'E' ) {
+
+						handle.visible = false;
+
+					}
+
+
+				} else if ( handle.name === 'START' ) {
+
+					handle.position.copy( this.worldPositionStart );
+					handle.visible = this.dragging;
+
+				} else if ( handle.name === 'END' ) {
+
+					handle.position.copy( this.worldPosition );
+					handle.visible = this.dragging;
+
+				} else if ( handle.name === 'DELTA' ) {
+
+					handle.position.copy( this.worldPositionStart );
+					handle.quaternion.copy( this.worldQuaternionStart );
+					_tempVector.set( 1e-10, 1e-10, 1e-10 ).add( this.worldPositionStart ).sub( this.worldPosition ).multiplyScalar( - 1 );
+					_tempVector.applyQuaternion( this.worldQuaternionStart.clone().invert() );
+					handle.scale.copy( _tempVector );
+					handle.visible = this.dragging;
+
+				} else {
+
+					handle.quaternion.copy( quaternion );
+
+					if ( this.dragging ) {
+
+						handle.position.copy( this.worldPositionStart );
+
+					} else {
+
+						handle.position.copy( this.worldPosition );
+
+					}
+
+					if ( this.axis ) {
+
+						handle.visible = this.axis.search( handle.name ) !== - 1;
+
+					}
+
+				}
+
+				// If updating helper, skip rest of the loop
+				continue;
+
+			}
+
+			// Align handles to current local or world rotation
+
+			handle.quaternion.copy( quaternion );
+
+			if ( this.mode === 'translate' || this.mode === 'scale' ) {
+
+				// Hide translate and scale axis facing the camera
+
+				const AXIS_HIDE_TRESHOLD = 0.99;
+				const PLANE_HIDE_TRESHOLD = 0.2;
+
+				if ( handle.name === 'X' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitX ).applyQuaternion( quaternion ).dot( this.eye ) ) > AXIS_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+				if ( handle.name === 'Y' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitY ).applyQuaternion( quaternion ).dot( this.eye ) ) > AXIS_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+				if ( handle.name === 'Z' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitZ ).applyQuaternion( quaternion ).dot( this.eye ) ) > AXIS_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+				if ( handle.name === 'XY' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitZ ).applyQuaternion( quaternion ).dot( this.eye ) ) < PLANE_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+				if ( handle.name === 'YZ' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitX ).applyQuaternion( quaternion ).dot( this.eye ) ) < PLANE_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+				if ( handle.name === 'XZ' ) {
+
+					if ( Math.abs( _alignVector.copy( _unitY ).applyQuaternion( quaternion ).dot( this.eye ) ) < PLANE_HIDE_TRESHOLD ) {
+
+						handle.scale.set( 1e-10, 1e-10, 1e-10 );
+						handle.visible = false;
+
+					}
+
+				}
+
+			} else if ( this.mode === 'rotate' ) {
+
+				// Align handles to current local or world rotation
+
+				_tempQuaternion2.copy( quaternion );
+				_alignVector.copy( this.eye ).applyQuaternion( _tempQuaternion.copy( quaternion ).invert() );
+
+				if ( handle.name.search( 'E' ) !== - 1 ) {
+
+					handle.quaternion.setFromRotationMatrix( _lookAtMatrix.lookAt( this.eye, _zeroVector, _unitY ) );
+
+				}
+
+				if ( handle.name === 'X' ) {
+
+					_tempQuaternion.setFromAxisAngle( _unitX, Math.atan2( - _alignVector.y, _alignVector.z ) );
+					_tempQuaternion.multiplyQuaternions( _tempQuaternion2, _tempQuaternion );
+					handle.quaternion.copy( _tempQuaternion );
+
+				}
+
+				if ( handle.name === 'Y' ) {
+
+					_tempQuaternion.setFromAxisAngle( _unitY, Math.atan2( _alignVector.x, _alignVector.z ) );
+					_tempQuaternion.multiplyQuaternions( _tempQuaternion2, _tempQuaternion );
+					handle.quaternion.copy( _tempQuaternion );
+
+				}
+
+				if ( handle.name === 'Z' ) {
+
+					_tempQuaternion.setFromAxisAngle( _unitZ, Math.atan2( _alignVector.y, _alignVector.x ) );
+					_tempQuaternion.multiplyQuaternions( _tempQuaternion2, _tempQuaternion );
+					handle.quaternion.copy( _tempQuaternion );
+
+				}
+
+			}
+
+			// Hide disabled axes
+			handle.visible = handle.visible && ( handle.name.indexOf( 'X' ) === - 1 || this.showX );
+			handle.visible = handle.visible && ( handle.name.indexOf( 'Y' ) === - 1 || this.showY );
+			handle.visible = handle.visible && ( handle.name.indexOf( 'Z' ) === - 1 || this.showZ );
+			handle.visible = handle.visible && ( handle.name.indexOf( 'E' ) === - 1 || ( this.showX && this.showY && this.showZ ) );
+
+			// highlight selected axis
+
+			handle.material._color = handle.material._color || handle.material.color.clone();
+			handle.material._opacity = handle.material._opacity || handle.material.opacity;
+
+			handle.material.color.copy( handle.material._color );
+			handle.material.opacity = handle.material._opacity;
+
+			if ( this.enabled && this.axis ) {
+
+				if ( handle.name === this.axis ) {
+
+					handle.material.color.setHex( 0xffff00 );
+					handle.material.opacity = 1.0;
+
+				} else if ( this.axis.split( '' ).some( function ( a ) {
+
+					return handle.name === a;
+
+				} ) ) {
+
+					handle.material.color.setHex( 0xffff00 );
+					handle.material.opacity = 1.0;
+
+				}
+
+			}
+
+		}
+
+		super.updateMatrixWorld( force );
+
+	}
+
+}
+
+TransformControlsGizmo.prototype.isTransformControlsGizmo = true;
+
+//
+
+class TransformControlsPlane extends Mesh {
+
+	constructor() {
+
+		super(
+			new PlaneGeometry( 100000, 100000, 2, 2 ),
+			new MeshBasicMaterial( { visible: false, wireframe: true, side: DoubleSide, transparent: true, opacity: 0.1, toneMapped: false } )
+		);
+
+		this.type = 'TransformControlsPlane';
+
+	}
+
+	updateMatrixWorld( force ) {
+
+		let space = this.space;
+
+		this.position.copy( this.worldPosition );
+
+		if ( this.mode === 'scale' ) space = 'local'; // scale always oriented to local rotation
+
+		_v1.copy( _unitX ).applyQuaternion( space === 'local' ? this.worldQuaternion : _identityQuaternion );
+		_v2.copy( _unitY ).applyQuaternion( space === 'local' ? this.worldQuaternion : _identityQuaternion );
+		_v3.copy( _unitZ ).applyQuaternion( space === 'local' ? this.worldQuaternion : _identityQuaternion );
+
+		// Align the plane for current transform mode, axis and space.
+
+		_alignVector.copy( _v2 );
+
+		switch ( this.mode ) {
+
+			case 'translate':
+			case 'scale':
+				switch ( this.axis ) {
+
+					case 'X':
+						_alignVector.copy( this.eye ).cross( _v1 );
+						_dirVector.copy( _v1 ).cross( _alignVector );
+						break;
+					case 'Y':
+						_alignVector.copy( this.eye ).cross( _v2 );
+						_dirVector.copy( _v2 ).cross( _alignVector );
+						break;
+					case 'Z':
+						_alignVector.copy( this.eye ).cross( _v3 );
+						_dirVector.copy( _v3 ).cross( _alignVector );
+						break;
+					case 'XY':
+						_dirVector.copy( _v3 );
+						break;
+					case 'YZ':
+						_dirVector.copy( _v1 );
+						break;
+					case 'XZ':
+						_alignVector.copy( _v3 );
+						_dirVector.copy( _v2 );
+						break;
+					case 'XYZ':
+					case 'E':
+						_dirVector.set( 0, 0, 0 );
+						break;
+
+				}
+
+				break;
+			case 'rotate':
+			default:
+				// special case for rotate
+				_dirVector.set( 0, 0, 0 );
+
+		}
+
+		if ( _dirVector.length() === 0 ) {
+
+			// If in rotate mode, make the plane parallel to camera
+			this.quaternion.copy( this.cameraQuaternion );
+
+		} else {
+
+			_tempMatrix.lookAt( _tempVector.set( 0, 0, 0 ), _dirVector, _alignVector );
+
+			this.quaternion.setFromRotationMatrix( _tempMatrix );
+
+		}
+
+		super.updateMatrixWorld( force );
+
+	}
+
+}
+
+TransformControlsPlane.prototype.isTransformControlsPlane = true;
+
+const _box$1 = new Box3();
+const _vector = new Vector3();
+
+class LineSegmentsGeometry extends InstancedBufferGeometry {
+
+	constructor() {
+
+		super();
+
+		this.type = 'LineSegmentsGeometry';
+
+		const positions = [ - 1, 2, 0, 1, 2, 0, - 1, 1, 0, 1, 1, 0, - 1, 0, 0, 1, 0, 0, - 1, - 1, 0, 1, - 1, 0 ];
+		const uvs = [ - 1, 2, 1, 2, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 2, 1, - 2 ];
+		const index = [ 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 ];
+
+		this.setIndex( index );
+		this.setAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+	}
+
+	applyMatrix4( matrix ) {
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined ) {
+
+			start.applyMatrix4( matrix );
+
+			end.applyMatrix4( matrix );
+
+			start.needsUpdate = true;
+
+		}
+
+		if ( this.boundingBox !== null ) {
+
+			this.computeBoundingBox();
+
+		}
+
+		if ( this.boundingSphere !== null ) {
+
+			this.computeBoundingSphere();
+
+		}
+
+		return this;
+
+	}
+
+	setPositions( array ) {
+
+		let lineSegments;
+
+		if ( array instanceof Float32Array ) {
+
+			lineSegments = array;
+
+		} else if ( Array.isArray( array ) ) {
+
+			lineSegments = new Float32Array( array );
+
+		}
+
+		const instanceBuffer = new InstancedInterleavedBuffer( lineSegments, 6, 1 ); // xyz, xyz
+
+		this.setAttribute( 'instanceStart', new InterleavedBufferAttribute( instanceBuffer, 3, 0 ) ); // xyz
+		this.setAttribute( 'instanceEnd', new InterleavedBufferAttribute( instanceBuffer, 3, 3 ) ); // xyz
+
+		//
+
+		this.computeBoundingBox();
+		this.computeBoundingSphere();
+
+		return this;
+
+	}
+
+	setColors( array ) {
+
+		let colors;
+
+		if ( array instanceof Float32Array ) {
+
+			colors = array;
+
+		} else if ( Array.isArray( array ) ) {
+
+			colors = new Float32Array( array );
+
+		}
+
+		const instanceColorBuffer = new InstancedInterleavedBuffer( colors, 6, 1 ); // rgb, rgb
+
+		this.setAttribute( 'instanceColorStart', new InterleavedBufferAttribute( instanceColorBuffer, 3, 0 ) ); // rgb
+		this.setAttribute( 'instanceColorEnd', new InterleavedBufferAttribute( instanceColorBuffer, 3, 3 ) ); // rgb
+
+		return this;
+
+	}
+
+	fromWireframeGeometry( geometry ) {
+
+		this.setPositions( geometry.attributes.position.array );
+
+		return this;
+
+	}
+
+	fromEdgesGeometry( geometry ) {
+
+		this.setPositions( geometry.attributes.position.array );
+
+		return this;
+
+	}
+
+	fromMesh( mesh ) {
+
+		this.fromWireframeGeometry( new WireframeGeometry( mesh.geometry ) );
+
+		// set colors, maybe
+
+		return this;
+
+	}
+
+	fromLineSegments( lineSegments ) {
+
+		const geometry = lineSegments.geometry;
+
+		if ( geometry.isGeometry ) {
+
+			console.error( 'THREE.LineSegmentsGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.' );
+			return;
+
+		} else if ( geometry.isBufferGeometry ) {
+
+			this.setPositions( geometry.attributes.position.array ); // assumes non-indexed
+
+		}
+
+		// set colors, maybe
+
+		return this;
+
+	}
+
+	computeBoundingBox() {
+
+		if ( this.boundingBox === null ) {
+
+			this.boundingBox = new Box3();
+
+		}
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined && end !== undefined ) {
+
+			this.boundingBox.setFromBufferAttribute( start );
+
+			_box$1.setFromBufferAttribute( end );
+
+			this.boundingBox.union( _box$1 );
+
+		}
+
+	}
+
+	computeBoundingSphere() {
+
+		if ( this.boundingSphere === null ) {
+
+			this.boundingSphere = new Sphere();
+
+		}
+
+		if ( this.boundingBox === null ) {
+
+			this.computeBoundingBox();
+
+		}
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined && end !== undefined ) {
+
+			const center = this.boundingSphere.center;
+
+			this.boundingBox.getCenter( center );
+
+			let maxRadiusSq = 0;
+
+			for ( let i = 0, il = start.count; i < il; i ++ ) {
+
+				_vector.fromBufferAttribute( start, i );
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector ) );
+
+				_vector.fromBufferAttribute( end, i );
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector ) );
+
+			}
+
+			this.boundingSphere.radius = Math.sqrt( maxRadiusSq );
+
+			if ( isNaN( this.boundingSphere.radius ) ) {
+
+				console.error( 'THREE.LineSegmentsGeometry.computeBoundingSphere(): Computed radius is NaN. The instanced position data is likely to have NaN values.', this );
+
+			}
+
+		}
+
+	}
+
+	toJSON() {
+
+		// todo
+
+	}
+
+	applyMatrix( matrix ) {
+
+		console.warn( 'THREE.LineSegmentsGeometry: applyMatrix() has been renamed to applyMatrix4().' );
+
+		return this.applyMatrix4( matrix );
+
+	}
+
+}
+
+LineSegmentsGeometry.prototype.isLineSegmentsGeometry = true;
+
+/**
+ * parameters = {
+ *  color: <hex>,
+ *  linewidth: <float>,
+ *  dashed: <boolean>,
+ *  dashScale: <float>,
+ *  dashSize: <float>,
+ *  dashOffset: <float>,
+ *  gapSize: <float>,
+ *  resolution: <Vector2>, // to be set by renderer
+ * }
+ */
+
+
+UniformsLib.line = {
+
+	worldUnits: { value: 1 },
+	linewidth: { value: 1 },
+	resolution: { value: new Vector2( 1, 1 ) },
+	dashOffset: { value: 0 },
+	dashScale: { value: 1 },
+	dashSize: { value: 1 },
+	gapSize: { value: 1 } // todo FIX - maybe change to totalSize
+
+};
+
+ShaderLib[ 'line' ] = {
+
+	uniforms: UniformsUtils.merge( [
+		UniformsLib.common,
+		UniformsLib.fog,
+		UniformsLib.line
+	] ),
+
+	vertexShader:
+	/* glsl */`
+		#include <common>
+		#include <color_pars_vertex>
+		#include <fog_pars_vertex>
+		#include <logdepthbuf_pars_vertex>
+		#include <clipping_planes_pars_vertex>
+
+		uniform float linewidth;
+		uniform vec2 resolution;
+
+		attribute vec3 instanceStart;
+		attribute vec3 instanceEnd;
+
+		attribute vec3 instanceColorStart;
+		attribute vec3 instanceColorEnd;
+
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
+
+		#ifdef USE_DASH
+
+			uniform float dashScale;
+			attribute float instanceDistanceStart;
+			attribute float instanceDistanceEnd;
+			varying float vLineDistance;
+
+		#endif
+
+		void trimSegment( const in vec4 start, inout vec4 end ) {
+
+			// trim end segment so it terminates between the camera plane and the near plane
+
+			// conservative estimate of the near plane
+			float a = projectionMatrix[ 2 ][ 2 ]; // 3nd entry in 3th column
+			float b = projectionMatrix[ 3 ][ 2 ]; // 3nd entry in 4th column
+			float nearEstimate = - 0.5 * b / a;
+
+			float alpha = ( nearEstimate - start.z ) / ( end.z - start.z );
+
+			end.xyz = mix( start.xyz, end.xyz, alpha );
+
+		}
+
+		void main() {
+
+			#ifdef USE_COLOR
+
+				vColor.xyz = ( position.y < 0.5 ) ? instanceColorStart : instanceColorEnd;
+
+			#endif
+
+			#ifdef USE_DASH
+
+				vLineDistance = ( position.y < 0.5 ) ? dashScale * instanceDistanceStart : dashScale * instanceDistanceEnd;
+				vUv = uv;
+
+			#endif
+
+			float aspect = resolution.x / resolution.y;
+
+			// camera space
+			vec4 start = modelViewMatrix * vec4( instanceStart, 1.0 );
+			vec4 end = modelViewMatrix * vec4( instanceEnd, 1.0 );
+
+			#ifdef WORLD_UNITS
+
+				worldStart = start.xyz;
+				worldEnd = end.xyz;
+
+			#else
+
+				vUv = uv;
+
+			#endif
+
+			// special case for perspective projection, and segments that terminate either in, or behind, the camera plane
+			// clearly the gpu firmware has a way of addressing this issue when projecting into ndc space
+			// but we need to perform ndc-space calculations in the shader, so we must address this issue directly
+			// perhaps there is a more elegant solution -- WestLangley
+
+			bool perspective = ( projectionMatrix[ 2 ][ 3 ] == - 1.0 ); // 4th entry in the 3rd column
+
+			if ( perspective ) {
+
+				if ( start.z < 0.0 && end.z >= 0.0 ) {
+
+					trimSegment( start, end );
+
+				} else if ( end.z < 0.0 && start.z >= 0.0 ) {
+
+					trimSegment( end, start );
+
+				}
+
+			}
+
+			// clip space
+			vec4 clipStart = projectionMatrix * start;
+			vec4 clipEnd = projectionMatrix * end;
+
+			// ndc space
+			vec3 ndcStart = clipStart.xyz / clipStart.w;
+			vec3 ndcEnd = clipEnd.xyz / clipEnd.w;
+
+			// direction
+			vec2 dir = ndcEnd.xy - ndcStart.xy;
+
+			// account for clip-space aspect ratio
+			dir.x *= aspect;
+			dir = normalize( dir );
+
+			#ifdef WORLD_UNITS
+
+				// get the offset direction as perpendicular to the view vector
+				vec3 worldDir = normalize( end.xyz - start.xyz );
+				vec3 offset;
+				if ( position.y < 0.5 ) {
+
+					offset = normalize( cross( start.xyz, worldDir ) );
+
+				} else {
+
+					offset = normalize( cross( end.xyz, worldDir ) );
+
+				}
+
+				// sign flip
+				if ( position.x < 0.0 ) offset *= - 1.0;
+
+				float forwardOffset = dot( worldDir, vec3( 0.0, 0.0, 1.0 ) );
+
+				// don't extend the line if we're rendering dashes because we
+				// won't be rendering the endcaps
+				#ifndef USE_DASH
+
+					// extend the line bounds to encompass  endcaps
+					start.xyz += - worldDir * linewidth * 0.5;
+					end.xyz += worldDir * linewidth * 0.5;
+
+					// shift the position of the quad so it hugs the forward edge of the line
+					offset.xy -= dir * forwardOffset;
+					offset.z += 0.5;
+
+				#endif
+
+				// endcaps
+				if ( position.y > 1.0 || position.y < 0.0 ) {
+
+					offset.xy += dir * 2.0 * forwardOffset;
+
+				}
+
+				// adjust for linewidth
+				offset *= linewidth * 0.5;
+
+				// set the world position
+				worldPos = ( position.y < 0.5 ) ? start : end;
+				worldPos.xyz += offset;
+
+				// project the worldpos
+				vec4 clip = projectionMatrix * worldPos;
+
+				// shift the depth of the projected points so the line
+				// segements overlap neatly
+				vec3 clipPose = ( position.y < 0.5 ) ? ndcStart : ndcEnd;
+				clip.z = clipPose.z * clip.w;
+
+			#else
+
+				vec2 offset = vec2( dir.y, - dir.x );
+				// undo aspect ratio adjustment
+				dir.x /= aspect;
+				offset.x /= aspect;
+
+				// sign flip
+				if ( position.x < 0.0 ) offset *= - 1.0;
+
+				// endcaps
+				if ( position.y < 0.0 ) {
+
+					offset += - dir;
+
+				} else if ( position.y > 1.0 ) {
+
+					offset += dir;
+
+				}
+
+				// adjust for linewidth
+				offset *= linewidth;
+
+				// adjust for clip-space to screen-space conversion // maybe resolution should be based on viewport ...
+				offset /= resolution.y;
+
+				// select end
+				vec4 clip = ( position.y < 0.5 ) ? clipStart : clipEnd;
+
+				// back to clip space
+				offset *= clip.w;
+
+				clip.xy += offset;
+
+			#endif
+
+			gl_Position = clip;
+
+			vec4 mvPosition = ( position.y < 0.5 ) ? start : end; // this is an approximation
+
+			#include <logdepthbuf_vertex>
+			#include <clipping_planes_vertex>
+			#include <fog_vertex>
+
+		}
+		`,
+
+	fragmentShader:
+	/* glsl */`
+		uniform vec3 diffuse;
+		uniform float opacity;
+		uniform float linewidth;
+
+		#ifdef USE_DASH
+
+			uniform float dashOffset;
+			uniform float dashSize;
+			uniform float gapSize;
+
+		#endif
+
+		varying float vLineDistance;
+
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
+
+		#include <common>
+		#include <color_pars_fragment>
+		#include <fog_pars_fragment>
+		#include <logdepthbuf_pars_fragment>
+		#include <clipping_planes_pars_fragment>
+
+		vec2 closestLineToLine(vec3 p1, vec3 p2, vec3 p3, vec3 p4) {
+
+			float mua;
+			float mub;
+
+			vec3 p13 = p1 - p3;
+			vec3 p43 = p4 - p3;
+
+			vec3 p21 = p2 - p1;
+
+			float d1343 = dot( p13, p43 );
+			float d4321 = dot( p43, p21 );
+			float d1321 = dot( p13, p21 );
+			float d4343 = dot( p43, p43 );
+			float d2121 = dot( p21, p21 );
+
+			float denom = d2121 * d4343 - d4321 * d4321;
+
+			float numer = d1343 * d4321 - d1321 * d4343;
+
+			mua = numer / denom;
+			mua = clamp( mua, 0.0, 1.0 );
+			mub = ( d1343 + d4321 * ( mua ) ) / d4343;
+			mub = clamp( mub, 0.0, 1.0 );
+
+			return vec2( mua, mub );
+
+		}
+
+		void main() {
+
+			#include <clipping_planes_fragment>
+
+			#ifdef USE_DASH
+
+				if ( vUv.y < - 1.0 || vUv.y > 1.0 ) discard; // discard endcaps
+
+				if ( mod( vLineDistance + dashOffset, dashSize + gapSize ) > dashSize ) discard; // todo - FIX
+
+			#endif
+
+			float alpha = opacity;
+
+			#ifdef WORLD_UNITS
+
+				// Find the closest points on the view ray and the line segment
+				vec3 rayEnd = normalize( worldPos.xyz ) * 1e5;
+				vec3 lineDir = worldEnd - worldStart;
+				vec2 params = closestLineToLine( worldStart, worldEnd, vec3( 0.0, 0.0, 0.0 ), rayEnd );
+
+				vec3 p1 = worldStart + lineDir * params.x;
+				vec3 p2 = rayEnd * params.y;
+				vec3 delta = p1 - p2;
+				float len = length( delta );
+				float norm = len / linewidth;
+
+				#ifndef USE_DASH
+
+					#ifdef USE_ALPHA_TO_COVERAGE
+
+						float dnorm = fwidth( norm );
+						alpha = 1.0 - smoothstep( 0.5 - dnorm, 0.5 + dnorm, norm );
+
+					#else
+
+						if ( norm > 0.5 ) {
+
+							discard;
+
+						}
+
+					#endif
+
+				#endif
+
+			#else
+
+				#ifdef USE_ALPHA_TO_COVERAGE
+
+					// artifacts appear on some hardware if a derivative is taken within a conditional
+					float a = vUv.x;
+					float b = ( vUv.y > 0.0 ) ? vUv.y - 1.0 : vUv.y + 1.0;
+					float len2 = a * a + b * b;
+					float dlen = fwidth( len2 );
+
+					if ( abs( vUv.y ) > 1.0 ) {
+
+						alpha = 1.0 - smoothstep( 1.0 - dlen, 1.0 + dlen, len2 );
+
+					}
+
+				#else
+
+					if ( abs( vUv.y ) > 1.0 ) {
+
+						float a = vUv.x;
+						float b = ( vUv.y > 0.0 ) ? vUv.y - 1.0 : vUv.y + 1.0;
+						float len2 = a * a + b * b;
+
+						if ( len2 > 1.0 ) discard;
+
+					}
+
+				#endif
+
+			#endif
+
+			vec4 diffuseColor = vec4( diffuse, alpha );
+
+			#include <logdepthbuf_fragment>
+			#include <color_fragment>
+
+			gl_FragColor = vec4( diffuseColor.rgb, alpha );
+
+			#include <tonemapping_fragment>
+			#include <encodings_fragment>
+			#include <fog_fragment>
+			#include <premultiplied_alpha_fragment>
+
+		}
+		`
+};
+
+class LineMaterial extends ShaderMaterial {
+
+	constructor( parameters ) {
+
+		super( {
+
+			type: 'LineMaterial',
+
+			uniforms: UniformsUtils.clone( ShaderLib[ 'line' ].uniforms ),
+
+			vertexShader: ShaderLib[ 'line' ].vertexShader,
+			fragmentShader: ShaderLib[ 'line' ].fragmentShader,
+
+			clipping: true // required for clipping support
+
+		} );
+
+		Object.defineProperties( this, {
+
+			color: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.diffuse.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.diffuse.value = value;
+
+				}
+
+			},
+
+			worldUnits: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return 'WORLD_UNITS' in this.defines;
+
+				},
+
+				set: function ( value ) {
+
+					if ( value === true ) {
+
+						this.defines.WORLD_UNITS = '';
+
+					} else {
+
+						delete this.defines.WORLD_UNITS;
+
+					}
+
+				}
+
+			},
+
+			linewidth: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.linewidth.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.linewidth.value = value;
+
+				}
+
+			},
+
+			dashed: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return Boolean( 'USE_DASH' in this.defines );
+
+				},
+
+				set( value ) {
+
+					if ( Boolean( value ) !== Boolean( 'USE_DASH' in this.defines ) ) {
+
+						this.needsUpdate = true;
+
+					}
+
+					if ( value === true ) {
+
+						this.defines.USE_DASH = '';
+
+					} else {
+
+						delete this.defines.USE_DASH;
+
+					}
+
+				}
+
+			},
+
+			dashScale: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashScale.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashScale.value = value;
+
+				}
+
+			},
+
+			dashSize: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashSize.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashSize.value = value;
+
+				}
+
+			},
+
+			dashOffset: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashOffset.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashOffset.value = value;
+
+				}
+
+			},
+
+			gapSize: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.gapSize.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.gapSize.value = value;
+
+				}
+
+			},
+
+			opacity: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.opacity.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.opacity.value = value;
+
+				}
+
+			},
+
+			resolution: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.resolution.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.resolution.value.copy( value );
+
+				}
+
+			},
+
+			alphaToCoverage: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return Boolean( 'USE_ALPHA_TO_COVERAGE' in this.defines );
+
+				},
+
+				set: function ( value ) {
+
+					if ( Boolean( value ) !== Boolean( 'USE_ALPHA_TO_COVERAGE' in this.defines ) ) {
+
+						this.needsUpdate = true;
+
+					}
+
+					if ( value === true ) {
+
+						this.defines.USE_ALPHA_TO_COVERAGE = '';
+						this.extensions.derivatives = true;
+
+					} else {
+
+						delete this.defines.USE_ALPHA_TO_COVERAGE;
+						this.extensions.derivatives = false;
+
+					}
+
+				}
+
+			}
+
+		} );
+
+		this.setValues( parameters );
+
+	}
+
+}
+
+LineMaterial.prototype.isLineMaterial = true;
+
+const _start = new Vector3();
+const _end = new Vector3();
+
+const _start4 = new Vector4();
+const _end4 = new Vector4();
+
+const _ssOrigin = new Vector4();
+const _ssOrigin3 = new Vector3();
+const _mvMatrix = new Matrix4();
+const _line = new Line3();
+const _closestPoint = new Vector3();
+
+const _box = new Box3();
+const _sphere = new Sphere();
+const _clipToWorldVector = new Vector4();
+
+// Returns the margin required to expand by in world space given the distance from the camera,
+// line width, resolution, and camera projection
+function getWorldSpaceHalfWidth( camera, distance, lineWidth, resolution ) {
+
+	// transform into clip space, adjust the x and y values by the pixel width offset, then
+	// transform back into world space to get world offset. Note clip space is [-1, 1] so full
+	// width does not need to be halved.
+	_clipToWorldVector.set( 0, 0, - distance, 1.0 ).applyMatrix4( camera.projectionMatrix );
+	_clipToWorldVector.multiplyScalar( 1.0 / _clipToWorldVector.w );
+	_clipToWorldVector.x = lineWidth / resolution.width;
+	_clipToWorldVector.y = lineWidth / resolution.height;
+	_clipToWorldVector.applyMatrix4( camera.projectionMatrixInverse );
+	_clipToWorldVector.multiplyScalar( 1.0 / _clipToWorldVector.w );
+
+	return Math.abs( Math.max( _clipToWorldVector.x, _clipToWorldVector.y ) );
+
+}
+
+class LineSegments2 extends Mesh {
+
+	constructor( geometry = new LineSegmentsGeometry(), material = new LineMaterial( { color: Math.random() * 0xffffff } ) ) {
+
+		super( geometry, material );
+
+		this.type = 'LineSegments2';
+
+	}
+
+	// for backwards-compatability, but could be a method of LineSegmentsGeometry...
+
+	computeLineDistances() {
+
+		const geometry = this.geometry;
+
+		const instanceStart = geometry.attributes.instanceStart;
+		const instanceEnd = geometry.attributes.instanceEnd;
+		const lineDistances = new Float32Array( 2 * instanceStart.count );
+
+		for ( let i = 0, j = 0, l = instanceStart.count; i < l; i ++, j += 2 ) {
+
+			_start.fromBufferAttribute( instanceStart, i );
+			_end.fromBufferAttribute( instanceEnd, i );
+
+			lineDistances[ j ] = ( j === 0 ) ? 0 : lineDistances[ j - 1 ];
+			lineDistances[ j + 1 ] = lineDistances[ j ] + _start.distanceTo( _end );
+
+		}
+
+		const instanceDistanceBuffer = new InstancedInterleavedBuffer( lineDistances, 2, 1 ); // d0, d1
+
+		geometry.setAttribute( 'instanceDistanceStart', new InterleavedBufferAttribute( instanceDistanceBuffer, 1, 0 ) ); // d0
+		geometry.setAttribute( 'instanceDistanceEnd', new InterleavedBufferAttribute( instanceDistanceBuffer, 1, 1 ) ); // d1
+
+		return this;
+
+	}
+
+	raycast( raycaster, intersects ) {
+
+		if ( raycaster.camera === null ) {
+
+			console.error( 'LineSegments2: "Raycaster.camera" needs to be set in order to raycast against LineSegments2.' );
+
+		}
+
+		const threshold = ( raycaster.params.Line2 !== undefined ) ? raycaster.params.Line2.threshold || 0 : 0;
+
+		const ray = raycaster.ray;
+		const camera = raycaster.camera;
+		const projectionMatrix = camera.projectionMatrix;
+
+		const matrixWorld = this.matrixWorld;
+		const geometry = this.geometry;
+		const material = this.material;
+		const resolution = material.resolution;
+		const lineWidth = material.linewidth + threshold;
+
+		const instanceStart = geometry.attributes.instanceStart;
+		const instanceEnd = geometry.attributes.instanceEnd;
+
+		// camera forward is negative
+		const near = - camera.near;
+
+		//
+
+		// check if we intersect the sphere bounds
+		if ( geometry.boundingSphere === null ) {
+
+			geometry.computeBoundingSphere();
+
+		}
+
+		_sphere.copy( geometry.boundingSphere ).applyMatrix4( matrixWorld );
+		const distanceToSphere = Math.max( camera.near, _sphere.distanceToPoint( ray.origin ) );
+
+		// increase the sphere bounds by the worst case line screen space width
+		const sphereMargin = getWorldSpaceHalfWidth( camera, distanceToSphere, lineWidth, resolution );
+		_sphere.radius += sphereMargin;
+
+		if ( raycaster.ray.intersectsSphere( _sphere ) === false ) {
+
+			return;
+
+		}
+
+		//
+
+		// check if we intersect the box bounds
+		if ( geometry.boundingBox === null ) {
+
+			geometry.computeBoundingBox();
+
+		}
+
+		_box.copy( geometry.boundingBox ).applyMatrix4( matrixWorld );
+		const distanceToBox = Math.max( camera.near, _box.distanceToPoint( ray.origin ) );
+
+		// increase the box bounds by the worst case line screen space width
+		const boxMargin = getWorldSpaceHalfWidth( camera, distanceToBox, lineWidth, resolution );
+		_box.max.x += boxMargin;
+		_box.max.y += boxMargin;
+		_box.max.z += boxMargin;
+		_box.min.x -= boxMargin;
+		_box.min.y -= boxMargin;
+		_box.min.z -= boxMargin;
+
+		if ( raycaster.ray.intersectsBox( _box ) === false ) {
+
+			return;
+
+		}
+
+		//
+
+		// pick a point 1 unit out along the ray to avoid the ray origin
+		// sitting at the camera origin which will cause "w" to be 0 when
+		// applying the projection matrix.
+		ray.at( 1, _ssOrigin );
+
+		// ndc space [ - 1.0, 1.0 ]
+		_ssOrigin.w = 1;
+		_ssOrigin.applyMatrix4( camera.matrixWorldInverse );
+		_ssOrigin.applyMatrix4( projectionMatrix );
+		_ssOrigin.multiplyScalar( 1 / _ssOrigin.w );
+
+		// screen space
+		_ssOrigin.x *= resolution.x / 2;
+		_ssOrigin.y *= resolution.y / 2;
+		_ssOrigin.z = 0;
+
+		_ssOrigin3.copy( _ssOrigin );
+
+		_mvMatrix.multiplyMatrices( camera.matrixWorldInverse, matrixWorld );
+
+		for ( let i = 0, l = instanceStart.count; i < l; i ++ ) {
+
+			_start4.fromBufferAttribute( instanceStart, i );
+			_end4.fromBufferAttribute( instanceEnd, i );
+
+			_start4.w = 1;
+			_end4.w = 1;
+
+			// camera space
+			_start4.applyMatrix4( _mvMatrix );
+			_end4.applyMatrix4( _mvMatrix );
+
+			// skip the segment if it's entirely behind the camera
+			var isBehindCameraNear = _start4.z > near && _end4.z > near;
+			if ( isBehindCameraNear ) {
+
+				continue;
+
+			}
+
+			// trim the segment if it extends behind camera near
+			if ( _start4.z > near ) {
+
+				const deltaDist = _start4.z - _end4.z;
+				const t = ( _start4.z - near ) / deltaDist;
+				_start4.lerp( _end4, t );
+
+			} else if ( _end4.z > near ) {
+
+				const deltaDist = _end4.z - _start4.z;
+				const t = ( _end4.z - near ) / deltaDist;
+				_end4.lerp( _start4, t );
+
+			}
+
+			// clip space
+			_start4.applyMatrix4( projectionMatrix );
+			_end4.applyMatrix4( projectionMatrix );
+
+			// ndc space [ - 1.0, 1.0 ]
+			_start4.multiplyScalar( 1 / _start4.w );
+			_end4.multiplyScalar( 1 / _end4.w );
+
+			// screen space
+			_start4.x *= resolution.x / 2;
+			_start4.y *= resolution.y / 2;
+
+			_end4.x *= resolution.x / 2;
+			_end4.y *= resolution.y / 2;
+
+			// create 2d segment
+			_line.start.copy( _start4 );
+			_line.start.z = 0;
+
+			_line.end.copy( _end4 );
+			_line.end.z = 0;
+
+			// get closest point on ray to segment
+			const param = _line.closestPointToPointParameter( _ssOrigin3, true );
+			_line.at( param, _closestPoint );
+
+			// check if the intersection point is within clip space
+			const zPos = MathUtils.lerp( _start4.z, _end4.z, param );
+			const isInClipSpace = zPos >= - 1 && zPos <= 1;
+
+			const isInside = _ssOrigin3.distanceTo( _closestPoint ) < lineWidth * 0.5;
+
+			if ( isInClipSpace && isInside ) {
+
+				_line.start.fromBufferAttribute( instanceStart, i );
+				_line.end.fromBufferAttribute( instanceEnd, i );
+
+				_line.start.applyMatrix4( matrixWorld );
+				_line.end.applyMatrix4( matrixWorld );
+
+				const pointOnLine = new Vector3();
+				const point = new Vector3();
+
+				ray.distanceSqToSegment( _line.start, _line.end, point, pointOnLine );
+
+				intersects.push( {
+
+					point: point,
+					pointOnLine: pointOnLine,
+					distance: ray.origin.distanceTo( point ),
+
+					object: this,
+					face: null,
+					faceIndex: i,
+					uv: null,
+					uv2: null,
+
+				} );
+
+			}
+
+		}
+
+	}
+
+}
+
+LineSegments2.prototype.isLineSegments2 = true;
+
+class ClippingEdges {
+    constructor(clippingPlane) {
+        this.edges = {};
+        this.isVisible = true;
+        this.inverseMatrix = new Matrix4();
+        this.localPlane = new Plane();
+        this.tempLine = new Line3();
+        this.tempVector = new Vector3();
+        this.stylesInitialized = false;
+        this.clippingPlane = clippingPlane;
+    }
+    get visible() {
+        return this.isVisible;
+    }
+    set visible(visible) {
+        this.isVisible = visible;
+        const allEdges = Object.values(this.edges);
+        allEdges.forEach((edges) => {
+            edges.mesh.visible = visible;
+            if (visible)
+                ClippingEdges.context.getScene().add(edges.mesh);
+            else
+                edges.mesh.removeFromParent();
+        });
+        if (visible)
+            this.updateEdges();
+    }
+    // Initializes the helper geometry used to compute the vertices
+    static newGeneratorGeometry() {
+        // create line geometry with enough data to hold 100000 segments
+        const generatorGeometry = new BufferGeometry();
+        const linePosAttr = new BufferAttribute(new Float32Array(300000), 3, false);
+        linePosAttr.setUsage(DynamicDrawUsage);
+        generatorGeometry.setAttribute('position', linePosAttr);
+        return generatorGeometry;
+    }
+    dispose() {
+        Object.values(this.edges).forEach((edge) => {
+            if (edge.generatorGeometry.boundsTree)
+                edge.generatorGeometry.disposeBoundsTree();
+            edge.generatorGeometry.dispose();
+            if (edge.mesh.geometry.boundsTree)
+                edge.mesh.geometry.disposeBoundsTree();
+            edge.mesh.geometry.dispose();
+            edge.mesh.removeFromParent();
+            edge.mesh = null;
+        });
+        this.edges = null;
+        this.clippingPlane = null;
+    }
+    disposeStylesAndHelpers() {
+        if (ClippingEdges.basicEdges) {
+            ClippingEdges.basicEdges.removeFromParent();
+            ClippingEdges.basicEdges.geometry.dispose();
+            ClippingEdges.basicEdges = null;
+            ClippingEdges.basicEdges = new LineSegments();
+        }
+        ClippingEdges.context = null;
+        ClippingEdges.ifc = null;
+        ClippingEdges.edgesParent = undefined;
+        if (!ClippingEdges.styles)
+            return;
+        const styles = Object.values(ClippingEdges.styles);
+        styles.forEach((style) => {
+            style.ids.length = 0;
+            style.meshes.forEach((mesh) => {
+                mesh.removeFromParent();
+                mesh.geometry.dispose();
+                if (mesh.geometry.boundsTree)
+                    mesh.geometry.disposeBoundsTree();
+                if (Array.isArray(mesh.material))
+                    mesh.material.forEach((mat) => mat.dispose());
+                else
+                    mesh.material.dispose();
+            });
+            style.meshes.length = 0;
+            style.categories.length = 0;
+            style.material.dispose();
+        });
+        ClippingEdges.styles = null;
+        ClippingEdges.styles = {};
+    }
+    async updateEdges() {
+        if (ClippingEdges.createDefaultIfcStyles) {
+            await this.updateIfcStyles();
+        }
+        if (ClippingEdges.forceStyleUpdate) {
+            this.updateSubsetsTranformation();
+        }
+        Object.keys(ClippingEdges.styles).forEach((styleName) => {
+            try {
+                // this can trow error if there is an empty mesh, we still want to update other edges so we catch ere
+                this.drawEdges(styleName);
+            }
+            catch (e) {
+                console.error('error in drawing edges', e);
+            }
+        });
+    }
+    // Creates a new style that applies to all clipping edges for IFC models
+    static async newStyle(styleName, categories, material = ClippingEdges.defaultMaterial) {
+        const subsets = [];
+        const models = ClippingEdges.context.items.ifcModels;
+        for (let i = 0; i < models.length; i++) {
+            // eslint-disable-next-line no-await-in-loop
+            const subset = await ClippingEdges.newSubset(styleName, models[i], categories);
+            if (subset) {
+                subsets.push(subset);
+            }
+        }
+        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
+        ClippingEdges.styles[styleName] = {
+            ids: models.map((model) => model.modelID),
+            categories,
+            material,
+            meshes: subsets
+        };
+    }
+    // Creates a new style that applies to all clipping edges for generic models
+    static async newStyleFromMesh(styleName, meshes, material = ClippingEdges.defaultMaterial) {
+        const ids = meshes.map((mesh) => mesh.modelID);
+        meshes.forEach((mesh) => {
+            if (!mesh.geometry.boundsTree)
+                mesh.geometry.computeBoundsTree();
+        });
+        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
+        ClippingEdges.styles[styleName] = {
+            ids,
+            categories: [],
+            material,
+            meshes
+        };
+    }
+    async updateStylesIfcGeometry() {
+        const styleNames = Object.keys(ClippingEdges.styles);
+        for (let i = 0; i < styleNames.length; i++) {
+            const name = styleNames[i];
+            const style = ClippingEdges.styles[name];
+            const models = ClippingEdges.context.items.ifcModels;
+            style.meshes.length = 0;
+            for (let i = 0; i < models.length; i++) {
+                // eslint-disable-next-line no-await-in-loop
+                const subset = await ClippingEdges.newSubset(name, models[i], style.categories);
+                if (subset) {
+                    style.meshes.push(subset);
+                }
+            }
+        }
+    }
+    updateSubsetsTranformation() {
+        const styleNames = Object.keys(ClippingEdges.styles);
+        for (let i = 0; i < styleNames.length; i++) {
+            const styleName = styleNames[i];
+            const style = ClippingEdges.styles[styleName];
+            style.meshes.forEach((mesh) => {
+                const model = ClippingEdges.context.items.ifcModels.find((model) => model.modelID === mesh.modelID);
+                if (model) {
+                    mesh.position.copy(model.position);
+                    mesh.rotation.copy(model.rotation);
+                    mesh.scale.copy(model.scale);
+                }
+            });
+        }
+        ClippingEdges.forceStyleUpdate = false;
+    }
+    async updateIfcStyles() {
+        if (!this.stylesInitialized) {
+            await this.createDefaultIfcStyles();
+        }
+        if (ClippingEdges.forceStyleUpdate) {
+            await this.updateStylesIfcGeometry();
+            ClippingEdges.forceStyleUpdate = false;
+        }
+    }
+    // Creates some basic styles so that users don't have to create it each time
+    async createDefaultIfcStyles() {
+        if (Object.keys(ClippingEdges.styles).length === 0) {
+            await ClippingEdges.newStyle('thick', [
+                IFCWALLSTANDARDCASE,
+                IFCWALL,
+                IFCSLAB,
+                IFCSTAIRFLIGHT,
+                IFCCOLUMN,
+                IFCBEAM,
+                IFCROOF,
+                IFCBUILDINGELEMENTPROXY,
+                IFCPROXY
+            ], new LineMaterial({ color: 0x000000, linewidth: 0.0015 }));
+            await ClippingEdges.newStyle('thin', [
+                IFCWINDOW,
+                IFCPLATE,
+                IFCMEMBER,
+                IFCDOOR,
+                IFCFURNISHINGELEMENT,
+                IFCPROXY,
+                IFCBUILDINGELEMENTPROXY,
+                IFCFOOTING
+            ], new LineMaterial({ color: 0x333333, linewidth: 0.001 }));
+            this.stylesInitialized = true;
+        }
+    }
+    // Creates a new subset. This allows to apply a style just to a specific set of items
+    static async newSubset(styleName, model, categories) {
+        const modelID = model.modelID;
+        const ids = await this.getItemIDs(modelID, categories);
+        // If no items were found, no geometry is created for this style
+        if (!ids.length)
+            return null;
+        const manager = this.ifc.loader.ifcManager;
+        let subset;
+        if (ids.length > 0) {
+            subset = manager.createSubset({
+                modelID,
+                ids,
+                customID: styleName,
+                material: ClippingEdges.invisibleMaterial,
+                removePrevious: true,
+                scene: ClippingEdges.context.getScene(),
+                applyBVH: true
+            });
+        }
+        else {
+            subset = manager.getSubset(modelID, ClippingEdges.invisibleMaterial, styleName);
+        }
+        subset.position.copy(model.position);
+        subset.rotation.copy(model.rotation);
+        subset.scale.copy(model.scale);
+        return subset;
+    }
+    static async getItemIDs(modelID, categories) {
+        const ids = [];
+        for (let j = 0; j < categories.length; j++) {
+            // eslint-disable-next-line no-await-in-loop
+            const found = await this.ifc.getAllItemsOfType(modelID, categories[j], false);
+            ids.push(...found);
+        }
+        const visibleItems = this.getVisibileItems(modelID);
+        return ids.filter((id) => visibleItems.has(id));
+    }
+    static getVisibileItems(modelID) {
+        const visibleItems = new Set();
+        const model = this.context.items.ifcModels.find((model) => model.modelID === modelID);
+        if (!model)
+            throw new Error('IFC model was not found for computing clipping edges.');
+        if (!model.geometry.index)
+            throw new Error('Indices were not found for clipping edges.');
+        const indices = new Set(model.geometry.index.array);
+        indices.forEach((index) => {
+            visibleItems.add(model.geometry.attributes.expressID.getX(index));
+        });
+        return visibleItems;
+    }
+    // Creates the geometry of the clipping edges
+    newThickEdges(styleName) {
+        const material = ClippingEdges.styles[styleName].material;
+        const thickLineGeometry = new LineSegmentsGeometry();
+        const thickEdges = new LineSegments2(thickLineGeometry, material);
+        thickEdges.material.polygonOffset = true;
+        thickEdges.material.polygonOffsetFactor = -2;
+        thickEdges.material.polygonOffsetUnits = 1;
+        thickEdges.renderOrder = 3;
+        return thickEdges;
+    }
+    // Source: https://gkjohnson.github.io/three-mesh-bvh/example/bundle/clippedEdges.html
+    drawEdges(styleName) {
+        const style = ClippingEdges.styles[styleName];
+        // if (!style.subsets.geometry.boundsTree) return;
+        if (!this.edges[styleName]) {
+            this.edges[styleName] = {
+                generatorGeometry: ClippingEdges.newGeneratorGeometry(),
+                mesh: this.newThickEdges(styleName)
+            };
+        }
+        const edges = this.edges[styleName];
+        let index = 0;
+        const posAttr = edges.generatorGeometry.attributes.position;
+        // @ts-ignore
+        posAttr.array.fill(0);
+        const notEmptyMeshes = style.meshes.filter((subset) => subset.geometry);
+        notEmptyMeshes.forEach((mesh) => {
+            if (!mesh.geometry.boundsTree) {
+                throw new Error('Boundstree not found for clipping edges subset.');
+            }
+            this.inverseMatrix.copy(mesh.matrixWorld).invert();
+            this.localPlane.copy(this.clippingPlane).applyMatrix4(this.inverseMatrix);
+            mesh.geometry.boundsTree.shapecast({
+                intersectsBounds: (box) => {
+                    return this.localPlane.intersectsBox(box);
+                },
+                // @ts-ignore
+                intersectsTriangle: (tri) => {
+                    // check each triangle edge to see if it intersects with the plane. If so then
+                    // add it to the list of segments.
+                    let count = 0;
+                    this.tempLine.start.copy(tri.a);
+                    this.tempLine.end.copy(tri.b);
+                    if (this.localPlane.intersectLine(this.tempLine, this.tempVector)) {
+                        const result = this.tempVector.applyMatrix4(mesh.matrixWorld);
+                        posAttr.setXYZ(index, result.x, result.y, result.z);
+                        count++;
+                        index++;
+                    }
+                    this.tempLine.start.copy(tri.b);
+                    this.tempLine.end.copy(tri.c);
+                    if (this.localPlane.intersectLine(this.tempLine, this.tempVector)) {
+                        const result = this.tempVector.applyMatrix4(mesh.matrixWorld);
+                        posAttr.setXYZ(index, result.x, result.y, result.z);
+                        count++;
+                        index++;
+                    }
+                    this.tempLine.start.copy(tri.c);
+                    this.tempLine.end.copy(tri.a);
+                    if (this.localPlane.intersectLine(this.tempLine, this.tempVector)) {
+                        const result = this.tempVector.applyMatrix4(mesh.matrixWorld);
+                        posAttr.setXYZ(index, result.x, result.y, result.z);
+                        count++;
+                        index++;
+                    }
+                    // If we only intersected with one or three sides then just remove it. This could be handled
+                    // more gracefully.
+                    if (count !== 2) {
+                        index -= count;
+                    }
+                }
+            });
+        });
+        // set the draw range to only the new segments and offset the lines so they don't intersect with the geometry
+        edges.mesh.geometry.setDrawRange(0, index);
+        edges.mesh.position.copy(this.clippingPlane.normal).multiplyScalar(0.0001);
+        posAttr.needsUpdate = true;
+        // Update the edges geometry only if there is no NaN in the output (which means there's been an error)
+        if (!Number.isNaN(edges.generatorGeometry.attributes.position.array[0])) {
+            ClippingEdges.basicEdges.geometry = edges.generatorGeometry;
+            edges.mesh.geometry.fromLineSegments(ClippingEdges.basicEdges);
+            const parent = ClippingEdges.edgesParent || ClippingEdges.context.getScene();
+            parent.add(edges.mesh);
+            ClippingEdges.context.renderer.postProduction.excludedItems.add(edges.mesh);
+        }
+    }
+}
+ClippingEdges.styles = {};
+ClippingEdges.forceStyleUpdate = false;
+ClippingEdges.createDefaultIfcStyles = true;
+ClippingEdges.edgesParent = null;
+ClippingEdges.invisibleMaterial = new MeshBasicMaterial({ visible: false });
+ClippingEdges.defaultMaterial = new LineMaterial({ color: 0x000000, linewidth: 0.001 });
+// Helpers
+ClippingEdges.basicEdges = new LineSegments();
+
+class IfcPlane extends IfcComponent {
+    constructor(context, origin, normal, onStartDragging, onEndDragging, planeSize, edgesEnabled) {
+        super(context);
+        this.arrowBoundingBox = new Mesh();
+        this.isVisible = true;
+        this.enabled = true;
+        this.edgesActive = true;
+        // Wether this plane is a section or floor plan
+        this.isPlan = false;
+        this.removeFromScene = () => {
+            this.helper.removeFromParent();
+            this.arrowBoundingBox.removeFromParent();
+            this.arrowBoundingBox.geometry.dispose();
+            this.arrowBoundingBox = undefined;
+            this.planeMesh.geometry.dispose();
+            this.planeMesh.geometry = undefined;
+            this.controls.removeFromParent();
+            this.controls.dispose();
+            this.edges.dispose();
+            this.helper.removeFromParent();
+        };
+        this.planeSize = planeSize;
+        this.context = context;
+        this.plane = new Plane();
+        this.planeMesh = this.getPlaneMesh();
+        this.normal = normal;
+        this.origin = origin;
+        this.helper = this.createHelper();
+        this.controls = this.newTransformControls();
+        this.setupEvents(onStartDragging, onEndDragging);
+        this.plane.setFromNormalAndCoplanarPoint(normal, origin);
+        this.edges = new ClippingEdges(this.plane);
+        this.edgesActive = edgesEnabled;
+    }
+    get active() {
+        return this.enabled;
+    }
+    set active(state) {
+        this.enabled = state;
+        const planes = this.context.getClippingPlanes();
+        this.edges.visible = state;
+        if (state) {
+            planes.push(this.plane);
+        }
+        else {
+            const index = planes.indexOf(this.plane);
+            if (index >= 0)
+                planes.splice(index);
+        }
+    }
+    get visible() {
+        return this.isVisible;
+    }
+    set visible(state) {
+        this.isVisible = state;
+        this.controls.visible = state;
+        this.helper.visible = state;
+        this.edges.visible = state;
+    }
+    dispose() {
+        if (IfcPlane.planeMaterial) {
+            IfcPlane.planeMaterial.dispose();
+            IfcPlane.planeMaterial = null;
+            IfcPlane.planeMaterial = IfcPlane.getPlaneMaterial();
+        }
+        if (IfcPlane.hiddenMaterial) {
+            IfcPlane.hiddenMaterial.dispose();
+            IfcPlane.hiddenMaterial = null;
+            IfcPlane.hiddenMaterial = IfcPlane.getHiddenMaterial();
+        }
+        this.removeFromScene();
+        this.edges.disposeStylesAndHelpers();
+        this.edges = null;
+        this.context = null;
+    }
+    static getPlaneMaterial() {
+        return new MeshBasicMaterial({
+            color: 0xffff00,
+            side: DoubleSide,
+            transparent: true,
+            opacity: 0.2
+        });
+    }
+    static getHiddenMaterial() {
+        return new MeshBasicMaterial({ visible: false });
+    }
+    newTransformControls() {
+        const camera = this.context.getCamera();
+        const container = this.context.getDomElement();
+        const controls = new TransformControls(camera, container);
+        this.initializeControls(controls);
+        const scene = this.context.getScene();
+        scene.add(controls);
+        this.context.renderer.postProduction.excludedItems.add(controls);
+        return controls;
+    }
+    initializeControls(controls) {
+        controls.attach(this.helper);
+        controls.showX = false;
+        controls.showY = false;
+        controls.setSpace('local');
+        this.createArrowBoundingBox();
+        controls.children[0].children[0].add(this.arrowBoundingBox);
+    }
+    createArrowBoundingBox() {
+        this.arrowBoundingBox.geometry = new CylinderGeometry(0.18, 0.18, 1.2);
+        this.arrowBoundingBox.material = IfcPlane.hiddenMaterial;
+        this.arrowBoundingBox.rotateX(Math.PI / 2);
+        this.arrowBoundingBox.updateMatrix();
+        this.arrowBoundingBox.geometry.applyMatrix4(this.arrowBoundingBox.matrix);
+    }
+    setupEvents(onStart, onEnd) {
+        this.controls.addEventListener('change', () => {
+            if (!this.enabled)
+                return;
+            this.plane.setFromNormalAndCoplanarPoint(this.normal, this.helper.position);
+            if (this.edgesActive)
+                this.edges.updateEdges();
+        });
+        this.controls.addEventListener('dragging-changed', (event) => {
+            if (!this.enabled)
+                return;
+            this.isVisible = !event.value;
+            this.context.toggleCameraControls(this.isVisible);
+            if (event.value)
+                onStart();
+            else
+                onEnd();
+        });
+        this.context.ifcCamera.currentNavMode.onChangeProjection.on((camera) => {
+            this.controls.camera = camera;
+        });
+    }
+    createHelper() {
+        const helper = new Object3D();
+        helper.lookAt(this.normal);
+        helper.position.copy(this.origin);
+        const scene = this.context.getScene();
+        scene.add(helper);
+        helper.add(this.planeMesh);
+        this.context.renderer.postProduction.excludedItems.add(helper);
+        return helper;
+    }
+    getPlaneMesh() {
+        const planeGeom = new PlaneGeometry(this.planeSize, this.planeSize, 1);
+        return new Mesh(planeGeom, IfcPlane.planeMaterial);
+    }
+}
+IfcPlane.planeMaterial = IfcPlane.getPlaneMaterial();
+IfcPlane.hiddenMaterial = IfcPlane.getHiddenMaterial();
+
+[new Vector3(), new Vector3(), new Vector3()];
+
+var UnitType;
+(function (UnitType) {
+    UnitType["LENGTHUNIT"] = "LENGTHUNIT";
+    UnitType["AREAUNIT"] = "AREAUNIT";
+    UnitType["VOLUMEUNIT"] = "VOLUMEUNIT";
+})(UnitType || (UnitType = {}));
+
+const nullIfcManagerErrorMessage = 'IfcManager is null!';
+
+class IFCModel extends Mesh {
+
+  constructor() {
+    super(...arguments);
+    this.modelID = IFCModel.modelIdCounter++;
+    this.ifcManager = null;
+    this.mesh = this;
+  }
+
+  static dispose() {
+    IFCModel.modelIdCounter = 0;
+  }
+
+  setIFCManager(manager) {
+    this.ifcManager = manager;
+  }
+
+  setWasmPath(path) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    this.ifcManager.setWasmPath(path);
+  }
+
+  close(scene) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    this.ifcManager.close(this.modelID, scene);
+  }
+
+  getExpressId(geometry, faceIndex) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getExpressId(geometry, faceIndex);
+  }
+
+  getAllItemsOfType(type, verbose) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getAllItemsOfType(this.modelID, type, verbose);
+  }
+
+  getItemProperties(id, recursive = false) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getItemProperties(this.modelID, id, recursive);
+  }
+
+  getPropertySets(id, recursive = false) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getPropertySets(this.modelID, id, recursive);
+  }
+
+  getTypeProperties(id, recursive = false) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getTypeProperties(this.modelID, id, recursive);
+  }
+
+  getIfcType(id) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getIfcType(this.modelID, id);
+  }
+
+  getSpatialStructure() {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getSpatialStructure(this.modelID);
+  }
+
+  getSubset(material) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    return this.ifcManager.getSubset(this.modelID, material);
+  }
+
+  removeSubset(material, customID) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    this.ifcManager.removeSubset(this.modelID, material, customID);
+  }
+
+  createSubset(config) {
+    if (this.ifcManager === null)
+      throw new Error(nullIfcManagerErrorMessage);
+    const modelConfig = {
+      ...config,
+      modelID: this.modelID
+    };
+    return this.ifcManager.createSubset(modelConfig);
+  }
+
+}
+
+IFCModel.modelIdCounter = 0;
+
+class IFCParser {
+
+  constructor(state, BVH) {
+    this.state = state;
+    this.BVH = BVH;
+    this.loadedModels = 0;
+    this.optionalCategories = {
+      [IFCSPACE]: true,
+      [IFCOPENINGELEMENT]: false
+    };
+    this.geometriesByMaterials = {};
+    this.loadingState = {
+      total: 0,
+      current: 0,
+      step: 0.1
+    };
+    this.currentWebIfcID = -1;
+    this.currentModelID = -1;
+  }
+
+  async setupOptionalCategories(config) {
+    this.optionalCategories = config;
+  }
+
+  async parse(buffer, coordinationMatrix) {
+    if (this.state.api.wasmModule === undefined)
+      await this.state.api.Init();
+    await this.newIfcModel(buffer);
+    this.loadedModels++;
+    if (coordinationMatrix) {
+      await this.state.api.SetGeometryTransformation(this.currentWebIfcID, coordinationMatrix);
+    }
+    return this.loadAllGeometry(this.currentWebIfcID);
+  }
+
+  getAndClearErrors(_modelId) {}
+
+  notifyProgress(loaded, total) {
+    if (this.state.onProgress)
+      this.state.onProgress({
+        loaded,
+        total
+      });
+  }
+
+  async newIfcModel(buffer) {
+    const data = new Uint8Array(buffer);
+    this.currentWebIfcID = await this.state.api.OpenModel(data, this.state.webIfcSettings);
+    this.currentModelID = this.state.useJSON ? this.loadedModels : this.currentWebIfcID;
+    this.state.models[this.currentModelID] = {
+      modelID: this.currentModelID,
+      mesh: {},
+      types: {},
+      jsonData: {}
+    };
+  }
+
+  async loadAllGeometry(modelID) {
+    this.addOptionalCategories(modelID);
+    await this.initializeLoadingState(modelID);
+    this.state.api.StreamAllMeshes(modelID, (mesh) => {
+      this.updateLoadingState();
+      this.streamMesh(modelID, mesh);
+    });
+    this.notifyLoadingEnded();
+    const geometries = [];
+    const materials = [];
+    Object.keys(this.geometriesByMaterials).forEach((key) => {
+      const geometriesByMaterial = this.geometriesByMaterials[key].geometries;
+      const merged = mergeBufferGeometries(geometriesByMaterial);
+      materials.push(this.geometriesByMaterials[key].material);
+      geometries.push(merged);
+    });
+    const combinedGeometry = mergeBufferGeometries(geometries, true);
+    this.cleanUpGeometryMemory(geometries);
+    if (this.BVH)
+      this.BVH.applyThreeMeshBVH(combinedGeometry);
+    const model = new IFCModel(combinedGeometry, materials);
+    this.state.models[this.currentModelID].mesh = model;
+    return model;
+  }
+
+  async initializeLoadingState(modelID) {
+    const shapes = await this.state.api.GetLineIDsWithType(modelID, IFCPRODUCTDEFINITIONSHAPE);
+    this.loadingState.total = shapes.size();
+    this.loadingState.current = 0;
+    this.loadingState.step = 0.1;
+  }
+
+  notifyLoadingEnded() {
+    this.notifyProgress(this.loadingState.total, this.loadingState.total);
+  }
+
+  updateLoadingState() {
+    const realCurrentItem = Math.min(this.loadingState.current++, this.loadingState.total);
+    if (realCurrentItem / this.loadingState.total >= this.loadingState.step) {
+      const currentProgress = Math.ceil(this.loadingState.total * this.loadingState.step);
+      this.notifyProgress(currentProgress, this.loadingState.total);
+      this.loadingState.step += 0.1;
+    }
+  }
+
+  addOptionalCategories(modelID) {
+    const optionalTypes = [];
+    for (let key in this.optionalCategories) {
+      if (this.optionalCategories.hasOwnProperty(key)) {
+        const category = parseInt(key);
+        if (this.optionalCategories[category])
+          optionalTypes.push(category);
+      }
+    }
+    this.state.api.StreamAllMeshesWithTypes(this.currentWebIfcID, optionalTypes, (mesh) => {
+      this.streamMesh(modelID, mesh);
+    });
+  }
+
+  streamMesh(modelID, mesh) {
+    const placedGeometries = mesh.geometries;
+    const size = placedGeometries.size();
+    for (let i = 0; i < size; i++) {
+      const placedGeometry = placedGeometries.get(i);
+      let itemMesh = this.getPlacedGeometry(modelID, mesh.expressID, placedGeometry);
+      let geom = itemMesh.geometry.applyMatrix4(itemMesh.matrix);
+      this.storeGeometryByMaterial(placedGeometry.color, geom);
+    }
+  }
+
+  getPlacedGeometry(modelID, expressID, placedGeometry) {
+    const geometry = this.getBufferGeometry(modelID, expressID, placedGeometry);
+    const mesh = new Mesh(geometry);
+    mesh.matrix = this.getMeshMatrix(placedGeometry.flatTransformation);
+    mesh.matrixAutoUpdate = false;
+    return mesh;
+  }
+
+  getBufferGeometry(modelID, expressID, placedGeometry) {
+    const geometry = this.state.api.GetGeometry(modelID, placedGeometry.geometryExpressID);
+    const verts = this.state.api.GetVertexArray(geometry.GetVertexData(), geometry.GetVertexDataSize());
+    const indices = this.state.api.GetIndexArray(geometry.GetIndexData(), geometry.GetIndexDataSize());
+    const buffer = this.ifcGeometryToBuffer(expressID, verts, indices);
+    geometry.delete();
+    return buffer;
+  }
+
+  storeGeometryByMaterial(color, geometry) {
+    let colID = `${color.x}${color.y}${color.z}${color.w}`;
+    if (this.geometriesByMaterials[colID]) {
+      this.geometriesByMaterials[colID].geometries.push(geometry);
+      return;
+    }
+    const col = new Color(color.x, color.y, color.z);
+    const material = new MeshLambertMaterial({
+      color: col,
+      side: DoubleSide
+    });
+    material.transparent = color.w !== 1;
+    if (material.transparent)
+      material.opacity = color.w;
+    this.geometriesByMaterials[colID] = {
+      material,
+      geometries: [geometry]
+    };
+  }
+
+  getMeshMatrix(matrix) {
+    const mat = new Matrix4();
+    mat.fromArray(matrix);
+    return mat;
+  }
+
+  ifcGeometryToBuffer(expressID, vertexData, indexData) {
+    const geometry = new BufferGeometry();
+    const posFloats = new Float32Array(vertexData.length / 2);
+    const normFloats = new Float32Array(vertexData.length / 2);
+    const idAttribute = new Uint32Array(vertexData.length / 6);
+    for (let i = 0; i < vertexData.length; i += 6) {
+      posFloats[i / 2] = vertexData[i];
+      posFloats[i / 2 + 1] = vertexData[i + 1];
+      posFloats[i / 2 + 2] = vertexData[i + 2];
+      normFloats[i / 2] = vertexData[i + 3];
+      normFloats[i / 2 + 1] = vertexData[i + 4];
+      normFloats[i / 2 + 2] = vertexData[i + 5];
+      idAttribute[i / 6] = expressID;
+    }
+    geometry.setAttribute('position', new BufferAttribute(posFloats, 3));
+    geometry.setAttribute('normal', new BufferAttribute(normFloats, 3));
+    geometry.setAttribute('expressID', new BufferAttribute(idAttribute, 1));
+    geometry.setIndex(new BufferAttribute(indexData, 1));
+    return geometry;
+  }
+
+  cleanUpGeometryMemory(geometries) {
+    geometries.forEach(geometry => geometry.dispose());
+    Object.keys(this.geometriesByMaterials).forEach((materialID) => {
+      const geometriesByMaterial = this.geometriesByMaterials[materialID];
+      geometriesByMaterial.geometries.forEach(geometry => geometry.dispose());
+      geometriesByMaterial.geometries = [];
+      geometriesByMaterial.material = null;
+    });
+    this.geometriesByMaterials = {};
+  }
+
+}
+
+class ItemsMap {
+
+  constructor(state) {
+    this.state = state;
+    this.map = {};
+  }
+
+  generateGeometryIndexMap(modelID) {
+    if (this.map[modelID])
+      return;
+    const geometry = this.getGeometry(modelID);
+    const items = this.newItemsMap(modelID, geometry);
+    for (const group of geometry.groups) {
+      this.fillItemsWithGroupInfo(group, geometry, items);
+    }
+  }
+
+  getSubsetID(modelID, material, customID = 'DEFAULT') {
+    const baseID = modelID;
+    const materialID = material ? material.uuid : 'DEFAULT';
+    return `${baseID} - ${materialID} - ${customID}`;
+  }
+
+  dispose() {
+    Object.values(this.map).forEach(model => {
+      model.indexCache = null;
+      model.map = null;
+    });
+    this.map = null;
+  }
+
+  getGeometry(modelID) {
+    const geometry = this.state.models[modelID].mesh.geometry;
+    if (!geometry)
+      throw new Error('Model without geometry.');
+    if (!geometry.index)
+      throw new Error('Geometry must be indexed');
+    return geometry;
+  }
+
+  newItemsMap(modelID, geometry) {
+    const startIndices = geometry.index.array;
+    this.map[modelID] = {
+      indexCache: startIndices.slice(0, geometry.index.array.length),
+      map: new Map()
+    };
+    return this.map[modelID];
+  }
+
+  fillItemsWithGroupInfo(group, geometry, items) {
+    let prevExpressID = -1;
+    const materialIndex = group.materialIndex;
+    const materialStart = group.start;
+    const materialEnd = materialStart + group.count - 1;
+    let objectStart = -1;
+    let objectEnd = -1;
+    for (let i = materialStart; i <= materialEnd; i++) {
+      const index = geometry.index.array[i];
+      const expressID = geometry.attributes.expressID.array[index];
+      if (prevExpressID === -1) {
+        prevExpressID = expressID;
+        objectStart = i;
+      }
+      const isEndOfMaterial = i === materialEnd;
+      if (isEndOfMaterial) {
+        const store = this.getMaterialStore(items.map, expressID, materialIndex);
+        store.push(objectStart, materialEnd);
+        break;
+      }
+      if (prevExpressID === expressID)
+        continue;
+      const store = this.getMaterialStore(items.map, prevExpressID, materialIndex);
+      objectEnd = i - 1;
+      store.push(objectStart, objectEnd);
+      prevExpressID = expressID;
+      objectStart = i;
+    }
+  }
+
+  getMaterialStore(map, id, matIndex) {
+    if (map.get(id) === undefined) {
+      map.set(id, {});
+    }
+    const storedIfcItem = map.get(id);
+    if (storedIfcItem === undefined)
+      throw new Error('Geometry map generation error');
+    if (storedIfcItem[matIndex] === undefined) {
+      storedIfcItem[matIndex] = [];
+    }
+    return storedIfcItem[matIndex];
+  }
+
+}
+
+class SubsetUtils {
+
+  static getAllIndicesOfGroup(modelID, ids, materialIndex, items, flatten = true) {
+    const indicesByGroup = [];
+    for (const expressID of ids) {
+      const entry = items.map.get(expressID);
+      if (!entry)
+        continue;
+      const value = entry[materialIndex];
+      if (!value)
+        continue;
+      SubsetUtils.getIndexChunk(value, indicesByGroup, materialIndex, items, flatten);
+    }
+    return indicesByGroup;
+  }
+
+  static getIndexChunk(value, indicesByGroup, materialIndex, items, flatten) {
+    const pairs = value.length / 2;
+    for (let pair = 0; pair < pairs; pair++) {
+      const pairIndex = pair * 2;
+      const start = value[pairIndex];
+      const end = value[pairIndex + 1];
+      for (let j = start; j <= end; j++) {
+        if (flatten)
+          indicesByGroup.push(items.indexCache[j]);
+        else {
+          if (!indicesByGroup[materialIndex])
+            indicesByGroup[materialIndex] = [];
+          indicesByGroup[materialIndex].push(items.indexCache[j]);
+        }
+      }
+    }
+  }
+
+}
+
+class SubsetCreator {
+
+  constructor(state, items, subsets, BVH) {
+    this.state = state;
+    this.items = items;
+    this.subsets = subsets;
+    this.BVH = BVH;
+    this.tempIndex = [];
+  }
+
+  createSubset(config, subsetID) {
+    if (!this.items.map[config.modelID])
+      this.items.generateGeometryIndexMap(config.modelID);
+    if (!this.subsets[subsetID])
+      this.initializeSubset(config, subsetID);
+    this.filterIndices(config, subsetID);
+    this.constructSubsetByMaterial(config, subsetID);
+    config.ids.forEach(id => this.subsets[subsetID].ids.add(id));
+    this.subsets[subsetID].mesh.geometry.setIndex(this.tempIndex);
+    this.tempIndex.length = 0;
+    const subset = this.subsets[subsetID].mesh;
+    if (config.applyBVH)
+      this.BVH.applyThreeMeshBVH(subset.geometry);
+    if (config.scene)
+      config.scene.add(subset);
+    return this.subsets[subsetID].mesh;
+  }
+
+  dispose() {
+    this.tempIndex = [];
+  }
+
+  initializeSubset(config, subsetID) {
+    const model = this.state.models[config.modelID].mesh;
+    const subsetGeom = new BufferGeometry();
+    this.initializeSubsetAttributes(subsetGeom, model);
+    if (!config.material)
+      this.initializeSubsetGroups(subsetGeom, model);
+    const mesh = new Mesh(subsetGeom, config.material || model.material);
+    mesh.modelID = config.modelID;
+    const bvh = Boolean(config.applyBVH);
+    this.subsets[subsetID] = {
+      ids: new Set(),
+      mesh,
+      bvh
+    };
+    model.add(mesh);
+  }
+
+  initializeSubsetAttributes(subsetGeom, model) {
+    subsetGeom.setAttribute('position', model.geometry.attributes.position);
+    subsetGeom.setAttribute('normal', model.geometry.attributes.normal);
+    subsetGeom.setAttribute('expressID', model.geometry.attributes.expressID);
+    subsetGeom.setIndex([]);
+  }
+
+  initializeSubsetGroups(subsetGeom, model) {
+    subsetGeom.groups = JSON.parse(JSON.stringify(model.geometry.groups));
+    this.resetGroups(subsetGeom);
+  }
+
+  filterIndices(config, subsetID) {
+    const geometry = this.subsets[subsetID].mesh.geometry;
+    if (config.removePrevious) {
+      geometry.setIndex([]);
+      this.resetGroups(geometry);
+      return;
+    }
+    const previousIndices = geometry.index.array;
+    const previousIDs = this.subsets[subsetID].ids;
+    config.ids = config.ids.filter(id => !previousIDs.has(id));
+    this.tempIndex = Array.from(previousIndices);
+  }
+
+  constructSubsetByMaterial(config, subsetID) {
+    const model = this.state.models[config.modelID].mesh;
+    const newIndices = {
+      count: 0
+    };
+    for (let i = 0; i < model.geometry.groups.length; i++) {
+      this.insertNewIndices(config, subsetID, i, newIndices);
+    }
+  }
+
+  insertNewIndices(config, subsetID, materialIndex, newIndices) {
+    const items = this.items.map[config.modelID];
+    const indicesOfOneMaterial = SubsetUtils.getAllIndicesOfGroup(config.modelID, config.ids, materialIndex, items);
+    if (!config.material) {
+      this.insertIndicesAtGroup(subsetID, indicesOfOneMaterial, materialIndex, newIndices);
+    } else {
+      indicesOfOneMaterial.forEach(index => this.tempIndex.push(index));
+    }
+  }
+
+  insertIndicesAtGroup(subsetID, indicesByGroup, index, newIndices) {
+    const currentGroup = this.getCurrentGroup(subsetID, index);
+    currentGroup.start += newIndices.count;
+    let newIndicesPosition = currentGroup.start + currentGroup.count;
+    newIndices.count += indicesByGroup.length;
+    if (indicesByGroup.length > 0) {
+      let position = newIndicesPosition;
+      const start = this.tempIndex.slice(0, position);
+      const end = this.tempIndex.slice(position);
+      this.tempIndex = Array.prototype.concat.apply([], [start, indicesByGroup, end]);
+      currentGroup.count += indicesByGroup.length;
+    }
+  }
+
+  getCurrentGroup(subsetID, groupIndex) {
+    const geometry = this.subsets[subsetID].mesh.geometry;
+    return geometry.groups[groupIndex];
+  }
+
+  resetGroups(geometry) {
+    geometry.groups.forEach((group) => {
+      group.start = 0;
+      group.count = 0;
+    });
+  }
+
+}
+
+class SubsetManager {
+
+  constructor(state, BVH) {
+    this.subsets = {};
+    this.state = state;
+    this.items = new ItemsMap(state);
+    this.BVH = BVH;
+    this.subsetCreator = new SubsetCreator(state, this.items, this.subsets, this.BVH);
+  }
+
+  getAllSubsets() {
+    return this.subsets;
+  }
+
+  getSubset(modelID, material, customId) {
+    const subsetID = this.getSubsetID(modelID, material, customId);
+    return this.subsets[subsetID].mesh;
+  }
+
+  removeSubset(modelID, material, customID) {
+    const subsetID = this.getSubsetID(modelID, material, customID);
+    const subset = this.subsets[subsetID];
+    if (!subset)
+      return;
+    if (subset.mesh.parent)
+      subset.mesh.removeFromParent();
+    subset.mesh.geometry.attributes = {};
+    subset.mesh.geometry.index = null;
+    subset.mesh.geometry.dispose();
+    subset.mesh.geometry = null;
+    delete this.subsets[subsetID];
+  }
+
+  createSubset(config) {
+    const subsetID = this.getSubsetID(config.modelID, config.material, config.customID);
+    return this.subsetCreator.createSubset(config, subsetID);
+  }
+
+  removeFromSubset(modelID, ids, customID, material) {
+    const subsetID = this.getSubsetID(modelID, material, customID);
+    if (!this.subsets[subsetID])
+      return;
+    const previousIDs = this.subsets[subsetID].ids;
+    ids.forEach((id) => {
+      if (previousIDs.has(id))
+        previousIDs.delete(id);
+    });
+    return this.createSubset({
+      modelID,
+      removePrevious: true,
+      material,
+      customID,
+      applyBVH: this.subsets[subsetID].bvh,
+      ids: Array.from(previousIDs),
+      scene: this.subsets[subsetID].mesh.parent
+    });
+  }
+
+  clearSubset(modelID, customID, material) {
+    const subsetID = this.getSubsetID(modelID, material, customID);
+    if (!this.subsets[subsetID])
+      return;
+    this.subsets[subsetID].ids.clear();
+    const subset = this.getSubset(modelID, material, customID);
+    subset.geometry.setIndex([]);
+  }
+
+  dispose() {
+    this.items.dispose();
+    this.subsetCreator.dispose();
+    Object.values(this.subsets).forEach(subset => {
+      subset.ids = null;
+      subset.mesh.removeFromParent();
+      const mats = subset.mesh.material;
+      if (Array.isArray(mats))
+        mats.forEach(mat => mat.dispose());
+      else
+        mats.dispose();
+      subset.mesh.geometry.index = null;
+      subset.mesh.geometry.dispose();
+      const geom = subset.mesh.geometry;
+      if (geom.disposeBoundsTree)
+        geom.disposeBoundsTree();
+      subset.mesh = null;
+    });
+    this.subsets = null;
+  }
+
+  getSubsetID(modelID, material, customID = 'DEFAULT') {
+    const baseID = modelID;
+    const materialID = material ? material.uuid : 'DEFAULT';
+    return `${baseID} - ${materialID} - ${customID}`;
+  }
+
+}
+
+const IdAttrName = 'expressID';
+const PropsNames = {
+  aggregates: {
+    name: IFCRELAGGREGATES,
+    relating: 'RelatingObject',
+    related: 'RelatedObjects',
+    key: 'children'
+  },
+  spatial: {
+    name: IFCRELCONTAINEDINSPATIALSTRUCTURE,
+    relating: 'RelatingStructure',
+    related: 'RelatedElements',
+    key: 'children'
+  },
+  psets: {
+    name: IFCRELDEFINESBYPROPERTIES,
+    relating: 'RelatingPropertyDefinition',
+    related: 'RelatedObjects',
+    key: 'hasPsets'
+  },
+  materials: {
+    name: IFCRELASSOCIATESMATERIAL,
+    relating: 'RelatingMaterial',
+    related: 'RelatedObjects',
+    key: 'hasMaterial'
+  },
+  type: {
+    name: IFCRELDEFINESBYTYPE,
+    relating: 'RelatingType',
+    related: 'RelatedObjects',
+    key: 'hasType'
+  }
+};
+
+class BasePropertyManager {
+
+  constructor(state) {
+    this.state = state;
+  }
+
+  async getPropertySets(modelID, elementID, recursive = false) {
+    return await this.getProperty(modelID, elementID, recursive, PropsNames.psets);
+  }
+
+  async getTypeProperties(modelID, elementID, recursive = false) {
+    return await this.getProperty(modelID, elementID, recursive, PropsNames.type);
+  }
+
+  async getMaterialsProperties(modelID, elementID, recursive = false) {
+    return await this.getProperty(modelID, elementID, recursive, PropsNames.materials);
+  }
+
+  async getSpatialNode(modelID, node, treeChunks, includeProperties) {
+    await this.getChildren(modelID, node, treeChunks, PropsNames.aggregates, includeProperties);
+    await this.getChildren(modelID, node, treeChunks, PropsNames.spatial, includeProperties);
+  }
+
+  async getChildren(modelID, node, treeChunks, propNames, includeProperties) {
+    const children = treeChunks[node.expressID];
+    if (children == undefined)
+      return;
+    const prop = propNames.key;
+    const nodes = [];
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      let node = this.newNode(modelID, child);
+      if (includeProperties) {
+        const properties = await this.getItemProperties(modelID, node.expressID);
+        node = {
+          ...properties, ...node
+        };
+      }
+      await this.getSpatialNode(modelID, node, treeChunks, includeProperties);
+      nodes.push(node);
+    }
+    node[prop] = nodes;
+  }
+
+  newNode(modelID, id) {
+    const typeName = this.getNodeType(modelID, id);
+    return {
+      expressID: id,
+      type: typeName,
+      children: []
+    };
+  }
+
+  async getSpatialTreeChunks(modelID) {
+    const treeChunks = {};
+    await this.getChunks(modelID, treeChunks, PropsNames.aggregates);
+    await this.getChunks(modelID, treeChunks, PropsNames.spatial);
+    return treeChunks;
+  }
+
+  saveChunk(chunks, propNames, rel) {
+    const relating = rel[propNames.relating].value;
+    const related = rel[propNames.related].map((r) => r.value);
+    if (chunks[relating] == undefined) {
+      chunks[relating] = related;
+    } else {
+      chunks[relating] = chunks[relating].concat(related);
+    }
+  }
+
+  getRelated(rel, propNames, IDs) {
+    const element = rel[propNames.relating];
+    if (!element) {
+      return console.warn(`The object with ID ${rel.expressID} has a broken reference.`);
+    }
+    if (!Array.isArray(element))
+      IDs.push(element.value);
+    else
+      element.forEach((ele) => IDs.push(ele.value));
+  }
+
+  static isRelated(id, rel, propNames) {
+    const relatedItems = rel[propNames.related];
+    if (Array.isArray(relatedItems)) {
+      const values = relatedItems.map((item) => item.value);
+      return values.includes(id);
+    }
+    return relatedItems.value === id;
+  }
+
+  static newIfcProject(id) {
+    return {
+      expressID: id,
+      type: 'IFCPROJECT',
+      children: []
+    };
+  }
+
+  async getProperty(modelID, elementID, recursive = false, propName) {}
+
+  async getChunks(modelID, chunks, propNames) {}
+
+  async getItemProperties(modelID, expressID, recursive = false) {}
+
+  getNodeType(modelID, id) {}
+
+}
+
+let IfcElements = {
+  103090709: 'IFCPROJECT',
+  4097777520: 'IFCSITE',
+  4031249490: 'IFCBUILDING',
+  3124254112: 'IFCBUILDINGSTOREY',
+  3856911033: 'IFCSPACE',
+  1674181508: 'IFCANNOTATION',
+  25142252: 'IFCCONTROLLER',
+  32344328: 'IFCBOILER',
+  76236018: 'IFCLAMP',
+  90941305: 'IFCPUMP',
+  177149247: 'IFCAIRTERMINALBOX',
+  182646315: 'IFCFLOWINSTRUMENT',
+  263784265: 'IFCFURNISHINGELEMENT',
+  264262732: 'IFCELECTRICGENERATOR',
+  277319702: 'IFCAUDIOVISUALAPPLIANCE',
+  310824031: 'IFCPIPEFITTING',
+  331165859: 'IFCSTAIR',
+  342316401: 'IFCDUCTFITTING',
+  377706215: 'IFCMECHANICALFASTENER',
+  395920057: 'IFCDOOR',
+  402227799: 'IFCELECTRICMOTOR',
+  413509423: 'IFCSYSTEMFURNITUREELEMENT',
+  484807127: 'IFCEVAPORATOR',
+  486154966: 'IFCWINDOWSTANDARDCASE',
+  629592764: 'IFCLIGHTFIXTURE',
+  630975310: 'IFCUNITARYCONTROLELEMENT',
+  635142910: 'IFCCABLECARRIERFITTING',
+  639361253: 'IFCCOIL',
+  647756555: 'IFCFASTENER',
+  707683696: 'IFCFLOWSTORAGEDEVICE',
+  738039164: 'IFCPROTECTIVEDEVICE',
+  753842376: 'IFCBEAM',
+  812556717: 'IFCTANK',
+  819412036: 'IFCFILTER',
+  843113511: 'IFCCOLUMN',
+  862014818: 'IFCELECTRICDISTRIBUTIONBOARD',
+  900683007: 'IFCFOOTING',
+  905975707: 'IFCCOLUMNSTANDARDCASE',
+  926996030: 'IFCVOIDINGFEATURE',
+  979691226: 'IFCREINFORCINGBAR',
+  987401354: 'IFCFLOWSEGMENT',
+  1003880860: 'IFCELECTRICTIMECONTROL',
+  1051757585: 'IFCCABLEFITTING',
+  1052013943: 'IFCDISTRIBUTIONCHAMBERELEMENT',
+  1062813311: 'IFCDISTRIBUTIONCONTROLELEMENT',
+  1073191201: 'IFCMEMBER',
+  1095909175: 'IFCBUILDINGELEMENTPROXY',
+  1156407060: 'IFCPLATESTANDARDCASE',
+  1162798199: 'IFCSWITCHINGDEVICE',
+  1329646415: 'IFCSHADINGDEVICE',
+  1335981549: 'IFCDISCRETEACCESSORY',
+  1360408905: 'IFCDUCTSILENCER',
+  1404847402: 'IFCSTACKTERMINAL',
+  1426591983: 'IFCFIRESUPPRESSIONTERMINAL',
+  1437502449: 'IFCMEDICALDEVICE',
+  1509553395: 'IFCFURNITURE',
+  1529196076: 'IFCSLAB',
+  1620046519: 'IFCTRANSPORTELEMENT',
+  1634111441: 'IFCAIRTERMINAL',
+  1658829314: 'IFCENERGYCONVERSIONDEVICE',
+  1677625105: 'IFCCIVILELEMENT',
+  1687234759: 'IFCPILE',
+  1904799276: 'IFCELECTRICAPPLIANCE',
+  1911478936: 'IFCMEMBERSTANDARDCASE',
+  1945004755: 'IFCDISTRIBUTIONELEMENT',
+  1973544240: 'IFCCOVERING',
+  1999602285: 'IFCSPACEHEATER',
+  2016517767: 'IFCROOF',
+  2056796094: 'IFCAIRTOAIRHEATRECOVERY',
+  2058353004: 'IFCFLOWCONTROLLER',
+  2068733104: 'IFCHUMIDIFIER',
+  2176052936: 'IFCJUNCTIONBOX',
+  2188021234: 'IFCFLOWMETER',
+  2223149337: 'IFCFLOWTERMINAL',
+  2262370178: 'IFCRAILING',
+  2272882330: 'IFCCONDENSER',
+  2295281155: 'IFCPROTECTIVEDEVICETRIPPINGUNIT',
+  2320036040: 'IFCREINFORCINGMESH',
+  2347447852: 'IFCTENDONANCHOR',
+  2391383451: 'IFCVIBRATIONISOLATOR',
+  2391406946: 'IFCWALL',
+  2474470126: 'IFCMOTORCONNECTION',
+  2769231204: 'IFCVIRTUALELEMENT',
+  2814081492: 'IFCENGINE',
+  2906023776: 'IFCBEAMSTANDARDCASE',
+  2938176219: 'IFCBURNER',
+  2979338954: 'IFCBUILDINGELEMENTPART',
+  3024970846: 'IFCRAMP',
+  3026737570: 'IFCTUBEBUNDLE',
+  3027962421: 'IFCSLABSTANDARDCASE',
+  3040386961: 'IFCDISTRIBUTIONFLOWELEMENT',
+  3053780830: 'IFCSANITARYTERMINAL',
+  3079942009: 'IFCOPENINGSTANDARDCASE',
+  3087945054: 'IFCALARM',
+  3101698114: 'IFCSURFACEFEATURE',
+  3127900445: 'IFCSLABELEMENTEDCASE',
+  3132237377: 'IFCFLOWMOVINGDEVICE',
+  3171933400: 'IFCPLATE',
+  3221913625: 'IFCCOMMUNICATIONSAPPLIANCE',
+  3242481149: 'IFCDOORSTANDARDCASE',
+  3283111854: 'IFCRAMPFLIGHT',
+  3296154744: 'IFCCHIMNEY',
+  3304561284: 'IFCWINDOW',
+  3310460725: 'IFCELECTRICFLOWSTORAGEDEVICE',
+  3319311131: 'IFCHEATEXCHANGER',
+  3415622556: 'IFCFAN',
+  3420628829: 'IFCSOLARDEVICE',
+  3493046030: 'IFCGEOGRAPHICELEMENT',
+  3495092785: 'IFCCURTAINWALL',
+  3508470533: 'IFCFLOWTREATMENTDEVICE',
+  3512223829: 'IFCWALLSTANDARDCASE',
+  3518393246: 'IFCDUCTSEGMENT',
+  3571504051: 'IFCCOMPRESSOR',
+  3588315303: 'IFCOPENINGELEMENT',
+  3612865200: 'IFCPIPESEGMENT',
+  3640358203: 'IFCCOOLINGTOWER',
+  3651124850: 'IFCPROJECTIONELEMENT',
+  3694346114: 'IFCOUTLET',
+  3747195512: 'IFCEVAPORATIVECOOLER',
+  3758799889: 'IFCCABLECARRIERSEGMENT',
+  3824725483: 'IFCTENDON',
+  3825984169: 'IFCTRANSFORMER',
+  3902619387: 'IFCCHILLER',
+  4074379575: 'IFCDAMPER',
+  4086658281: 'IFCSENSOR',
+  4123344466: 'IFCELEMENTASSEMBLY',
+  4136498852: 'IFCCOOLEDBEAM',
+  4156078855: 'IFCWALLELEMENTEDCASE',
+  4175244083: 'IFCINTERCEPTOR',
+  4207607924: 'IFCVALVE',
+  4217484030: 'IFCCABLESEGMENT',
+  4237592921: 'IFCWASTETERMINAL',
+  4252922144: 'IFCSTAIRFLIGHT',
+  4278956645: 'IFCFLOWFITTING',
+  4288193352: 'IFCACTUATOR',
+  4292641817: 'IFCUNITARYEQUIPMENT',
+  3009204131: 'IFCGRID'
+};
+
+class WebIfcPropertyManager extends BasePropertyManager {
+
+  async getItemProperties(modelID, id, recursive = false) {
+    return this.state.api.GetLine(modelID, id, recursive);
+  }
+
+  async getSpatialStructure(modelID, includeProperties) {
+    const chunks = await this.getSpatialTreeChunks(modelID);
+    const allLines = await this.state.api.GetLineIDsWithType(modelID, IFCPROJECT);
+    const projectID = allLines.get(0);
+    const project = WebIfcPropertyManager.newIfcProject(projectID);
+    await this.getSpatialNode(modelID, project, chunks, includeProperties);
+    return project;
+  }
+
+  async getAllItemsOfType(modelID, type, verbose) {
+    let items = [];
+    const lines = await this.state.api.GetLineIDsWithType(modelID, type);
+    for (let i = 0; i < lines.size(); i++)
+      items.push(lines.get(i));
+    if (!verbose)
+      return items;
+    const result = [];
+    for (let i = 0; i < items.length; i++) {
+      result.push(await this.state.api.GetLine(modelID, items[i]));
+    }
+    return result;
+  }
+
+  async getProperty(modelID, elementID, recursive = false, propName) {
+    const propSetIds = await this.getAllRelatedItemsOfType(modelID, elementID, propName);
+    const result = [];
+    for (let i = 0; i < propSetIds.length; i++) {
+      result.push(await this.state.api.GetLine(modelID, propSetIds[i], recursive));
+    }
+    return result;
+  }
+
+  getNodeType(modelID, id) {
+    const typeID = this.state.models[modelID].types[id];
+    return IfcElements[typeID];
+  }
+
+  async getChunks(modelID, chunks, propNames) {
+    const relation = await this.state.api.GetLineIDsWithType(modelID, propNames.name);
+    for (let i = 0; i < relation.size(); i++) {
+      const rel = await this.state.api.GetLine(modelID, relation.get(i), false);
+      this.saveChunk(chunks, propNames, rel);
+    }
+  }
+
+  async getAllRelatedItemsOfType(modelID, id, propNames) {
+    const lines = await this.state.api.GetLineIDsWithType(modelID, propNames.name);
+    const IDs = [];
+    for (let i = 0; i < lines.size(); i++) {
+      const rel = await this.state.api.GetLine(modelID, lines.get(i));
+      const isRelated = BasePropertyManager.isRelated(id, rel, propNames);
+      if (isRelated)
+        this.getRelated(rel, propNames, IDs);
+    }
+    return IDs;
+  }
+
+}
+
+let IfcTypesMap = {
+  3821786052: "IFCACTIONREQUEST",
+  2296667514: "IFCACTOR",
+  3630933823: "IFCACTORROLE",
+  4288193352: "IFCACTUATOR",
+  2874132201: "IFCACTUATORTYPE",
+  618182010: "IFCADDRESS",
+  1635779807: "IFCADVANCEDBREP",
+  2603310189: "IFCADVANCEDBREPWITHVOIDS",
+  3406155212: "IFCADVANCEDFACE",
+  1634111441: "IFCAIRTERMINAL",
+  177149247: "IFCAIRTERMINALBOX",
+  1411407467: "IFCAIRTERMINALBOXTYPE",
+  3352864051: "IFCAIRTERMINALTYPE",
+  2056796094: "IFCAIRTOAIRHEATRECOVERY",
+  1871374353: "IFCAIRTOAIRHEATRECOVERYTYPE",
+  3087945054: "IFCALARM",
+  3001207471: "IFCALARMTYPE",
+  325726236: "IFCALIGNMENT",
+  749761778: "IFCALIGNMENT2DHORIZONTAL",
+  3199563722: "IFCALIGNMENT2DHORIZONTALSEGMENT",
+  2483840362: "IFCALIGNMENT2DSEGMENT",
+  3379348081: "IFCALIGNMENT2DVERSEGCIRCULARARC",
+  3239324667: "IFCALIGNMENT2DVERSEGLINE",
+  4263986512: "IFCALIGNMENT2DVERSEGPARABOLICARC",
+  53199957: "IFCALIGNMENT2DVERTICAL",
+  2029264950: "IFCALIGNMENT2DVERTICALSEGMENT",
+  3512275521: "IFCALIGNMENTCURVE",
+  1674181508: "IFCANNOTATION",
+  669184980: "IFCANNOTATIONFILLAREA",
+  639542469: "IFCAPPLICATION",
+  411424972: "IFCAPPLIEDVALUE",
+  130549933: "IFCAPPROVAL",
+  3869604511: "IFCAPPROVALRELATIONSHIP",
+  3798115385: "IFCARBITRARYCLOSEDPROFILEDEF",
+  1310608509: "IFCARBITRARYOPENPROFILEDEF",
+  2705031697: "IFCARBITRARYPROFILEDEFWITHVOIDS",
+  3460190687: "IFCASSET",
+  3207858831: "IFCASYMMETRICISHAPEPROFILEDEF",
+  277319702: "IFCAUDIOVISUALAPPLIANCE",
+  1532957894: "IFCAUDIOVISUALAPPLIANCETYPE",
+  4261334040: "IFCAXIS1PLACEMENT",
+  3125803723: "IFCAXIS2PLACEMENT2D",
+  2740243338: "IFCAXIS2PLACEMENT3D",
+  1967976161: "IFCBSPLINECURVE",
+  2461110595: "IFCBSPLINECURVEWITHKNOTS",
+  2887950389: "IFCBSPLINESURFACE",
+  167062518: "IFCBSPLINESURFACEWITHKNOTS",
+  753842376: "IFCBEAM",
+  2906023776: "IFCBEAMSTANDARDCASE",
+  819618141: "IFCBEAMTYPE",
+  4196446775: "IFCBEARING",
+  3649138523: "IFCBEARINGTYPE",
+  616511568: "IFCBLOBTEXTURE",
+  1334484129: "IFCBLOCK",
+  32344328: "IFCBOILER",
+  231477066: "IFCBOILERTYPE",
+  3649129432: "IFCBOOLEANCLIPPINGRESULT",
+  2736907675: "IFCBOOLEANRESULT",
+  4037036970: "IFCBOUNDARYCONDITION",
+  1136057603: "IFCBOUNDARYCURVE",
+  1560379544: "IFCBOUNDARYEDGECONDITION",
+  3367102660: "IFCBOUNDARYFACECONDITION",
+  1387855156: "IFCBOUNDARYNODECONDITION",
+  2069777674: "IFCBOUNDARYNODECONDITIONWARPING",
+  1260505505: "IFCBOUNDEDCURVE",
+  4182860854: "IFCBOUNDEDSURFACE",
+  2581212453: "IFCBOUNDINGBOX",
+  2713105998: "IFCBOXEDHALFSPACE",
+  644574406: "IFCBRIDGE",
+  963979645: "IFCBRIDGEPART",
+  4031249490: "IFCBUILDING",
+  3299480353: "IFCBUILDINGELEMENT",
+  2979338954: "IFCBUILDINGELEMENTPART",
+  39481116: "IFCBUILDINGELEMENTPARTTYPE",
+  1095909175: "IFCBUILDINGELEMENTPROXY",
+  1909888760: "IFCBUILDINGELEMENTPROXYTYPE",
+  1950629157: "IFCBUILDINGELEMENTTYPE",
+  3124254112: "IFCBUILDINGSTOREY",
+  1177604601: "IFCBUILDINGSYSTEM",
+  2938176219: "IFCBURNER",
+  2188180465: "IFCBURNERTYPE",
+  2898889636: "IFCCSHAPEPROFILEDEF",
+  635142910: "IFCCABLECARRIERFITTING",
+  395041908: "IFCCABLECARRIERFITTINGTYPE",
+  3758799889: "IFCCABLECARRIERSEGMENT",
+  3293546465: "IFCCABLECARRIERSEGMENTTYPE",
+  1051757585: "IFCCABLEFITTING",
+  2674252688: "IFCCABLEFITTINGTYPE",
+  4217484030: "IFCCABLESEGMENT",
+  1285652485: "IFCCABLESEGMENTTYPE",
+  3999819293: "IFCCAISSONFOUNDATION",
+  3203706013: "IFCCAISSONFOUNDATIONTYPE",
+  1123145078: "IFCCARTESIANPOINT",
+  574549367: "IFCCARTESIANPOINTLIST",
+  1675464909: "IFCCARTESIANPOINTLIST2D",
+  2059837836: "IFCCARTESIANPOINTLIST3D",
+  59481748: "IFCCARTESIANTRANSFORMATIONOPERATOR",
+  3749851601: "IFCCARTESIANTRANSFORMATIONOPERATOR2D",
+  3486308946: "IFCCARTESIANTRANSFORMATIONOPERATOR2DNONUNIFORM",
+  3331915920: "IFCCARTESIANTRANSFORMATIONOPERATOR3D",
+  1416205885: "IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM",
+  3150382593: "IFCCENTERLINEPROFILEDEF",
+  3902619387: "IFCCHILLER",
+  2951183804: "IFCCHILLERTYPE",
+  3296154744: "IFCCHIMNEY",
+  2197970202: "IFCCHIMNEYTYPE",
+  2611217952: "IFCCIRCLE",
+  2937912522: "IFCCIRCLEHOLLOWPROFILEDEF",
+  1383045692: "IFCCIRCLEPROFILEDEF",
+  1062206242: "IFCCIRCULARARCSEGMENT2D",
+  1677625105: "IFCCIVILELEMENT",
+  3893394355: "IFCCIVILELEMENTTYPE",
+  747523909: "IFCCLASSIFICATION",
+  647927063: "IFCCLASSIFICATIONREFERENCE",
+  2205249479: "IFCCLOSEDSHELL",
+  639361253: "IFCCOIL",
+  2301859152: "IFCCOILTYPE",
+  776857604: "IFCCOLOURRGB",
+  3285139300: "IFCCOLOURRGBLIST",
+  3264961684: "IFCCOLOURSPECIFICATION",
+  843113511: "IFCCOLUMN",
+  905975707: "IFCCOLUMNSTANDARDCASE",
+  300633059: "IFCCOLUMNTYPE",
+  3221913625: "IFCCOMMUNICATIONSAPPLIANCE",
+  400855858: "IFCCOMMUNICATIONSAPPLIANCETYPE",
+  2542286263: "IFCCOMPLEXPROPERTY",
+  3875453745: "IFCCOMPLEXPROPERTYTEMPLATE",
+  3732776249: "IFCCOMPOSITECURVE",
+  15328376: "IFCCOMPOSITECURVEONSURFACE",
+  2485617015: "IFCCOMPOSITECURVESEGMENT",
+  1485152156: "IFCCOMPOSITEPROFILEDEF",
+  3571504051: "IFCCOMPRESSOR",
+  3850581409: "IFCCOMPRESSORTYPE",
+  2272882330: "IFCCONDENSER",
+  2816379211: "IFCCONDENSERTYPE",
+  2510884976: "IFCCONIC",
+  370225590: "IFCCONNECTEDFACESET",
+  1981873012: "IFCCONNECTIONCURVEGEOMETRY",
+  2859738748: "IFCCONNECTIONGEOMETRY",
+  45288368: "IFCCONNECTIONPOINTECCENTRICITY",
+  2614616156: "IFCCONNECTIONPOINTGEOMETRY",
+  2732653382: "IFCCONNECTIONSURFACEGEOMETRY",
+  775493141: "IFCCONNECTIONVOLUMEGEOMETRY",
+  1959218052: "IFCCONSTRAINT",
+  3898045240: "IFCCONSTRUCTIONEQUIPMENTRESOURCE",
+  2185764099: "IFCCONSTRUCTIONEQUIPMENTRESOURCETYPE",
+  1060000209: "IFCCONSTRUCTIONMATERIALRESOURCE",
+  4105962743: "IFCCONSTRUCTIONMATERIALRESOURCETYPE",
+  488727124: "IFCCONSTRUCTIONPRODUCTRESOURCE",
+  1525564444: "IFCCONSTRUCTIONPRODUCTRESOURCETYPE",
+  2559216714: "IFCCONSTRUCTIONRESOURCE",
+  2574617495: "IFCCONSTRUCTIONRESOURCETYPE",
+  3419103109: "IFCCONTEXT",
+  3050246964: "IFCCONTEXTDEPENDENTUNIT",
+  3293443760: "IFCCONTROL",
+  25142252: "IFCCONTROLLER",
+  578613899: "IFCCONTROLLERTYPE",
+  2889183280: "IFCCONVERSIONBASEDUNIT",
+  2713554722: "IFCCONVERSIONBASEDUNITWITHOFFSET",
+  4136498852: "IFCCOOLEDBEAM",
+  335055490: "IFCCOOLEDBEAMTYPE",
+  3640358203: "IFCCOOLINGTOWER",
+  2954562838: "IFCCOOLINGTOWERTYPE",
+  1785450214: "IFCCOORDINATEOPERATION",
+  1466758467: "IFCCOORDINATEREFERENCESYSTEM",
+  3895139033: "IFCCOSTITEM",
+  1419761937: "IFCCOSTSCHEDULE",
+  602808272: "IFCCOSTVALUE",
+  1973544240: "IFCCOVERING",
+  1916426348: "IFCCOVERINGTYPE",
+  3295246426: "IFCCREWRESOURCE",
+  1815067380: "IFCCREWRESOURCETYPE",
+  2506170314: "IFCCSGPRIMITIVE3D",
+  2147822146: "IFCCSGSOLID",
+  539742890: "IFCCURRENCYRELATIONSHIP",
+  3495092785: "IFCCURTAINWALL",
+  1457835157: "IFCCURTAINWALLTYPE",
+  2601014836: "IFCCURVE",
+  2827736869: "IFCCURVEBOUNDEDPLANE",
+  2629017746: "IFCCURVEBOUNDEDSURFACE",
+  1186437898: "IFCCURVESEGMENT2D",
+  3800577675: "IFCCURVESTYLE",
+  1105321065: "IFCCURVESTYLEFONT",
+  2367409068: "IFCCURVESTYLEFONTANDSCALING",
+  3510044353: "IFCCURVESTYLEFONTPATTERN",
+  1213902940: "IFCCYLINDRICALSURFACE",
+  4074379575: "IFCDAMPER",
+  3961806047: "IFCDAMPERTYPE",
+  3426335179: "IFCDEEPFOUNDATION",
+  1306400036: "IFCDEEPFOUNDATIONTYPE",
+  3632507154: "IFCDERIVEDPROFILEDEF",
+  1765591967: "IFCDERIVEDUNIT",
+  1045800335: "IFCDERIVEDUNITELEMENT",
+  2949456006: "IFCDIMENSIONALEXPONENTS",
+  32440307: "IFCDIRECTION",
+  1335981549: "IFCDISCRETEACCESSORY",
+  2635815018: "IFCDISCRETEACCESSORYTYPE",
+  1945343521: "IFCDISTANCEEXPRESSION",
+  1052013943: "IFCDISTRIBUTIONCHAMBERELEMENT",
+  1599208980: "IFCDISTRIBUTIONCHAMBERELEMENTTYPE",
+  562808652: "IFCDISTRIBUTIONCIRCUIT",
+  1062813311: "IFCDISTRIBUTIONCONTROLELEMENT",
+  2063403501: "IFCDISTRIBUTIONCONTROLELEMENTTYPE",
+  1945004755: "IFCDISTRIBUTIONELEMENT",
+  3256556792: "IFCDISTRIBUTIONELEMENTTYPE",
+  3040386961: "IFCDISTRIBUTIONFLOWELEMENT",
+  3849074793: "IFCDISTRIBUTIONFLOWELEMENTTYPE",
+  3041715199: "IFCDISTRIBUTIONPORT",
+  3205830791: "IFCDISTRIBUTIONSYSTEM",
+  1154170062: "IFCDOCUMENTINFORMATION",
+  770865208: "IFCDOCUMENTINFORMATIONRELATIONSHIP",
+  3732053477: "IFCDOCUMENTREFERENCE",
+  395920057: "IFCDOOR",
+  2963535650: "IFCDOORLININGPROPERTIES",
+  1714330368: "IFCDOORPANELPROPERTIES",
+  3242481149: "IFCDOORSTANDARDCASE",
+  526551008: "IFCDOORSTYLE",
+  2323601079: "IFCDOORTYPE",
+  445594917: "IFCDRAUGHTINGPREDEFINEDCOLOUR",
+  4006246654: "IFCDRAUGHTINGPREDEFINEDCURVEFONT",
+  342316401: "IFCDUCTFITTING",
+  869906466: "IFCDUCTFITTINGTYPE",
+  3518393246: "IFCDUCTSEGMENT",
+  3760055223: "IFCDUCTSEGMENTTYPE",
+  1360408905: "IFCDUCTSILENCER",
+  2030761528: "IFCDUCTSILENCERTYPE",
+  3900360178: "IFCEDGE",
+  476780140: "IFCEDGECURVE",
+  1472233963: "IFCEDGELOOP",
+  1904799276: "IFCELECTRICAPPLIANCE",
+  663422040: "IFCELECTRICAPPLIANCETYPE",
+  862014818: "IFCELECTRICDISTRIBUTIONBOARD",
+  2417008758: "IFCELECTRICDISTRIBUTIONBOARDTYPE",
+  3310460725: "IFCELECTRICFLOWSTORAGEDEVICE",
+  3277789161: "IFCELECTRICFLOWSTORAGEDEVICETYPE",
+  264262732: "IFCELECTRICGENERATOR",
+  1534661035: "IFCELECTRICGENERATORTYPE",
+  402227799: "IFCELECTRICMOTOR",
+  1217240411: "IFCELECTRICMOTORTYPE",
+  1003880860: "IFCELECTRICTIMECONTROL",
+  712377611: "IFCELECTRICTIMECONTROLTYPE",
+  1758889154: "IFCELEMENT",
+  4123344466: "IFCELEMENTASSEMBLY",
+  2397081782: "IFCELEMENTASSEMBLYTYPE",
+  1623761950: "IFCELEMENTCOMPONENT",
+  2590856083: "IFCELEMENTCOMPONENTTYPE",
+  1883228015: "IFCELEMENTQUANTITY",
+  339256511: "IFCELEMENTTYPE",
+  2777663545: "IFCELEMENTARYSURFACE",
+  1704287377: "IFCELLIPSE",
+  2835456948: "IFCELLIPSEPROFILEDEF",
+  1658829314: "IFCENERGYCONVERSIONDEVICE",
+  2107101300: "IFCENERGYCONVERSIONDEVICETYPE",
+  2814081492: "IFCENGINE",
+  132023988: "IFCENGINETYPE",
+  3747195512: "IFCEVAPORATIVECOOLER",
+  3174744832: "IFCEVAPORATIVECOOLERTYPE",
+  484807127: "IFCEVAPORATOR",
+  3390157468: "IFCEVAPORATORTYPE",
+  4148101412: "IFCEVENT",
+  211053100: "IFCEVENTTIME",
+  4024345920: "IFCEVENTTYPE",
+  297599258: "IFCEXTENDEDPROPERTIES",
+  4294318154: "IFCEXTERNALINFORMATION",
+  3200245327: "IFCEXTERNALREFERENCE",
+  1437805879: "IFCEXTERNALREFERENCERELATIONSHIP",
+  1209101575: "IFCEXTERNALSPATIALELEMENT",
+  2853485674: "IFCEXTERNALSPATIALSTRUCTUREELEMENT",
+  2242383968: "IFCEXTERNALLYDEFINEDHATCHSTYLE",
+  1040185647: "IFCEXTERNALLYDEFINEDSURFACESTYLE",
+  3548104201: "IFCEXTERNALLYDEFINEDTEXTFONT",
+  477187591: "IFCEXTRUDEDAREASOLID",
+  2804161546: "IFCEXTRUDEDAREASOLIDTAPERED",
+  2556980723: "IFCFACE",
+  2047409740: "IFCFACEBASEDSURFACEMODEL",
+  1809719519: "IFCFACEBOUND",
+  803316827: "IFCFACEOUTERBOUND",
+  3008276851: "IFCFACESURFACE",
+  807026263: "IFCFACETEDBREP",
+  3737207727: "IFCFACETEDBREPWITHVOIDS",
+  24185140: "IFCFACILITY",
+  1310830890: "IFCFACILITYPART",
+  4219587988: "IFCFAILURECONNECTIONCONDITION",
+  3415622556: "IFCFAN",
+  346874300: "IFCFANTYPE",
+  647756555: "IFCFASTENER",
+  2489546625: "IFCFASTENERTYPE",
+  2827207264: "IFCFEATUREELEMENT",
+  2143335405: "IFCFEATUREELEMENTADDITION",
+  1287392070: "IFCFEATUREELEMENTSUBTRACTION",
+  738692330: "IFCFILLAREASTYLE",
+  374418227: "IFCFILLAREASTYLEHATCHING",
+  315944413: "IFCFILLAREASTYLETILES",
+  819412036: "IFCFILTER",
+  1810631287: "IFCFILTERTYPE",
+  1426591983: "IFCFIRESUPPRESSIONTERMINAL",
+  4222183408: "IFCFIRESUPPRESSIONTERMINALTYPE",
+  2652556860: "IFCFIXEDREFERENCESWEPTAREASOLID",
+  2058353004: "IFCFLOWCONTROLLER",
+  3907093117: "IFCFLOWCONTROLLERTYPE",
+  4278956645: "IFCFLOWFITTING",
+  3198132628: "IFCFLOWFITTINGTYPE",
+  182646315: "IFCFLOWINSTRUMENT",
+  4037862832: "IFCFLOWINSTRUMENTTYPE",
+  2188021234: "IFCFLOWMETER",
+  3815607619: "IFCFLOWMETERTYPE",
+  3132237377: "IFCFLOWMOVINGDEVICE",
+  1482959167: "IFCFLOWMOVINGDEVICETYPE",
+  987401354: "IFCFLOWSEGMENT",
+  1834744321: "IFCFLOWSEGMENTTYPE",
+  707683696: "IFCFLOWSTORAGEDEVICE",
+  1339347760: "IFCFLOWSTORAGEDEVICETYPE",
+  2223149337: "IFCFLOWTERMINAL",
+  2297155007: "IFCFLOWTERMINALTYPE",
+  3508470533: "IFCFLOWTREATMENTDEVICE",
+  3009222698: "IFCFLOWTREATMENTDEVICETYPE",
+  900683007: "IFCFOOTING",
+  1893162501: "IFCFOOTINGTYPE",
+  263784265: "IFCFURNISHINGELEMENT",
+  4238390223: "IFCFURNISHINGELEMENTTYPE",
+  1509553395: "IFCFURNITURE",
+  1268542332: "IFCFURNITURETYPE",
+  3493046030: "IFCGEOGRAPHICELEMENT",
+  4095422895: "IFCGEOGRAPHICELEMENTTYPE",
+  987898635: "IFCGEOMETRICCURVESET",
+  3448662350: "IFCGEOMETRICREPRESENTATIONCONTEXT",
+  2453401579: "IFCGEOMETRICREPRESENTATIONITEM",
+  4142052618: "IFCGEOMETRICREPRESENTATIONSUBCONTEXT",
+  3590301190: "IFCGEOMETRICSET",
+  3009204131: "IFCGRID",
+  852622518: "IFCGRIDAXIS",
+  178086475: "IFCGRIDPLACEMENT",
+  2706460486: "IFCGROUP",
+  812098782: "IFCHALFSPACESOLID",
+  3319311131: "IFCHEATEXCHANGER",
+  1251058090: "IFCHEATEXCHANGERTYPE",
+  2068733104: "IFCHUMIDIFIER",
+  1806887404: "IFCHUMIDIFIERTYPE",
+  1484403080: "IFCISHAPEPROFILEDEF",
+  3905492369: "IFCIMAGETEXTURE",
+  3570813810: "IFCINDEXEDCOLOURMAP",
+  2571569899: "IFCINDEXEDPOLYCURVE",
+  178912537: "IFCINDEXEDPOLYGONALFACE",
+  2294589976: "IFCINDEXEDPOLYGONALFACEWITHVOIDS",
+  1437953363: "IFCINDEXEDTEXTUREMAP",
+  2133299955: "IFCINDEXEDTRIANGLETEXTUREMAP",
+  4175244083: "IFCINTERCEPTOR",
+  3946677679: "IFCINTERCEPTORTYPE",
+  3113134337: "IFCINTERSECTIONCURVE",
+  2391368822: "IFCINVENTORY",
+  3741457305: "IFCIRREGULARTIMESERIES",
+  3020489413: "IFCIRREGULARTIMESERIESVALUE",
+  2176052936: "IFCJUNCTIONBOX",
+  4288270099: "IFCJUNCTIONBOXTYPE",
+  572779678: "IFCLSHAPEPROFILEDEF",
+  3827777499: "IFCLABORRESOURCE",
+  428585644: "IFCLABORRESOURCETYPE",
+  1585845231: "IFCLAGTIME",
+  76236018: "IFCLAMP",
+  1051575348: "IFCLAMPTYPE",
+  2655187982: "IFCLIBRARYINFORMATION",
+  3452421091: "IFCLIBRARYREFERENCE",
+  4162380809: "IFCLIGHTDISTRIBUTIONDATA",
+  629592764: "IFCLIGHTFIXTURE",
+  1161773419: "IFCLIGHTFIXTURETYPE",
+  1566485204: "IFCLIGHTINTENSITYDISTRIBUTION",
+  1402838566: "IFCLIGHTSOURCE",
+  125510826: "IFCLIGHTSOURCEAMBIENT",
+  2604431987: "IFCLIGHTSOURCEDIRECTIONAL",
+  4266656042: "IFCLIGHTSOURCEGONIOMETRIC",
+  1520743889: "IFCLIGHTSOURCEPOSITIONAL",
+  3422422726: "IFCLIGHTSOURCESPOT",
+  1281925730: "IFCLINE",
+  3092502836: "IFCLINESEGMENT2D",
+  388784114: "IFCLINEARPLACEMENT",
+  1154579445: "IFCLINEARPOSITIONINGELEMENT",
+  2624227202: "IFCLOCALPLACEMENT",
+  1008929658: "IFCLOOP",
+  1425443689: "IFCMANIFOLDSOLIDBREP",
+  3057273783: "IFCMAPCONVERSION",
+  2347385850: "IFCMAPPEDITEM",
+  1838606355: "IFCMATERIAL",
+  1847130766: "IFCMATERIALCLASSIFICATIONRELATIONSHIP",
+  3708119000: "IFCMATERIALCONSTITUENT",
+  2852063980: "IFCMATERIALCONSTITUENTSET",
+  760658860: "IFCMATERIALDEFINITION",
+  2022407955: "IFCMATERIALDEFINITIONREPRESENTATION",
+  248100487: "IFCMATERIALLAYER",
+  3303938423: "IFCMATERIALLAYERSET",
+  1303795690: "IFCMATERIALLAYERSETUSAGE",
+  1847252529: "IFCMATERIALLAYERWITHOFFSETS",
+  2199411900: "IFCMATERIALLIST",
+  2235152071: "IFCMATERIALPROFILE",
+  164193824: "IFCMATERIALPROFILESET",
+  3079605661: "IFCMATERIALPROFILESETUSAGE",
+  3404854881: "IFCMATERIALPROFILESETUSAGETAPERING",
+  552965576: "IFCMATERIALPROFILEWITHOFFSETS",
+  3265635763: "IFCMATERIALPROPERTIES",
+  853536259: "IFCMATERIALRELATIONSHIP",
+  1507914824: "IFCMATERIALUSAGEDEFINITION",
+  2597039031: "IFCMEASUREWITHUNIT",
+  377706215: "IFCMECHANICALFASTENER",
+  2108223431: "IFCMECHANICALFASTENERTYPE",
+  1437502449: "IFCMEDICALDEVICE",
+  1114901282: "IFCMEDICALDEVICETYPE",
+  1073191201: "IFCMEMBER",
+  1911478936: "IFCMEMBERSTANDARDCASE",
+  3181161470: "IFCMEMBERTYPE",
+  3368373690: "IFCMETRIC",
+  2998442950: "IFCMIRROREDPROFILEDEF",
+  2706619895: "IFCMONETARYUNIT",
+  2474470126: "IFCMOTORCONNECTION",
+  977012517: "IFCMOTORCONNECTIONTYPE",
+  1918398963: "IFCNAMEDUNIT",
+  3888040117: "IFCOBJECT",
+  219451334: "IFCOBJECTDEFINITION",
+  3701648758: "IFCOBJECTPLACEMENT",
+  2251480897: "IFCOBJECTIVE",
+  4143007308: "IFCOCCUPANT",
+  590820931: "IFCOFFSETCURVE",
+  3388369263: "IFCOFFSETCURVE2D",
+  3505215534: "IFCOFFSETCURVE3D",
+  2485787929: "IFCOFFSETCURVEBYDISTANCES",
+  2665983363: "IFCOPENSHELL",
+  3588315303: "IFCOPENINGELEMENT",
+  3079942009: "IFCOPENINGSTANDARDCASE",
+  4251960020: "IFCORGANIZATION",
+  1411181986: "IFCORGANIZATIONRELATIONSHIP",
+  643959842: "IFCORIENTATIONEXPRESSION",
+  1029017970: "IFCORIENTEDEDGE",
+  144952367: "IFCOUTERBOUNDARYCURVE",
+  3694346114: "IFCOUTLET",
+  2837617999: "IFCOUTLETTYPE",
+  1207048766: "IFCOWNERHISTORY",
+  2529465313: "IFCPARAMETERIZEDPROFILEDEF",
+  2519244187: "IFCPATH",
+  1682466193: "IFCPCURVE",
+  2382730787: "IFCPERFORMANCEHISTORY",
+  3566463478: "IFCPERMEABLECOVERINGPROPERTIES",
+  3327091369: "IFCPERMIT",
+  2077209135: "IFCPERSON",
+  101040310: "IFCPERSONANDORGANIZATION",
+  3021840470: "IFCPHYSICALCOMPLEXQUANTITY",
+  2483315170: "IFCPHYSICALQUANTITY",
+  2226359599: "IFCPHYSICALSIMPLEQUANTITY",
+  1687234759: "IFCPILE",
+  1158309216: "IFCPILETYPE",
+  310824031: "IFCPIPEFITTING",
+  804291784: "IFCPIPEFITTINGTYPE",
+  3612865200: "IFCPIPESEGMENT",
+  4231323485: "IFCPIPESEGMENTTYPE",
+  597895409: "IFCPIXELTEXTURE",
+  2004835150: "IFCPLACEMENT",
+  603570806: "IFCPLANARBOX",
+  1663979128: "IFCPLANAREXTENT",
+  220341763: "IFCPLANE",
+  3171933400: "IFCPLATE",
+  1156407060: "IFCPLATESTANDARDCASE",
+  4017108033: "IFCPLATETYPE",
+  2067069095: "IFCPOINT",
+  4022376103: "IFCPOINTONCURVE",
+  1423911732: "IFCPOINTONSURFACE",
+  2924175390: "IFCPOLYLOOP",
+  2775532180: "IFCPOLYGONALBOUNDEDHALFSPACE",
+  2839578677: "IFCPOLYGONALFACESET",
+  3724593414: "IFCPOLYLINE",
+  3740093272: "IFCPORT",
+  1946335990: "IFCPOSITIONINGELEMENT",
+  3355820592: "IFCPOSTALADDRESS",
+  759155922: "IFCPREDEFINEDCOLOUR",
+  2559016684: "IFCPREDEFINEDCURVEFONT",
+  3727388367: "IFCPREDEFINEDITEM",
+  3778827333: "IFCPREDEFINEDPROPERTIES",
+  3967405729: "IFCPREDEFINEDPROPERTYSET",
+  1775413392: "IFCPREDEFINEDTEXTFONT",
+  677532197: "IFCPRESENTATIONITEM",
+  2022622350: "IFCPRESENTATIONLAYERASSIGNMENT",
+  1304840413: "IFCPRESENTATIONLAYERWITHSTYLE",
+  3119450353: "IFCPRESENTATIONSTYLE",
+  2417041796: "IFCPRESENTATIONSTYLEASSIGNMENT",
+  2744685151: "IFCPROCEDURE",
+  569719735: "IFCPROCEDURETYPE",
+  2945172077: "IFCPROCESS",
+  4208778838: "IFCPRODUCT",
+  673634403: "IFCPRODUCTDEFINITIONSHAPE",
+  2095639259: "IFCPRODUCTREPRESENTATION",
+  3958567839: "IFCPROFILEDEF",
+  2802850158: "IFCPROFILEPROPERTIES",
+  103090709: "IFCPROJECT",
+  653396225: "IFCPROJECTLIBRARY",
+  2904328755: "IFCPROJECTORDER",
+  3843373140: "IFCPROJECTEDCRS",
+  3651124850: "IFCPROJECTIONELEMENT",
+  2598011224: "IFCPROPERTY",
+  986844984: "IFCPROPERTYABSTRACTION",
+  871118103: "IFCPROPERTYBOUNDEDVALUE",
+  1680319473: "IFCPROPERTYDEFINITION",
+  148025276: "IFCPROPERTYDEPENDENCYRELATIONSHIP",
+  4166981789: "IFCPROPERTYENUMERATEDVALUE",
+  3710013099: "IFCPROPERTYENUMERATION",
+  2752243245: "IFCPROPERTYLISTVALUE",
+  941946838: "IFCPROPERTYREFERENCEVALUE",
+  1451395588: "IFCPROPERTYSET",
+  3357820518: "IFCPROPERTYSETDEFINITION",
+  492091185: "IFCPROPERTYSETTEMPLATE",
+  3650150729: "IFCPROPERTYSINGLEVALUE",
+  110355661: "IFCPROPERTYTABLEVALUE",
+  3521284610: "IFCPROPERTYTEMPLATE",
+  1482703590: "IFCPROPERTYTEMPLATEDEFINITION",
+  738039164: "IFCPROTECTIVEDEVICE",
+  2295281155: "IFCPROTECTIVEDEVICETRIPPINGUNIT",
+  655969474: "IFCPROTECTIVEDEVICETRIPPINGUNITTYPE",
+  1842657554: "IFCPROTECTIVEDEVICETYPE",
+  3219374653: "IFCPROXY",
+  90941305: "IFCPUMP",
+  2250791053: "IFCPUMPTYPE",
+  2044713172: "IFCQUANTITYAREA",
+  2093928680: "IFCQUANTITYCOUNT",
+  931644368: "IFCQUANTITYLENGTH",
+  2090586900: "IFCQUANTITYSET",
+  3252649465: "IFCQUANTITYTIME",
+  2405470396: "IFCQUANTITYVOLUME",
+  825690147: "IFCQUANTITYWEIGHT",
+  2262370178: "IFCRAILING",
+  2893384427: "IFCRAILINGTYPE",
+  3024970846: "IFCRAMP",
+  3283111854: "IFCRAMPFLIGHT",
+  2324767716: "IFCRAMPFLIGHTTYPE",
+  1469900589: "IFCRAMPTYPE",
+  1232101972: "IFCRATIONALBSPLINECURVEWITHKNOTS",
+  683857671: "IFCRATIONALBSPLINESURFACEWITHKNOTS",
+  2770003689: "IFCRECTANGLEHOLLOWPROFILEDEF",
+  3615266464: "IFCRECTANGLEPROFILEDEF",
+  2798486643: "IFCRECTANGULARPYRAMID",
+  3454111270: "IFCRECTANGULARTRIMMEDSURFACE",
+  3915482550: "IFCRECURRENCEPATTERN",
+  2433181523: "IFCREFERENCE",
+  4021432810: "IFCREFERENT",
+  3413951693: "IFCREGULARTIMESERIES",
+  1580146022: "IFCREINFORCEMENTBARPROPERTIES",
+  3765753017: "IFCREINFORCEMENTDEFINITIONPROPERTIES",
+  979691226: "IFCREINFORCINGBAR",
+  2572171363: "IFCREINFORCINGBARTYPE",
+  3027567501: "IFCREINFORCINGELEMENT",
+  964333572: "IFCREINFORCINGELEMENTTYPE",
+  2320036040: "IFCREINFORCINGMESH",
+  2310774935: "IFCREINFORCINGMESHTYPE",
+  160246688: "IFCRELAGGREGATES",
+  3939117080: "IFCRELASSIGNS",
+  1683148259: "IFCRELASSIGNSTOACTOR",
+  2495723537: "IFCRELASSIGNSTOCONTROL",
+  1307041759: "IFCRELASSIGNSTOGROUP",
+  1027710054: "IFCRELASSIGNSTOGROUPBYFACTOR",
+  4278684876: "IFCRELASSIGNSTOPROCESS",
+  2857406711: "IFCRELASSIGNSTOPRODUCT",
+  205026976: "IFCRELASSIGNSTORESOURCE",
+  1865459582: "IFCRELASSOCIATES",
+  4095574036: "IFCRELASSOCIATESAPPROVAL",
+  919958153: "IFCRELASSOCIATESCLASSIFICATION",
+  2728634034: "IFCRELASSOCIATESCONSTRAINT",
+  982818633: "IFCRELASSOCIATESDOCUMENT",
+  3840914261: "IFCRELASSOCIATESLIBRARY",
+  2655215786: "IFCRELASSOCIATESMATERIAL",
+  826625072: "IFCRELCONNECTS",
+  1204542856: "IFCRELCONNECTSELEMENTS",
+  3945020480: "IFCRELCONNECTSPATHELEMENTS",
+  4201705270: "IFCRELCONNECTSPORTTOELEMENT",
+  3190031847: "IFCRELCONNECTSPORTS",
+  2127690289: "IFCRELCONNECTSSTRUCTURALACTIVITY",
+  1638771189: "IFCRELCONNECTSSTRUCTURALMEMBER",
+  504942748: "IFCRELCONNECTSWITHECCENTRICITY",
+  3678494232: "IFCRELCONNECTSWITHREALIZINGELEMENTS",
+  3242617779: "IFCRELCONTAINEDINSPATIALSTRUCTURE",
+  886880790: "IFCRELCOVERSBLDGELEMENTS",
+  2802773753: "IFCRELCOVERSSPACES",
+  2565941209: "IFCRELDECLARES",
+  2551354335: "IFCRELDECOMPOSES",
+  693640335: "IFCRELDEFINES",
+  1462361463: "IFCRELDEFINESBYOBJECT",
+  4186316022: "IFCRELDEFINESBYPROPERTIES",
+  307848117: "IFCRELDEFINESBYTEMPLATE",
+  781010003: "IFCRELDEFINESBYTYPE",
+  3940055652: "IFCRELFILLSELEMENT",
+  279856033: "IFCRELFLOWCONTROLELEMENTS",
+  427948657: "IFCRELINTERFERESELEMENTS",
+  3268803585: "IFCRELNESTS",
+  1441486842: "IFCRELPOSITIONS",
+  750771296: "IFCRELPROJECTSELEMENT",
+  1245217292: "IFCRELREFERENCEDINSPATIALSTRUCTURE",
+  4122056220: "IFCRELSEQUENCE",
+  366585022: "IFCRELSERVICESBUILDINGS",
+  3451746338: "IFCRELSPACEBOUNDARY",
+  3523091289: "IFCRELSPACEBOUNDARY1STLEVEL",
+  1521410863: "IFCRELSPACEBOUNDARY2NDLEVEL",
+  1401173127: "IFCRELVOIDSELEMENT",
+  478536968: "IFCRELATIONSHIP",
+  816062949: "IFCREPARAMETRISEDCOMPOSITECURVESEGMENT",
+  1076942058: "IFCREPRESENTATION",
+  3377609919: "IFCREPRESENTATIONCONTEXT",
+  3008791417: "IFCREPRESENTATIONITEM",
+  1660063152: "IFCREPRESENTATIONMAP",
+  2914609552: "IFCRESOURCE",
+  2943643501: "IFCRESOURCEAPPROVALRELATIONSHIP",
+  1608871552: "IFCRESOURCECONSTRAINTRELATIONSHIP",
+  2439245199: "IFCRESOURCELEVELRELATIONSHIP",
+  1042787934: "IFCRESOURCETIME",
+  1856042241: "IFCREVOLVEDAREASOLID",
+  3243963512: "IFCREVOLVEDAREASOLIDTAPERED",
+  4158566097: "IFCRIGHTCIRCULARCONE",
+  3626867408: "IFCRIGHTCIRCULARCYLINDER",
+  2016517767: "IFCROOF",
+  2781568857: "IFCROOFTYPE",
+  2341007311: "IFCROOT",
+  2778083089: "IFCROUNDEDRECTANGLEPROFILEDEF",
+  448429030: "IFCSIUNIT",
+  3053780830: "IFCSANITARYTERMINAL",
+  1768891740: "IFCSANITARYTERMINALTYPE",
+  1054537805: "IFCSCHEDULINGTIME",
+  2157484638: "IFCSEAMCURVE",
+  2042790032: "IFCSECTIONPROPERTIES",
+  4165799628: "IFCSECTIONREINFORCEMENTPROPERTIES",
+  1862484736: "IFCSECTIONEDSOLID",
+  1290935644: "IFCSECTIONEDSOLIDHORIZONTAL",
+  1509187699: "IFCSECTIONEDSPINE",
+  4086658281: "IFCSENSOR",
+  1783015770: "IFCSENSORTYPE",
+  1329646415: "IFCSHADINGDEVICE",
+  4074543187: "IFCSHADINGDEVICETYPE",
+  867548509: "IFCSHAPEASPECT",
+  3982875396: "IFCSHAPEMODEL",
+  4240577450: "IFCSHAPEREPRESENTATION",
+  4124623270: "IFCSHELLBASEDSURFACEMODEL",
+  3692461612: "IFCSIMPLEPROPERTY",
+  3663146110: "IFCSIMPLEPROPERTYTEMPLATE",
+  4097777520: "IFCSITE",
+  1529196076: "IFCSLAB",
+  3127900445: "IFCSLABELEMENTEDCASE",
+  3027962421: "IFCSLABSTANDARDCASE",
+  2533589738: "IFCSLABTYPE",
+  2609359061: "IFCSLIPPAGECONNECTIONCONDITION",
+  3420628829: "IFCSOLARDEVICE",
+  1072016465: "IFCSOLARDEVICETYPE",
+  723233188: "IFCSOLIDMODEL",
+  3856911033: "IFCSPACE",
+  1999602285: "IFCSPACEHEATER",
+  1305183839: "IFCSPACEHEATERTYPE",
+  3812236995: "IFCSPACETYPE",
+  1412071761: "IFCSPATIALELEMENT",
+  710998568: "IFCSPATIALELEMENTTYPE",
+  2706606064: "IFCSPATIALSTRUCTUREELEMENT",
+  3893378262: "IFCSPATIALSTRUCTUREELEMENTTYPE",
+  463610769: "IFCSPATIALZONE",
+  2481509218: "IFCSPATIALZONETYPE",
+  451544542: "IFCSPHERE",
+  4015995234: "IFCSPHERICALSURFACE",
+  1404847402: "IFCSTACKTERMINAL",
+  3112655638: "IFCSTACKTERMINALTYPE",
+  331165859: "IFCSTAIR",
+  4252922144: "IFCSTAIRFLIGHT",
+  1039846685: "IFCSTAIRFLIGHTTYPE",
+  338393293: "IFCSTAIRTYPE",
+  682877961: "IFCSTRUCTURALACTION",
+  3544373492: "IFCSTRUCTURALACTIVITY",
+  2515109513: "IFCSTRUCTURALANALYSISMODEL",
+  1179482911: "IFCSTRUCTURALCONNECTION",
+  2273995522: "IFCSTRUCTURALCONNECTIONCONDITION",
+  1004757350: "IFCSTRUCTURALCURVEACTION",
+  4243806635: "IFCSTRUCTURALCURVECONNECTION",
+  214636428: "IFCSTRUCTURALCURVEMEMBER",
+  2445595289: "IFCSTRUCTURALCURVEMEMBERVARYING",
+  2757150158: "IFCSTRUCTURALCURVEREACTION",
+  3136571912: "IFCSTRUCTURALITEM",
+  1807405624: "IFCSTRUCTURALLINEARACTION",
+  2162789131: "IFCSTRUCTURALLOAD",
+  385403989: "IFCSTRUCTURALLOADCASE",
+  3478079324: "IFCSTRUCTURALLOADCONFIGURATION",
+  1252848954: "IFCSTRUCTURALLOADGROUP",
+  1595516126: "IFCSTRUCTURALLOADLINEARFORCE",
+  609421318: "IFCSTRUCTURALLOADORRESULT",
+  2668620305: "IFCSTRUCTURALLOADPLANARFORCE",
+  2473145415: "IFCSTRUCTURALLOADSINGLEDISPLACEMENT",
+  1973038258: "IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION",
+  1597423693: "IFCSTRUCTURALLOADSINGLEFORCE",
+  1190533807: "IFCSTRUCTURALLOADSINGLEFORCEWARPING",
+  2525727697: "IFCSTRUCTURALLOADSTATIC",
+  3408363356: "IFCSTRUCTURALLOADTEMPERATURE",
+  530289379: "IFCSTRUCTURALMEMBER",
+  1621171031: "IFCSTRUCTURALPLANARACTION",
+  2082059205: "IFCSTRUCTURALPOINTACTION",
+  734778138: "IFCSTRUCTURALPOINTCONNECTION",
+  1235345126: "IFCSTRUCTURALPOINTREACTION",
+  3689010777: "IFCSTRUCTURALREACTION",
+  2986769608: "IFCSTRUCTURALRESULTGROUP",
+  3657597509: "IFCSTRUCTURALSURFACEACTION",
+  1975003073: "IFCSTRUCTURALSURFACECONNECTION",
+  3979015343: "IFCSTRUCTURALSURFACEMEMBER",
+  2218152070: "IFCSTRUCTURALSURFACEMEMBERVARYING",
+  603775116: "IFCSTRUCTURALSURFACEREACTION",
+  2830218821: "IFCSTYLEMODEL",
+  3958052878: "IFCSTYLEDITEM",
+  3049322572: "IFCSTYLEDREPRESENTATION",
+  148013059: "IFCSUBCONTRACTRESOURCE",
+  4095615324: "IFCSUBCONTRACTRESOURCETYPE",
+  2233826070: "IFCSUBEDGE",
+  2513912981: "IFCSURFACE",
+  699246055: "IFCSURFACECURVE",
+  2028607225: "IFCSURFACECURVESWEPTAREASOLID",
+  3101698114: "IFCSURFACEFEATURE",
+  2809605785: "IFCSURFACEOFLINEAREXTRUSION",
+  4124788165: "IFCSURFACEOFREVOLUTION",
+  2934153892: "IFCSURFACEREINFORCEMENTAREA",
+  1300840506: "IFCSURFACESTYLE",
+  3303107099: "IFCSURFACESTYLELIGHTING",
+  1607154358: "IFCSURFACESTYLEREFRACTION",
+  1878645084: "IFCSURFACESTYLERENDERING",
+  846575682: "IFCSURFACESTYLESHADING",
+  1351298697: "IFCSURFACESTYLEWITHTEXTURES",
+  626085974: "IFCSURFACETEXTURE",
+  2247615214: "IFCSWEPTAREASOLID",
+  1260650574: "IFCSWEPTDISKSOLID",
+  1096409881: "IFCSWEPTDISKSOLIDPOLYGONAL",
+  230924584: "IFCSWEPTSURFACE",
+  1162798199: "IFCSWITCHINGDEVICE",
+  2315554128: "IFCSWITCHINGDEVICETYPE",
+  2254336722: "IFCSYSTEM",
+  413509423: "IFCSYSTEMFURNITUREELEMENT",
+  1580310250: "IFCSYSTEMFURNITUREELEMENTTYPE",
+  3071757647: "IFCTSHAPEPROFILEDEF",
+  985171141: "IFCTABLE",
+  2043862942: "IFCTABLECOLUMN",
+  531007025: "IFCTABLEROW",
+  812556717: "IFCTANK",
+  5716631: "IFCTANKTYPE",
+  3473067441: "IFCTASK",
+  1549132990: "IFCTASKTIME",
+  2771591690: "IFCTASKTIMERECURRING",
+  3206491090: "IFCTASKTYPE",
+  912023232: "IFCTELECOMADDRESS",
+  3824725483: "IFCTENDON",
+  2347447852: "IFCTENDONANCHOR",
+  3081323446: "IFCTENDONANCHORTYPE",
+  3663046924: "IFCTENDONCONDUIT",
+  2281632017: "IFCTENDONCONDUITTYPE",
+  2415094496: "IFCTENDONTYPE",
+  2387106220: "IFCTESSELLATEDFACESET",
+  901063453: "IFCTESSELLATEDITEM",
+  4282788508: "IFCTEXTLITERAL",
+  3124975700: "IFCTEXTLITERALWITHEXTENT",
+  1447204868: "IFCTEXTSTYLE",
+  1983826977: "IFCTEXTSTYLEFONTMODEL",
+  2636378356: "IFCTEXTSTYLEFORDEFINEDFONT",
+  1640371178: "IFCTEXTSTYLETEXTMODEL",
+  280115917: "IFCTEXTURECOORDINATE",
+  1742049831: "IFCTEXTURECOORDINATEGENERATOR",
+  2552916305: "IFCTEXTUREMAP",
+  1210645708: "IFCTEXTUREVERTEX",
+  3611470254: "IFCTEXTUREVERTEXLIST",
+  1199560280: "IFCTIMEPERIOD",
+  3101149627: "IFCTIMESERIES",
+  581633288: "IFCTIMESERIESVALUE",
+  1377556343: "IFCTOPOLOGICALREPRESENTATIONITEM",
+  1735638870: "IFCTOPOLOGYREPRESENTATION",
+  1935646853: "IFCTOROIDALSURFACE",
+  3825984169: "IFCTRANSFORMER",
+  1692211062: "IFCTRANSFORMERTYPE",
+  2595432518: "IFCTRANSITIONCURVESEGMENT2D",
+  1620046519: "IFCTRANSPORTELEMENT",
+  2097647324: "IFCTRANSPORTELEMENTTYPE",
+  2715220739: "IFCTRAPEZIUMPROFILEDEF",
+  2916149573: "IFCTRIANGULATEDFACESET",
+  1229763772: "IFCTRIANGULATEDIRREGULARNETWORK",
+  3593883385: "IFCTRIMMEDCURVE",
+  3026737570: "IFCTUBEBUNDLE",
+  1600972822: "IFCTUBEBUNDLETYPE",
+  1628702193: "IFCTYPEOBJECT",
+  3736923433: "IFCTYPEPROCESS",
+  2347495698: "IFCTYPEPRODUCT",
+  3698973494: "IFCTYPERESOURCE",
+  427810014: "IFCUSHAPEPROFILEDEF",
+  180925521: "IFCUNITASSIGNMENT",
+  630975310: "IFCUNITARYCONTROLELEMENT",
+  3179687236: "IFCUNITARYCONTROLELEMENTTYPE",
+  4292641817: "IFCUNITARYEQUIPMENT",
+  1911125066: "IFCUNITARYEQUIPMENTTYPE",
+  4207607924: "IFCVALVE",
+  728799441: "IFCVALVETYPE",
+  1417489154: "IFCVECTOR",
+  2799835756: "IFCVERTEX",
+  2759199220: "IFCVERTEXLOOP",
+  1907098498: "IFCVERTEXPOINT",
+  1530820697: "IFCVIBRATIONDAMPER",
+  3956297820: "IFCVIBRATIONDAMPERTYPE",
+  2391383451: "IFCVIBRATIONISOLATOR",
+  3313531582: "IFCVIBRATIONISOLATORTYPE",
+  2769231204: "IFCVIRTUALELEMENT",
+  891718957: "IFCVIRTUALGRIDINTERSECTION",
+  926996030: "IFCVOIDINGFEATURE",
+  2391406946: "IFCWALL",
+  4156078855: "IFCWALLELEMENTEDCASE",
+  3512223829: "IFCWALLSTANDARDCASE",
+  1898987631: "IFCWALLTYPE",
+  4237592921: "IFCWASTETERMINAL",
+  1133259667: "IFCWASTETERMINALTYPE",
+  3304561284: "IFCWINDOW",
+  336235671: "IFCWINDOWLININGPROPERTIES",
+  512836454: "IFCWINDOWPANELPROPERTIES",
+  486154966: "IFCWINDOWSTANDARDCASE",
+  1299126871: "IFCWINDOWSTYLE",
+  4009809668: "IFCWINDOWTYPE",
+  4088093105: "IFCWORKCALENDAR",
+  1028945134: "IFCWORKCONTROL",
+  4218914973: "IFCWORKPLAN",
+  3342526732: "IFCWORKSCHEDULE",
+  1236880293: "IFCWORKTIME",
+  2543172580: "IFCZSHAPEPROFILEDEF",
+  1033361043: "IFCZONE",
+};
+
+class JSONPropertyManager extends BasePropertyManager {
+
+  async getItemProperties(modelID, id, recursive = false) {
+    return {
+      ...this.state.models[modelID].jsonData[id]
+    };
+  }
+
+  async getSpatialStructure(modelID, includeProperties) {
+    const chunks = await this.getSpatialTreeChunks(modelID);
+    const projectsIDs = await this.getAllItemsOfType(modelID, IFCPROJECT, false);
+    const projectID = projectsIDs[0];
+    const project = JSONPropertyManager.newIfcProject(projectID);
+    await this.getSpatialNode(modelID, project, chunks, includeProperties);
+    return {
+      ...project
+    };
+  }
+
+  async getAllItemsOfType(modelID, type, verbose) {
+    const data = this.state.models[modelID].jsonData;
+    const typeName = IfcTypesMap[type];
+    if (!typeName) {
+      throw new Error(`Type not found: ${type}`);
+    }
+    return this.filterItemsByType(data, typeName, verbose);
+  }
+
+  async getProperty(modelID, elementID, recursive = false, propName) {
+    const resultIDs = await this.getAllRelatedItemsOfType(modelID, elementID, propName);
+    const result = this.getItemsByID(modelID, resultIDs);
+    if (recursive) {
+      result.forEach(result => this.getReferencesRecursively(modelID, result));
+    }
+    return result;
+  }
+
+  getNodeType(modelID, id) {
+    return this.state.models[modelID].jsonData[id].type;
+  }
+
+  async getChunks(modelID, chunks, propNames) {
+    const relation = await this.getAllItemsOfType(modelID, propNames.name, true);
+    relation.forEach(rel => {
+      this.saveChunk(chunks, propNames, rel);
+    });
+  }
+
+  filterItemsByType(data, typeName, verbose) {
+    const result = [];
+    Object.keys(data).forEach(key => {
+      const numKey = parseInt(key);
+      if (data[numKey].type.toUpperCase() === typeName) {
+        result.push(verbose ? {
+          ...data[numKey]
+        } : numKey);
+      }
+    });
+    return result;
+  }
+
+  async getAllRelatedItemsOfType(modelID, id, propNames) {
+    const lines = await this.getAllItemsOfType(modelID, propNames.name, true);
+    const IDs = [];
+    lines.forEach(line => {
+      const isRelated = JSONPropertyManager.isRelated(id, line, propNames);
+      if (isRelated)
+        this.getRelated(line, propNames, IDs);
+    });
+    return IDs;
+  }
+
+  getItemsByID(modelID, ids) {
+    const data = this.state.models[modelID].jsonData;
+    const result = [];
+    ids.forEach(id => result.push({
+      ...data[id]
+    }));
+    return result;
+  }
+
+  getReferencesRecursively(modelID, jsonObject) {
+    if (jsonObject == undefined)
+      return;
+    const keys = Object.keys(jsonObject);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      this.getJSONItem(modelID, jsonObject, key);
+    }
+  }
+
+  getJSONItem(modelID, jsonObject, key) {
+    if (Array.isArray(jsonObject[key])) {
+      return this.getMultipleJSONItems(modelID, jsonObject, key);
+    }
+    if (jsonObject[key] && jsonObject[key].type === 5) {
+      jsonObject[key] = this.getItemsByID(modelID, [jsonObject[key].value])[0];
+      this.getReferencesRecursively(modelID, jsonObject[key]);
+    }
+  }
+
+  getMultipleJSONItems(modelID, jsonObject, key) {
+    jsonObject[key] = jsonObject[key].map((item) => {
+      if (item.type === 5) {
+        item = this.getItemsByID(modelID, [item.value])[0];
+        this.getReferencesRecursively(modelID, item);
+      }
+      return item;
+    });
+  }
+
+}
+
+class PropertyManager {
+
+  constructor(state) {
+    this.state = state;
+    this.webIfcProps = new WebIfcPropertyManager(state);
+    this.jsonProps = new JSONPropertyManager(state);
+    this.currentProps = this.webIfcProps;
+  }
+
+  getExpressId(geometry, faceIndex) {
+    if (!geometry.index)
+      throw new Error('Geometry does not have index information.');
+    const geoIndex = geometry.index.array;
+    return geometry.attributes[IdAttrName].getX(geoIndex[3 * faceIndex]);
+  }
+
+  async getItemProperties(modelID, elementID, recursive = false) {
+    this.updateCurrentProps();
+    return this.currentProps.getItemProperties(modelID, elementID, recursive);
+  }
+
+  async getAllItemsOfType(modelID, type, verbose) {
+    this.updateCurrentProps();
+    return this.currentProps.getAllItemsOfType(modelID, type, verbose);
+  }
+
+  async getPropertySets(modelID, elementID, recursive = false) {
+    this.updateCurrentProps();
+    return this.currentProps.getPropertySets(modelID, elementID, recursive);
+  }
+
+  async getTypeProperties(modelID, elementID, recursive = false) {
+    this.updateCurrentProps();
+    return this.currentProps.getTypeProperties(modelID, elementID, recursive);
+  }
+
+  async getMaterialsProperties(modelID, elementID, recursive = false) {
+    this.updateCurrentProps();
+    return this.currentProps.getMaterialsProperties(modelID, elementID, recursive);
+  }
+
+  async getSpatialStructure(modelID, includeProperties) {
+    this.updateCurrentProps();
+    if (!this.state.useJSON && includeProperties) {
+      console.warn('Including properties in getSpatialStructure with the JSON workflow disabled can lead to poor performance.');
+    }
+    return await this.currentProps.getSpatialStructure(modelID, includeProperties);
+  }
+
+  updateCurrentProps() {
+    this.currentProps = this.state.useJSON ? this.jsonProps : this.webIfcProps;
+  }
+
+}
+
+class TypeManager {
+
+  constructor(state) {
+    this.state = state;
+    this.state = state;
+  }
+
+  async getAllTypes(worker) {
+    for (let modelID in this.state.models) {
+      if (this.state.models.hasOwnProperty(modelID)) {
+        const types = this.state.models[modelID].types;
+        if (Object.keys(types).length == 0) {
+          await this.getAllTypesOfModel(parseInt(modelID), worker);
+        }
+      }
+    }
+  }
+
+  async getAllTypesOfModel(modelID, worker) {
+    const result = {};
+    const elements = Object.keys(IfcElements).map((e) => parseInt(e));
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      const lines = await this.state.api.GetLineIDsWithType(modelID, element);
+      const size = lines.size();
+      for (let i = 0; i < size; i++)
+        result[lines.get(i)] = element;
+    }
+    if (this.state.worker.active && worker) {
+      await worker.workerState.updateModelStateTypes(modelID, result);
+    }
+    this.state.models[modelID].types = result;
+  }
+
+}
+
+class BvhManager {
+
+  initializeMeshBVH(computeBoundsTree, disposeBoundsTree, acceleratedRaycast) {
+    this.computeBoundsTree = computeBoundsTree;
+    this.disposeBoundsTree = disposeBoundsTree;
+    this.acceleratedRaycast = acceleratedRaycast;
+    this.setupThreeMeshBVH();
+  }
+
+  applyThreeMeshBVH(geometry) {
+    if (this.computeBoundsTree)
+      geometry.computeBoundsTree();
+  }
+
+  setupThreeMeshBVH() {
+    if (!this.computeBoundsTree || !this.disposeBoundsTree || !this.acceleratedRaycast)
+      return;
+    BufferGeometry.prototype.computeBoundsTree = this.computeBoundsTree;
+    BufferGeometry.prototype.disposeBoundsTree = this.disposeBoundsTree;
+    Mesh.prototype.raycast = this.acceleratedRaycast;
+  }
+
+}
+
+var WorkerActions;
+(function(WorkerActions) {
+  WorkerActions["updateStateUseJson"] = "updateStateUseJson";
+  WorkerActions["updateStateWebIfcSettings"] = "updateStateWebIfcSettings";
+  WorkerActions["updateModelStateTypes"] = "updateModelStateTypes";
+  WorkerActions["updateModelStateJsonData"] = "updateModelStateJsonData";
+  WorkerActions["loadJsonDataFromWorker"] = "loadJsonDataFromWorker";
+  WorkerActions["dispose"] = "dispose";
+  WorkerActions["Close"] = "Close";
+  WorkerActions["DisposeWebIfc"] = "DisposeWebIfc";
+  WorkerActions["Init"] = "Init";
+  WorkerActions["OpenModel"] = "OpenModel";
+  WorkerActions["CreateModel"] = "CreateModel";
+  WorkerActions["ExportFileAsIFC"] = "ExportFileAsIFC";
+  WorkerActions["GetGeometry"] = "GetGeometry";
+  WorkerActions["GetLine"] = "GetLine";
+  WorkerActions["GetAndClearErrors"] = "GetAndClearErrors";
+  WorkerActions["WriteLine"] = "WriteLine";
+  WorkerActions["FlattenLine"] = "FlattenLine";
+  WorkerActions["GetRawLineData"] = "GetRawLineData";
+  WorkerActions["WriteRawLineData"] = "WriteRawLineData";
+  WorkerActions["GetLineIDsWithType"] = "GetLineIDsWithType";
+  WorkerActions["GetAllLines"] = "GetAllLines";
+  WorkerActions["SetGeometryTransformation"] = "SetGeometryTransformation";
+  WorkerActions["GetCoordinationMatrix"] = "GetCoordinationMatrix";
+  WorkerActions["GetVertexArray"] = "GetVertexArray";
+  WorkerActions["GetIndexArray"] = "GetIndexArray";
+  WorkerActions["getSubArray"] = "getSubArray";
+  WorkerActions["CloseModel"] = "CloseModel";
+  WorkerActions["StreamAllMeshes"] = "StreamAllMeshes";
+  WorkerActions["StreamAllMeshesWithTypes"] = "StreamAllMeshesWithTypes";
+  WorkerActions["IsModelOpen"] = "IsModelOpen";
+  WorkerActions["LoadAllGeometry"] = "LoadAllGeometry";
+  WorkerActions["GetFlatMesh"] = "GetFlatMesh";
+  WorkerActions["SetWasmPath"] = "SetWasmPath";
+  WorkerActions["parse"] = "parse";
+  WorkerActions["setupOptionalCategories"] = "setupOptionalCategories";
+  WorkerActions["getExpressId"] = "getExpressId";
+  WorkerActions["initializeProperties"] = "initializeProperties";
+  WorkerActions["getAllItemsOfType"] = "getAllItemsOfType";
+  WorkerActions["getItemProperties"] = "getItemProperties";
+  WorkerActions["getMaterialsProperties"] = "getMaterialsProperties";
+  WorkerActions["getPropertySets"] = "getPropertySets";
+  WorkerActions["getSpatialStructure"] = "getSpatialStructure";
+  WorkerActions["getTypeProperties"] = "getTypeProperties";
+})(WorkerActions || (WorkerActions = {}));
+var WorkerAPIs;
+(function(WorkerAPIs) {
+  WorkerAPIs["workerState"] = "workerState";
+  WorkerAPIs["webIfc"] = "webIfc";
+  WorkerAPIs["properties"] = "properties";
+  WorkerAPIs["parser"] = "parser";
+})(WorkerAPIs || (WorkerAPIs = {}));
+
+class Vector {
+
+  constructor(vector) {
+    this._data = {};
+    this._size = vector.size;
+    const keys = Object.keys(vector).filter((key) => key.indexOf('size') === -1).map(key => parseInt(key));
+    keys.forEach((key) => this._data[key] = vector[key]);
+  }
+
+  size() {
+    return this._size;
+  }
+
+  get(index) {
+    return this._data[index];
+  }
+
+}
+
+class IfcGeometry {
+
+  constructor(vector) {
+    this._GetVertexData = vector.GetVertexData;
+    this._GetVertexDataSize = vector.GetVertexDataSize;
+    this._GetIndexData = vector.GetIndexData;
+    this._GetIndexDataSize = vector.GetIndexDataSize;
+  }
+
+  GetVertexData() {
+    return this._GetVertexData;
+  }
+
+  GetVertexDataSize() {
+    return this._GetVertexDataSize;
+  }
+
+  GetIndexData() {
+    return this._GetIndexData;
+  }
+
+  GetIndexDataSize() {
+    return this._GetIndexDataSize;
+  }
+
+}
+
+class FlatMesh {
+
+  constructor(serializer, flatMesh) {
+    this.expressID = flatMesh.expressID;
+    this.geometries = serializer.reconstructVector(flatMesh.geometries);
+  }
+
+}
+
+class FlatMeshVector {
+
+  constructor(serializer, vector) {
+    this._data = {};
+    this._size = vector.size;
+    const keys = Object.keys(vector).filter((key) => key.indexOf('size') === -1).map(key => parseInt(key));
+    keys.forEach(key => this._data[key] = serializer.reconstructFlatMesh(vector[key]));
+  }
+
+  size() {
+    return this._size;
+  }
+
+  get(index) {
+    return this._data[index];
+  }
+
+}
+
+class SerializedMaterial {
+
+  constructor(material) {
+    this.color = [material.color.r, material.color.g, material.color.b];
+    this.opacity = material.opacity;
+    this.transparent = material.transparent;
+  }
+
+}
+
+class MaterialReconstructor {
+
+  static new(material) {
+    return new MeshLambertMaterial({
+      color: new Color(material.color[0], material.color[1], material.color[2]),
+      opacity: material.opacity,
+      transparent: material.transparent,
+      side: DoubleSide
+    });
+  }
+
+}
+
+class SerializedGeometry {
+
+  constructor(geometry) {
+    var _a,
+      _b,
+      _c,
+      _d;
+    this.position = ((_a = geometry.attributes.position) === null || _a === void 0 ? void 0 : _a.array) || [];
+    this.normal = ((_b = geometry.attributes.normal) === null || _b === void 0 ? void 0 : _b.array) || [];
+    this.expressID = ((_c = geometry.attributes.expressID) === null || _c === void 0 ? void 0 : _c.array) || [];
+    this.index = ((_d = geometry.index) === null || _d === void 0 ? void 0 : _d.array) || [];
+    this.groups = geometry.groups;
+  }
+
+}
+
+class GeometryReconstructor {
+
+  static new(serialized) {
+    const geom = new BufferGeometry();
+    GeometryReconstructor.set(geom, 'expressID', new Uint32Array(serialized.expressID), 1);
+    GeometryReconstructor.set(geom, 'position', new Float32Array(serialized.position), 3);
+    GeometryReconstructor.set(geom, 'normal', new Float32Array(serialized.normal), 3);
+    geom.setIndex(Array. from (serialized.index));
+    geom.groups = serialized.groups;
+    return geom;
+  }
+
+  static set(geom, name, data, size) {
+    if (data.length > 0) {
+      geom.setAttribute(name, new BufferAttribute(data, size));
+    }
+  }
+
+}
+
+class SerializedMesh {
+
+  constructor(model) {
+    this.materials = [];
+    this.modelID = model.modelID;
+    this.geometry = new SerializedGeometry(model.geometry);
+    if (Array.isArray(model.material)) {
+      model.material.forEach(mat => {
+        this.materials.push(new SerializedMaterial(mat));
+      });
+    } else {
+      this.materials.push(new SerializedMaterial(model.material));
+    }
+  }
+
+}
+
+class MeshReconstructor {
+
+  static new(serialized) {
+    const model = new IFCModel();
+    model.modelID = serialized.modelID;
+    model.geometry = GeometryReconstructor.new(serialized.geometry);
+    MeshReconstructor.getMaterials(serialized, model);
+    return model;
+  }
+
+  static getMaterials(serialized, model) {
+    model.material = [];
+    const mats = model.material;
+    serialized.materials.forEach(mat => {
+      mats.push(MaterialReconstructor.new(mat));
+    });
+  }
+
+}
+
+class Serializer {
+
+  serializeVector(vector) {
+    const size = vector.size();
+    const serialized = {
+      size
+    };
+    for (let i = 0; i < size; i++) {
+      serialized[i] = vector.get(i);
+    }
+    return serialized;
+  }
+
+  reconstructVector(vector) {
+    return new Vector(vector);
+  }
+
+  serializeIfcGeometry(geometry) {
+    const GetVertexData = geometry.GetVertexData();
+    const GetVertexDataSize = geometry.GetVertexDataSize();
+    const GetIndexData = geometry.GetIndexData();
+    const GetIndexDataSize = geometry.GetIndexDataSize();
+    return {
+      GetVertexData,
+      GetVertexDataSize,
+      GetIndexData,
+      GetIndexDataSize
+    };
+  }
+
+  reconstructIfcGeometry(geometry) {
+    return new IfcGeometry(geometry);
+  }
+
+  serializeFlatMesh(flatMesh) {
+    return {
+      expressID: flatMesh.expressID,
+      geometries: this.serializeVector(flatMesh.geometries)
+    };
+  }
+
+  reconstructFlatMesh(flatMesh) {
+    return new FlatMesh(this, flatMesh);
+  }
+
+  serializeFlatMeshVector(vector) {
+    const size = vector.size();
+    const serialized = {
+      size
+    };
+    for (let i = 0; i < size; i++) {
+      const flatMesh = vector.get(i);
+      serialized[i] = this.serializeFlatMesh(flatMesh);
+    }
+    return serialized;
+  }
+
+  reconstructFlatMeshVector(vector) {
+    return new FlatMeshVector(this, vector);
+  }
+
+  serializeIfcModel(model) {
+    return new SerializedMesh(model);
+  }
+
+  reconstructIfcModel(model) {
+    return MeshReconstructor.new(model);
+  }
+
+}
+
+class PropertyHandler {
+
+  constructor(handler) {
+    this.handler = handler;
+    this.API = WorkerAPIs.properties;
+  }
+
+  getExpressId(geometry, faceIndex) {
+    if (!geometry.index)
+      throw new Error('Geometry does not have index information.');
+    const geoIndex = geometry.index.array;
+    return geometry.attributes[IdAttrName].getX(geoIndex[3 * faceIndex]);
+  }
+
+  getAllItemsOfType(modelID, type, verbose) {
+    return this.handler.request(this.API, WorkerActions.getAllItemsOfType, {
+      modelID,
+      type,
+      verbose
+    });
+  }
+
+  getItemProperties(modelID, elementID, recursive) {
+    return this.handler.request(this.API, WorkerActions.getItemProperties, {
+      modelID,
+      elementID,
+      recursive
+    });
+  }
+
+  getMaterialsProperties(modelID, elementID, recursive) {
+    return this.handler.request(this.API, WorkerActions.getMaterialsProperties, {
+      modelID,
+      elementID,
+      recursive
+    });
+  }
+
+  getPropertySets(modelID, elementID, recursive) {
+    return this.handler.request(this.API, WorkerActions.getPropertySets, {
+      modelID,
+      elementID,
+      recursive
+    });
+  }
+
+  getTypeProperties(modelID, elementID, recursive) {
+    return this.handler.request(this.API, WorkerActions.getTypeProperties, {
+      modelID,
+      elementID,
+      recursive
+    });
+  }
+
+  getSpatialStructure(modelID, includeProperties) {
+    return this.handler.request(this.API, WorkerActions.getSpatialStructure, {
+      modelID,
+      includeProperties
+    });
+  }
+
+}
+
+class WebIfcHandler {
+
+  constructor(handler, serializer) {
+    this.handler = handler;
+    this.serializer = serializer;
+    this.API = WorkerAPIs.webIfc;
+  }
+
+  async Init() {
+    this.wasmModule = true;
+    return this.handler.request(this.API, WorkerActions.Init);
+  }
+
+  async OpenModel(data, settings) {
+    return this.handler.request(this.API, WorkerActions.OpenModel, {
+      data,
+      settings
+    });
+  }
+
+  async CreateModel(settings) {
+    return this.handler.request(this.API, WorkerActions.CreateModel, {
+      settings
+    });
+  }
+
+  async ExportFileAsIFC(modelID) {
+    return this.handler.request(this.API, WorkerActions.ExportFileAsIFC, {
+      modelID
+    });
+  }
+
+  async GetGeometry(modelID, geometryExpressID) {
+    this.handler.serializeHandlers[this.handler.requestID] = (geom) => {
+      return this.serializer.reconstructIfcGeometry(geom);
+    };
+    return this.handler.request(this.API, WorkerActions.GetGeometry, {
+      modelID,
+      geometryExpressID
+    });
+  }
+
+  async GetLine(modelID, expressID, flatten) {
+    return this.handler.request(this.API, WorkerActions.GetLine, {
+      modelID,
+      expressID,
+      flatten
+    });
+  }
+
+  async GetAndClearErrors(modelID) {
+    this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
+      return this.serializer.reconstructVector(vector);
+    };
+    return this.handler.request(this.API, WorkerActions.GetAndClearErrors, {
+      modelID
+    });
+  }
+
+  async WriteLine(modelID, lineObject) {
+    return this.handler.request(this.API, WorkerActions.WriteLine, {
+      modelID,
+      lineObject
+    });
+  }
+
+  async FlattenLine(modelID, line) {
+    return this.handler.request(this.API, WorkerActions.FlattenLine, {
+      modelID,
+      line
+    });
+  }
+
+  async GetRawLineData(modelID, expressID) {
+    return this.handler.request(this.API, WorkerActions.GetRawLineData, {
+      modelID,
+      expressID
+    });
+  }
+
+  async WriteRawLineData(modelID, data) {
+    return this.handler.request(this.API, WorkerActions.WriteRawLineData, {
+      modelID,
+      data
+    });
+  }
+
+  async GetLineIDsWithType(modelID, type) {
+    this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
+      return this.serializer.reconstructVector(vector);
+    };
+    return this.handler.request(this.API, WorkerActions.GetLineIDsWithType, {
+      modelID,
+      type
+    });
+  }
+
+  async GetAllLines(modelID) {
+    this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
+      return this.serializer.reconstructVector(vector);
+    };
+    return this.handler.request(this.API, WorkerActions.GetAllLines, {
+      modelID
+    });
+  }
+
+  async SetGeometryTransformation(modelID, transformationMatrix) {
+    return this.handler.request(this.API, WorkerActions.SetGeometryTransformation, {
+      modelID,
+      transformationMatrix
+    });
+  }
+
+  async GetCoordinationMatrix(modelID) {
+    return this.handler.request(this.API, WorkerActions.GetCoordinationMatrix, {
+      modelID
+    });
+  }
+
+  async GetVertexArray(ptr, size) {
+    return this.handler.request(this.API, WorkerActions.GetVertexArray, {
+      ptr,
+      size
+    });
+  }
+
+  async GetIndexArray(ptr, size) {
+    return this.handler.request(this.API, WorkerActions.GetIndexArray, {
+      ptr,
+      size
+    });
+  }
+
+  async getSubArray(heap, startPtr, sizeBytes) {
+    return this.handler.request(this.API, WorkerActions.getSubArray, {
+      heap,
+      startPtr,
+      sizeBytes
+    });
+  }
+
+  async CloseModel(modelID) {
+    return this.handler.request(this.API, WorkerActions.CloseModel, {
+      modelID
+    });
+  }
+
+  async StreamAllMeshes(modelID, meshCallback) {
+    this.handler.callbackHandlers[this.handler.requestID] = {
+      action: meshCallback,
+      serializer: this.serializer.reconstructFlatMesh
+    };
+    return this.handler.request(this.API, WorkerActions.StreamAllMeshes, {
+      modelID
+    });
+  }
+
+  async StreamAllMeshesWithTypes(modelID, types, meshCallback) {
+    this.handler.callbackHandlers[this.handler.requestID] = {
+      action: meshCallback,
+      serializer: this.serializer.reconstructFlatMesh
+    };
+    return this.handler.request(this.API, WorkerActions.StreamAllMeshesWithTypes, {
+      modelID,
+      types
+    });
+  }
+
+  async IsModelOpen(modelID) {
+    return this.handler.request(this.API, WorkerActions.IsModelOpen, {
+      modelID
+    });
+  }
+
+  async LoadAllGeometry(modelID) {
+    this.handler.serializeHandlers[this.handler.requestID] = (vector) => {
+      return this.serializer.reconstructFlatMeshVector(vector);
+    };
+    return this.handler.request(this.API, WorkerActions.LoadAllGeometry, {
+      modelID
+    });
+  }
+
+  async GetFlatMesh(modelID, expressID) {
+    this.handler.serializeHandlers[this.handler.requestID] = (flatMesh) => {
+      return this.serializer.reconstructFlatMesh(flatMesh);
+    };
+    return this.handler.request(this.API, WorkerActions.GetFlatMesh, {
+      modelID,
+      expressID
+    });
+  }
+
+  async SetWasmPath(path) {
+    return this.handler.request(this.API, WorkerActions.SetWasmPath, {
+      path
+    });
+  }
+
+}
+
+class WorkerStateHandler {
+
+  constructor(handler) {
+    this.handler = handler;
+    this.API = WorkerAPIs.workerState;
+    this.state = this.handler.state;
+  }
+
+  async updateStateUseJson() {
+    const useJson = this.state.useJSON;
+    return this.handler.request(this.API, WorkerActions.updateStateUseJson, {
+      useJson
+    });
+  }
+
+  async updateStateWebIfcSettings() {
+    const webIfcSettings = this.state.webIfcSettings;
+    return this.handler.request(this.API, WorkerActions.updateStateWebIfcSettings, {
+      webIfcSettings
+    });
+  }
+
+  async updateModelStateTypes(modelID, types) {
+    return this.handler.request(this.API, WorkerActions.updateModelStateTypes, {
+      modelID,
+      types
+    });
+  }
+
+  async updateModelStateJsonData(modelID, jsonData) {
+    return this.handler.request(this.API, WorkerActions.updateModelStateJsonData, {
+      modelID,
+      jsonData
+    });
+  }
+
+  async loadJsonDataFromWorker(modelID, path) {
+    return this.handler.request(this.API, WorkerActions.loadJsonDataFromWorker, {
+      modelID,
+      path
+    });
+  }
+
+}
+
+var DBOperation;
+(function(DBOperation) {
+  DBOperation[DBOperation["transferIfcModel"] = 0] = "transferIfcModel";
+  DBOperation[DBOperation["transferIndividualItems"] = 1] = "transferIndividualItems";
+})(DBOperation || (DBOperation = {}));
+
+class IndexedDatabase {
+
+  async save(item, id) {
+    const open = IndexedDatabase.openOrCreateDB(id);
+    this.createSchema(open, id);
+    return new Promise((resolve, reject) => {
+      open.onsuccess = () => this.saveItem(item, open, id, resolve);
+    });
+  }
+
+  async load(id) {
+    const open = IndexedDatabase.openOrCreateDB(id);
+    return new Promise((resolve, reject) => {
+      open.onsuccess = () => this.loadItem(open, id, resolve);
+    });
+  }
+
+  createSchema(open, id) {
+    open.onupgradeneeded = function() {
+      const db = open.result;
+      db.createObjectStore(id.toString(), {
+        keyPath: "id"
+      });
+    };
+  }
+
+  saveItem(item, open, id, resolve) {
+    const {db, tx, store} = IndexedDatabase.getDBItems(open, id);
+    item.id = id;
+    store.put(item);
+    tx.oncomplete = () => IndexedDatabase.closeDB(db, tx, resolve);
+  }
+
+  loadItem(open, id, resolve) {
+    const {db, tx, store} = IndexedDatabase.getDBItems(open, id);
+    const item = store.get(id);
+    const callback = () => {
+      delete item.result.id;
+      resolve(item.result);
+    };
+    tx.oncomplete = () => IndexedDatabase.closeDB(db, tx, callback);
+  }
+
+  static getDBItems(open, id) {
+    const db = open.result;
+    const tx = db.transaction(id.toString(), "readwrite");
+    const store = tx.objectStore(id.toString());
+    return {
+      db,
+      tx,
+      store
+    };
+  }
+
+  static openOrCreateDB(id) {
+    return indexedDB.open(id.toString(), 1);
+  }
+
+  static closeDB(db, tx, resolve) {
+    db.close();
+    resolve("success");
+  }
+
+}
+
+class ParserHandler {
+
+  constructor(handler, serializer, BVH, IDB) {
+    this.handler = handler;
+    this.serializer = serializer;
+    this.BVH = BVH;
+    this.IDB = IDB;
+    this.optionalCategories = {
+      [IFCSPACE]: true,
+      [IFCOPENINGELEMENT]: false
+    };
+    this.API = WorkerAPIs.parser;
+  }
+
+  async setupOptionalCategories(config) {
+    this.optionalCategories = config;
+    return this.handler.request(this.API, WorkerActions.setupOptionalCategories, {
+      config
+    });
+  }
+
+  async parse(buffer, coordinationMatrix) {
+    this.handler.onprogressHandlers[this.handler.requestID] = (progress) => {
+      if (this.handler.state.onProgress)
+        this.handler.state.onProgress(progress);
+    };
+    this.handler.serializeHandlers[this.handler.requestID] = async (result) => {
+      this.updateState(result.modelID);
+      return this.getModel();
+    };
+    return this.handler.request(this.API, WorkerActions.parse, {
+      buffer,
+      coordinationMatrix
+    });
+  }
+
+  getAndClearErrors(_modelId) {}
+
+  updateState(modelID) {
+    this.handler.state.models[modelID] = {
+      modelID: modelID,
+      mesh: {},
+      types: {},
+      jsonData: {}
+    };
+  }
+
+  async getModel() {
+    const serializedModel = await this.IDB.load(DBOperation.transferIfcModel);
+    const model = this.serializer.reconstructIfcModel(serializedModel);
+    this.BVH.applyThreeMeshBVH(model.geometry);
+    this.handler.state.models[model.modelID].mesh = model;
+    return model;
+  }
+
+}
+
+class IFCWorkerHandler {
+
+  constructor(state, BVH) {
+    this.state = state;
+    this.BVH = BVH;
+    this.requestID = 0;
+    this.rejectHandlers = {};
+    this.resolveHandlers = {};
+    this.serializeHandlers = {};
+    this.callbackHandlers = {};
+    this.onprogressHandlers = {};
+    this.serializer = new Serializer();
+    this.IDB = new IndexedDatabase();
+    this.workerPath = this.state.worker.path;
+    this.ifcWorker = new Worker(this.workerPath);
+    this.ifcWorker.onmessage = (data) => this.handleResponse(data);
+    this.properties = new PropertyHandler(this);
+    this.parser = new ParserHandler(this, this.serializer, this.BVH, this.IDB);
+    this.webIfc = new WebIfcHandler(this, this.serializer);
+    this.workerState = new WorkerStateHandler(this);
+  }
+
+  request(worker, action, args) {
+    const data = {
+      worker,
+      action,
+      args,
+      id: this.requestID,
+      result: undefined,
+      onProgress: false
+    };
+    return new Promise((resolve, reject) => {
+      this.resolveHandlers[this.requestID] = resolve;
+      this.rejectHandlers[this.requestID] = reject;
+      this.requestID++;
+      this.ifcWorker.postMessage(data);
+    });
+  }
+
+  async terminate() {
+    await this.request(WorkerAPIs.workerState, WorkerActions.dispose);
+    await this.request(WorkerAPIs.webIfc, WorkerActions.DisposeWebIfc);
+    this.ifcWorker.terminate();
+  }
+
+  async Close() {
+    await this.request(WorkerAPIs.webIfc, WorkerActions.Close);
+  }
+
+  handleResponse(event) {
+    const data = event.data;
+    if (data.onProgress) {
+      this.resolveOnProgress(data);
+      return;
+    }
+    this.callHandlers(data);
+    delete this.resolveHandlers[data.id];
+    delete this.rejectHandlers[data.id];
+    delete this.onprogressHandlers[data.id];
+  }
+
+  callHandlers(data) {
+    try {
+      this.resolveSerializations(data);
+      this.resolveCallbacks(data);
+      this.resolveHandlers[data.id](data.result);
+    } catch (error) {
+      this.rejectHandlers[data.id](error);
+    }
+  }
+
+  resolveOnProgress(data) {
+    if (this.onprogressHandlers[data.id]) {
+      data.result = this.onprogressHandlers[data.id](data.result);
+    }
+  }
+
+  resolveSerializations(data) {
+    if (this.serializeHandlers[data.id]) {
+      data.result = this.serializeHandlers[data.id](data.result);
+      delete this.serializeHandlers[data.id];
+    }
+  }
+
+  resolveCallbacks(data) {
+    if (this.callbackHandlers[data.id]) {
+      let callbackParameter = data.result;
+      if (this.callbackHandlers[data.id].serializer) {
+        callbackParameter = this.callbackHandlers[data.id].serializer(data.result);
+      }
+      this.callbackHandlers[data.id].action(callbackParameter);
+    }
+  }
+
+}
+
+class MemoryCleaner {
+
+  constructor(state) {
+    this.state = state;
+  }
+
+  async dispose() {
+    Object.keys(this.state.models).forEach(modelID => {
+      const model = this.state.models[parseInt(modelID, 10)];
+      model.mesh.removeFromParent();
+      const geom = model.mesh.geometry;
+      if (geom.disposeBoundsTree)
+        geom.disposeBoundsTree();
+      geom.dispose();
+      if (!Array.isArray(model.mesh.material))
+        model.mesh.material.dispose();
+      else
+        model.mesh.material.forEach(mat => mat.dispose());
+      model.mesh = null;
+      model.types = null;
+      model.jsonData = null;
+    });
+    this.state.api = null;
+    this.state.models = null;
+  }
+
+}
+
+class IFCUtils {
+
+  constructor(state) {
+    this.state = state;
+    this.map = {};
+  }
+
+  getMapping() {
+    this.map = this.reverseElementMapping(IfcTypesMap);
+  }
+
+  releaseMapping() {
+    this.map = {};
+  }
+
+  reverseElementMapping(obj) {
+    let reverseElement = {};
+    Object.keys(obj).forEach(key => {
+      reverseElement[obj[key]] = key;
+    });
+    return reverseElement;
+  }
+
+  isA(entity, entity_class) {
+    var test = false;
+    if (entity_class) {
+      if (IfcTypesMap[entity.type] === entity_class.toUpperCase()) {
+        test = true;
+      }
+      return test;
+    } else {
+      return IfcTypesMap[entity.type];
+    }
+  }
+
+  async byId(modelID, id) {
+    return this.state.api.GetLine(modelID, id);
+  }
+
+  async idsByType(modelID, entity_class) {
+    this.getMapping();
+    let entities_ids = await this.state.api.GetLineIDsWithType(modelID, Number(this.map[entity_class.toUpperCase()]));
+    this.releaseMapping();
+    return entities_ids;
+  }
+
+  async byType(modelID, entity_class) {
+    let entities_ids = await this.idsByType(modelID, entity_class);
+    if (entities_ids !== null) {
+      this.getMapping();
+      let items = [];
+      for (let i = 0; i < entities_ids.size(); i++) {
+        let entity = await this.byId(modelID, entities_ids.get(i));
+        items.push(entity);
+      }
+      this.releaseMapping();
+      return items;
+    }
+  }
+
+}
+
+class Data {
+
+  constructor(state) {
+    this.state = state;
+    this.isLoaded = false;
+    this.workPlans = {};
+    this.workSchedules = {};
+    this.workCalendars = {};
+    this.workTimes = {};
+    this.recurrencePatterns = {};
+    this.timePeriods = {};
+    this.tasks = {};
+    this.taskTimes = {};
+    this.lagTimes = {};
+    this.sequences = {};
+    this.utils = new IFCUtils(this.state);
+  }
+
+  async load(modelID) {
+    await this.loadTasks(modelID);
+    await this.loadWorkSchedules(modelID);
+    await this.loadWorkCalendars(modelID);
+    await this.loadWorkTimes(modelID);
+    await this.loadTimePeriods(modelID);
+    this.isLoaded = true;
+  }
+
+  async loadWorkSchedules(modelID) {
+    let workSchedules = await this.utils.byType(modelID, "IfcWorkSchedule");
+    for (let i = 0; i < workSchedules.length; i++) {
+      let workSchedule = workSchedules[i];
+      this.workSchedules[workSchedule.expressID] = {
+        "Id": workSchedule.expressID,
+        "Name": workSchedule.Name.value,
+        "Description": ((workSchedule.Description) ? workSchedule.Description.value : ""),
+        "Creators": [],
+        "CreationDate": ((workSchedule.CreationDate) ? workSchedule.CreationDate.value : ""),
+        "StartTime": ((workSchedule.StartTime) ? workSchedule.StartTime.value : ""),
+        "FinishTime": ((workSchedule.FinishTime) ? workSchedule.FinishTime.value : ""),
+        "TotalFloat": ((workSchedule.TotalFloat) ? workSchedule.TotalFloat.value : ""),
+        "RelatedObjects": [],
+      };
+    }
+    this.loadWorkScheduleRelatedObjects(modelID);
+  }
+
+  async loadWorkScheduleRelatedObjects(modelID) {
+    let relsControls = await this.utils.byType(modelID, "IfcRelAssignsToControl");
+    for (let i = 0; i < relsControls.length; i++) {
+      let relControls = relsControls[i];
+      let relatingControl = await this.utils.byId(modelID, relControls.RelatingControl.value);
+      let relatedObjects = relControls.RelatedObjects;
+      if (this.utils.isA(relatingControl, "IfcWorkSchedule")) {
+        for (var objectIndex = 0; objectIndex < relatedObjects.length; objectIndex++) {
+          this.workSchedules[relatingControl.expressID]["RelatedObjects"].push(relatedObjects[objectIndex].value);
+        }
+      }
+    }
+  }
+
+  async loadTasks(modelID) {
+    let tasks = await this.utils.byType(modelID, "IfcTask");
+    for (let i = 0; i < tasks.length; i++) {
+      let task = tasks[i];
+      this.tasks[task.expressID] = {
+        "Id": task.expressID,
+        "Name": ((task.Name) ? task.Name.value : ""),
+        "PredefinedType": ((task.PredefinedType) ? task.PredefinedType.value : ""),
+        "TaskTime": ((task.TaskTime) ? await this.utils.byId(modelID, task.TaskTime.value) : ""),
+        "Identification": ((task.Identification) ? task.Identification.value : ""),
+        "IsMilestone": ((task.IsMilestone) ? task.IsMilestone.value : ""),
+        "IsPredecessorTo": [],
+        "IsSucessorFrom": [],
+        "Inputs": [],
+        "Resources": [],
+        "Outputs": [],
+        "Controls": [],
+        "Nests": [],
+        "IsNestedBy": [],
+        "OperatesOn": [],
+        "HasAssignmentsWorkCalendars": [],
+      };
+    }
+    await this.loadTaskSequence(modelID);
+    await this.loadTaskOutputs(modelID);
+    await this.loadTaskNesting(modelID);
+    await this.loadTaskOperations(modelID);
+    await this.loadAssignementsWorkCalendar(modelID);
+  }
+
+  async loadTaskSequence(modelID) {
+    let relsSequence = await this.utils.idsByType(modelID, "IfcRelSequence");
+    for (let i = 0; i < relsSequence.size(); i++) {
+      let relSequenceId = relsSequence.get(i);
+      if (relSequenceId !== 0) {
+        let relSequence = await this.utils.byId(modelID, relSequenceId);
+        let related_process = relSequence.RelatedProcess.value;
+        let relatingProcess = relSequence.RelatingProcess.value;
+        this.tasks[relatingProcess]["IsPredecessorTo"].push(relSequence.expressID);
+        this.tasks[related_process]["IsSucessorFrom"].push(relSequence.expressID);
+      }
+    }
+  }
+
+  async loadTaskOutputs(modelID) {
+    let rels_assigns_to_product = await this.utils.byType(modelID, "IfcRelAssignsToProduct");
+    for (let i = 0; i < rels_assigns_to_product.length; i++) {
+      let relAssignsToProduct = rels_assigns_to_product[i];
+      let relatedObject = await this.utils.byId(modelID, relAssignsToProduct.RelatedObjects[0].value);
+      if (this.utils.isA(relatedObject, "IfcTask")) {
+        let relatingProduct = await this.utils.byId(modelID, relAssignsToProduct.RelatingProduct.value);
+        this.tasks[relatedObject.expressID]["Outputs"].push(relatingProduct.expressID);
+      }
+    }
+  }
+
+  async loadTaskNesting(modelID) {
+    let rels_nests = await this.utils.byType(modelID, "IfcRelNests");
+    for (let i = 0; i < rels_nests.length; i++) {
+      let relNests = rels_nests[i];
+      let relating_object = await this.utils.byId(modelID, relNests.RelatingObject.value);
+      if (this.utils.isA(relating_object, "IfcTask")) {
+        let relatedObjects = relNests.RelatedObjects;
+        for (var object_index = 0; object_index < relatedObjects.length; object_index++) {
+          this.tasks[relating_object.expressID]["IsNestedBy"].push(relatedObjects[object_index].value);
+          this.tasks[relatedObjects[object_index].value]["Nests"].push(relating_object.expressID);
+        }
+      }
+    }
+  }
+
+  async loadTaskOperations(modelID) {
+    let relsAssignsToProcess = await this.utils.byType(modelID, "IfcRelAssignsToProcess");
+    for (let i = 0; i < relsAssignsToProcess.length; i++) {
+      let relAssignToProcess = relsAssignsToProcess[i];
+      let relatingProcess = await this.utils.byId(modelID, relAssignToProcess.RelatingProcess.value);
+      if (this.utils.isA(relatingProcess, "IfcTask")) {
+        let relatedObjects = relAssignToProcess.RelatedObjects;
+        for (var object_index = 0; object_index < relatedObjects.length; object_index++) {
+          this.tasks[relatingProcess.expressID]["OperatesOn"].push(relatedObjects[object_index].value);
+        }
+      }
+    }
+  }
+
+  async loadAssignementsWorkCalendar(modelID) {
+    let relsAssignsToControl = await this.utils.byType(modelID, "IfcRelAssignsToControl");
+    for (let i = 0; i < relsAssignsToControl.length; i++) {
+      let relAssignsToControl = relsAssignsToControl[i];
+      let relatingControl = await this.utils.byId(modelID, relAssignsToControl.RelatingControl.value);
+      if (this.utils.isA(relatingControl, "IfcWorkCalendar")) {
+        let relatedObjects = relAssignsToControl.RelatedObjects;
+        for (var object_index = 0; object_index < relatedObjects.length; object_index++) {
+          this.tasks[relatedObjects[object_index].value]["HasAssignmentsWorkCalendars"].push(relatingControl.expressID);
+        }
+      }
+    }
+  }
+
+  async loadWorkCalendars(modelID) {
+    let workCalendars = await this.utils.byType(modelID, "IfcWorkCalendar");
+    for (let i = 0; i < workCalendars.length; i++) {
+      let workCalendar = workCalendars[i];
+      let workCalenderData = {
+        "Id": workCalendar.expressID,
+        "Name": ((workCalendar.Name) ? workCalendar.Name.value : ""),
+        "Description": ((workCalendar.Description) ? workCalendar.Description.value : ""),
+        "WorkingTimes": ((workCalendar.WorkingTimes) ? workCalendar.WorkingTimes : []),
+        "ExceptionTimes": ((workCalendar.ExceptionTimes) ? workCalendar.ExceptionTimes : []),
+      };
+      this.workCalendars[workCalendar.expressID] = workCalenderData;
+    }
+  }
+
+  async loadWorkTimes(modelID) {
+    let workTimes = await this.utils.byType(modelID, "IfcWorkTime");
+    for (let i = 0; i < workTimes.length; i++) {
+      let workTime = workTimes[i];
+      let workTimeData = {
+        "Name": ((workTime.Name) ? workTime.Name.value : ""),
+        "RecurrencePattern": ((workTime.RecurrencePattern) ? await this.utils.byId(modelID, workTime.RecurrencePattern.value) : ""),
+        "Start": ((workTime.Start) ? new Date(workTime.Start.value) : ""),
+        "Finish": ((workTime.Finish) ? new Date(workTime.Finish.value) : ""),
+      };
+      this.workTimes[workTime.expressID] = workTimeData;
+    }
+  }
+
+  async loadTimePeriods(modelID) {
+    let timePeriods = await this.utils.byType(modelID, "IfcTimePeriod");
+    for (let i = 0; i < timePeriods.length; i++) {
+      let timePeriod = timePeriods[i];
+      let workTimeData = {
+        "StartTime": ((timePeriod.StartTime) ? new Date(timePeriod.StartTime.value) : ""),
+        "EndTime": ((timePeriod.EndTime) ? new Date(timePeriod.EndTime.value) : ""),
+      };
+      this.timePeriods[timePeriod.expressID] = workTimeData;
+    }
+  }
+
+}
+
+class IFCManager {
+
+  constructor() {
+    this.state = {
+      models: [],
+      api: new IfcAPI2(),
+      useJSON: false,
+      worker: {
+        active: false,
+        path: ''
+      }
+    };
+    this.BVH = new BvhManager();
+    this.typesMap = IfcTypesMap;
+    this.parser = new IFCParser(this.state, this.BVH);
+    this.subsets = new SubsetManager(this.state, this.BVH);
+    this.utils = new IFCUtils(this.state);
+    this.sequenceData = new Data(this.state);
+    this.properties = new PropertyManager(this.state);
+    this.types = new TypeManager(this.state);
+    this.cleaner = new MemoryCleaner(this.state);
+  }
+
+  get ifcAPI() {
+    return this.state.api;
+  }
+
+  async parse(buffer) {
+    var _a;
+    const model = await this.parser.parse(buffer, (_a = this.state.coordinationMatrix) === null || _a === void 0 ? void 0 : _a.toArray());
+    model.setIFCManager(this);
+    await this.types.getAllTypes(this.worker);
+    return model;
+  }
+
+  async setWasmPath(path) {
+    this.state.api.SetWasmPath(path);
+    this.state.wasmPath = path;
+  }
+
+  setupThreeMeshBVH(computeBoundsTree, disposeBoundsTree, acceleratedRaycast) {
+    this.BVH.initializeMeshBVH(computeBoundsTree, disposeBoundsTree, acceleratedRaycast);
+  }
+
+  setOnProgress(onProgress) {
+    this.state.onProgress = onProgress;
+  }
+
+  setupCoordinationMatrix(matrix) {
+    this.state.coordinationMatrix = matrix;
+  }
+
+  clearCoordinationMatrix() {
+    delete this.state.coordinationMatrix;
+  }
+
+  async applyWebIfcConfig(settings) {
+    this.state.webIfcSettings = settings;
+    if (this.state.worker.active && this.worker) {
+      await this.worker.workerState.updateStateWebIfcSettings();
+    }
+  }
+
+  async useWebWorkers(active, path) {
+    if (this.state.worker.active === active)
+      return;
+    this.state.api = null;
+    if (active) {
+      if (!path)
+        throw new Error('You must provide a path to the web worker.');
+      this.state.worker.active = active;
+      this.state.worker.path = path;
+      await this.initializeWorkers();
+      const wasm = this.state.wasmPath;
+      if (wasm)
+        await this.setWasmPath(wasm);
+    } else {
+      this.state.api = new IfcAPI2();
+    }
+  }
+
+  async useJSONData(useJSON = true) {
+    var _a;
+    this.state.useJSON = useJSON;
+    if (useJSON) {
+      await ((_a = this.worker) === null || _a === void 0 ? void 0 : _a.workerState.updateStateUseJson());
+    }
+  }
+
+  async addModelJSONData(modelID, data) {
+    var _a;
+    const model = this.state.models[modelID];
+    if (!model)
+      throw new Error('The specified model for the JSON data does not exist');
+    if (this.state.worker.active) {
+      await ((_a = this.worker) === null || _a === void 0 ? void 0 : _a.workerState.updateModelStateJsonData(modelID, data));
+    } else {
+      model.jsonData = data;
+    }
+  }
+
+  async loadJsonDataFromWorker(modelID, path) {
+    var _a;
+    if (this.state.worker.active) {
+      await ((_a = this.worker) === null || _a === void 0 ? void 0 : _a.workerState.loadJsonDataFromWorker(modelID, path));
+    }
+  }
+
+  close(modelID, scene) {
+    this.state.api.CloseModel(modelID);
+    if (scene)
+      scene.remove(this.state.models[modelID].mesh);
+    delete this.state.models[modelID];
+  }
+
+  getExpressId(geometry, faceIndex) {
+    return this.properties.getExpressId(geometry, faceIndex);
+  }
+
+  getAllItemsOfType(modelID, type, verbose) {
+    return this.properties.getAllItemsOfType(modelID, type, verbose);
+  }
+
+  getItemProperties(modelID, id, recursive = false) {
+    return this.properties.getItemProperties(modelID, id, recursive);
+  }
+
+  getPropertySets(modelID, id, recursive = false) {
+    return this.properties.getPropertySets(modelID, id, recursive);
+  }
+
+  getTypeProperties(modelID, id, recursive = false) {
+    return this.properties.getTypeProperties(modelID, id, recursive);
+  }
+
+  getMaterialsProperties(modelID, id, recursive = false) {
+    return this.properties.getMaterialsProperties(modelID, id, recursive);
+  }
+
+  getIfcType(modelID, id) {
+    const typeID = this.state.models[modelID].types[id];
+    return IfcElements[typeID];
+  }
+
+  getSpatialStructure(modelID, includeProperties) {
+    return this.properties.getSpatialStructure(modelID, includeProperties);
+  }
+
+  getSubset(modelID, material, customId) {
+    return this.subsets.getSubset(modelID, material, customId);
+  }
+
+  removeSubset(modelID, material, customID) {
+    this.subsets.removeSubset(modelID, material, customID);
+  }
+
+  createSubset(config) {
+    return this.subsets.createSubset(config);
+  }
+
+  removeFromSubset(modelID, ids, customID, material) {
+    return this.subsets.removeFromSubset(modelID, ids, customID, material);
+  }
+
+  clearSubset(modelID, customID, material) {
+    return this.subsets.clearSubset(modelID, customID, material);
+  }
+
+  async isA(entity, entity_class) {
+    return this.utils.isA(entity, entity_class);
+  }
+
+  async getSequenceData(modelID) {
+    await this.sequenceData.load(modelID);
+    return this.sequenceData;
+  }
+
+  async byType(modelID, entityClass) {
+    return this.utils.byType(modelID, entityClass);
+  }
+
+  async byId(modelID, id) {
+    return this.utils.byId(modelID, id);
+  }
+
+  async idsByType(modelID, entityClass) {
+    return this.utils.idsByType(modelID, entityClass);
+  }
+
+  async dispose() {
+    IFCModel.dispose();
+    await this.cleaner.dispose();
+    this.subsets.dispose();
+    if (this.worker && this.state.worker.active)
+      await this.worker.terminate();
+    this.state = null;
+  }
+
+  async disposeMemory() {
+    var _a;
+    if (this.state.worker.active) {
+      await ((_a = this.worker) === null || _a === void 0 ? void 0 : _a.Close());
+    } else {
+      this.state.api.Close();
+      this.state.api = null;
+      this.state.api = new IfcAPI2();
+    }
+  }
+
+  getAndClearErrors(modelID) {
+    return this.parser.getAndClearErrors(modelID);
+  }
+
+  async initializeWorkers() {
+    this.worker = new IFCWorkerHandler(this.state, this.BVH);
+    this.state.api = this.worker.webIfc;
+    this.properties = this.worker.properties;
+    await this.worker.parser.setupOptionalCategories(this.parser.optionalCategories);
+    this.parser = this.worker.parser;
+    await this.worker.workerState.updateStateUseJson();
+    await this.worker.workerState.updateStateWebIfcSettings();
+  }
+
+}
+
+class IFCLoader extends Loader {
+
+  constructor(manager) {
+    super(manager);
+    this.ifcManager = new IFCManager();
+  }
+
+  load(url, onLoad, onProgress, onError) {
+    const scope = this;
+    const loader = new FileLoader(scope.manager);
+    this.onProgress = onProgress;
+    loader.setPath(scope.path);
+    loader.setResponseType('arraybuffer');
+    loader.setRequestHeader(scope.requestHeader);
+    loader.setWithCredentials(scope.withCredentials);
+    loader.load(url, async function (buffer) {
+      try {
+        if (typeof buffer == 'string') {
+          throw new Error('IFC files must be given as a buffer!');
+        }
+        onLoad(await scope.parse(buffer));
+      } catch (e) {
+        if (onError) {
+          onError(e);
+        } else {
+          console.error(e);
+        }
+        scope.manager.itemError(url);
+      }
+    }, onProgress, onError);
+  }
+
+  parse(buffer) {
+    return this.ifcManager.parse(buffer);
+  }
+
+}
+
+({
+    MOUSE,
+    Vector2,
+    Vector3,
+    Vector4,
+    Quaternion,
+    Matrix4,
+    Spherical,
+    Box3,
+    Sphere,
+    Raycaster,
+    MathUtils: {
+        DEG2RAD: MathUtils.DEG2RAD,
+        clamp: MathUtils.clamp
+    }
+});
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+new OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry$1 = new BufferGeometry();
+_geometry$1.setAttribute( 'position', new Float32BufferAttribute( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry$1.setAttribute( 'uv', new Float32BufferAttribute( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+new OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry = new BufferGeometry();
+_geometry.setAttribute( 'position', new Float32BufferAttribute( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry.setAttribute( 'uv', new Float32BufferAttribute( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+/**
+ * TODO
+ */
+
+({
+	defines: {
+		'NUM_SAMPLES': 7,
+		'NUM_RINGS': 4,
+		'NORMAL_TEXTURE': 0,
+		'DIFFUSE_TEXTURE': 0,
+		'DEPTH_PACKING': 1,
+		'PERSPECTIVE_CAMERA': 1
+	},
+	uniforms: {
+
+		'tDepth': { value: null },
+		'tDiffuse': { value: null },
+		'tNormal': { value: null },
+		'size': { value: new Vector2( 512, 512 ) },
+
+		'cameraNear': { value: 1 },
+		'cameraFar': { value: 100 },
+		'cameraProjectionMatrix': { value: new Matrix4() },
+		'cameraInverseProjectionMatrix': { value: new Matrix4() },
+
+		'scale': { value: 1.0 },
+		'intensity': { value: 0.1 },
+		'bias': { value: 0.5 },
+
+		'minResolution': { value: 0.0 },
+		'kernelRadius': { value: 100.0 },
+		'randomSeed': { value: 0.0 }
+	},
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		#include <common>
+
+		varying vec2 vUv;
+
+		#if DIFFUSE_TEXTURE == 1
+		uniform sampler2D tDiffuse;
+		#endif
+
+		uniform sampler2D tDepth;
+
+		#if NORMAL_TEXTURE == 1
+		uniform sampler2D tNormal;
+		#endif
+
+		uniform float cameraNear;
+		uniform float cameraFar;
+		uniform mat4 cameraProjectionMatrix;
+		uniform mat4 cameraInverseProjectionMatrix;
+
+		uniform float scale;
+		uniform float intensity;
+		uniform float bias;
+		uniform float kernelRadius;
+		uniform float minResolution;
+		uniform vec2 size;
+		uniform float randomSeed;
+
+		// RGBA depth
+
+		#include <packing>
+
+		vec4 getDefaultColor( const in vec2 screenPosition ) {
+			#if DIFFUSE_TEXTURE == 1
+			return texture2D( tDiffuse, vUv );
+			#else
+			return vec4( 1.0 );
+			#endif
+		}
+
+		float getDepth( const in vec2 screenPosition ) {
+			#if DEPTH_PACKING == 1
+			return unpackRGBAToDepth( texture2D( tDepth, screenPosition ) );
+			#else
+			return texture2D( tDepth, screenPosition ).x;
+			#endif
+		}
+
+		float getViewZ( const in float depth ) {
+			#if PERSPECTIVE_CAMERA == 1
+			return perspectiveDepthToViewZ( depth, cameraNear, cameraFar );
+			#else
+			return orthographicDepthToViewZ( depth, cameraNear, cameraFar );
+			#endif
+		}
+
+		vec3 getViewPosition( const in vec2 screenPosition, const in float depth, const in float viewZ ) {
+			float clipW = cameraProjectionMatrix[2][3] * viewZ + cameraProjectionMatrix[3][3];
+			vec4 clipPosition = vec4( ( vec3( screenPosition, depth ) - 0.5 ) * 2.0, 1.0 );
+			clipPosition *= clipW; // unprojection.
+
+			return ( cameraInverseProjectionMatrix * clipPosition ).xyz;
+		}
+
+		vec3 getViewNormal( const in vec3 viewPosition, const in vec2 screenPosition ) {
+			#if NORMAL_TEXTURE == 1
+			return unpackRGBToNormal( texture2D( tNormal, screenPosition ).xyz );
+			#else
+			return normalize( cross( dFdx( viewPosition ), dFdy( viewPosition ) ) );
+			#endif
+		}
+
+		float scaleDividedByCameraFar;
+		float minResolutionMultipliedByCameraFar;
+
+		float getOcclusion( const in vec3 centerViewPosition, const in vec3 centerViewNormal, const in vec3 sampleViewPosition ) {
+			vec3 viewDelta = sampleViewPosition - centerViewPosition;
+			float viewDistance = length( viewDelta );
+			float scaledScreenDistance = scaleDividedByCameraFar * viewDistance;
+
+			return max(0.0, (dot(centerViewNormal, viewDelta) - minResolutionMultipliedByCameraFar) / scaledScreenDistance - bias) / (1.0 + pow2( scaledScreenDistance ) );
+		}
+
+		// moving costly divides into consts
+		const float ANGLE_STEP = PI2 * float( NUM_RINGS ) / float( NUM_SAMPLES );
+		const float INV_NUM_SAMPLES = 1.0 / float( NUM_SAMPLES );
+
+		float getAmbientOcclusion( const in vec3 centerViewPosition ) {
+			// precompute some variables require in getOcclusion.
+			scaleDividedByCameraFar = scale / cameraFar;
+			minResolutionMultipliedByCameraFar = minResolution * cameraFar;
+			vec3 centerViewNormal = getViewNormal( centerViewPosition, vUv );
+
+			// jsfiddle that shows sample pattern: https://jsfiddle.net/a16ff1p7/
+			float angle = rand( vUv + randomSeed ) * PI2;
+			vec2 radius = vec2( kernelRadius * INV_NUM_SAMPLES ) / size;
+			vec2 radiusStep = radius;
+
+			float occlusionSum = 0.0;
+			float weightSum = 0.0;
+
+			for( int i = 0; i < NUM_SAMPLES; i ++ ) {
+				vec2 sampleUv = vUv + vec2( cos( angle ), sin( angle ) ) * radius;
+				radius += radiusStep;
+				angle += ANGLE_STEP;
+
+				float sampleDepth = getDepth( sampleUv );
+				if( sampleDepth >= ( 1.0 - EPSILON ) ) {
+					continue;
+				}
+
+				float sampleViewZ = getViewZ( sampleDepth );
+				vec3 sampleViewPosition = getViewPosition( sampleUv, sampleDepth, sampleViewZ );
+				occlusionSum += getOcclusion( centerViewPosition, centerViewNormal, sampleViewPosition );
+				weightSum += 1.0;
+			}
+
+			if( weightSum == 0.0 ) discard;
+
+			return occlusionSum * ( intensity / weightSum );
+		}
+
+		void main() {
+			float centerDepth = getDepth( vUv );
+			if( centerDepth >= ( 1.0 - EPSILON ) ) {
+				discard;
+			}
+
+			float centerViewZ = getViewZ( centerDepth );
+			vec3 viewPosition = getViewPosition( vUv, centerDepth, centerViewZ );
+
+			float ambientOcclusion = getAmbientOcclusion( viewPosition );
+
+			gl_FragColor = getDefaultColor( vUv );
+			gl_FragColor.xyz *=  1.0 - ambientOcclusion;
+		}`
+
+});
+
+/**
+ * TODO
+ */
+
+({
+	defines: {
+		'KERNEL_RADIUS': 4,
+		'DEPTH_PACKING': 1,
+		'PERSPECTIVE_CAMERA': 1
+	},
+	uniforms: {
+		'tDiffuse': { value: null },
+		'size': { value: new Vector2( 512, 512 ) },
+		'sampleUvOffsets': { value: [ new Vector2( 0, 0 ) ] },
+		'sampleWeights': { value: [ 1.0 ] },
+		'tDepth': { value: null },
+		'cameraNear': { value: 10 },
+		'cameraFar': { value: 1000 },
+		'depthCutoff': { value: 10 },
+	},
+	vertexShader: /* glsl */`
+
+		#include <common>
+
+		uniform vec2 size;
+
+		varying vec2 vUv;
+		varying vec2 vInvSize;
+
+		void main() {
+			vUv = uv;
+			vInvSize = 1.0 / size;
+
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		#include <common>
+		#include <packing>
+
+		uniform sampler2D tDiffuse;
+		uniform sampler2D tDepth;
+
+		uniform float cameraNear;
+		uniform float cameraFar;
+		uniform float depthCutoff;
+
+		uniform vec2 sampleUvOffsets[ KERNEL_RADIUS + 1 ];
+		uniform float sampleWeights[ KERNEL_RADIUS + 1 ];
+
+		varying vec2 vUv;
+		varying vec2 vInvSize;
+
+		float getDepth( const in vec2 screenPosition ) {
+			#if DEPTH_PACKING == 1
+			return unpackRGBAToDepth( texture2D( tDepth, screenPosition ) );
+			#else
+			return texture2D( tDepth, screenPosition ).x;
+			#endif
+		}
+
+		float getViewZ( const in float depth ) {
+			#if PERSPECTIVE_CAMERA == 1
+			return perspectiveDepthToViewZ( depth, cameraNear, cameraFar );
+			#else
+			return orthographicDepthToViewZ( depth, cameraNear, cameraFar );
+			#endif
+		}
+
+		void main() {
+			float depth = getDepth( vUv );
+			if( depth >= ( 1.0 - EPSILON ) ) {
+				discard;
+			}
+
+			float centerViewZ = -getViewZ( depth );
+			bool rBreak = false, lBreak = false;
+
+			float weightSum = sampleWeights[0];
+			vec4 diffuseSum = texture2D( tDiffuse, vUv ) * weightSum;
+
+			for( int i = 1; i <= KERNEL_RADIUS; i ++ ) {
+
+				float sampleWeight = sampleWeights[i];
+				vec2 sampleUvOffset = sampleUvOffsets[i] * vInvSize;
+
+				vec2 sampleUv = vUv + sampleUvOffset;
+				float viewZ = -getViewZ( getDepth( sampleUv ) );
+
+				if( abs( viewZ - centerViewZ ) > depthCutoff ) rBreak = true;
+
+				if( ! rBreak ) {
+					diffuseSum += texture2D( tDiffuse, sampleUv ) * sampleWeight;
+					weightSum += sampleWeight;
+				}
+
+				sampleUv = vUv - sampleUvOffset;
+				viewZ = -getViewZ( getDepth( sampleUv ) );
+
+				if( abs( viewZ - centerViewZ ) > depthCutoff ) lBreak = true;
+
+				if( ! lBreak ) {
+					diffuseSum += texture2D( tDiffuse, sampleUv ) * sampleWeight;
+					weightSum += sampleWeight;
+				}
+
+			}
+
+			gl_FragColor = diffuseSum / weightSum;
+		}`
+
+});
+
+/**
+ * NVIDIA FXAA by Timothy Lottes
+ * http://timothylottes.blogspot.com/2011/06/fxaa3-source-released.html
+ * - WebGL port by @supereggbert
+ * http://www.glge.org/demos/fxaa/
+ */
+
+({
+
+	uniforms: {
+
+		'tDiffuse': { value: null },
+		'resolution': { value: new Vector2( 1 / 1024, 1 / 512 ) }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader:
+
+	// FXAA 3.11 implementation by NVIDIA, ported to WebGL by Agost Biro (biro@archilogic.com)
+
+	//----------------------------------------------------------------------------------
+	// File:				es3-kepler\FXAA\assets\shaders/FXAA_DefaultES.frag
+	// SDK Version: v3.00
+	// Email:			 gameworks@nvidia.com
+	// Site:				http://developer.nvidia.com/
+	//
+	// Copyright (c) 2014-2015, NVIDIA CORPORATION. All rights reserved.
+	//
+	// Redistribution and use in source and binary forms, with or without
+	// modification, are permitted provided that the following conditions
+	// are met:
+	//	* Redistributions of source code must retain the above copyright
+	//		notice, this list of conditions and the following disclaimer.
+	//	* Redistributions in binary form must reproduce the above copyright
+	//		notice, this list of conditions and the following disclaimer in the
+	//		documentation and/or other materials provided with the distribution.
+	//	* Neither the name of NVIDIA CORPORATION nor the names of its
+	//		contributors may be used to endorse or promote products derived
+	//		from this software without specific prior written permission.
+	//
+	// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS\'\' AND ANY
+	// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+	// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	// PURPOSE ARE DISCLAIMED.	IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+	// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+	// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+	// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+	// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	//
+	//----------------------------------------------------------------------------------
+
+	/* glsl */`
+
+		precision highp float;
+
+		uniform sampler2D tDiffuse;
+
+		uniform vec2 resolution;
+
+		varying vec2 vUv;
+
+		#define FXAA_PC 1
+		#define FXAA_GLSL_100 1
+		#define FXAA_QUALITY_PRESET 12
+
+		#define FXAA_GREEN_AS_LUMA 1
+
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_PC_CONSOLE
+				//
+				// The console algorithm for PC is included
+				// for developers targeting really low spec machines.
+				// Likely better to just run FXAA_PC, and use a really low preset.
+				//
+				#define FXAA_PC_CONSOLE 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_GLSL_120
+				#define FXAA_GLSL_120 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_GLSL_130
+				#define FXAA_GLSL_130 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_HLSL_3
+				#define FXAA_HLSL_3 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_HLSL_4
+				#define FXAA_HLSL_4 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_HLSL_5
+				#define FXAA_HLSL_5 0
+		#endif
+		/*==========================================================================*/
+		#ifndef FXAA_GREEN_AS_LUMA
+				//
+				// For those using non-linear color,
+				// and either not able to get luma in alpha, or not wanting to,
+				// this enables FXAA to run using green as a proxy for luma.
+				// So with this enabled, no need to pack luma in alpha.
+				//
+				// This will turn off AA on anything which lacks some amount of green.
+				// Pure red and blue or combination of only R and B, will get no AA.
+				//
+				// Might want to lower the settings for both,
+				//		fxaaConsoleEdgeThresholdMin
+				//		fxaaQualityEdgeThresholdMin
+				// In order to insure AA does not get turned off on colors
+				// which contain a minor amount of green.
+				//
+				// 1 = On.
+				// 0 = Off.
+				//
+				#define FXAA_GREEN_AS_LUMA 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_EARLY_EXIT
+				//
+				// Controls algorithm\'s early exit path.
+				// On PS3 turning this ON adds 2 cycles to the shader.
+				// On 360 turning this OFF adds 10ths of a millisecond to the shader.
+				// Turning this off on console will result in a more blurry image.
+				// So this defaults to on.
+				//
+				// 1 = On.
+				// 0 = Off.
+				//
+				#define FXAA_EARLY_EXIT 1
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_DISCARD
+				//
+				// Only valid for PC OpenGL currently.
+				// Probably will not work when FXAA_GREEN_AS_LUMA = 1.
+				//
+				// 1 = Use discard on pixels which don\'t need AA.
+				//		 For APIs which enable concurrent TEX+ROP from same surface.
+				// 0 = Return unchanged color on pixels which don\'t need AA.
+				//
+				#define FXAA_DISCARD 0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_FAST_PIXEL_OFFSET
+				//
+				// Used for GLSL 120 only.
+				//
+				// 1 = GL API supports fast pixel offsets
+				// 0 = do not use fast pixel offsets
+				//
+				#ifdef GL_EXT_gpu_shader4
+						#define FXAA_FAST_PIXEL_OFFSET 1
+				#endif
+				#ifdef GL_NV_gpu_shader5
+						#define FXAA_FAST_PIXEL_OFFSET 1
+				#endif
+				#ifdef GL_ARB_gpu_shader5
+						#define FXAA_FAST_PIXEL_OFFSET 1
+				#endif
+				#ifndef FXAA_FAST_PIXEL_OFFSET
+						#define FXAA_FAST_PIXEL_OFFSET 0
+				#endif
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#ifndef FXAA_GATHER4_ALPHA
+				//
+				// 1 = API supports gather4 on alpha channel.
+				// 0 = API does not support gather4 on alpha channel.
+				//
+				#if (FXAA_HLSL_5 == 1)
+						#define FXAA_GATHER4_ALPHA 1
+				#endif
+				#ifdef GL_ARB_gpu_shader5
+						#define FXAA_GATHER4_ALPHA 1
+				#endif
+				#ifdef GL_NV_gpu_shader5
+						#define FXAA_GATHER4_ALPHA 1
+				#endif
+				#ifndef FXAA_GATHER4_ALPHA
+						#define FXAA_GATHER4_ALPHA 0
+				#endif
+		#endif
+
+
+		/*============================================================================
+														FXAA QUALITY - TUNING KNOBS
+		------------------------------------------------------------------------------
+		NOTE the other tuning knobs are now in the shader function inputs!
+		============================================================================*/
+		#ifndef FXAA_QUALITY_PRESET
+				//
+				// Choose the quality preset.
+				// This needs to be compiled into the shader as it effects code.
+				// Best option to include multiple presets is to
+				// in each shader define the preset, then include this file.
+				//
+				// OPTIONS
+				// -----------------------------------------------------------------------
+				// 10 to 15 - default medium dither (10=fastest, 15=highest quality)
+				// 20 to 29 - less dither, more expensive (20=fastest, 29=highest quality)
+				// 39			 - no dither, very expensive
+				//
+				// NOTES
+				// -----------------------------------------------------------------------
+				// 12 = slightly faster then FXAA 3.9 and higher edge quality (default)
+				// 13 = about same speed as FXAA 3.9 and better than 12
+				// 23 = closest to FXAA 3.9 visually and performance wise
+				//	_ = the lowest digit is directly related to performance
+				// _	= the highest digit is directly related to style
+				//
+				#define FXAA_QUALITY_PRESET 12
+		#endif
+
+
+		/*============================================================================
+
+															 FXAA QUALITY - PRESETS
+
+		============================================================================*/
+
+		/*============================================================================
+												 FXAA QUALITY - MEDIUM DITHER PRESETS
+		============================================================================*/
+		#if (FXAA_QUALITY_PRESET == 10)
+				#define FXAA_QUALITY_PS 3
+				#define FXAA_QUALITY_P0 1.5
+				#define FXAA_QUALITY_P1 3.0
+				#define FXAA_QUALITY_P2 12.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 11)
+				#define FXAA_QUALITY_PS 4
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 3.0
+				#define FXAA_QUALITY_P3 12.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 12)
+				#define FXAA_QUALITY_PS 5
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 4.0
+				#define FXAA_QUALITY_P4 12.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 13)
+				#define FXAA_QUALITY_PS 6
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 4.0
+				#define FXAA_QUALITY_P5 12.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 14)
+				#define FXAA_QUALITY_PS 7
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 4.0
+				#define FXAA_QUALITY_P6 12.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 15)
+				#define FXAA_QUALITY_PS 8
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 4.0
+				#define FXAA_QUALITY_P7 12.0
+		#endif
+
+		/*============================================================================
+												 FXAA QUALITY - LOW DITHER PRESETS
+		============================================================================*/
+		#if (FXAA_QUALITY_PRESET == 20)
+				#define FXAA_QUALITY_PS 3
+				#define FXAA_QUALITY_P0 1.5
+				#define FXAA_QUALITY_P1 2.0
+				#define FXAA_QUALITY_P2 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 21)
+				#define FXAA_QUALITY_PS 4
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 22)
+				#define FXAA_QUALITY_PS 5
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 23)
+				#define FXAA_QUALITY_PS 6
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 24)
+				#define FXAA_QUALITY_PS 7
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 3.0
+				#define FXAA_QUALITY_P6 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 25)
+				#define FXAA_QUALITY_PS 8
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 4.0
+				#define FXAA_QUALITY_P7 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 26)
+				#define FXAA_QUALITY_PS 9
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 2.0
+				#define FXAA_QUALITY_P7 4.0
+				#define FXAA_QUALITY_P8 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 27)
+				#define FXAA_QUALITY_PS 10
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 2.0
+				#define FXAA_QUALITY_P7 2.0
+				#define FXAA_QUALITY_P8 4.0
+				#define FXAA_QUALITY_P9 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 28)
+				#define FXAA_QUALITY_PS 11
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 2.0
+				#define FXAA_QUALITY_P7 2.0
+				#define FXAA_QUALITY_P8 2.0
+				#define FXAA_QUALITY_P9 4.0
+				#define FXAA_QUALITY_P10 8.0
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_QUALITY_PRESET == 29)
+				#define FXAA_QUALITY_PS 12
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.5
+				#define FXAA_QUALITY_P2 2.0
+				#define FXAA_QUALITY_P3 2.0
+				#define FXAA_QUALITY_P4 2.0
+				#define FXAA_QUALITY_P5 2.0
+				#define FXAA_QUALITY_P6 2.0
+				#define FXAA_QUALITY_P7 2.0
+				#define FXAA_QUALITY_P8 2.0
+				#define FXAA_QUALITY_P9 2.0
+				#define FXAA_QUALITY_P10 4.0
+				#define FXAA_QUALITY_P11 8.0
+		#endif
+
+		/*============================================================================
+												 FXAA QUALITY - EXTREME QUALITY
+		============================================================================*/
+		#if (FXAA_QUALITY_PRESET == 39)
+				#define FXAA_QUALITY_PS 12
+				#define FXAA_QUALITY_P0 1.0
+				#define FXAA_QUALITY_P1 1.0
+				#define FXAA_QUALITY_P2 1.0
+				#define FXAA_QUALITY_P3 1.0
+				#define FXAA_QUALITY_P4 1.0
+				#define FXAA_QUALITY_P5 1.5
+				#define FXAA_QUALITY_P6 2.0
+				#define FXAA_QUALITY_P7 2.0
+				#define FXAA_QUALITY_P8 2.0
+				#define FXAA_QUALITY_P9 2.0
+				#define FXAA_QUALITY_P10 4.0
+				#define FXAA_QUALITY_P11 8.0
+		#endif
+
+
+
+		/*============================================================================
+
+																		API PORTING
+
+		============================================================================*/
+		#if (FXAA_GLSL_100 == 1) || (FXAA_GLSL_120 == 1) || (FXAA_GLSL_130 == 1)
+				#define FxaaBool bool
+				#define FxaaDiscard discard
+				#define FxaaFloat float
+				#define FxaaFloat2 vec2
+				#define FxaaFloat3 vec3
+				#define FxaaFloat4 vec4
+				#define FxaaHalf float
+				#define FxaaHalf2 vec2
+				#define FxaaHalf3 vec3
+				#define FxaaHalf4 vec4
+				#define FxaaInt2 ivec2
+				#define FxaaSat(x) clamp(x, 0.0, 1.0)
+				#define FxaaTex sampler2D
+		#else
+				#define FxaaBool bool
+				#define FxaaDiscard clip(-1)
+				#define FxaaFloat float
+				#define FxaaFloat2 float2
+				#define FxaaFloat3 float3
+				#define FxaaFloat4 float4
+				#define FxaaHalf half
+				#define FxaaHalf2 half2
+				#define FxaaHalf3 half3
+				#define FxaaHalf4 half4
+				#define FxaaSat(x) saturate(x)
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_GLSL_100 == 1)
+			#define FxaaTexTop(t, p) texture2D(t, p, 0.0)
+			#define FxaaTexOff(t, p, o, r) texture2D(t, p + (o * r), 0.0)
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_GLSL_120 == 1)
+				// Requires,
+				//	#version 120
+				// And at least,
+				//	#extension GL_EXT_gpu_shader4 : enable
+				//	(or set FXAA_FAST_PIXEL_OFFSET 1 to work like DX9)
+				#define FxaaTexTop(t, p) texture2DLod(t, p, 0.0)
+				#if (FXAA_FAST_PIXEL_OFFSET == 1)
+						#define FxaaTexOff(t, p, o, r) texture2DLodOffset(t, p, 0.0, o)
+				#else
+						#define FxaaTexOff(t, p, o, r) texture2DLod(t, p + (o * r), 0.0)
+				#endif
+				#if (FXAA_GATHER4_ALPHA == 1)
+						// use #extension GL_ARB_gpu_shader5 : enable
+						#define FxaaTexAlpha4(t, p) textureGather(t, p, 3)
+						#define FxaaTexOffAlpha4(t, p, o) textureGatherOffset(t, p, o, 3)
+						#define FxaaTexGreen4(t, p) textureGather(t, p, 1)
+						#define FxaaTexOffGreen4(t, p, o) textureGatherOffset(t, p, o, 1)
+				#endif
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_GLSL_130 == 1)
+				// Requires "#version 130" or better
+				#define FxaaTexTop(t, p) textureLod(t, p, 0.0)
+				#define FxaaTexOff(t, p, o, r) textureLodOffset(t, p, 0.0, o)
+				#if (FXAA_GATHER4_ALPHA == 1)
+						// use #extension GL_ARB_gpu_shader5 : enable
+						#define FxaaTexAlpha4(t, p) textureGather(t, p, 3)
+						#define FxaaTexOffAlpha4(t, p, o) textureGatherOffset(t, p, o, 3)
+						#define FxaaTexGreen4(t, p) textureGather(t, p, 1)
+						#define FxaaTexOffGreen4(t, p, o) textureGatherOffset(t, p, o, 1)
+				#endif
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_HLSL_3 == 1)
+				#define FxaaInt2 float2
+				#define FxaaTex sampler2D
+				#define FxaaTexTop(t, p) tex2Dlod(t, float4(p, 0.0, 0.0))
+				#define FxaaTexOff(t, p, o, r) tex2Dlod(t, float4(p + (o * r), 0, 0))
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_HLSL_4 == 1)
+				#define FxaaInt2 int2
+				struct FxaaTex { SamplerState smpl; Texture2D tex; };
+				#define FxaaTexTop(t, p) t.tex.SampleLevel(t.smpl, p, 0.0)
+				#define FxaaTexOff(t, p, o, r) t.tex.SampleLevel(t.smpl, p, 0.0, o)
+		#endif
+		/*--------------------------------------------------------------------------*/
+		#if (FXAA_HLSL_5 == 1)
+				#define FxaaInt2 int2
+				struct FxaaTex { SamplerState smpl; Texture2D tex; };
+				#define FxaaTexTop(t, p) t.tex.SampleLevel(t.smpl, p, 0.0)
+				#define FxaaTexOff(t, p, o, r) t.tex.SampleLevel(t.smpl, p, 0.0, o)
+				#define FxaaTexAlpha4(t, p) t.tex.GatherAlpha(t.smpl, p)
+				#define FxaaTexOffAlpha4(t, p, o) t.tex.GatherAlpha(t.smpl, p, o)
+				#define FxaaTexGreen4(t, p) t.tex.GatherGreen(t.smpl, p)
+				#define FxaaTexOffGreen4(t, p, o) t.tex.GatherGreen(t.smpl, p, o)
+		#endif
+
+
+		/*============================================================================
+											 GREEN AS LUMA OPTION SUPPORT FUNCTION
+		============================================================================*/
+		#if (FXAA_GREEN_AS_LUMA == 0)
+				FxaaFloat FxaaLuma(FxaaFloat4 rgba) { return rgba.w; }
+		#else
+				FxaaFloat FxaaLuma(FxaaFloat4 rgba) { return rgba.y; }
+		#endif
+
+
+
+
+		/*============================================================================
+
+																 FXAA3 QUALITY - PC
+
+		============================================================================*/
+		#if (FXAA_PC == 1)
+		/*--------------------------------------------------------------------------*/
+		FxaaFloat4 FxaaPixelShader(
+				//
+				// Use noperspective interpolation here (turn off perspective interpolation).
+				// {xy} = center of pixel
+				FxaaFloat2 pos,
+				//
+				// Used only for FXAA Console, and not used on the 360 version.
+				// Use noperspective interpolation here (turn off perspective interpolation).
+				// {xy_} = upper left of pixel
+				// {_zw} = lower right of pixel
+				FxaaFloat4 fxaaConsolePosPos,
+				//
+				// Input color texture.
+				// {rgb_} = color in linear or perceptual color space
+				// if (FXAA_GREEN_AS_LUMA == 0)
+				//		 {__a} = luma in perceptual color space (not linear)
+				FxaaTex tex,
+				//
+				// Only used on the optimized 360 version of FXAA Console.
+				// For everything but 360, just use the same input here as for "tex".
+				// For 360, same texture, just alias with a 2nd sampler.
+				// This sampler needs to have an exponent bias of -1.
+				FxaaTex fxaaConsole360TexExpBiasNegOne,
+				//
+				// Only used on the optimized 360 version of FXAA Console.
+				// For everything but 360, just use the same input here as for "tex".
+				// For 360, same texture, just alias with a 3nd sampler.
+				// This sampler needs to have an exponent bias of -2.
+				FxaaTex fxaaConsole360TexExpBiasNegTwo,
+				//
+				// Only used on FXAA Quality.
+				// This must be from a constant/uniform.
+				// {x_} = 1.0/screenWidthInPixels
+				// {_y} = 1.0/screenHeightInPixels
+				FxaaFloat2 fxaaQualityRcpFrame,
+				//
+				// Only used on FXAA Console.
+				// This must be from a constant/uniform.
+				// This effects sub-pixel AA quality and inversely sharpness.
+				//	 Where N ranges between,
+				//		 N = 0.50 (default)
+				//		 N = 0.33 (sharper)
+				// {x__} = -N/screenWidthInPixels
+				// {_y_} = -N/screenHeightInPixels
+				// {_z_} =	N/screenWidthInPixels
+				// {__w} =	N/screenHeightInPixels
+				FxaaFloat4 fxaaConsoleRcpFrameOpt,
+				//
+				// Only used on FXAA Console.
+				// Not used on 360, but used on PS3 and PC.
+				// This must be from a constant/uniform.
+				// {x__} = -2.0/screenWidthInPixels
+				// {_y_} = -2.0/screenHeightInPixels
+				// {_z_} =	2.0/screenWidthInPixels
+				// {__w} =	2.0/screenHeightInPixels
+				FxaaFloat4 fxaaConsoleRcpFrameOpt2,
+				//
+				// Only used on FXAA Console.
+				// Only used on 360 in place of fxaaConsoleRcpFrameOpt2.
+				// This must be from a constant/uniform.
+				// {x__} =	8.0/screenWidthInPixels
+				// {_y_} =	8.0/screenHeightInPixels
+				// {_z_} = -4.0/screenWidthInPixels
+				// {__w} = -4.0/screenHeightInPixels
+				FxaaFloat4 fxaaConsole360RcpFrameOpt2,
+				//
+				// Only used on FXAA Quality.
+				// This used to be the FXAA_QUALITY_SUBPIX define.
+				// It is here now to allow easier tuning.
+				// Choose the amount of sub-pixel aliasing removal.
+				// This can effect sharpness.
+				//	 1.00 - upper limit (softer)
+				//	 0.75 - default amount of filtering
+				//	 0.50 - lower limit (sharper, less sub-pixel aliasing removal)
+				//	 0.25 - almost off
+				//	 0.00 - completely off
+				FxaaFloat fxaaQualitySubpix,
+				//
+				// Only used on FXAA Quality.
+				// This used to be the FXAA_QUALITY_EDGE_THRESHOLD define.
+				// It is here now to allow easier tuning.
+				// The minimum amount of local contrast required to apply algorithm.
+				//	 0.333 - too little (faster)
+				//	 0.250 - low quality
+				//	 0.166 - default
+				//	 0.125 - high quality
+				//	 0.063 - overkill (slower)
+				FxaaFloat fxaaQualityEdgeThreshold,
+				//
+				// Only used on FXAA Quality.
+				// This used to be the FXAA_QUALITY_EDGE_THRESHOLD_MIN define.
+				// It is here now to allow easier tuning.
+				// Trims the algorithm from processing darks.
+				//	 0.0833 - upper limit (default, the start of visible unfiltered edges)
+				//	 0.0625 - high quality (faster)
+				//	 0.0312 - visible limit (slower)
+				// Special notes when using FXAA_GREEN_AS_LUMA,
+				//	 Likely want to set this to zero.
+				//	 As colors that are mostly not-green
+				//	 will appear very dark in the green channel!
+				//	 Tune by looking at mostly non-green content,
+				//	 then start at zero and increase until aliasing is a problem.
+				FxaaFloat fxaaQualityEdgeThresholdMin,
+				//
+				// Only used on FXAA Console.
+				// This used to be the FXAA_CONSOLE_EDGE_SHARPNESS define.
+				// It is here now to allow easier tuning.
+				// This does not effect PS3, as this needs to be compiled in.
+				//	 Use FXAA_CONSOLE_PS3_EDGE_SHARPNESS for PS3.
+				//	 Due to the PS3 being ALU bound,
+				//	 there are only three safe values here: 2 and 4 and 8.
+				//	 These options use the shaders ability to a free *|/ by 2|4|8.
+				// For all other platforms can be a non-power of two.
+				//	 8.0 is sharper (default!!!)
+				//	 4.0 is softer
+				//	 2.0 is really soft (good only for vector graphics inputs)
+				FxaaFloat fxaaConsoleEdgeSharpness,
+				//
+				// Only used on FXAA Console.
+				// This used to be the FXAA_CONSOLE_EDGE_THRESHOLD define.
+				// It is here now to allow easier tuning.
+				// This does not effect PS3, as this needs to be compiled in.
+				//	 Use FXAA_CONSOLE_PS3_EDGE_THRESHOLD for PS3.
+				//	 Due to the PS3 being ALU bound,
+				//	 there are only two safe values here: 1/4 and 1/8.
+				//	 These options use the shaders ability to a free *|/ by 2|4|8.
+				// The console setting has a different mapping than the quality setting.
+				// Other platforms can use other values.
+				//	 0.125 leaves less aliasing, but is softer (default!!!)
+				//	 0.25 leaves more aliasing, and is sharper
+				FxaaFloat fxaaConsoleEdgeThreshold,
+				//
+				// Only used on FXAA Console.
+				// This used to be the FXAA_CONSOLE_EDGE_THRESHOLD_MIN define.
+				// It is here now to allow easier tuning.
+				// Trims the algorithm from processing darks.
+				// The console setting has a different mapping than the quality setting.
+				// This only applies when FXAA_EARLY_EXIT is 1.
+				// This does not apply to PS3,
+				// PS3 was simplified to avoid more shader instructions.
+				//	 0.06 - faster but more aliasing in darks
+				//	 0.05 - default
+				//	 0.04 - slower and less aliasing in darks
+				// Special notes when using FXAA_GREEN_AS_LUMA,
+				//	 Likely want to set this to zero.
+				//	 As colors that are mostly not-green
+				//	 will appear very dark in the green channel!
+				//	 Tune by looking at mostly non-green content,
+				//	 then start at zero and increase until aliasing is a problem.
+				FxaaFloat fxaaConsoleEdgeThresholdMin,
+				//
+				// Extra constants for 360 FXAA Console only.
+				// Use zeros or anything else for other platforms.
+				// These must be in physical constant registers and NOT immediates.
+				// Immediates will result in compiler un-optimizing.
+				// {xyzw} = float4(1.0, -1.0, 0.25, -0.25)
+				FxaaFloat4 fxaaConsole360ConstDir
+		) {
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat2 posM;
+				posM.x = pos.x;
+				posM.y = pos.y;
+				#if (FXAA_GATHER4_ALPHA == 1)
+						#if (FXAA_DISCARD == 0)
+								FxaaFloat4 rgbyM = FxaaTexTop(tex, posM);
+								#if (FXAA_GREEN_AS_LUMA == 0)
+										#define lumaM rgbyM.w
+								#else
+										#define lumaM rgbyM.y
+								#endif
+						#endif
+						#if (FXAA_GREEN_AS_LUMA == 0)
+								FxaaFloat4 luma4A = FxaaTexAlpha4(tex, posM);
+								FxaaFloat4 luma4B = FxaaTexOffAlpha4(tex, posM, FxaaInt2(-1, -1));
+						#else
+								FxaaFloat4 luma4A = FxaaTexGreen4(tex, posM);
+								FxaaFloat4 luma4B = FxaaTexOffGreen4(tex, posM, FxaaInt2(-1, -1));
+						#endif
+						#if (FXAA_DISCARD == 1)
+								#define lumaM luma4A.w
+						#endif
+						#define lumaE luma4A.z
+						#define lumaS luma4A.x
+						#define lumaSE luma4A.y
+						#define lumaNW luma4B.w
+						#define lumaN luma4B.z
+						#define lumaW luma4B.x
+				#else
+						FxaaFloat4 rgbyM = FxaaTexTop(tex, posM);
+						#if (FXAA_GREEN_AS_LUMA == 0)
+								#define lumaM rgbyM.w
+						#else
+								#define lumaM rgbyM.y
+						#endif
+						#if (FXAA_GLSL_100 == 1)
+							FxaaFloat lumaS = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2( 0.0, 1.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaE = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2( 1.0, 0.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaN = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2( 0.0,-1.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaW = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2(-1.0, 0.0), fxaaQualityRcpFrame.xy));
+						#else
+							FxaaFloat lumaS = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2( 0, 1), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaE = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2( 1, 0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaN = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2( 0,-1), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaW = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2(-1, 0), fxaaQualityRcpFrame.xy));
+						#endif
+				#endif
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat maxSM = max(lumaS, lumaM);
+				FxaaFloat minSM = min(lumaS, lumaM);
+				FxaaFloat maxESM = max(lumaE, maxSM);
+				FxaaFloat minESM = min(lumaE, minSM);
+				FxaaFloat maxWN = max(lumaN, lumaW);
+				FxaaFloat minWN = min(lumaN, lumaW);
+				FxaaFloat rangeMax = max(maxWN, maxESM);
+				FxaaFloat rangeMin = min(minWN, minESM);
+				FxaaFloat rangeMaxScaled = rangeMax * fxaaQualityEdgeThreshold;
+				FxaaFloat range = rangeMax - rangeMin;
+				FxaaFloat rangeMaxClamped = max(fxaaQualityEdgeThresholdMin, rangeMaxScaled);
+				FxaaBool earlyExit = range < rangeMaxClamped;
+		/*--------------------------------------------------------------------------*/
+				if(earlyExit)
+						#if (FXAA_DISCARD == 1)
+								FxaaDiscard;
+						#else
+								return rgbyM;
+						#endif
+		/*--------------------------------------------------------------------------*/
+				#if (FXAA_GATHER4_ALPHA == 0)
+						#if (FXAA_GLSL_100 == 1)
+							FxaaFloat lumaNW = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2(-1.0,-1.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaSE = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2( 1.0, 1.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaNE = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2( 1.0,-1.0), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaSW = FxaaLuma(FxaaTexOff(tex, posM, FxaaFloat2(-1.0, 1.0), fxaaQualityRcpFrame.xy));
+						#else
+							FxaaFloat lumaNW = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2(-1,-1), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaSE = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2( 1, 1), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaNE = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2( 1,-1), fxaaQualityRcpFrame.xy));
+							FxaaFloat lumaSW = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2(-1, 1), fxaaQualityRcpFrame.xy));
+						#endif
+				#else
+						FxaaFloat lumaNE = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2(1, -1), fxaaQualityRcpFrame.xy));
+						FxaaFloat lumaSW = FxaaLuma(FxaaTexOff(tex, posM, FxaaInt2(-1, 1), fxaaQualityRcpFrame.xy));
+				#endif
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat lumaNS = lumaN + lumaS;
+				FxaaFloat lumaWE = lumaW + lumaE;
+				FxaaFloat subpixRcpRange = 1.0/range;
+				FxaaFloat subpixNSWE = lumaNS + lumaWE;
+				FxaaFloat edgeHorz1 = (-2.0 * lumaM) + lumaNS;
+				FxaaFloat edgeVert1 = (-2.0 * lumaM) + lumaWE;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat lumaNESE = lumaNE + lumaSE;
+				FxaaFloat lumaNWNE = lumaNW + lumaNE;
+				FxaaFloat edgeHorz2 = (-2.0 * lumaE) + lumaNESE;
+				FxaaFloat edgeVert2 = (-2.0 * lumaN) + lumaNWNE;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat lumaNWSW = lumaNW + lumaSW;
+				FxaaFloat lumaSWSE = lumaSW + lumaSE;
+				FxaaFloat edgeHorz4 = (abs(edgeHorz1) * 2.0) + abs(edgeHorz2);
+				FxaaFloat edgeVert4 = (abs(edgeVert1) * 2.0) + abs(edgeVert2);
+				FxaaFloat edgeHorz3 = (-2.0 * lumaW) + lumaNWSW;
+				FxaaFloat edgeVert3 = (-2.0 * lumaS) + lumaSWSE;
+				FxaaFloat edgeHorz = abs(edgeHorz3) + edgeHorz4;
+				FxaaFloat edgeVert = abs(edgeVert3) + edgeVert4;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat subpixNWSWNESE = lumaNWSW + lumaNESE;
+				FxaaFloat lengthSign = fxaaQualityRcpFrame.x;
+				FxaaBool horzSpan = edgeHorz >= edgeVert;
+				FxaaFloat subpixA = subpixNSWE * 2.0 + subpixNWSWNESE;
+		/*--------------------------------------------------------------------------*/
+				if(!horzSpan) lumaN = lumaW;
+				if(!horzSpan) lumaS = lumaE;
+				if(horzSpan) lengthSign = fxaaQualityRcpFrame.y;
+				FxaaFloat subpixB = (subpixA * (1.0/12.0)) - lumaM;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat gradientN = lumaN - lumaM;
+				FxaaFloat gradientS = lumaS - lumaM;
+				FxaaFloat lumaNN = lumaN + lumaM;
+				FxaaFloat lumaSS = lumaS + lumaM;
+				FxaaBool pairN = abs(gradientN) >= abs(gradientS);
+				FxaaFloat gradient = max(abs(gradientN), abs(gradientS));
+				if(pairN) lengthSign = -lengthSign;
+				FxaaFloat subpixC = FxaaSat(abs(subpixB) * subpixRcpRange);
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat2 posB;
+				posB.x = posM.x;
+				posB.y = posM.y;
+				FxaaFloat2 offNP;
+				offNP.x = (!horzSpan) ? 0.0 : fxaaQualityRcpFrame.x;
+				offNP.y = ( horzSpan) ? 0.0 : fxaaQualityRcpFrame.y;
+				if(!horzSpan) posB.x += lengthSign * 0.5;
+				if( horzSpan) posB.y += lengthSign * 0.5;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat2 posN;
+				posN.x = posB.x - offNP.x * FXAA_QUALITY_P0;
+				posN.y = posB.y - offNP.y * FXAA_QUALITY_P0;
+				FxaaFloat2 posP;
+				posP.x = posB.x + offNP.x * FXAA_QUALITY_P0;
+				posP.y = posB.y + offNP.y * FXAA_QUALITY_P0;
+				FxaaFloat subpixD = ((-2.0)*subpixC) + 3.0;
+				FxaaFloat lumaEndN = FxaaLuma(FxaaTexTop(tex, posN));
+				FxaaFloat subpixE = subpixC * subpixC;
+				FxaaFloat lumaEndP = FxaaLuma(FxaaTexTop(tex, posP));
+		/*--------------------------------------------------------------------------*/
+				if(!pairN) lumaNN = lumaSS;
+				FxaaFloat gradientScaled = gradient * 1.0/4.0;
+				FxaaFloat lumaMM = lumaM - lumaNN * 0.5;
+				FxaaFloat subpixF = subpixD * subpixE;
+				FxaaBool lumaMLTZero = lumaMM < 0.0;
+		/*--------------------------------------------------------------------------*/
+				lumaEndN -= lumaNN * 0.5;
+				lumaEndP -= lumaNN * 0.5;
+				FxaaBool doneN = abs(lumaEndN) >= gradientScaled;
+				FxaaBool doneP = abs(lumaEndP) >= gradientScaled;
+				if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P1;
+				if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P1;
+				FxaaBool doneNP = (!doneN) || (!doneP);
+				if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P1;
+				if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P1;
+		/*--------------------------------------------------------------------------*/
+				if(doneNP) {
+						if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+						if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+						if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+						if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+						doneN = abs(lumaEndN) >= gradientScaled;
+						doneP = abs(lumaEndP) >= gradientScaled;
+						if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P2;
+						if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P2;
+						doneNP = (!doneN) || (!doneP);
+						if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P2;
+						if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P2;
+		/*--------------------------------------------------------------------------*/
+						#if (FXAA_QUALITY_PS > 3)
+						if(doneNP) {
+								if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+								if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+								if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+								if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+								doneN = abs(lumaEndN) >= gradientScaled;
+								doneP = abs(lumaEndP) >= gradientScaled;
+								if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P3;
+								if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P3;
+								doneNP = (!doneN) || (!doneP);
+								if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P3;
+								if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P3;
+		/*--------------------------------------------------------------------------*/
+								#if (FXAA_QUALITY_PS > 4)
+								if(doneNP) {
+										if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+										if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+										if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+										if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+										doneN = abs(lumaEndN) >= gradientScaled;
+										doneP = abs(lumaEndP) >= gradientScaled;
+										if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P4;
+										if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P4;
+										doneNP = (!doneN) || (!doneP);
+										if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P4;
+										if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P4;
+		/*--------------------------------------------------------------------------*/
+										#if (FXAA_QUALITY_PS > 5)
+										if(doneNP) {
+												if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+												if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+												if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+												if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+												doneN = abs(lumaEndN) >= gradientScaled;
+												doneP = abs(lumaEndP) >= gradientScaled;
+												if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P5;
+												if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P5;
+												doneNP = (!doneN) || (!doneP);
+												if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P5;
+												if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P5;
+		/*--------------------------------------------------------------------------*/
+												#if (FXAA_QUALITY_PS > 6)
+												if(doneNP) {
+														if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+														if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+														if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+														if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+														doneN = abs(lumaEndN) >= gradientScaled;
+														doneP = abs(lumaEndP) >= gradientScaled;
+														if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P6;
+														if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P6;
+														doneNP = (!doneN) || (!doneP);
+														if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P6;
+														if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P6;
+		/*--------------------------------------------------------------------------*/
+														#if (FXAA_QUALITY_PS > 7)
+														if(doneNP) {
+																if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+																if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+																if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+																if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+																doneN = abs(lumaEndN) >= gradientScaled;
+																doneP = abs(lumaEndP) >= gradientScaled;
+																if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P7;
+																if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P7;
+																doneNP = (!doneN) || (!doneP);
+																if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P7;
+																if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P7;
+		/*--------------------------------------------------------------------------*/
+				#if (FXAA_QUALITY_PS > 8)
+				if(doneNP) {
+						if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+						if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+						if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+						if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+						doneN = abs(lumaEndN) >= gradientScaled;
+						doneP = abs(lumaEndP) >= gradientScaled;
+						if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P8;
+						if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P8;
+						doneNP = (!doneN) || (!doneP);
+						if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P8;
+						if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P8;
+		/*--------------------------------------------------------------------------*/
+						#if (FXAA_QUALITY_PS > 9)
+						if(doneNP) {
+								if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+								if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+								if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+								if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+								doneN = abs(lumaEndN) >= gradientScaled;
+								doneP = abs(lumaEndP) >= gradientScaled;
+								if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P9;
+								if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P9;
+								doneNP = (!doneN) || (!doneP);
+								if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P9;
+								if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P9;
+		/*--------------------------------------------------------------------------*/
+								#if (FXAA_QUALITY_PS > 10)
+								if(doneNP) {
+										if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+										if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+										if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+										if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+										doneN = abs(lumaEndN) >= gradientScaled;
+										doneP = abs(lumaEndP) >= gradientScaled;
+										if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P10;
+										if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P10;
+										doneNP = (!doneN) || (!doneP);
+										if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P10;
+										if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P10;
+		/*--------------------------------------------------------------------------*/
+										#if (FXAA_QUALITY_PS > 11)
+										if(doneNP) {
+												if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+												if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+												if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+												if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+												doneN = abs(lumaEndN) >= gradientScaled;
+												doneP = abs(lumaEndP) >= gradientScaled;
+												if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P11;
+												if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P11;
+												doneNP = (!doneN) || (!doneP);
+												if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P11;
+												if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P11;
+		/*--------------------------------------------------------------------------*/
+												#if (FXAA_QUALITY_PS > 12)
+												if(doneNP) {
+														if(!doneN) lumaEndN = FxaaLuma(FxaaTexTop(tex, posN.xy));
+														if(!doneP) lumaEndP = FxaaLuma(FxaaTexTop(tex, posP.xy));
+														if(!doneN) lumaEndN = lumaEndN - lumaNN * 0.5;
+														if(!doneP) lumaEndP = lumaEndP - lumaNN * 0.5;
+														doneN = abs(lumaEndN) >= gradientScaled;
+														doneP = abs(lumaEndP) >= gradientScaled;
+														if(!doneN) posN.x -= offNP.x * FXAA_QUALITY_P12;
+														if(!doneN) posN.y -= offNP.y * FXAA_QUALITY_P12;
+														doneNP = (!doneN) || (!doneP);
+														if(!doneP) posP.x += offNP.x * FXAA_QUALITY_P12;
+														if(!doneP) posP.y += offNP.y * FXAA_QUALITY_P12;
+		/*--------------------------------------------------------------------------*/
+												}
+												#endif
+		/*--------------------------------------------------------------------------*/
+										}
+										#endif
+		/*--------------------------------------------------------------------------*/
+								}
+								#endif
+		/*--------------------------------------------------------------------------*/
+						}
+						#endif
+		/*--------------------------------------------------------------------------*/
+				}
+				#endif
+		/*--------------------------------------------------------------------------*/
+														}
+														#endif
+		/*--------------------------------------------------------------------------*/
+												}
+												#endif
+		/*--------------------------------------------------------------------------*/
+										}
+										#endif
+		/*--------------------------------------------------------------------------*/
+								}
+								#endif
+		/*--------------------------------------------------------------------------*/
+						}
+						#endif
+		/*--------------------------------------------------------------------------*/
+				}
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat dstN = posM.x - posN.x;
+				FxaaFloat dstP = posP.x - posM.x;
+				if(!horzSpan) dstN = posM.y - posN.y;
+				if(!horzSpan) dstP = posP.y - posM.y;
+		/*--------------------------------------------------------------------------*/
+				FxaaBool goodSpanN = (lumaEndN < 0.0) != lumaMLTZero;
+				FxaaFloat spanLength = (dstP + dstN);
+				FxaaBool goodSpanP = (lumaEndP < 0.0) != lumaMLTZero;
+				FxaaFloat spanLengthRcp = 1.0/spanLength;
+		/*--------------------------------------------------------------------------*/
+				FxaaBool directionN = dstN < dstP;
+				FxaaFloat dst = min(dstN, dstP);
+				FxaaBool goodSpan = directionN ? goodSpanN : goodSpanP;
+				FxaaFloat subpixG = subpixF * subpixF;
+				FxaaFloat pixelOffset = (dst * (-spanLengthRcp)) + 0.5;
+				FxaaFloat subpixH = subpixG * fxaaQualitySubpix;
+		/*--------------------------------------------------------------------------*/
+				FxaaFloat pixelOffsetGood = goodSpan ? pixelOffset : 0.0;
+				FxaaFloat pixelOffsetSubpix = max(pixelOffsetGood, subpixH);
+				if(!horzSpan) posM.x += pixelOffsetSubpix * lengthSign;
+				if( horzSpan) posM.y += pixelOffsetSubpix * lengthSign;
+				#if (FXAA_DISCARD == 1)
+						return FxaaTexTop(tex, posM);
+				#else
+						return FxaaFloat4(FxaaTexTop(tex, posM).xyz, lumaM);
+				#endif
+		}
+		/*==========================================================================*/
+		#endif
+
+		void main() {
+			gl_FragColor = FxaaPixelShader(
+				vUv,
+				vec4(0.0),
+				tDiffuse,
+				tDiffuse,
+				tDiffuse,
+				resolution,
+				vec4(0.0),
+				vec4(0.0),
+				vec4(0.0),
+				0.75,
+				0.166,
+				0.0833,
+				0.0,
+				0.0,
+				0.0,
+				vec4(0.0)
+			);
+
+			// TODO avoid querying texture twice for same texel
+			gl_FragColor.a = texture2D(tDiffuse, vUv).a;
+		}`
+
+});
+
+var IfcEvent;
+(function (IfcEvent) {
+    IfcEvent["onCameraReady"] = "onCameraReady";
+})(IfcEvent || (IfcEvent = {}));
+
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
+
+const WEBGL_CONSTANTS = {
+	POINTS: 0x0000,
+	LINES: 0x0001,
+	LINE_LOOP: 0x0002,
+	LINE_STRIP: 0x0003,
+	TRIANGLES: 0x0004,
+	TRIANGLE_STRIP: 0x0005,
+	TRIANGLE_FAN: 0x0006,
+
+	UNSIGNED_BYTE: 0x1401,
+	UNSIGNED_SHORT: 0x1403,
+	FLOAT: 0x1406,
+	UNSIGNED_INT: 0x1405,
+	ARRAY_BUFFER: 0x8892,
+	ELEMENT_ARRAY_BUFFER: 0x8893,
+
+	NEAREST: 0x2600,
+	LINEAR: 0x2601,
+	NEAREST_MIPMAP_NEAREST: 0x2700,
+	LINEAR_MIPMAP_NEAREST: 0x2701,
+	NEAREST_MIPMAP_LINEAR: 0x2702,
+	LINEAR_MIPMAP_LINEAR: 0x2703,
+
+	CLAMP_TO_EDGE: 33071,
+	MIRRORED_REPEAT: 33648,
+	REPEAT: 10497
+};
+
+const THREE_TO_WEBGL = {};
+
+THREE_TO_WEBGL[ NearestFilter ] = WEBGL_CONSTANTS.NEAREST;
+THREE_TO_WEBGL[ NearestMipmapNearestFilter ] = WEBGL_CONSTANTS.NEAREST_MIPMAP_NEAREST;
+THREE_TO_WEBGL[ NearestMipmapLinearFilter ] = WEBGL_CONSTANTS.NEAREST_MIPMAP_LINEAR;
+THREE_TO_WEBGL[ LinearFilter ] = WEBGL_CONSTANTS.LINEAR;
+THREE_TO_WEBGL[ LinearMipmapNearestFilter ] = WEBGL_CONSTANTS.LINEAR_MIPMAP_NEAREST;
+THREE_TO_WEBGL[ LinearMipmapLinearFilter ] = WEBGL_CONSTANTS.LINEAR_MIPMAP_LINEAR;
+
+THREE_TO_WEBGL[ ClampToEdgeWrapping ] = WEBGL_CONSTANTS.CLAMP_TO_EDGE;
+THREE_TO_WEBGL[ RepeatWrapping ] = WEBGL_CONSTANTS.REPEAT;
+THREE_TO_WEBGL[ MirroredRepeatWrapping ] = WEBGL_CONSTANTS.MIRRORED_REPEAT;
+
+/* eslint-disable */
+const _upVector = new Vector3(0, 1, 0);
+const EPSILON = 1e-16;
+// Modified version of js EdgesGeometry logic to handle silhouette edges
+((function () {
+    const _v0 = new Vector3();
+    const _v1 = new Vector3();
+    const _normal = new Vector3();
+    const _triangle = new Triangle();
+    return function generateEdges(geometry, projectionDir, thresholdAngle = 1) {
+        const edges = [];
+        const precisionPoints = 4;
+        const precision = Math.pow(10, precisionPoints);
+        const thresholdDot = Math.cos(MathUtils.DEG2RAD * thresholdAngle);
+        const indexAttr = geometry.getIndex();
+        const positionAttr = geometry.getAttribute('position');
+        const indexCount = indexAttr ? indexAttr.count : positionAttr.count;
+        const indexArr = [0, 0, 0];
+        const vertKeys = ['a', 'b', 'c'];
+        const hashes = new Array(3);
+        const edgeData = {};
+        for (let i = 0; i < indexCount; i += 3) {
+            if (indexAttr) {
+                indexArr[0] = indexAttr.getX(i);
+                indexArr[1] = indexAttr.getX(i + 1);
+                indexArr[2] = indexAttr.getX(i + 2);
+            }
+            else {
+                indexArr[0] = i;
+                indexArr[1] = i + 1;
+                indexArr[2] = i + 2;
+            }
+            const { a, b, c } = _triangle;
+            a.fromBufferAttribute(positionAttr, indexArr[0]);
+            b.fromBufferAttribute(positionAttr, indexArr[1]);
+            c.fromBufferAttribute(positionAttr, indexArr[2]);
+            _triangle.getNormal(_normal);
+            // create hashes for the edge from the vertices
+            hashes[0] = `${Math.round(a.x * precision)},${Math.round(a.y * precision)},${Math.round(a.z * precision)}`;
+            hashes[1] = `${Math.round(b.x * precision)},${Math.round(b.y * precision)},${Math.round(b.z * precision)}`;
+            hashes[2] = `${Math.round(c.x * precision)},${Math.round(c.y * precision)},${Math.round(c.z * precision)}`;
+            // skip degenerate triangles
+            if (hashes[0] === hashes[1] || hashes[1] === hashes[2] || hashes[2] === hashes[0]) {
+                continue;
+            }
+            // iterate over every edge
+            for (let j = 0; j < 3; j++) {
+                // get the first and next vertex making up the edge
+                const jNext = (j + 1) % 3;
+                const vecHash0 = hashes[j];
+                const vecHash1 = hashes[jNext];
+                const v0 = _triangle[vertKeys[j]];
+                const v1 = _triangle[vertKeys[jNext]];
+                const hash = `${vecHash0}_${vecHash1}`;
+                const reverseHash = `${vecHash1}_${vecHash0}`;
+                if (reverseHash in edgeData && edgeData[reverseHash]) {
+                    // if we found a sibling edge add it into the vertex array if
+                    // it meets the angle threshold and delete the edge from the map.
+                    const otherNormal = edgeData[reverseHash].normal;
+                    const meetsThreshold = _normal.dot(otherNormal) <= thresholdDot;
+                    const projectionThreshold = Math.sign(projectionDir.dot(_normal)) !== Math.sign(projectionDir.dot(otherNormal));
+                    if (meetsThreshold || projectionThreshold) {
+                        const line = new Line3();
+                        line.start.copy(v0);
+                        line.end.copy(v1);
+                        edges.push(line);
+                    }
+                    edgeData[reverseHash] = null;
+                }
+                else if (!(hash in edgeData)) {
+                    // if we've already got an edge here then skip adding a new one
+                    edgeData[hash] = {
+                        index0: indexArr[j],
+                        index1: indexArr[jNext],
+                        normal: _normal.clone()
+                    };
+                }
+            }
+        }
+        // iterate over all remaining, unmatched edges and add them to the vertex array
+        for (const key in edgeData) {
+            if (edgeData[key]) {
+                const { index0, index1 } = edgeData[key];
+                _v0.fromBufferAttribute(positionAttr, index0);
+                _v1.fromBufferAttribute(positionAttr, index1);
+                const line = new Line3();
+                line.start.copy(_v0);
+                line.end.copy(_v1);
+                edges.push(line);
+            }
+        }
+        return edges;
+    };
+}))();
+// outputs the overlapping segment of a coplanar line and triangle
+const getOverlappingLine = (function () {
+    const _dir0 = new Vector3();
+    const _dir1 = new Vector3();
+    const _tempDir = new Vector3();
+    const _orthoPlane = new Plane();
+    const _line0 = new Line3();
+    const _line1 = new Line3();
+    const _tempLine = new Line3();
+    return function getOverlappingLine(line, triangle, lineTarget = new Line3()) {
+        if (triangle.needsUpdate) {
+            triangle.needsUpdate();
+        }
+        // if the triangle is degenerate then return no overlap
+        if (triangle.getArea() <= EPSILON) {
+            return null;
+        }
+        const { points, plane } = triangle;
+        _line0.copy(line);
+        _line0.delta(_dir0);
+        // if the line and triangle are not coplanar then return no overlap
+        const areCoplanar = plane.normal.dot(_dir0) === 0.0;
+        if (!areCoplanar) {
+            return null;
+        }
+        // a plane that's orthogonal to the triangle that the line lies on
+        _dir0.cross(plane.normal).normalize();
+        _orthoPlane.setFromNormalAndCoplanarPoint(_dir0, _line0.start);
+        // find the line of intersection of the triangle along the plane if it exists
+        let intersectCount = 0;
+        for (let i = 0; i < 3; i++) {
+            const p1 = points[i];
+            const p2 = points[(i + 1) % 3];
+            _tempLine.start.copy(p1);
+            _tempLine.end.copy(p2);
+            if (_orthoPlane.distanceToPoint(_tempLine.end) === 0 &&
+                _orthoPlane.distanceToPoint(_tempLine.start) === 0) {
+                // if the edge lies on the plane then take the line
+                _line1.copy(_tempLine);
+                intersectCount = 2;
+                break;
+            }
+            else if (_orthoPlane.intersectLine(_tempLine, intersectCount === 0 ? _line1.start : _line1.end)) {
+                let p;
+                if (intersectCount === 0) {
+                    p = _line1.start;
+                }
+                else {
+                    p = _line1.end;
+                }
+                if (p.distanceTo(p2) === 0.0) {
+                    continue;
+                }
+                intersectCount++;
+                if (intersectCount === 2) {
+                    break;
+                }
+            }
+        }
+        if (intersectCount === 2) {
+            // find the intersect line if any
+            _line0.delta(_dir0).normalize();
+            _line1.delta(_dir1).normalize();
+            // swap edges so they're facing in the same direction
+            if (_dir0.dot(_dir1) < 0) {
+                const tmp = _line1.start;
+                _line1.start = _line1.end;
+                _line1.end = tmp;
+            }
+            // check if the edges are overlapping
+            const s1 = _line0.start.dot(_dir0);
+            const e1 = _line0.end.dot(_dir0);
+            const s2 = _line1.start.dot(_dir0);
+            const e2 = _line1.end.dot(_dir0);
+            const separated1 = e1 < s2;
+            const separated2 = s1 < e2;
+            if (s1 !== e2 && s2 !== e1 && separated1 === separated2) {
+                return null;
+            }
+            // assign the target output
+            _tempDir.subVectors(_line0.start, _line1.start);
+            if (_tempDir.dot(_dir0) > 0) {
+                lineTarget.start.copy(_line0.start);
+            }
+            else {
+                lineTarget.start.copy(_line1.start);
+            }
+            _tempDir.subVectors(_line0.end, _line1.end);
+            if (_tempDir.dot(_dir0) < 0) {
+                lineTarget.end.copy(_line0.end);
+            }
+            else {
+                lineTarget.end.copy(_line1.end);
+            }
+            return lineTarget;
+        }
+        return null;
+    };
+})();
+// returns the the y value on the plane at the given point x, z
+const getPlaneYAtPoint = (function () {
+    const testLine = new Line3();
+    return function getPlaneYAtPoint(plane, point, target = null) {
+        testLine.start.copy(point);
+        testLine.end.copy(point);
+        testLine.start.y += 1e5;
+        testLine.end.y -= 1e5;
+        plane.intersectLine(testLine, target);
+    };
+})();
+// returns whether the given line is above the given triangle plane
+((function () {
+    const _v0 = new Vector3();
+    const _v1 = new Vector3();
+    return function isLineAbovePlane(plane, line) {
+        _v0.lerpVectors(line.start, line.end, 0.5);
+        getPlaneYAtPoint(plane, _v0, _v1);
+        return _v1.y < _v0.y;
+    };
+}))();
+((function () {
+    const _tempDir = new Vector3();
+    const _upVector = new Vector3(0, 1, 0);
+    return function isYProjectedLineDegenerate(line) {
+        line.delta(_tempDir).normalize();
+        return Math.abs(_tempDir.dot(_upVector)) >= 1.0 - EPSILON;
+    };
+}))();
+// checks whether the y-projected triangle will be degerate
+function isYProjectedTriangleDegenerate(tri) {
+    if (tri.needsUpdate) {
+        tri.update();
+    }
+    return Math.abs(tri.plane.normal.dot(_upVector)) <= EPSILON;
+}
+// Extracts the normalized [0, 1] distances along the given line that overlaps with the provided triangle when
+// projected along the y axis
+((function () {
+    const _target = new Line3();
+    const _tempDir = new Vector3();
+    const _tempVec0 = new Vector3();
+    const _tempVec1 = new Vector3();
+    const _line = new Line3();
+    const _tri = new ExtendedTriangle();
+    return function getProjectedOverlaps(tri, line, overlapsTarget) {
+        _line.copy(line);
+        _tri.copy(tri);
+        // flatten them to a common plane
+        _line.start.y = 0;
+        _line.end.y = 0;
+        _tri.a.y = 0;
+        _tri.b.y = 0;
+        _tri.c.y = 0;
+        _tri.needsUpdate = true;
+        _tri.update();
+        // if the line is meaningfully long and the we have an overlapping line then extract the
+        // distances along the original line to return
+        if (getOverlappingLine(_line, _tri, _target)) {
+            _line.delta(_tempDir);
+            _tempVec0.subVectors(_target.start, _line.start);
+            _tempVec1.subVectors(_target.end, _line.start);
+            let d0 = _tempVec0.length() / _tempDir.length();
+            let d1 = _tempVec1.length() / _tempDir.length();
+            d0 = Math.min(Math.max(d0, 0), 1);
+            d1 = Math.min(Math.max(d1, 0), 1);
+            if (!(Math.abs(d0 - d1) <= EPSILON)) {
+                overlapsTarget.push(new Float32Array([d0, d1]));
+            }
+            return true;
+        }
+        return false;
+    };
+}))();
+// Trim the provided line to just the section below the given triangle plane
+((function () {
+    const _lineDirection = new Vector3();
+    const _planeHit = new Vector3();
+    const _centerPoint = new Vector3();
+    const _planePoint = new Vector3();
+    return function trimToBeneathTriPlane(tri, line, lineTarget) {
+        if (tri.needsUpdate) {
+            tri.update();
+        }
+        lineTarget.copy(line);
+        // handle vertical triangles
+        const { plane } = tri;
+        if (isYProjectedTriangleDegenerate(tri)) {
+            return false;
+        }
+        // if the line and plane are coplanar then return that we can't trim
+        line.delta(_lineDirection);
+        const areCoplanar = plane.normal.dot(_lineDirection) === 0.0;
+        if (areCoplanar) {
+            return false;
+        }
+        // if the line does intersect the plane then trim
+        const doesLineIntersect = plane.intersectLine(line, _planeHit);
+        if (doesLineIntersect) {
+            const { start, end } = lineTarget;
+            // test the line side with the largest segment extending beyond the plane
+            let testPoint;
+            let flipped = false;
+            if (start.distanceTo(_planeHit) > end.distanceTo(_planeHit)) {
+                testPoint = start;
+            }
+            else {
+                testPoint = end;
+                flipped = true;
+            }
+            // get the center point of the line segment and the plane hit
+            _centerPoint.lerpVectors(testPoint, _planeHit, 0.5);
+            getPlaneYAtPoint(tri.plane, _centerPoint, _planePoint);
+            // adjust the appropriate line point align with the plane hit point
+            if (_planePoint.y < _centerPoint.y) {
+                if (flipped)
+                    end.copy(_planeHit);
+                else
+                    start.copy(_planeHit);
+            }
+            else if (flipped)
+                start.copy(_planeHit);
+            else
+                end.copy(_planeHit);
+            return true;
+        }
+        return false;
+    };
+}))();
+// Converts the given array of overlaps into line segments
+((function () {
+    const newLine = new Line3();
+    return function overlapsToLines(line, overlaps, target = []) {
+        compressEdgeOverlaps(overlaps);
+        const invOverlaps = [[0, 1]];
+        for (let i = 0, l = overlaps.length; i < l; i++) {
+            const invOverlap = invOverlaps[i];
+            const overlap = overlaps[i];
+            invOverlap[1] = overlap[0];
+            invOverlaps.push(new Float32Array([overlap[1], 1]));
+        }
+        for (let i = 0, l = invOverlaps.length; i < l; i++) {
+            const { start, end } = line;
+            newLine.start.lerpVectors(start, end, invOverlaps[i][0]);
+            newLine.end.lerpVectors(start, end, invOverlaps[i][1]);
+            target.push(
+            // @ts-ignore
+            new Float32Array([
+                newLine.start.x,
+                newLine.start.y,
+                newLine.start.z,
+                newLine.end.x,
+                newLine.end.y,
+                newLine.end.z
+            ]));
+        }
+        return target;
+    };
+}))();
+// compresses the given edge overlaps into a minimal set of representative objects
+function compressEdgeOverlaps(overlaps) {
+    overlaps.sort((a, b) => {
+        return a[0] - b[0];
+    });
+    for (let i = 1; i < overlaps.length; i++) {
+        const overlap = overlaps[i];
+        const prevOverlap = overlaps[i - 1];
+        if (overlap[0] <= prevOverlap[1]) {
+            prevOverlap[1] = Math.max(prevOverlap[1], overlap[1]);
+            overlaps.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+var SelectionWindowMode;
+(function (SelectionWindowMode) {
+    SelectionWindowMode[SelectionWindowMode["lasso"] = 0] = "lasso";
+    SelectionWindowMode[SelectionWindowMode["box"] = 1] = "box";
+})(SelectionWindowMode || (SelectionWindowMode = {}));
+
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
@@ -101528,6 +111033,7 @@ renderer.setClearColor(0xdddddd, 1);
 
 const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+labelRenderer.domElement.classList.add("canvas");
 labelRenderer.domElement.style.position = "absolute";
 labelRenderer.domElement.style.pointerEvents = "none";
 labelRenderer.domElement.style.top = "0";
@@ -101589,7 +111095,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-const ifcLoader = new IFCLoader();
+const ifcLoader = new IFCLoader$1();
 ifcLoader.ifcManager.setWasmPath("../src/wasm/");
 ifcLoader.ifcManager.setupThreeMeshBVH(
   computeBoundsTree,

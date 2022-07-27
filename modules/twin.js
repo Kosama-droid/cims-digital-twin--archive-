@@ -1,3 +1,5 @@
+import { IfcViewerAPI } from "web-ifc-viewer";
+
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
@@ -80,66 +82,3 @@ export function toggleVisibility(object, button, toggle) {
           toggle = !toggle;
         };
       }
-
-
-export function createTreeMenu(ifcProject) {
-  const root = document.getElementById("tree-root")
-  removeAllChildren(root);
-  const ifcProjectNode = createNestedChild(root, ifcProject);
-  for(const child of ifcProject.children) {
-    constructTreeMenuNode(ifcProjectNode, child);
-  }
-}
-
-export function constructTreeMenuNode(parent, node) {
-  const children = node.children;
-  if(children.length === 0) {
-    createSimpleChild(parent, node);
-    return;
-  }
-  const nodeElement = createNestedChild(parent, node);
-  for(const child of children) {
-    constructTreeMenuNode(nodeElement, child)
-  }
-}
-
-export function createSimpleChild(parent, node) {
-  const content = nodeToString(node);
-  const childNode = document.createElement('li');
-  childNode.classList.add('leaf-node');
-  childNode.textContent = content;
-  parent.appendChild(childNode);
-}
-
-export function createNestedChild(parent, node) {
-  const content = nodeToString(node);
-  const root = document.createElement('li');
-  createTitle(root, content);
-  const childrenContainer = document.createElement('ul');
-  childrenContainer.classList.add('nested');
-  root.appendChild(childrenContainer);
-  parent.appendChild(root);
-  return childrenContainer;
-}
-
-export function createTitle(parent, content) {
-  const title = document.createElement('span')
-  title.classList.add('caret');
-  title.onclick = () => {
-    title.parentElement.querySelector('.nested').classList.toggle('active');
-    title.classList.toggle('caret-down')
-  }
-
-  title.textContent = content;
-  parent.appendChild(title)
-}
-
-export function nodeToString(node) {
-  return `${node.type} - ${node.expressID}`;
-}
-
-export function removeAllChildren(element) {
-  while(element.firstChild) {
-    element.removeChild(element.firstChild)
-  }
-}

@@ -12,19 +12,13 @@
   --secondary-transp1:  rgba(85, 85, 85, 0.9);
   --blue-color: #1ca6f4;
   --shadow: 0.4rem 0.4rem 0.6rem #00000040;
-  --blur: blur(2px);
+  --blur: blur(3px);
   --header-heigt: 72px
 }
 
 html,
 body {
   overflow: hidden;
-}
-
-input {
-  z-index: 2;
-  cursor: pointer;
-  backdrop-filter: var(--blur);
 }
 
 hide-overflow {
@@ -35,7 +29,7 @@ hide-overflow {
 header {
   z-index: 1;
   background-color: var(--primary-dark);
-  color: white;
+  color: var(--primary-color);
   padding: 0.5rem 0.3rem;
   display: flex;
   align-items: center;
@@ -132,6 +126,7 @@ a {
   height: 2rem;
   padding: 0.3rem;
   background-color: var(--primary-color-transp1);
+  backdrop-filter: var(--blur);
   box-shadow: var(--shadow);
   max-width: 3rem;
   text-align: center;
@@ -160,9 +155,7 @@ a {
   margin: 0.3rem;
   font-weight: 500;
   border: none;
-  box-shadow: var(--shadow);
-  backdrop-filter: var(--blur);
-  background-color: var(--primary-color-transp1);
+  backdrop-filter: blur(0px);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
@@ -172,9 +165,13 @@ a {
   text-transform: uppercase;
 }
 
+.white-background {
+  background-color: var(--primary-color-transp1);
+  box-shadow: var(--shadow);
+}
+
 .circular {
   color: var(--primary-dark);
-  background: var(--primary-color-transp1);
   backdrop-filter: var(--blur);
   border-radius: 45px;
   transition: all 0.3s ease 0s;
@@ -215,11 +212,9 @@ a {
   overflow: auto;
   top: var(--header-heigt);
   padding: 0.8rem;
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: var(--primary-color-transp2);
   transition: all 0.15s ease-in;
   justify-content: left;
   align-items: center;
@@ -238,11 +233,10 @@ a {
 
 .side-menu {
   margin: 1rem;
-  max-height: 90vh;
+  max-height: 70%;
   font-size: 0.8rem;
   text-transform: uppercase;
   position: absolute;
-  background-color: var(--primary-color-transp1);
   box-shadow: var(--shadow);
   backdrop-filter: var(--blur);
   overflow: auto;
@@ -295,7 +289,7 @@ a {
 }
 
 .label {
-background-color: rgba(255, 255, 255, 0.3);
+background-color: var(--primary-color-transp2);
 padding: 8px;
 backdrop-filter: var(--blur);
 border-radius: 1rem;
@@ -304,7 +298,7 @@ pointer-events: all;
 
 .delete-button {
   padding: 8px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--primary-color-transp2);
   backdrop-filter: var(--blur);
   border-radius: 1rem;
   border: none;
@@ -354,7 +348,6 @@ pointer-events: all;
 #viewer-container {
   z-index: -1;
   position: fixed;
-  top: var(--header-heigt);
   left: 0;
   outline: none;
   width: 100%;

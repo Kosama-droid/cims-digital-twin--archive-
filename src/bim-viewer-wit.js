@@ -134,6 +134,7 @@ renderer.setClearColor(0xdddddd, 1);
 
 const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(threeCanvas.clientWidth, threeCanvas.clientHeight);
+labelRenderer.domElement.classList.add("canvas")
 labelRenderer.domElement.style.position = "absolute";
 labelRenderer.domElement.style.pointerEvents = "none";
 labelRenderer.domElement.style.top = "0";
