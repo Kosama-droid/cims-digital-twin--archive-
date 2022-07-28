@@ -26,9 +26,6 @@ document
     () => (currentUser = document.getElementById("user").value)
   );
 
-const loadingScreen = document.getElementById("loader-container");
-const progressText = document.getElementById("progress-text");
-
 const building = {
   current: { currentModelId },
   ifcFile: {},
@@ -51,14 +48,16 @@ document
 closeNavBar();
 
 const container = document.getElementById("viewer-container");
+
+// IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
+console.log(viewer.context);
+viewer.IFC.setWasmPath("../src/wasm/");
 const scene = viewer.context.getScene();
 const raycaster = viewer.context.ifcCaster.raycaster;
-console.log(viewer.context);
-
 // Create axes
 viewer.axes.setAxes();
 
@@ -70,18 +69,40 @@ stats.dom.style.right = "0px";
 stats.dom.style.left = "auto";
 viewer.context.stats = stats;
 
+viewer.IFC.loader.ifcManager.applyWebIfcConfig({
+  USE_FAST_BOOLS: true,
+  COORDINATE_TO_ORIGIN: false,
+});
+viewer.context.renderer.postProduction.active = true;
+
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
+let model;
+const ifcModels = [];
 
 loadIfc(ifcURL);
-let model;
 
-async function loadIfc(url) {
-  await viewer.IFC.setWasmPath("../src/wasm/");
-  model = await viewer.IFC.loadIfcUrl(url, true);
-  console.log(model);
+async function loadIfc(ifcURL) {
+  const loadingContainer = document.getElementById("loading-container");
+  const progressText = document.getElementById("progress-text");
+
+  model = await viewer.IFC.loadIfcUrl(
+    ifcURL,
+    true,
+    (progress) => {
+      loadingContainer.style.display = "flex";
+      progressText.textContent = `Loading ${buildingsNames[currentModelId]}: ${Math.round(
+        (progress.loaded * 100) / progress.total
+      )}%`;
+      console.log(progress);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  viewer.IFC.getSpatialStructure(model.modelID);
   await viewer.shadowDropper.renderShadow(model.modelID);
-  viewer.context.renderer.postProduction.active = true;
-
+  loadingContainer.style.display = "none";
   const ifcProject = await viewer.IFC.getSpatialStructure(model.modelID);
   createTreeMenu(ifcProject);
 }
