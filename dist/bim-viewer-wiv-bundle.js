@@ -121862,6 +121862,7 @@ let model;
 
 loadIfc(ifcURL);
 
+// Load buildings 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loading-container");
   const progressText = document.getElementById("progress-text");
@@ -121874,7 +121875,6 @@ async function loadIfc(ifcURL) {
       progressText.textContent = `Loading ${buildingsNames[currentModelId]}: ${Math.round(
         (progress.loaded * 100) / progress.total
       )}%`;
-      console.log(progress);
     },
     (error) => {
       console.log(error);
@@ -121895,18 +121895,23 @@ window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 // Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
 const dimensionsButton = document.getElementById("dimensions");
 let toggleDimensions = false;
+let clicked = 0;
 dimensionsButton.onclick = () => {
+  toggleDimensions = !toggleDimensions;
   viewer.dimensions.active = toggleDimensions;
   viewer.dimensions.previewActive = toggleDimensions;
   let visibility = toggleDimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
   button.setAttribute("title", `${visibility} ${button.id}`);
-  toggleDimensions = !toggleDimensions;
+  clicked = 0;
 };
 
 // Double click → Dimensions
-window.ondblclick = () => {
+window.onclick = () => {
+  if (clicked > 0){
   viewer.dimensions.create();
+  }
+  clicked ++;
 };
 
 window.onkeydown = (event) => {
@@ -121924,8 +121929,8 @@ toggleVisibility(propButton, toggleProp, propertyMenu);
 
 // Pick → propterties
 viewer.IFC.selector.selection.material = pickHighlihgtMateral;
-window.onclick = async () => {
-  const result = await viewer.IFC.selector.pickIfcItem(false, true);
+window.ondblclick = async () => {
+  const result = await viewer.IFC.selector.pickIfcItem(false);
   if (!result) return;
   const { modelID, id } = result;
   const props = await viewer.IFC.getProperties(modelID, id, true, false);
