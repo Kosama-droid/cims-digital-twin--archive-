@@ -121545,6 +121545,20 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
 
+const hoverHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff90,
+  depthTest: false,
+});
+
+const pickHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff30,
+  depthTest: false,
+});
+
 function closeNavBar() {
 let togglenavigationBar = false;
 navigationButton.onclick = function () {
@@ -121680,14 +121694,6 @@ const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/ca
 loadIfc(ifcURL);
 let model;
 
-async function setUpMultiThreading() {
-  const manager = ifcLoader.ifcManager;
-  // These paths depend on how you structure your project
-  await manager.useWebWorkers(true, '../src/wasm/IFCWorker.js');
-}
-
-setUpMultiThreading();
-
 async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
   model = await viewer.IFC.loadIfcUrl(url);
@@ -121700,8 +121706,10 @@ async function loadIfc(url) {
 
 // Properties menu
 
+viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
+viewer.IFC.selector.selection.material = pickHighlihgtMateral;
+
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
-// window.onclick = () => viewer.IFC.selector.pickIfcItem();
 
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false, true);

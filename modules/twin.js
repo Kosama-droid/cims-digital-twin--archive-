@@ -1,9 +1,26 @@
 import { IfcViewerAPI } from "web-ifc-viewer";
+import {
+  MeshBasicMaterial,
+} from "three";
 
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
+
+export const hoverHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff90,
+  depthTest: false,
+});
+
+export const pickHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff30,
+  depthTest: false,
+});
 
 export function isolateSelector(selectors, ...keys) {
     selectors.forEach((selector) => {

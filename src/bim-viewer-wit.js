@@ -45,6 +45,8 @@ import {
   createBuildingSelector,
   closeNavBar,
   toggleVisibility,
+  hoverHighlihgtMateral,
+  pickHighlihgtMateral,
 } from "../modules/twin.js";
 
 // Get the URL parameter
@@ -221,20 +223,6 @@ loadBuildingIFC(ifcURL, ifcModels, currentModelId);
 const raycaster = new Raycaster();
 raycaster.firstHitOnly = true;
 const mouse = new Vector2();
-
-const hoverHighlihgtMateral = new MeshBasicMaterial({
-  transparent: true,
-  opacity: 0.6,
-  color: 0xffff90,
-  depthTest: false,
-});
-
-const pickHighlihgtMateral = new MeshBasicMaterial({
-  transparent: true,
-  opacity: 0.6,
-  color: 0xffff30,
-  depthTest: false,
-});
 
 let lastModel;
 

@@ -6,6 +6,8 @@ import {
   createBuildingSelector,
   closeNavBar,
   toggleVisibility,
+  hoverHighlihgtMateral,
+  pickHighlihgtMateral,
 } from "../modules/twin.js"
 
 // Get the URL parameter
@@ -76,14 +78,6 @@ const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/ca
 loadIfc(ifcURL);
 let model;
 
-async function setUpMultiThreading() {
-  const manager = ifcLoader.ifcManager;
-  // These paths depend on how you structure your project
-  await manager.useWebWorkers(true, '../src/wasm/IFCWorker.js');
-}
-
-setUpMultiThreading();
-
 async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
   model = await viewer.IFC.loadIfcUrl(url);
@@ -96,8 +90,10 @@ async function loadIfc(url) {
 
 // Properties menu
 
+viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
+viewer.IFC.selector.selection.material = pickHighlihgtMateral;
+
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
-// window.onclick = () => viewer.IFC.selector.pickIfcItem();
 
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false, true);
