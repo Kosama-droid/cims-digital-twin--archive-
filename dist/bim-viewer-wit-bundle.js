@@ -110878,6 +110878,20 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
 
+const hoverHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff90,
+  depthTest: false,
+});
+
+const pickHighlihgtMateral = new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff30,
+  depthTest: false,
+});
+
 function closeNavBar() {
 let togglenavigationBar = false;
 navigationButton.onclick = function () {
@@ -110933,15 +110947,13 @@ function sortChildren(parent) {
         });
       }
 
-function toggleVisibility(object, button, toggle) {
+function toggleVisibility(button, toggle, object = null) {
         button.onclick = function () {
           if (toggle) {
-            object.classList.add("hidden");
-            this.setAttribute("title", `Show ${object.title}`);
-          } else {
-            this.setAttribute("title", `Hide ${object.title}`);
-            object.classList.remove("hidden");
-          }
+            this.setAttribute("title", `Show ${this.id}`);
+            if (!object) {object.classList.add("hidden");}          } else {
+            this.setAttribute("title", `Hide ${this.id}`);
+            if (!object) {object.classList.remove("hidden");}          }
           toggle = !toggle;
         };
       }
@@ -111103,14 +111115,6 @@ ifcLoader.ifcManager.setupThreeMeshBVH(
   acceleratedRaycast
 );
 
-async function setUpMultiThreading() {
-  const manager = ifcLoader.ifcManager;
-  // These paths depend on how you structure your project
-  await manager.useWebWorkers(true, '../src/wasm/IFCWorker.js');
-}
-
-setUpMultiThreading();
-
 // IFC Loading
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 // const ifcURL = `../static/public-ifc/${ifcFileName[currentModelId]}`;
@@ -111120,20 +111124,6 @@ loadBuildingIFC(ifcURL, ifcModels, currentModelId);
 const raycaster = new Raycaster();
 raycaster.firstHitOnly = true;
 const mouse = new Vector2();
-
-const hoverHighlihgtMateral = new MeshBasicMaterial({
-  transparent: true,
-  opacity: 0.6,
-  color: 0xffff90,
-  depthTest: false,
-});
-
-const pickHighlihgtMateral = new MeshBasicMaterial({
-  transparent: true,
-  opacity: 0.6,
-  color: 0xffff30,
-  depthTest: false,
-});
 
 let lastModel;
 

@@ -105479,6 +105479,20 @@ const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
 
+new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff90,
+  depthTest: false,
+});
+
+new MeshBasicMaterial({
+  transparent: true,
+  opacity: 0.6,
+  color: 0xffff30,
+  depthTest: false,
+});
+
 function isolateSelector(selectors, ...keys) {
     selectors.forEach((selector) => {
       if (keys.includes(selector.id)) {

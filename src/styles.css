@@ -449,7 +449,7 @@ ul, #myUL {
 .ifcjs-dimension-preview {
   width: 0.5rem;
   height: 0.5rem;
-  background-color: var(--primary-light-transp2);
+  background-color: #ffffcc;
   border-radius: 1rem;
 }
 

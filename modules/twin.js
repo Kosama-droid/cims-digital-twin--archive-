@@ -10,8 +10,8 @@ const navigationButton = document.getElementById("close-nav-bar");
 
 export const hoverHighlihgtMateral = new MeshBasicMaterial({
   transparent: true,
-  opacity: 0.6,
-  color: 0xffff90,
+  opacity: 0.3,
+  color: 0xffffcc,
   depthTest: false,
 });
 
@@ -87,15 +87,17 @@ export function sortChildren(parent) {
         });
       }
 
-export function toggleVisibility(object, button, toggle) {
+export function toggleVisibility(button, toggle, object = null) {
         button.onclick = function () {
           if (toggle) {
-            object.classList.add("hidden");
-            this.setAttribute("title", `Show ${object.title}`);
+            this.setAttribute("title", `Show ${this.id.replace("-", " ")}`)
+            if (object) {object.classList.add("hidden")};
+            toggle = false
           } else {
-            this.setAttribute("title", `Hide ${object.title}`);
-            object.classList.remove("hidden");
+            this.setAttribute("title", `Hide ${this.id.replace("-", " ")}`);
+            if (object) {object.classList.remove("hidden")};
+            toggle = true
           }
-          toggle = !toggle;
         };
+        return toggle;
       }

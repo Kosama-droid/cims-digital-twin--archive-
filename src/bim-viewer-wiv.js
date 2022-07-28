@@ -17,6 +17,7 @@ document.getElementById("user").addEventListener("change", () =>  currentUser = 
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
+
 const loadingScreen = document.getElementById("loader-container");
 const progressText = document.getElementById("progress-text");
 
@@ -27,32 +28,10 @@ const building = {
   loaded: {},
 };
 
-// GUI
-const propertyMenu = document.getElementById("ifc-property-menu");
-const propButton = document.getElementById("prop-button");
-let toggleProp = false;
-toggleVisibility(propertyMenu, propButton, toggleProp);
-
-const treeMenu = document.getElementById("ifc-tree-menu");
-const treeButton = document.getElementById("tree-button");
-let toggleTree = false;
-toggleVisibility(treeMenu, treeButton, toggleTree);
-toggleVisibility(treeMenu, treeButton, toggleTree);
-
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");
 createBuildingSelector(building, buildingsNames, listedBuildings);
 updateSelectBldgMenu(building, currentModelId);
-
-const toggler = document.getElementsByClassName("caret");
-let i;
-
-for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested").classList.toggle("active");
-    this.classList.toggle("caret-down");
-  });
-}
 
 document
   .getElementById("building-select")
@@ -68,9 +47,11 @@ const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
+const scene = viewer.context.getScene()
+const raycaster = viewer.context.ifcCaster.raycaster;
+console.log(viewer.context)
 
-// Create grid and axes
-// viewer.grid.setGrid();
+// Create axes
 viewer.axes.setAxes();
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
@@ -92,20 +73,19 @@ async function loadIfc(url) {
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
-// Pick → propterties
-viewer.IFC.selector.selection.material = pickHighlihgtMateral;
-window.ondblclick = async () => {
-  const result = await viewer.IFC.selector.pickIfcItem(false, true);
-  if (!result) return;
-  const { modelID, id } = result;
-  const props = await viewer.IFC.getProperties(modelID, id, true, false);
-  createPropertiesMenu(props);
+// Dimensions 
+const dimensionsButton = document.getElementById("dimensions");
+let toggleDimensions = false;
+dimensionsButton.onclick = () => {
+  viewer.dimensions.active = toggleDimensions;
+  viewer.dimensions.previewActive = toggleDimensions;
+  let visibility = toggleDimensions ? "Hide" : "Show"
+  let button = document.getElementById("dimensions");
+  button.setAttribute("title", `${visibility} ${button.id}`)
+  toggleDimensions = !toggleDimensions
 };
 
-// Double click → Dimensions
-viewer.dimensions.active = true;
-viewer.dimensions.previewActive = true;
-
+// Double click → Dimensions 
 window.ondblclick = () => {
   viewer.dimensions.create();
 }
@@ -116,8 +96,22 @@ window.onkeydown = (event) => {
   }
 }
 
-// Properties menu
+// Properties 📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
+const propButton = document.getElementById("properties");
+let toggleProp = false;
+const propertyMenu = document.getElementById("ifc-property-menu");
+toggleVisibility(propButton, toggleProp, propertyMenu);
+
+// Pick → propterties
+viewer.IFC.selector.selection.material = pickHighlihgtMateral;
+window.onclick = async () => {
+  const result = await viewer.IFC.selector.pickIfcItem(false, true);
+  if (!result) return;
+  const { modelID, id } = result;
+  const props = await viewer.IFC.getProperties(modelID, id, true, false);
+  createPropertiesMenu(props);
+};
 
 function createPropertiesMenu(properties) {
   removeAllChildren(propsGUI);
@@ -154,7 +148,22 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
-// Project Viewer
+// Project Tree 🌳
+
+const toggler = document.getElementsByClassName("caret");
+let i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+
+const treeButton = document.getElementById("project-tree");
+let toggleTree = false;
+const treeMenu = document.getElementById("ifc-tree-menu");
+toggleVisibility(treeButton, toggleTree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root")
@@ -225,3 +234,4 @@ function removeAllChildren(element) {
     element.removeChild(element.firstChild)
   }
 }
+

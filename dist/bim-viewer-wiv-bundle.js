@@ -121547,8 +121547,8 @@ const navigationButton = document.getElementById("close-nav-bar");
 
 const hoverHighlihgtMateral = new MeshBasicMaterial({
   transparent: true,
-  opacity: 0.6,
-  color: 0xffff90,
+  opacity: 0.3,
+  color: 0xffffcc,
   depthTest: false,
 });
 
@@ -121614,17 +121614,17 @@ function sortChildren(parent) {
         });
       }
 
-function toggleVisibility(object, button, toggle) {
+function toggleVisibility(button, toggle, object = null) {
         button.onclick = function () {
           if (toggle) {
-            object.classList.add("hidden");
-            this.setAttribute("title", `Show ${object.title}`);
+            this.setAttribute("title", `Show ${this.id.replace("-", " ")}`);
+            if (object) {object.classList.add("hidden");}            toggle = false;
           } else {
-            this.setAttribute("title", `Hide ${object.title}`);
-            object.classList.remove("hidden");
+            this.setAttribute("title", `Hide ${this.id.replace("-", " ")}`);
+            if (object) {object.classList.remove("hidden");}            toggle = true;
           }
-          toggle = !toggle;
         };
+        return toggle;
       }
 
 // Get the URL parameter
@@ -121632,6 +121632,7 @@ const currentURL = window.location.href;
 document.getElementById("user").addEventListener("change", () =>  document.getElementById("user").value );
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
+
 
 document.getElementById("loader-container");
 document.getElementById("progress-text");
@@ -121643,32 +121644,10 @@ const building = {
   loaded: {},
 };
 
-// GUI
-const propertyMenu = document.getElementById("ifc-property-menu");
-const propButton = document.getElementById("prop-button");
-let toggleProp = false;
-toggleVisibility(propertyMenu, propButton, toggleProp);
-
-const treeMenu = document.getElementById("ifc-tree-menu");
-const treeButton = document.getElementById("tree-button");
-let toggleTree = false;
-toggleVisibility(treeMenu, treeButton, toggleTree);
-toggleVisibility(treeMenu, treeButton, toggleTree);
-
 option.innerHTML = buildingsNames[currentModelId];
 const listedBuildings = document.getElementById("listed-buildings");
 createBuildingSelector(building, buildingsNames, listedBuildings);
 updateSelectBldgMenu(building, currentModelId);
-
-const toggler = document.getElementsByClassName("caret");
-let i;
-
-for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested").classList.toggle("active");
-    this.classList.toggle("caret-down");
-  });
-}
 
 document
   .getElementById("building-select")
@@ -121684,9 +121663,11 @@ const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
+viewer.context.getScene();
+viewer.context.ifcCaster.raycaster;
+console.log(viewer.context);
 
-// Create grid and axes
-// viewer.grid.setGrid();
+// Create axes
 viewer.axes.setAxes();
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
@@ -121708,20 +121689,19 @@ async function loadIfc(url) {
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
-// Pick → propterties
-viewer.IFC.selector.selection.material = pickHighlihgtMateral;
-window.ondblclick = async () => {
-  const result = await viewer.IFC.selector.pickIfcItem(false, true);
-  if (!result) return;
-  const { modelID, id } = result;
-  const props = await viewer.IFC.getProperties(modelID, id, true, false);
-  createPropertiesMenu(props);
+// Dimensions 
+const dimensionsButton = document.getElementById("dimensions");
+let toggleDimensions = false;
+dimensionsButton.onclick = () => {
+  viewer.dimensions.active = toggleDimensions;
+  viewer.dimensions.previewActive = toggleDimensions;
+  let visibility = toggleDimensions ? "Hide" : "Show";
+  let button = document.getElementById("dimensions");
+  button.setAttribute("title", `${visibility} ${button.id}`);
+  toggleDimensions = !toggleDimensions;
 };
 
-// Double click → Dimensions
-viewer.dimensions.active = true;
-viewer.dimensions.previewActive = true;
-
+// Double click → Dimensions 
 window.ondblclick = () => {
   viewer.dimensions.create();
 };
@@ -121732,8 +121712,22 @@ window.onkeydown = (event) => {
   }
 };
 
-// Properties menu
+// Properties 📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
+const propButton = document.getElementById("properties");
+let toggleProp = false;
+const propertyMenu = document.getElementById("ifc-property-menu");
+toggleVisibility(propButton, toggleProp, propertyMenu);
+
+// Pick → propterties
+viewer.IFC.selector.selection.material = pickHighlihgtMateral;
+window.onclick = async () => {
+  const result = await viewer.IFC.selector.pickIfcItem(false, true);
+  if (!result) return;
+  const { modelID, id } = result;
+  const props = await viewer.IFC.getProperties(modelID, id, true, false);
+  createPropertiesMenu(props);
+};
 
 function createPropertiesMenu(properties) {
   removeAllChildren(propsGUI);
@@ -121770,7 +121764,22 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
-// Project Viewer
+// Project Tree 🌳
+
+const toggler = document.getElementsByClassName("caret");
+let i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+
+const treeButton = document.getElementById("project-tree");
+let toggleTree = false;
+const treeMenu = document.getElementById("ifc-tree-menu");
+toggleVisibility(treeButton, toggleTree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");
