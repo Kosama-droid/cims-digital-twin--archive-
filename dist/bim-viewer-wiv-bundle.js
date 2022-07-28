@@ -121627,12 +121627,186 @@ function toggleVisibility(button, toggle, object = null) {
         return toggle;
       }
 
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+var Stats = function () {
+
+	var mode = 0;
+
+	var container = document.createElement( 'div' );
+	container.style.cssText = 'position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
+	container.addEventListener( 'click', function ( event ) {
+
+		event.preventDefault();
+		showPanel( ++ mode % container.children.length );
+
+	}, false );
+
+	//
+
+	function addPanel( panel ) {
+
+		container.appendChild( panel.dom );
+		return panel;
+
+	}
+
+	function showPanel( id ) {
+
+		for ( var i = 0; i < container.children.length; i ++ ) {
+
+			container.children[ i ].style.display = i === id ? 'block' : 'none';
+
+		}
+
+		mode = id;
+
+	}
+
+	//
+
+	var beginTime = ( performance || Date ).now(), prevTime = beginTime, frames = 0;
+
+	var fpsPanel = addPanel( new Stats.Panel( 'FPS', '#0ff', '#002' ) );
+	var msPanel = addPanel( new Stats.Panel( 'MS', '#0f0', '#020' ) );
+
+	if ( self.performance && self.performance.memory ) {
+
+		var memPanel = addPanel( new Stats.Panel( 'MB', '#f08', '#201' ) );
+
+	}
+
+	showPanel( 0 );
+
+	return {
+
+		REVISION: 16,
+
+		dom: container,
+
+		addPanel: addPanel,
+		showPanel: showPanel,
+
+		begin: function () {
+
+			beginTime = ( performance || Date ).now();
+
+		},
+
+		end: function () {
+
+			frames ++;
+
+			var time = ( performance || Date ).now();
+
+			msPanel.update( time - beginTime, 200 );
+
+			if ( time > prevTime + 1000 ) {
+
+				fpsPanel.update( ( frames * 1000 ) / ( time - prevTime ), 100 );
+
+				prevTime = time;
+				frames = 0;
+
+				if ( memPanel ) {
+
+					var memory = performance.memory;
+					memPanel.update( memory.usedJSHeapSize / 1048576, memory.jsHeapSizeLimit / 1048576 );
+
+				}
+
+			}
+
+			return time;
+
+		},
+
+		update: function () {
+
+			beginTime = this.end();
+
+		},
+
+		// Backwards Compatibility
+
+		domElement: container,
+		setMode: showPanel
+
+	};
+
+};
+
+Stats.Panel = function ( name, fg, bg ) {
+
+	var min = Infinity, max = 0, round = Math.round;
+	var PR = round( window.devicePixelRatio || 1 );
+
+	var WIDTH = 80 * PR, HEIGHT = 48 * PR,
+			TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
+			GRAPH_X = 3 * PR, GRAPH_Y = 15 * PR,
+			GRAPH_WIDTH = 74 * PR, GRAPH_HEIGHT = 30 * PR;
+
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = WIDTH;
+	canvas.height = HEIGHT;
+	canvas.style.cssText = 'width:80px;height:48px';
+
+	var context = canvas.getContext( '2d' );
+	context.font = 'bold ' + ( 9 * PR ) + 'px Helvetica,Arial,sans-serif';
+	context.textBaseline = 'top';
+
+	context.fillStyle = bg;
+	context.fillRect( 0, 0, WIDTH, HEIGHT );
+
+	context.fillStyle = fg;
+	context.fillText( name, TEXT_X, TEXT_Y );
+	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
+
+	context.fillStyle = bg;
+	context.globalAlpha = 0.9;
+	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
+
+	return {
+
+		dom: canvas,
+
+		update: function ( value, maxValue ) {
+
+			min = Math.min( min, value );
+			max = Math.max( max, value );
+
+			context.fillStyle = bg;
+			context.globalAlpha = 1;
+			context.fillRect( 0, 0, WIDTH, GRAPH_Y );
+			context.fillStyle = fg;
+			context.fillText( round( value ) + ' ' + name + ' (' + round( min ) + '-' + round( max ) + ')', TEXT_X, TEXT_Y );
+
+			context.drawImage( canvas, GRAPH_X + PR, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT, GRAPH_X, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT );
+
+			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, GRAPH_HEIGHT );
+
+			context.fillStyle = bg;
+			context.globalAlpha = 0.9;
+			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT ) );
+
+		}
+
+	};
+
+};
+
 // Get the URL parameter
 const currentURL = window.location.href;
-document.getElementById("user").addEventListener("change", () =>  document.getElementById("user").value );
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
-
+document
+  .getElementById("user")
+  .addEventListener(
+    "change",
+    () => (document.getElementById("user").value)
+  );
 
 document.getElementById("loader-container");
 document.getElementById("progress-text");
@@ -121670,6 +121844,14 @@ console.log(viewer.context);
 // Create axes
 viewer.axes.setAxes();
 
+// Set up stats
+const stats = new Stats();
+stats.showPanel(0);
+document.body.append(stats.dom);
+stats.dom.style.right = "0px";
+stats.dom.style.left = "auto";
+viewer.context.stats = stats;
+
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 
 loadIfc(ifcURL);
@@ -121677,7 +121859,8 @@ let model;
 
 async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
-  model = await viewer.IFC.loadIfcUrl(url);
+  model = await viewer.IFC.loadIfcUrl(url, true);
+  console.log(model);
   await viewer.shadowDropper.renderShadow(model.modelID);
   viewer.context.renderer.postProduction.active = true;
 
@@ -121689,7 +121872,7 @@ async function loadIfc(url) {
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
-// Dimensions 
+// Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
 const dimensionsButton = document.getElementById("dimensions");
 let toggleDimensions = false;
 dimensionsButton.onclick = () => {
@@ -121701,18 +121884,18 @@ dimensionsButton.onclick = () => {
   toggleDimensions = !toggleDimensions;
 };
 
-// Double click → Dimensions 
+// Double click → Dimensions
 window.ondblclick = () => {
   viewer.dimensions.create();
 };
 
 window.onkeydown = (event) => {
-  if(event.code === 'Delete') {
-  viewer.dimensions.delete();
+  if (event.code === "Delete") {
+    viewer.dimensions.delete();
   }
 };
 
-// Properties 📃
+// Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
 const propButton = document.getElementById("properties");
 let toggleProp = false;
@@ -121764,13 +121947,13 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
-// Project Tree 🌳
+// Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
 const toggler = document.getElementsByClassName("caret");
 let i;
 
 for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
+  toggler[i].addEventListener("click", function () {
     this.parentElement.querySelector(".nested").classList.toggle("active");
     this.classList.toggle("caret-down");
   });
@@ -121785,32 +121968,32 @@ function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");
   removeAllChildren(root);
   const ifcProjectNode = createNestedChild(root, ifcProject);
-  for(const child of ifcProject.children) {
+  for (const child of ifcProject.children) {
     constructTreeMenuNode(ifcProjectNode, child);
   }
 }
 
 function constructTreeMenuNode(parent, node) {
   const children = node.children;
-  if(children.length === 0) {
+  if (children.length === 0) {
     createSimpleChild(parent, node);
     return;
   }
   const nodeElement = createNestedChild(parent, node);
-  for(const child of children) {
+  for (const child of children) {
     constructTreeMenuNode(nodeElement, child);
   }
 }
 
 function createSimpleChild(parent, node) {
   const content = nodeToString(node);
-  const childNode = document.createElement('li');
-  childNode.classList.add('leaf-node');
+  const childNode = document.createElement("li");
+  childNode.classList.add("leaf-node");
   childNode.textContent = content;
   parent.appendChild(childNode);
 
   childNode.onmouseenter = () => {
-      viewer.IFC.selector.prepickIfcItemsByID(0, [node.expressID]);
+    viewer.IFC.selector.prepickIfcItemsByID(0, [node.expressID]);
   };
 
   childNode.onclick = async () => {
@@ -121820,21 +122003,21 @@ function createSimpleChild(parent, node) {
 
 function createNestedChild(parent, node) {
   const content = nodeToString(node);
-  const root = document.createElement('li');
+  const root = document.createElement("li");
   createTitle(root, content);
-  const childrenContainer = document.createElement('ul');
-  childrenContainer.classList.add('nested');
+  const childrenContainer = document.createElement("ul");
+  childrenContainer.classList.add("nested");
   root.appendChild(childrenContainer);
   parent.appendChild(root);
   return childrenContainer;
 }
 
 function createTitle(parent, content) {
-  const title = document.createElement('span');
-  title.classList.add('caret');
+  const title = document.createElement("span");
+  title.classList.add("caret");
   title.onclick = () => {
-    title.parentElement.querySelector('.nested').classList.toggle('active');
-    title.classList.toggle('caret-down');
+    title.parentElement.querySelector(".nested").classList.toggle("active");
+    title.classList.toggle("caret-down");
   };
 
   title.textContent = content;
@@ -121846,7 +122029,7 @@ function nodeToString(node) {
 }
 
 function removeAllChildren(element) {
-  while(element.firstChild) {
+  while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
 }

@@ -8,15 +8,23 @@ import {
   toggleVisibility,
   hoverHighlihgtMateral,
   pickHighlihgtMateral,
-} from "../modules/twin.js"
+} from "../modules/twin.js";
+
+import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
 const currentURL = window.location.href;
-let currentUser = "User";
-document.getElementById("user").addEventListener("change", () =>  currentUser = document.getElementById("user").value );
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
+// Get user
+let currentUser = "User";
+document
+  .getElementById("user")
+  .addEventListener(
+    "change",
+    () => (currentUser = document.getElementById("user").value)
+  );
 
 const loadingScreen = document.getElementById("loader-container");
 const progressText = document.getElementById("progress-text");
@@ -47,12 +55,20 @@ const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
-const scene = viewer.context.getScene()
+const scene = viewer.context.getScene();
 const raycaster = viewer.context.ifcCaster.raycaster;
-console.log(viewer.context)
+console.log(viewer.context);
 
 // Create axes
 viewer.axes.setAxes();
+
+// Set up stats
+const stats = new Stats();
+stats.showPanel(0);
+document.body.append(stats.dom);
+stats.dom.style.right = "0px";
+stats.dom.style.left = "auto";
+viewer.context.stats = stats;
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 
@@ -61,7 +77,8 @@ let model;
 
 async function loadIfc(url) {
   await viewer.IFC.setWasmPath("../src/wasm/");
-  model = await viewer.IFC.loadIfcUrl(url);
+  model = await viewer.IFC.loadIfcUrl(url, true);
+  console.log(model);
   await viewer.shadowDropper.renderShadow(model.modelID);
   viewer.context.renderer.postProduction.active = true;
 
@@ -73,30 +90,30 @@ async function loadIfc(url) {
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
-// Dimensions 
+// Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
 const dimensionsButton = document.getElementById("dimensions");
 let toggleDimensions = false;
 dimensionsButton.onclick = () => {
   viewer.dimensions.active = toggleDimensions;
   viewer.dimensions.previewActive = toggleDimensions;
-  let visibility = toggleDimensions ? "Hide" : "Show"
+  let visibility = toggleDimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
-  button.setAttribute("title", `${visibility} ${button.id}`)
-  toggleDimensions = !toggleDimensions
+  button.setAttribute("title", `${visibility} ${button.id}`);
+  toggleDimensions = !toggleDimensions;
 };
 
-// Double click → Dimensions 
+// Double click → Dimensions
 window.ondblclick = () => {
   viewer.dimensions.create();
-}
+};
 
 window.onkeydown = (event) => {
-  if(event.code === 'Delete') {
-  viewer.dimensions.delete();
+  if (event.code === "Delete") {
+    viewer.dimensions.delete();
   }
-}
+};
 
-// Properties 📃
+// Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
 const propButton = document.getElementById("properties");
 let toggleProp = false;
@@ -148,13 +165,13 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
-// Project Tree 🌳
+// Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
 const toggler = document.getElementsByClassName("caret");
 let i;
 
 for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
+  toggler[i].addEventListener("click", function () {
     this.parentElement.querySelector(".nested").classList.toggle("active");
     this.classList.toggle("caret-down");
   });
@@ -166,63 +183,63 @@ const treeMenu = document.getElementById("ifc-tree-menu");
 toggleVisibility(treeButton, toggleTree, treeMenu);
 
 function createTreeMenu(ifcProject) {
-  const root = document.getElementById("tree-root")
+  const root = document.getElementById("tree-root");
   removeAllChildren(root);
   const ifcProjectNode = createNestedChild(root, ifcProject);
-  for(const child of ifcProject.children) {
+  for (const child of ifcProject.children) {
     constructTreeMenuNode(ifcProjectNode, child);
   }
 }
 
 function constructTreeMenuNode(parent, node) {
   const children = node.children;
-  if(children.length === 0) {
+  if (children.length === 0) {
     createSimpleChild(parent, node);
     return;
   }
   const nodeElement = createNestedChild(parent, node);
-  for(const child of children) {
-    constructTreeMenuNode(nodeElement, child)
+  for (const child of children) {
+    constructTreeMenuNode(nodeElement, child);
   }
 }
 
 function createSimpleChild(parent, node) {
   const content = nodeToString(node);
-  const childNode = document.createElement('li');
-  childNode.classList.add('leaf-node');
+  const childNode = document.createElement("li");
+  childNode.classList.add("leaf-node");
   childNode.textContent = content;
   parent.appendChild(childNode);
 
   childNode.onmouseenter = () => {
-      viewer.IFC.selector.prepickIfcItemsByID(0, [node.expressID]);
-  }
+    viewer.IFC.selector.prepickIfcItemsByID(0, [node.expressID]);
+  };
 
   childNode.onclick = async () => {
     viewer.IFC.selector.pickIfcItemsByID(0, [node.expressID]);
-  }
+  };
 }
 
 function createNestedChild(parent, node) {
   const content = nodeToString(node);
-  const root = document.createElement('li');
+  const root = document.createElement("li");
   createTitle(root, content);
-  const childrenContainer = document.createElement('ul');
-  childrenContainer.classList.add('nested');
+  const childrenContainer = document.createElement("ul");
+  childrenContainer.classList.add("nested");
   root.appendChild(childrenContainer);
   parent.appendChild(root);
   return childrenContainer;
 }
 
 function createTitle(parent, content) {
-  const title = document.createElement('span')
-  title.classList.add('caret');
+  const title = document.createElement("span");
+  title.classList.add("caret");
   title.onclick = () => {
-    title.parentElement.querySelector('.nested').classList.toggle('active');
-    title.classList.toggle('caret-down')
-  }
+    title.parentElement.querySelector(".nested").classList.toggle("active");
+    title.classList.toggle("caret-down");
+  };
 
   title.textContent = content;
-  parent.appendChild(title)
+  parent.appendChild(title);
 }
 
 function nodeToString(node) {
@@ -230,8 +247,7 @@ function nodeToString(node) {
 }
 
 function removeAllChildren(element) {
-  while(element.firstChild) {
-    element.removeChild(element.firstChild)
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 }
-
