@@ -97,10 +97,10 @@ async function loadIfc(url) {
 // Properties menu
 
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
-window.onclick = () => viewer.IFC.selector.pickIfcItem();
+// window.onclick = () => viewer.IFC.selector.pickIfcItem();
 
 window.ondblclick = async () => {
-  const result = await viewer.IFC.selector.highlightIfcItem();
+  const result = await viewer.IFC.selector.pickIfcItem(false, true);
   if (!result) return;
   const { modelID, id } = result;
   const props = await viewer.IFC.getProperties(modelID, id, true, false);
