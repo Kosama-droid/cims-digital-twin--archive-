@@ -277,3 +277,6 @@ function removeAllChildren(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+// Projection 
+document.getElementById("projection").onclick = () => viewer.context.ifcCamera.toggleProjection();
