@@ -121704,13 +121704,12 @@ async function loadIfc(url) {
   createTreeMenu(ifcProject);
 }
 
-// Properties menu
-
+// Hover → Highlight
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
-viewer.IFC.selector.selection.material = pickHighlihgtMateral;
-
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
+// Pick → propterties
+viewer.IFC.selector.selection.material = pickHighlihgtMateral;
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false, true);
   if (!result) return;
@@ -121719,6 +121718,21 @@ window.ondblclick = async () => {
   createPropertiesMenu(props);
 };
 
+// Double click → Dimensions
+viewer.dimensions.active = true;
+viewer.dimensions.previewActive = true;
+
+window.ondblclick = () => {
+  viewer.dimensions.create();
+};
+
+window.onkeydown = (event) => {
+  if(event.code === 'Delete') {
+  viewer.dimensions.delete();
+  }
+};
+
+// Properties menu
 const propsGUI = document.getElementById("ifc-property-menu-root");
 
 function createPropertiesMenu(properties) {

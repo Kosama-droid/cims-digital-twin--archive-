@@ -206,14 +206,6 @@ ifcLoader.ifcManager.setupThreeMeshBVH(
   acceleratedRaycast
 );
 
-async function setUpMultiThreading() {
-  const manager = ifcLoader.ifcManager;
-  // These paths depend on how you structure your project
-  await manager.useWebWorkers(true, '../src/wasm/IFCWorker.js');
-}
-
-setUpMultiThreading();
-
 // IFC Loading
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 // const ifcURL = `../static/public-ifc/${ifcFileName[currentModelId]}`;
