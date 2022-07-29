@@ -105738,7 +105738,6 @@ provinces.forEach((province) => {
 document
   .getElementById("province-select")
   .addEventListener("change", function () {
-    console.log(province);
     province.index = provinceNames.indexOf(this.value);
     province.code = provinces[province.index].code;
     province.term = provinces[province.index].term;
@@ -105748,7 +105747,6 @@ document
         province.code
     ).then((provinceGeojson) => {
       geoJson.current = provinceGeojson;
-      province.term;
       loadGeojson(map, geoJson.current, "geoJson");
       geoJson.source = map.getSource("geoJson");
       geoJson.fill = map.getLayer("geoJson-fill");
@@ -105985,7 +105983,6 @@ map.on("dblclick", () => {
 });
 
 const bimViewerURL = "./bim-viewer.html";
-console.log(params);
 let bimURL = "./bim-viewer.html";
 map.on("click", () => {
   let id = gltfMasses.selected.id;

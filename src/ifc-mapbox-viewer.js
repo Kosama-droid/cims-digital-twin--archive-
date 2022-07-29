@@ -217,7 +217,6 @@ provinces.forEach((province) => {
 document
   .getElementById("province-select")
   .addEventListener("change", function () {
-    console.log(province)
     province.index = provinceNames.indexOf(this.value);
     province.code = provinces[province.index].code;
     province.term = provinces[province.index].term;
@@ -479,7 +478,6 @@ map.on("dblclick", () => {
 });
 
 const bimViewerURL = "./bim-viewer.html";
-console.log(params)
 let bimURL = "./bim-viewer.html";
 map.on("click", () => {
   let id = gltfMasses.selected.id;
