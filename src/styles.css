@@ -166,9 +166,14 @@ a {
   pointer-events: all;
 }
 
-.white-background {
+.transp1-background {
   background-color: var(--primary-light-transp1);
   box-shadow: var(--shadow);
+}
+
+.selected-button {
+  background-color: var(--primary-light);
+  border: 1px solid;
 }
 
 .circular {
@@ -448,9 +453,9 @@ ul, #myUL {
 
 /* dimensions */
 .ifcjs-dimension-preview {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: #ffffcc;
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: var(--primary-dark);
   border-radius: 1rem;
 }
 

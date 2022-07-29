@@ -19,7 +19,7 @@ const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
 // Get user
-let currentUser = "User";
+let currentUser = "";
 document
   .getElementById("user")
   .addEventListener(
@@ -55,7 +55,6 @@ const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
-console.log(viewer.context);
 viewer.IFC.setWasmPath("../src/wasm/");
 const scene = viewer.context.getScene();
 // Create axes
@@ -126,6 +125,7 @@ dimensionsButton.onclick = () => {
   let visibility = toggleDimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
   button.setAttribute("title", `${visibility} ${button.id}`);
+  toggleDimensions? button.classList.add("selected-button") : button.classList.remove("selected-button");
   clicked = 0;
 };
 
@@ -293,7 +293,7 @@ function removeAllChildren(element) {
 // Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 window.oncontextmenu = () => {
   const collision = viewer.context.castRayIfc(model);
-  if (collision === null) return;
+  if (collision === null || currentUser === "") return;
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };

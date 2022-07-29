@@ -121618,10 +121618,12 @@ function toggleVisibility(button, toggle, object = null) {
         button.onclick = function () {
           if (toggle) {
             this.setAttribute("title", `Show ${this.id.replace("-", " ")}`);
+            this.classList.remove("selected-button");
             if (object) {object.classList.add("hidden");}            toggle = false;
           } else {
             this.setAttribute("title", `Hide ${this.id.replace("-", " ")}`);
-            if (object) {object.classList.remove("hidden");}            toggle = true;
+            if (object) {object.classList.remove("hidden");}            this.classList.add("selected-button");
+            toggle = true;
           }
         };
         return toggle;
@@ -121835,7 +121837,7 @@ const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
 
 // Get user
-let currentUser = "User";
+let currentUser = "";
 document
   .getElementById("user")
   .addEventListener(
@@ -121871,7 +121873,6 @@ const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xdddddd),
 });
-console.log(viewer.context);
 viewer.IFC.setWasmPath("../src/wasm/");
 const scene = viewer.context.getScene();
 // Create axes
@@ -121941,6 +121942,7 @@ dimensionsButton.onclick = () => {
   let visibility = toggleDimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
   button.setAttribute("title", `${visibility} ${button.id}`);
+  toggleDimensions? button.classList.add("selected-button") : button.classList.remove("selected-button");
   clicked = 0;
 };
 
@@ -122073,7 +122075,7 @@ function removeAllChildren(element) {
 // Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 window.oncontextmenu = () => {
   const collision = viewer.context.castRayIfc(model);
-  if (collision === null) return;
+  if (collision === null || currentUser === "") return;
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
