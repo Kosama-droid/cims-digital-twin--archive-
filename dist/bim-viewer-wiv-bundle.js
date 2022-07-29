@@ -121958,6 +121958,7 @@ async function loadIfc(ifcURL) {
       viewer.plans.goTo(model.modelID, plan, true);
       viewer.edges.toggle('plan-edges', true);
       togglePostproduction(false);
+      toggleShadow(false);
     };
   }
   }
@@ -121970,6 +121971,7 @@ async function loadIfc(ifcURL) {
     viewer.plans.exitPlanView();
     viewer.edges.toggle('plan-edges', false);
     togglePostproduction(true);
+    toggleShadow(true);
   };
 
   viewer.IFC.getSpatialStructure(model.modelID);
@@ -122168,6 +122170,13 @@ window.oncontextmenu = () => {
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
+
+function toggleShadow(active){
+  const shadows = Object.values(viewer.shadowDropper.shadows);
+  for (shadow of shadows) {
+    shadow.root.visible = active;
+  }
+}
 
 function togglePostproduction(active){
   viewer.context.renderer.postProduction.active = active;

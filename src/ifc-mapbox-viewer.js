@@ -479,14 +479,14 @@ map.on("dblclick", () => {
 });
 
 const bimViewerURL = "./bim-viewer.html";
+console.log(params)
 let bimURL = "./bim-viewer.html";
 map.on("click", () => {
   let id = gltfMasses.selected.id;
   bimURL = bimViewerURL + `?id=${id}`;
-  console.log(`${id} selected`);
   document
     .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL));
+    .addEventListener("click", () => window.open(bimURL,"BIM-Viewer"));
   if (window.event.ctrlKey) {
     window.open(bimURL);
   }
