@@ -68,15 +68,16 @@
       <a id="project-tree" class="button transp1-background circular" title="Show project tree">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 21c0 1.657-1.344 3-3 3-1.657 0-3-1.343-3-3s1.343-3 3-3c1.656 0 3 1.343 3 3zm6-3c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm0-18c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm9 18c-1.656 0-3 1.343-3 3s1.344 3 3 3 3-1.343 3-3-1.344-3-3-3zm-1.577-1.721l-6.423-5.028v-3.352c-.323.066-.658.101-1 .101s-.677-.035-1-.101v3.352l-6.423 5.028c.694.233 1.323.602 1.844 1.093l5.579-4.372 5.579 4.373c.522-.492 1.15-.861 1.844-1.094z"/></svg>
       </a>
+      <a id="plans" class="button transp1-background circular" title="Toggle plans">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M24 23h-20c-2.208 0-4-1.792-4-4v-15.694c.313-1.071 1.285-2.306 3-2.306 1.855 0 2.769 1.342 2.995 2.312l.005 1.688h18v18zm-2-16h-16v11s-.595-1-1.922-1c-1.104 0-2.078.896-2.078 2s.896 2 2 2h18v-14zm-2 12h-12v-10h12v10zm-8-9h-3v8h10v-4h-2v3h-1v-3h-3v3h-1v-7zm-8-6.339c-.233-.921-1.807-.917-2 0v11.997c.408-.421 1.383-.724 2-.658v-11.339zm9 6.339v3h6v-3h-6z"/>
+        </svg>
+      </a>
       <a id="projection" class="button transp1-background circular" title="Toggle projection">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
             d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" />
         </svg>
-      </a>
-      <a class="info button">
-        <input id="user" type="text" name="User" autocomplete="off" placeholder="USER" value="" title="Add user name">
-        <span class="info-text">Right click on elements to leave comments</span>
       </a>
       <a id="dimensions" class="button transp1-background circular info" title="Show dimensions">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -92,10 +93,14 @@
        <span class="info-text">Doubleclick to select elements and get properties<br>Esc to deselect</span>     
         </svg>
       </a>
+      <a class="info button">
+        <input id="user" type="text" name="User" autocomplete="off" placeholder="USER" value="" title="Add user name">
+        <span class="info-text">Right click on elements to leave comments</span>
+      </a>
     </div>
   </div>
 
-  <div class="side-menu right hidden  transp1-background" id="ifc-property-menu" title="Properties">
+  <div class="side-menu right hidden transp1-background" id="ifc-property-menu" title="Properties">
     <div class="ifc-property-item">
       <div class="ifc-property-header">Property</div>
       <div class="ifc-property-header ifc-property-value">Value</div>
@@ -103,31 +108,16 @@
     <div id="ifc-property-menu-root"></div>
   </div>
 
-    <div class="side-menu left hidden  transp1-background" id="ifc-tree-menu" title="IFC Project Tree">
+  <div id="left-menu" class="side-menu column left transp1-background hidden">
+  <div id="plans-menu" class="column hidden"></div>
+    <div class="hidden" id="ifc-tree-menu" title="IFC Project Tree">
         <ul id="myUL">
             <li id="tree-root">
-                <span class="caret">IFC Project</span>
-                <ul class="nested">
-                    <li>
-                        <span class="caret">IFC Building</span>
-                        <ul class="nested">
-                            <li>LV1</li>
-                            <li>LV2</li>
-                            <li>LV3</li>
-                            <li><span class="caret">LV4</span>
-                                <ul class="nested">
-                                    <li>Room 1</li>
-                                    <li>Room 2</li>
-                                    <li>Room 3</li>
-                                    <li>Room 4</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </li>
         </ul>
     </div>
+  </div>
+
 
   <div id="viewer-container" class="canvas"></div>
   <script src="../dist/bim-viewer-wiv-bundle.js"></script>

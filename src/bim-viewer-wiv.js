@@ -1,4 +1,4 @@
-import { Color, LatheBufferGeometry } from "three";
+import { Color, LineBasicMaterial, MeshBasicMaterial } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
 import {
@@ -17,6 +17,7 @@ import Stats from "stats.js/src/Stats";
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
+const toggle = {}
 
 // Get user
 let currentUser = "";
@@ -70,9 +71,8 @@ viewer.context.stats = stats;
 
 viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   USE_FAST_BOOLS: true,
-  COORDINATE_TO_ORIGIN: false,
+  COORDINATE_TO_ORIGIN: true,
 });
-viewer.context.renderer.postProduction.active = true;
 
 const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
 let model;
@@ -103,8 +103,61 @@ async function loadIfc(ifcURL) {
     }
   );
 
+  // Floor plans 👣👣👣👣👣
+  const plansButton = document.getElementById("plans");
+  toggle.plans = false;
+  const plansMenu = document.getElementById("plans-menu");
+  toggleVisibility(plansButton, toggle.plans, plansMenu);
+  document.getElementById("toolbar").onclick = () => {
+  toggle.plans || toggle.tree ? document.getElementById("left-menu").classList.add('hidden') :
+  document.getElementById("left-menu").classList.remove('hidden')
+  }
+  
+
+
+  await viewer.plans.computeAllPlanViews(model.modelID);
+
+  const lineMaterial = new LineBasicMaterial({color: 'black'});
+  const baseMaterial = new MeshBasicMaterial({
+    polygonOffset: true,
+    polygonOffsetFactor:1,
+    polygonOffsetUnits: 1
+  });
+
+  await viewer.edges.create('plan-edges', model.modelID, lineMaterial, baseMaterial);
+
+  // Floor plan viewing
+  const allPlans = viewer.plans.getAll(model.modelID);
+  const plansContainer = document.getElementById("plans-menu");
+
+  for (const plan of allPlans){
+    const currentPlan = viewer.plans.planLists[model.modelID][plan]
+    if ((currentPlan.name).includes("LV")){
+    const planButton = document.createElement('button');
+    planButton.classList.add('levels')
+    plansContainer.appendChild(planButton);
+    planButton.textContent = currentPlan.name;
+    planButton.onclick = () => {
+      viewer.plans.goTo(model.modelID, plan, true)
+      viewer.edges.toggle('plan-edges', true)
+      togglePostproduction(false);
+    }
+  }
+  }
+
+  const button = document.createElement('button');
+  plansContainer.appendChild(button);
+  button.classList.add('button')
+  button.textContent = 'Exit Level View';
+  button.onclick = () => {
+    viewer.plans.exitPlanView();
+    viewer.edges.toggle('plan-edges', false)
+    togglePostproduction(true);
+  }
+
   viewer.IFC.getSpatialStructure(model.modelID);
   await viewer.shadowDropper.renderShadow(model.modelID);
+  viewer.context.renderer.postProduction.active = true;
   loadingContainer.style.display = "none";
   const ifcProject = await viewer.IFC.getSpatialStructure(model.modelID);
   createTreeMenu(ifcProject);
@@ -116,16 +169,16 @@ window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
 // Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
 const dimensionsButton = document.getElementById("dimensions");
-let toggleDimensions = false;
+toggle.dimensions = false;
 let clicked = 0;
 dimensionsButton.onclick = () => {
-  toggleDimensions = !toggleDimensions;
-  viewer.dimensions.active = toggleDimensions;
-  viewer.dimensions.previewActive = toggleDimensions;
-  let visibility = toggleDimensions ? "Hide" : "Show";
+  toggle.dimensions = !toggle.dimensions;
+  viewer.dimensions.active = toggle.dimensions;
+  viewer.dimensions.previewActive = toggle.dimensions;
+  let visibility = toggle.dimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
   button.setAttribute("title", `${visibility} ${button.id}`);
-  toggleDimensions? button.classList.add("selected-button") : button.classList.remove("selected-button");
+  toggle.dimensions? button.classList.add("selected-button") : button.classList.remove("selected-button");
   clicked = 0;
 };
 
@@ -155,9 +208,9 @@ window.onkeydown = (event) => {
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
 const propButton = document.getElementById("properties");
-let toggleProp = false;
+toggle.proprerties = false;
 const propertyMenu = document.getElementById("ifc-property-menu");
-toggleVisibility(propButton, toggleProp, propertyMenu);
+toggleVisibility(propButton, toggle.proprerties, propertyMenu);
 
 // Pick → propterties
 viewer.IFC.selector.selection.material = pickHighlihgtMateral;
@@ -166,21 +219,22 @@ window.ondblclick = async () => {
   if (!result) return;
   const { modelID, id } = result;
   const props = await viewer.IFC.getProperties(modelID, id, true, false);
+  createPropsMenu(props)
 };
 
-function createPropertiesMenu(properties) {
+function createPropsMenu(props) {
   removeAllChildren(propsGUI);
 
-  const psets = properties.psets;
-  const mats = properties.mats;
-  const type = properties.type;
+  const psets = props.psets;
+  const mats = props.mats;
+  const type = props.type;
 
-  delete properties.psets;
-  delete properties.mats;
-  delete properties.type;
+  delete props.psets;
+  delete props.mats;
+  delete props.type;
 
-  for (let key in properties) {
-    createPropertyEntry(key, properties[key]);
+  for (let key in props) {
+    createPropertyEntry(key, props[key]);
   }
 }
 
@@ -216,9 +270,9 @@ for (i = 0; i < toggler.length; i++) {
 }
 
 const treeButton = document.getElementById("project-tree");
-let toggleTree = false;
+toggle.tree = false;
 const treeMenu = document.getElementById("ifc-tree-menu");
-toggleVisibility(treeButton, toggleTree, treeMenu);
+toggleVisibility(treeButton, toggle.tree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");
@@ -297,3 +351,7 @@ window.oncontextmenu = () => {
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
+
+function togglePostproduction(active){
+  viewer.context.renderer.postProduction.active = active;
+}

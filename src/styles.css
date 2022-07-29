@@ -74,8 +74,19 @@ a {
   justify-content: center;
 }
 
+.column {
+  display:flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
 .hidden {
   display: none;
+}
+
+.levels {
+  margin: 0.3rem;
+  width: 8rem;
 }
 
 .select-visible {
