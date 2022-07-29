@@ -8,6 +8,7 @@ import {
   toggleVisibility,
   hoverHighlihgtMateral,
   pickHighlihgtMateral,
+  labeling,
 } from "../modules/twin.js";
 
 import Stats from "stats.js/src/Stats";
@@ -57,7 +58,6 @@ const viewer = new IfcViewerAPI({
 console.log(viewer.context);
 viewer.IFC.setWasmPath("../src/wasm/");
 const scene = viewer.context.getScene();
-const raycaster = viewer.context.ifcCaster.raycaster;
 // Create axes
 viewer.axes.setAxes();
 
@@ -81,6 +81,10 @@ const ifcModels = [];
 
 loadIfc(ifcURL);
 
+// Projection
+document.getElementById("projection").onclick = () =>
+  viewer.context.ifcCamera.toggleProjection();
+
 // Load buildings 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loading-container");
@@ -91,9 +95,9 @@ async function loadIfc(ifcURL) {
     true,
     (progress) => {
       loadingContainer.style.display = "flex";
-      progressText.textContent = `Loading ${buildingsNames[currentModelId]}: ${Math.round(
-        (progress.loaded * 100) / progress.total
-      )}%`;
+      progressText.textContent = `Loading ${
+        buildingsNames[currentModelId]
+      }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
     },
     (error) => {
       console.log(error);
@@ -127,13 +131,22 @@ dimensionsButton.onclick = () => {
 
 // Double click → Dimensions
 window.onclick = () => {
-  if (clicked > 0){
-  viewer.dimensions.create();
+  if (clicked > 0) {
+    viewer.dimensions.create();
   }
-  clicked ++
+  clicked++;
 };
 
+// Keybord ⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️
 window.onkeydown = (event) => {
+  if (event.code === "Escape") {
+    viewer.IFC.selector.unpickIfcItems();
+    viewer.IFC.selector.unHighlightIfcItems();
+  }
+  if (event.code === "Space") {
+    viewer.context.fitToFrame()
+  }
+
   if (event.code === "Delete") {
     viewer.dimensions.delete();
   }
@@ -153,7 +166,6 @@ window.ondblclick = async () => {
   if (!result) return;
   const { modelID, id } = result;
   const props = await viewer.IFC.getProperties(modelID, id, true, false);
-  createPropertiesMenu(props);
 };
 
 function createPropertiesMenu(properties) {
@@ -278,5 +290,10 @@ function removeAllChildren(element) {
   }
 }
 
-// Projection 
-document.getElementById("projection").onclick = () => viewer.context.ifcCamera.toggleProjection();
+// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+window.oncontextmenu = () => {
+  const collision = viewer.context.castRayIfc(model);
+  if (collision === null) return;
+  const collisionLocation = collision.point;
+  labeling(scene, collisionLocation, currentUser);
+};

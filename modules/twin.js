@@ -3,6 +3,10 @@ import {
   MeshBasicMaterial,
 } from "three";
 
+import {
+  CSS2DObject,
+} from "three/examples/jsm/renderers/CSS2DRenderer.js";
+
 const listedBuildings$1 = document.getElementById("listed-buildings");
 const loadedBuildings = document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
@@ -100,4 +104,36 @@ export function toggleVisibility(button, toggle, object = null) {
           }
         };
         return toggle;
+      }
+
+export function labeling(scene, collisionLocation, user = "User") {
+        const message = window.prompt("Message:");
+      
+        if (!message) return;
+      
+        const container = document.createElement("div");
+        container.className = "label-container canvas";
+      
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "X";
+        deleteButton.className = "delete-button hidden";
+        container.appendChild(deleteButton);
+      
+        const label = document.createElement("p");
+        label.textContent = `${user}: ${message}`;
+        label.classList.add("label");
+        container.appendChild(label);
+      
+        const labelObject = new CSS2DObject(container);
+        labelObject.position.copy(collisionLocation);
+        scene.add(labelObject);
+      
+        deleteButton.onclick = () => {
+          labelObject.removeFromParent();
+          labelObject.element = null;
+          container.remove();
+        };
+      
+        container.onmouseenter = () => deleteButton.classList.remove("hidden");
+        container.onmouseleave = () => deleteButton.classList.add("hidden");
       }

@@ -13,18 +13,6 @@ export default [
 //     resolve(),
 //   ],
 // },
-// {
-//   input: "src/bim-viewer-wit.js",
-//   output: [
-//     {
-//     format: "esm",
-//     file: "./dist/bim-viewer-wit-bundle.js"
-//     }
-//   ],
-//   plugins: [
-//     resolve(),
-//   ],
-// },
 {
   input: "src/bim-viewer-wiv.js",
   output: [

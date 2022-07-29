@@ -121627,6 +121627,38 @@ function toggleVisibility(button, toggle, object = null) {
         return toggle;
       }
 
+function labeling(scene, collisionLocation, user = "User") {
+        const message = window.prompt("Message:");
+      
+        if (!message) return;
+      
+        const container = document.createElement("div");
+        container.className = "label-container canvas";
+      
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "X";
+        deleteButton.className = "delete-button hidden";
+        container.appendChild(deleteButton);
+      
+        const label = document.createElement("p");
+        label.textContent = `${user}: ${message}`;
+        label.classList.add("label");
+        container.appendChild(label);
+      
+        const labelObject = new CSS2DObject(container);
+        labelObject.position.copy(collisionLocation);
+        scene.add(labelObject);
+      
+        deleteButton.onclick = () => {
+          labelObject.removeFromParent();
+          labelObject.element = null;
+          container.remove();
+        };
+      
+        container.onmouseenter = () => deleteButton.classList.remove("hidden");
+        container.onmouseleave = () => deleteButton.classList.add("hidden");
+      }
+
 /**
  * @author mrdoob / http://mrdoob.com/
  */
@@ -121801,11 +121833,14 @@ Stats.Panel = function ( name, fg, bg ) {
 const currentURL = window.location.href;
 const url = new URL(currentURL);
 const currentModelId = url.searchParams.get("id");
+
+// Get user
+let currentUser = "User";
 document
   .getElementById("user")
   .addEventListener(
     "change",
-    () => (document.getElementById("user").value)
+    () => (currentUser = document.getElementById("user").value)
   );
 
 const building = {
@@ -121838,8 +121873,7 @@ const viewer = new IfcViewerAPI({
 });
 console.log(viewer.context);
 viewer.IFC.setWasmPath("../src/wasm/");
-viewer.context.getScene();
-viewer.context.ifcCaster.raycaster;
+const scene = viewer.context.getScene();
 // Create axes
 viewer.axes.setAxes();
 
@@ -121862,6 +121896,10 @@ let model;
 
 loadIfc(ifcURL);
 
+// Projection
+document.getElementById("projection").onclick = () =>
+  viewer.context.ifcCamera.toggleProjection();
+
 // Load buildings 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loading-container");
@@ -121872,9 +121910,9 @@ async function loadIfc(ifcURL) {
     true,
     (progress) => {
       loadingContainer.style.display = "flex";
-      progressText.textContent = `Loading ${buildingsNames[currentModelId]}: ${Math.round(
-        (progress.loaded * 100) / progress.total
-      )}%`;
+      progressText.textContent = `Loading ${
+        buildingsNames[currentModelId]
+      }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
     },
     (error) => {
       console.log(error);
@@ -121908,20 +121946,29 @@ dimensionsButton.onclick = () => {
 
 // Double click → Dimensions
 window.onclick = () => {
-  if (clicked > 0){
-  viewer.dimensions.create();
+  if (clicked > 0) {
+    viewer.dimensions.create();
   }
-  clicked ++;
+  clicked++;
 };
 
+// Keybord ⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️
 window.onkeydown = (event) => {
+  if (event.code === "Escape") {
+    viewer.IFC.selector.unpickIfcItems();
+    viewer.IFC.selector.unHighlightIfcItems();
+  }
+  if (event.code === "Space") {
+    viewer.context.fitToFrame();
+  }
+
   if (event.code === "Delete") {
     viewer.dimensions.delete();
   }
 };
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
-const propsGUI = document.getElementById("ifc-property-menu-root");
+document.getElementById("ifc-property-menu-root");
 const propButton = document.getElementById("properties");
 let toggleProp = false;
 const propertyMenu = document.getElementById("ifc-property-menu");
@@ -121933,44 +121980,8 @@ window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false);
   if (!result) return;
   const { modelID, id } = result;
-  const props = await viewer.IFC.getProperties(modelID, id, true, false);
-  createPropertiesMenu(props);
+  await viewer.IFC.getProperties(modelID, id, true, false);
 };
-
-function createPropertiesMenu(properties) {
-  removeAllChildren(propsGUI);
-
-  properties.psets;
-  properties.mats;
-  properties.type;
-
-  delete properties.psets;
-  delete properties.mats;
-  delete properties.type;
-
-  for (let key in properties) {
-    createPropertyEntry(key, properties[key]);
-  }
-}
-
-function createPropertyEntry(key, value) {
-  const propContainer = document.createElement("div");
-  propContainer.classList.add("ifc-property-item");
-
-  if (value === null || value === undefined) value = "undefined";
-  else if (value.value) value = value.value;
-
-  const keyElement = document.createElement("div");
-  keyElement.textContent = key;
-  propContainer.appendChild(keyElement);
-
-  const valueElement = document.createElement("div");
-  valueElement.classList.add("ifc-property-value");
-  valueElement.textContent = value;
-  propContainer.appendChild(valueElement);
-
-  propsGUI.appendChild(propContainer);
-}
 
 // Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
@@ -122059,5 +122070,10 @@ function removeAllChildren(element) {
   }
 }
 
-// Projection 
-document.getElementById("projection").onclick = () => viewer.context.ifcCamera.toggleProjection();
+// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+window.oncontextmenu = () => {
+  const collision = viewer.context.castRayIfc(model);
+  if (collision === null) return;
+  const collisionLocation = collision.point;
+  labeling(scene, collisionLocation, currentUser);
+};
