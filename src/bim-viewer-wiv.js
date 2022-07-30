@@ -109,8 +109,12 @@ async function loadIfc(ifcURL) {
   const plansMenu = document.getElementById("plans-menu");
   toggleVisibility(plansButton, toggle.plans, plansMenu);
   document.getElementById("toolbar").onclick = () => {
-  toggle.plans || toggle.tree ? document.getElementById("left-menu").classList.add('hidden') :
-  document.getElementById("left-menu").classList.remove('hidden')
+  let plans = !document.getElementById("plans-menu").classList.contains("hidden");
+  let ifc = !document.getElementById("ifc-tree-menu").classList.contains("hidden");
+  toggle.left = plans || ifc;
+  console.log(plans, ifc, toggle.left);
+  toggle.left ? document.getElementById("left-menu").classList.remove('hidden') :
+  document.getElementById("left-menu").classList.add('hidden')
   }
   
 
