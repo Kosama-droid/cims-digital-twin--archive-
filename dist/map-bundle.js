@@ -105559,6 +105559,12 @@ function sortChildren(parent) {
         });
       }
 
+// import {
+// createProvinceMenu,
+// createCityMenu,
+// createSiteMenu,
+// } from "../modules/twin-map.js";
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
@@ -105566,23 +105572,27 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "coordinates");
 
-let scene, camera, map, renderer, raycaster, gltfMasses;
+let scene, map, camera, renderer, raycaster, gltfMasses;
 
 let previousSelection = {
   mesh: null,
   material: null,
 };
 
-const highlightMaterial = new MeshStandardMaterial({
-  color: 0xffff70,
+const highlightMaterial = new MeshBasicMaterial({
+  color: 0xcccc70,
   flatShading: true,
   side: DoubleSide,
+  transparent: true,
+  opacity: 0.9,
+  depthTest: false,
 });
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const province = {},
+const province = {term: ""},
   city = {},
+  site = {},
   geoJson = { fill: "", outline: "" },
   lng = { canada: -98.74 },
   lat = { canada: 56.415 },
@@ -105595,6 +105605,8 @@ const massesMaterial = new MeshStandardMaterial({
   side: DoubleSide,
   emissive: 0x555555,
 });
+
+closeNavBar();
 
 // By default Carleton University → // Downsview  lng = 	-79.47247, lat = 43.73666
 lng.current = -75.69435;
@@ -105626,7 +105638,11 @@ map.on("style.load", () => {
     "star-intensity": 0.0,
   });
   addTerrain(map);
+  osmVisibility(map, toggleOSM);
 });
+
+const osmButton = document.getElementById("osm");
+let toggleOSM = true;
 
 // Select map style 🗺️🎨 ___________________________________________________
 const styleNames = [];
@@ -105645,25 +105661,22 @@ styleSelect.addEventListener("change", function () {
   const url = mapStyles[selectedStyle].url;
   map.setStyle(url);
   map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+  osmVisibility(map, toggleOSM);
 });
 
-// GUI 🖱️ _____________________________________________________________
-closeNavBar();
-
-const osmButton = document.getElementById("osm");
-let toggleOSM = true;
 // Show OSM buildings 🏢
+function osmVisibility(map, toggle) {
 osmButton.onclick = function () {
   map.getLayer("OSM-buildings");
-  if (toggleOSM) {
+  if (toggle) {
     loadOSM(map, 0.9);
     this.setAttribute("title", "Hide OSM Buildings");
   } else {
     map.removeLayer("OSM-buildings");
   }
-  toggleOSM = !toggleOSM;
+  toggle = !toggle;
 };
-
+}
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
 const building = {
@@ -105724,83 +105737,7 @@ document
   });
 
 // Select province or Territory 🍁 _________________________________________________________
-const provinceNames = [];
-const provinces = canada.provinces;
-const territories = canada.territories;
-territories.forEach((territory) => {
-  provinces.push(territory);
-});
-provinces.forEach((province) => {
-  let option = document.createElement("option");
-  option.innerHTML = province.provinceName;
-  provinceNames.push(province.provinceName);
-  document.getElementById("province-select").appendChild(option);
-});
-document
-  .getElementById("province-select")
-  .addEventListener("change", function () {
-    province.index = provinceNames.indexOf(this.value);
-    province.code = provinces[province.index].code;
-    province.term = provinces[province.index].term;
-    // GET PROVINCE GEOJSON 🍁🌐 ___________________________
-    getJson(
-      "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-        province.code
-    ).then((provinceGeojson) => {
-      geoJson.current = provinceGeojson;
-      loadGeojson(map, geoJson.current, "geoJson");
-      geoJson.source = map.getSource("geoJson");
-      geoJson.fill = map.getLayer("geoJson-fill");
-      geoJson.outline = map.getLayer("geoJson-outline");
-      isolateSelector(selectors, "city-select", "style-select");
-    });
-
-    // GET CITY 🏙️ _____________________________________________________________________________
-    const cityNames = [];
-    const citySelect = document.getElementById("city-select");
-    getJson(
-      "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
-        province.code +
-        "&concise=CITY"
-    ).then((jsonCity) => {
-      const cityItems = jsonCity.items;
-      let selectedCity = "";
-      while (citySelect.childElementCount > 1) {
-        citySelect.removeChild(citySelect.lastChild);
-      } //Clear cityItems
-      cityItems.forEach((cityItem) => {
-        cityNames.push(cityItem.name);
-        let option = document.createElement("option");
-        option.innerHTML = cityItem.name;
-        citySelect.appendChild(option);
-        sortChildren(citySelect);
-      });
-      citySelect.addEventListener("change", function () {
-        const selectedCityIndex = cityNames.indexOf(this.value);
-        selectedCity = cityItems[selectedCityIndex];
-        city.name = selectedCity.name;
-        // GET CITY GEOJSON 🏙️🌐 _________________________
-        getJson(
-          "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-            city.name +
-            "&concise=CITY&province=" +
-            province.code
-        ).then((cityGeojson) => {
-          isolateSelector(selectors, "site-select", "style-select");
-          isolateSelector(toolbar, "osm", "go-to", "coordinates");
-          geoJson.current = cityGeojson;
-          geoJson.bbox = turf.bbox(cityGeojson);
-          map.fitBounds(geoJson.bbox);
-          geoJson.source.setData(geoJson.current);
-          document
-            .getElementById("site-select")
-            .addEventListener("click", function () {
-              removeGeojson(map);
-            });
-        });
-      });
-    });
-  });
+createProvinceMenu(province, city, site);
 
 const modelOrigin = [lng.current, lat.current];
 const modelAltitude = msl.current;
@@ -106191,3 +106128,96 @@ async function loadBuildingIFC(path, file, id) {
     }
   );
 }
+
+function createProvinceMenu(province, city, site) {
+  const provinceNames = [];
+  const provinces = canada.provinces;
+  const territories = canada.territories;
+  territories.forEach((territory) => {
+    provinces.push(territory);
+  });
+  provinces.forEach((province) => {
+    let option = document.createElement("option");
+    option.innerHTML = province.provinceName;
+    provinceNames.push(province.provinceName);
+    document.getElementById("province-select").appendChild(option);
+  });
+  document
+    .getElementById("province-select")
+    .addEventListener("change", function () {
+      province.index = provinceNames.indexOf(this.value);
+      province.code = provinces[province.index].code;
+      province.term = provinces[province.index].term;
+      // GET PROVINCE GEOJSON 🍁🌐 ___________________________
+      getJson(
+        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
+          province.code
+      ).then((provinceGeojson) => {
+        geoJson.current = provinceGeojson;
+        province.term;
+        loadGeojson(map, geoJson.current, "geoJson");
+        geoJson.source = map.getSource("geoJson");
+        geoJson.fill = map.getLayer("geoJson-fill");
+        geoJson.outline = map.getLayer("geoJson-outline");
+        isolateSelector(selectors, "city-select", "style-select");
+      });
+      city = createCityMenu(province, city, site);
+    });
+    return province;
+  }
+
+function createCityMenu(province, city, site) {
+  const cityNames = [];
+  const citySelect = document.getElementById("city-select");
+  getJson(
+    "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
+      province.code +
+      "&concise=CITY"
+  ).then((jsonCity) => {
+    const cityItems = jsonCity.items;
+    let selectedCity = "";
+    while (citySelect.childElementCount > 1) {
+      citySelect.removeChild(citySelect.lastChild);
+    } //Clear cityItems
+    cityItems.forEach((cityItem) => {
+      cityNames.push(cityItem.name);
+      let option = document.createElement("option");
+      option.innerHTML = cityItem.name;
+      citySelect.appendChild(option);
+      sortChildren(citySelect);
+    });
+    citySelect.addEventListener("change", function () {
+      const selectedCityIndex = cityNames.indexOf(this.value);
+      selectedCity = cityItems[selectedCityIndex];
+      city.name = selectedCity.name;
+      // GET CITY GEOJSON 🏙️🌐 _________________________
+      getJson(
+        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
+          city.name +
+          "&concise=CITY&province=" +
+          province.code
+      ).then((cityGeojson) => {
+        isolateSelector(selectors, "site-select", "style-select");
+        isolateSelector(toolbar, "osm", "go-to", "coordinates");
+        geoJson.current = cityGeojson;
+        geoJson.bbox = turf.bbox(cityGeojson);
+        map.fitBounds(geoJson.bbox);
+        geoJson.source.setData(geoJson.current);
+      });
+    });
+    createSiteMenu(province, city, site);
+  });
+  console.log(province.term);
+  return city;
+  }
+
+  function createSiteMenu(province, city, site) {
+    document
+    .getElementById("site-select")
+    .addEventListener("click", function () {
+      removeGeojson(map);
+      console.log(city.name);
+    });
+    
+    return site;
+  }
