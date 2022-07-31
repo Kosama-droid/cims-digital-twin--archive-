@@ -121550,6 +121550,7 @@ const hoverHighlihgtMateral = new MeshBasicMaterial({
   opacity: 0.3,
   color: 0xffffcc,
   depthTest: false,
+  
 });
 
 const pickHighlihgtMateral = new MeshBasicMaterial({

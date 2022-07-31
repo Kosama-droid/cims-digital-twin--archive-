@@ -17,6 +17,7 @@ export const hoverHighlihgtMateral = new MeshBasicMaterial({
   opacity: 0.3,
   color: 0xffffcc,
   depthTest: false,
+  
 });
 
 export const pickHighlihgtMateral = new MeshBasicMaterial({

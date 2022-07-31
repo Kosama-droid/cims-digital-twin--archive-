@@ -105484,6 +105484,7 @@ new MeshBasicMaterial({
   opacity: 0.3,
   color: 0xffffcc,
   depthTest: false,
+  
 });
 
 new MeshBasicMaterial({
@@ -105565,7 +105566,7 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "coordinates");
 
-let scene ,camera, map, renderer, raycaster, gltfMasses;
+let scene, camera, map, renderer, raycaster, gltfMasses;
 
 let previousSelection = {
   mesh: null,
@@ -105989,7 +105990,7 @@ map.on("click", () => {
   bimURL = bimViewerURL + `?id=${id}`;
   document
     .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL,"BIM-Viewer"));
+    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
   if (window.event.ctrlKey) {
     window.open(bimURL);
   }
@@ -106013,8 +106014,6 @@ document
           object.visible = true;
         }
         ifc.removeFromParent();
-        // ifc.material.dispose();
-        // ifc.geometry.dispose();
       });
     }
     // Load IFC file

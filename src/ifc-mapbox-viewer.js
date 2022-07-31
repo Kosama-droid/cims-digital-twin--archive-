@@ -1,7 +1,11 @@
 import { canada } from "../static/data/canada.js";
 import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
-import { IfcPath, buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
+import {
+  IfcPath,
+  buildingsNames,
+  ifcFileName,
+} from "../static/data/cdc-data.js";
 
 import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -21,6 +25,7 @@ import {
   Raycaster,
   CSS2DObject,
   MeshLambertMaterial,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   DoubleSide,
 } from "three";
@@ -33,7 +38,15 @@ import {
   disposeBoundsTree,
 } from "three-mesh-bvh";
 
-import { updateSelectBldgMenu, sortChildren, createBuildingSelector, isolateSelector, closeNavBar } from "../modules/twin.js";
+import {
+  updateSelectBldgMenu,
+  sortChildren,
+  createBuildingSelector,
+  isolateSelector,
+  closeNavBar,
+  hoverHighlihgtMateral,
+  pickHighlihgtMateral,
+} from "../modules/twin.js";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
@@ -42,7 +55,7 @@ const toolbar = Array.from(document.getElementById("toolbar").children);
 isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "coordinates");
 
-let scene ,camera, map, renderer, raycaster, gltfMasses;
+let scene, camera, map, renderer, raycaster, gltfMasses;
 
 let previousSelection = {
   mesh: null,
@@ -57,8 +70,7 @@ const highlightMaterial = new MeshStandardMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const 
-  province = {},
+const province = {},
   city = {},
   site = {},
   geoJson = { fill: "", outline: "" },
@@ -126,7 +138,7 @@ styleSelect.addEventListener("change", function () {
 });
 
 // GUI 🖱️ _____________________________________________________________
-closeNavBar()
+closeNavBar();
 
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
@@ -484,7 +496,7 @@ map.on("click", () => {
   bimURL = bimViewerURL + `?id=${id}`;
   document
     .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL,"BIM-Viewer"));
+    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
   if (window.event.ctrlKey) {
     window.open(bimURL);
   }
@@ -508,8 +520,6 @@ document
           object.visible = true;
         }
         ifc.removeFromParent();
-        // ifc.material.dispose();
-        // ifc.geometry.dispose();
       });
     }
     // Load IFC file
