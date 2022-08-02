@@ -121511,7 +121511,7 @@ const ifcFileName = {
   MC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
   ME: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
   ML: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
-  NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+  NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AND-NATIONAL_WILDLIFE_RESEARCH_CENTRE-AS_FOUND.ifc",
   NI: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
   P9: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
   PA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
@@ -121926,56 +121926,64 @@ async function loadIfc(ifcURL) {
   toggle.plans = false;
   const plansMenu = document.getElementById("plans-menu");
   toggleVisibility(plansButton, toggle.plans, plansMenu);
-  
+
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
-  let plans = !document.getElementById("plans-menu").classList.contains("hidden");
-  let ifc = !document.getElementById("ifc-tree-menu").classList.contains("hidden");
-  toggle.left = plans || ifc;
-  toggle.left ? document.getElementById("left-menu").classList.remove('hidden') :
-  document.getElementById("left-menu").classList.add('hidden');
+    let plans = !document
+      .getElementById("plans-menu")
+      .classList.contains("hidden");
+    let ifc = !document
+      .getElementById("ifc-tree-menu")
+      .classList.contains("hidden");
+    toggle.left = plans || ifc;
+    toggle.left
+      ? document.getElementById("left-menu").classList.remove("hidden")
+      : document.getElementById("left-menu").classList.add("hidden");
   };
-  
-
 
   await viewer.plans.computeAllPlanViews(model.modelID);
 
-  const lineMaterial = new LineBasicMaterial({color: 'black'});
+  const lineMaterial = new LineBasicMaterial({ color: "black" });
   const baseMaterial = new MeshBasicMaterial({
     polygonOffset: true,
-    polygonOffsetFactor:1,
-    polygonOffsetUnits: 1
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
   });
 
-  await viewer.edges.create('plan-edges', model.modelID, lineMaterial, baseMaterial);
+  await viewer.edges.create(
+    "plan-edges",
+    model.modelID,
+    lineMaterial,
+    baseMaterial
+  );
 
   // Floor plan viewing
   const allPlans = viewer.plans.getAll(model.modelID);
   const plansContainer = document.getElementById("plans-menu");
 
-  for (const plan of allPlans){
+  for (const plan of allPlans) {
     const currentPlan = viewer.plans.planLists[model.modelID][plan];
-    if ((currentPlan.name).includes("LV")){
-    const planButton = document.createElement('button');
-    planButton.classList.add('levels');
-    plansContainer.appendChild(planButton);
-    planButton.textContent = currentPlan.name;
-    planButton.onclick = () => {
-      viewer.plans.goTo(model.modelID, plan, true);
-      viewer.edges.toggle('plan-edges', true);
-      togglePostproduction(false);
-      toggleShadow(false);
-    };
-  }
+    if (currentPlan.name.includes("LV")) {
+      const planButton = document.createElement("button");
+      planButton.classList.add("levels");
+      plansContainer.appendChild(planButton);
+      planButton.textContent = currentPlan.name;
+      planButton.onclick = () => {
+        viewer.plans.goTo(model.modelID, plan, true);
+        viewer.edges.toggle("plan-edges", true);
+        togglePostproduction(false);
+        toggleShadow(false);
+      };
+    }
   }
 
-  const button = document.createElement('button');
+  const button = document.createElement("button");
   plansContainer.appendChild(button);
-  button.classList.add('button');
-  button.textContent = 'Exit Level View';
+  button.classList.add("button");
+  button.textContent = "Exit Level View";
   button.onclick = () => {
     viewer.plans.exitPlanView();
-    viewer.edges.toggle('plan-edges', false);
+    viewer.edges.toggle("plan-edges", false);
     togglePostproduction(true);
     toggleShadow(true);
   };
@@ -122003,13 +122011,30 @@ dimensionsButton.onclick = () => {
   let visibility = toggle.dimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
   button.setAttribute("title", `${visibility} ${button.id}`);
-  toggle.dimensions? button.classList.add("selected-button") : button.classList.remove("selected-button");
+  toggle.dimensions
+    ? button.classList.add("selected-button")
+    : button.classList.remove("selected-button");
   clicked = 0;
 };
 
-// Double click → Dimensions
+// Clipping planes
+const clippingButton = document.getElementById("clipping");
+toggle.clipping = false;
+clippingButton.onclick = () => {
+  toggle.clipping = !toggle.clipping;
+  viewer.clipper.active = toggle.clipping;
+  let visibility = toggle.clipping ? "Hide" : "Show";
+  let button = document.getElementById("clipping");
+  button.setAttribute("title", `${visibility} ${button.id}`);
+  toggle.clipping
+    ? button.classList.add("selected-button")
+    : button.classList.remove("selected-button");
+};
+
+
+// Click → Dimensions
 window.onclick = () => {
-  if (clicked > 0) {
+  if (clicked > 0 && toggle.dimensions) {
     viewer.dimensions.create();
   }
   clicked++;
@@ -122025,9 +122050,13 @@ window.onkeydown = (event) => {
     viewer.context.fitToFrame();
   }
 
-  if (event.code === "Delete") {
+  if (event.code === "Delete" && toggle.dimensions) {
     viewer.dimensions.delete();
   }
+  if (event.code === "Delete" && toggle.clipping) {
+    viewer.clipper.deletePlane();
+  }
+
 };
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
@@ -122044,7 +122073,13 @@ window.ondblclick = async () => {
   if (!result) return;
   const { modelID, id } = result;
   const props = await viewer.IFC.getProperties(modelID, id, true, false);
+
   createPropsMenu(props);
+
+  if(toggle.clipping){
+    viewer.clipper.createPlane();
+  }
+
 };
 
 function createPropsMenu(props) {
@@ -122177,13 +122212,13 @@ window.oncontextmenu = () => {
   labeling(scene, collisionLocation, currentUser);
 };
 
-function toggleShadow(active){
+function toggleShadow(active) {
   const shadows = Object.values(viewer.shadowDropper.shadows);
   for (shadow of shadows) {
     shadow.root.visible = active;
   }
 }
 
-function togglePostproduction(active){
+function togglePostproduction(active) {
   viewer.context.renderer.postProduction.active = active;
 }

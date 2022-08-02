@@ -283,6 +283,8 @@ const customLayer = {
       });
       scene.add(gltfMasses);
 
+      
+
       // Show downtown buildings
       if (false) {
         gltfloader.load(
@@ -724,7 +726,6 @@ function createCityMenu(province, city, site) {
       removeGeojson(map, "geoJson");
       console.log(city.name);
     });
-    
     return site;
   }
 
