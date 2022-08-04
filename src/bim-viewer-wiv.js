@@ -224,7 +224,6 @@ clippingButton.onclick = () => {
     : button.classList.remove("selected-button");
 }
 
-
 // Click → Dimensions
 window.onclick = () => {
   if (clicked > 0 && toggle.dimensions) {

@@ -297,12 +297,12 @@ const buildingsNames = {
   "UH": "CHEER",
   "CC": "Colonel By Child Care Centre",
   "RO": "Robertson Hall",
-  "Z1": "Exterior Zone 1",
-  "Z2": "Exterior Zone 2",
-  "Z3": "Exterior Zone 3",
-  "Z4": "Exterior Zone 4",
-  "RD": "Roads",
-  "TU": "Tunnels"
+  // "Z1": "Exterior Zone 1",
+  // "Z2": "Exterior Zone 2",
+  // "Z3": "Exterior Zone 3",
+  // "Z4": "Exterior Zone 4",
+  // "RD": "Roads",
+  // "TU": "Tunnels"
 };
 
 const ifcFileName = {
@@ -335,7 +335,7 @@ const ifcFileName = {
   PH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
   PS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
   RB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
-  RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+  // RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
   RH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
   RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
   RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
@@ -347,14 +347,14 @@ const ifcFileName = {
   TB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
   TC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
   TT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
-  TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+  // TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
   UC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
   UH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
   VS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
-  Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
-  Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
-  Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
-  Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
+  // Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+  // Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+  // Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+  // Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
 };
 
 var __defProp = Object.defineProperty;
@@ -105599,7 +105599,7 @@ const province = {term: ""},
   msl = { canada: 0 },
   masses = [];
 
-const massesMaterial = new MeshStandardMaterial({
+new MeshStandardMaterial({
   color: 0x555555,
   flatShading: true,
   side: DoubleSide,
@@ -105779,7 +105779,7 @@ const customLayer = {
     // scene.add(grid);
     scene.add(axes);
 
-    // three.js GLTF loader
+    // GLTF masses for hovering and raycasting
     const gltfloader = new GLTFLoader();
     gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
       gltfMasses = gltf.scene;
@@ -105788,11 +105788,27 @@ const customLayer = {
       gltfMasses.position.z = 435;
       gltfMasses.traverse(function (object) {
         if (object.isMesh) {
-          object.material = massesMaterial;
+          // object.material = massesMaterial;
+          object.visible = false;
           masses.push(object);
         }
       });
       scene.add(gltfMasses);
+
+      // Load GLTF of buildings
+      let buildingGltf;
+      const categories = ['walls', 'curtainwalls', 'roofs', 'slabs', 'windows'];
+      categories.forEach(category => {
+        for (const id in buildingsNames) {
+        let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
+        console.log(gltf);
+        gltfloader.load(gltfPath, (gltf) => {
+          buildingGltf = gltf.scene;
+          gltfMasses.name = `${id}-${category}`;
+        });
+        scene.add(buildingGltf);
+      }
+      });
     });
 
     // const gui = new GUI();
@@ -105953,6 +105969,7 @@ document
         ifc.removeFromParent();
       });
     }
+
     // Load IFC file
     const input = document.getElementById("file-input");
     input.addEventListener("change", (changed) => {
@@ -106079,6 +106096,7 @@ function hasNotCollided(intersections) {
 
 function highlightItem(item) {
   item.object.material = highlightMaterial;
+  item.object.visible = true;
   gltfMasses.selected = item;
   gltfMasses.selected.id = item.object.name;
 }
@@ -106090,6 +106108,7 @@ function isPreviousSeletion(item) {
 function restorePreviousSelection() {
   if (previousSelection.mesh) {
     previousSelection.mesh.material = previousSelection.material;
+    previousSelection.mesh.visible = false;
     previousSelection.mesh = null;
     previousSelection.material = null;
   }
