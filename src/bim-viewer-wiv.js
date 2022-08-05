@@ -96,6 +96,9 @@ document.getElementById("projection").onclick = () =>
   viewer.context.ifcCamera.toggleProjection();
 
 // Load buildings 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
+
+let properties;
+let projectTree;
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loading-container");
   const progressText = document.getElementById("progress-text");
@@ -113,6 +116,13 @@ async function loadIfc(ifcURL) {
       console.log(error);
     }
   );
+
+  const rawProperties = await fetch(`../assets/carleton/json/ON_Ottawa_CDC_${currentModelId}_properties.json`)
+  properties = await rawProperties.json();
+
+ // Get project tree 🌳
+  projectTree = await constructSpatialTree();
+  createTreeMenu(projectTree);
 
   // Floor plans 👣👣👣👣👣
   const plansButton = document.getElementById("plans");
@@ -168,7 +178,6 @@ async function loadIfc(ifcURL) {
         toggleShadow(false);
       };
     }
-  }
 
   const button = document.createElement("button");
   plansContainer.appendChild(button);
@@ -180,14 +189,12 @@ async function loadIfc(ifcURL) {
     togglePostproduction(true);
     toggleShadow(true);
   };
-
-  viewer.IFC.getSpatialStructure(model.modelID);
+}
   await viewer.shadowDropper.renderShadow(model.modelID);
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.style.display = "none";
-  const ifcProject = await viewer.IFC.getSpatialStructure(model.modelID);
-  createTreeMenu(ifcProject);
 }
+
 
 // Hover → Highlight
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
@@ -260,19 +267,110 @@ toggleVisibility(propButton, toggle.proprerties, propertyMenu);
 
 // Pick → propterties
 viewer.IFC.selector.selection.material = pickHighlihgtMateral;
+
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false);
-  if (!result) return;
-  const { modelID, id } = result;
-  const props = await viewer.IFC.getProperties(modelID, id, true, false);
+  if(result){
+  const foundProperties = properties[result.id]
+  const psets = getPropertySets(foundProperties);
+  createPropsMenu(psets);
+  }
+};
 
-  createPropsMenu(props);
 
+// Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️ 
   if(toggle.clipping){
     viewer.clipper.createPlane();
   }
 
-};
+//=============================================================================
+
+// Utils functions
+function getFirstItemOfType(type) {
+	return Object.values(properties).find(item => item.type === type);
+}
+
+function getAllItemsOfType(type) {
+	return Object.values(properties).filter(item => item.type === type);
+}
+
+// Get spatial tree
+async function constructSpatialTree() {
+	const ifcProject = getFirstItemOfType('IFCPROJECT');
+
+	const ifcProjectNode = {
+		expressID: ifcProject.expressID,
+		type: 'IFCPROJECT',
+		children: [],
+	};
+
+	const relContained = getAllItemsOfType('IFCRELAGGREGATES');
+	const relSpatial = getAllItemsOfType('IFCRELCONTAINEDINSPATIALSTRUCTURE');
+
+	await constructSpatialTreeNode(
+		ifcProjectNode,
+		relContained,
+		relSpatial,
+	);
+
+	return ifcProjectNode;
+
+}
+
+// Recursively constructs the spatial tree
+async function constructSpatialTreeNode(
+	item,
+	contains,
+	spatials,
+) {
+	const spatialRels = spatials.filter(
+		rel => rel.RelatingStructure === item.expressID,
+	);
+	const containsRels = contains.filter(
+		rel => rel.RelatingObject === item.expressID,
+	);
+
+	const spatialRelsIDs = [];
+	spatialRels.forEach(rel => spatialRelsIDs.push(...rel.RelatedElements));
+
+	const containsRelsIDs = [];
+	containsRels.forEach(rel => containsRelsIDs.push(...rel.RelatedObjects));
+
+	const childrenIDs = [...spatialRelsIDs, ...containsRelsIDs];
+
+	const children = [];
+	for (let i = 0; i < childrenIDs.length; i++) {
+		const childID = childrenIDs[i];
+		const props = properties[childID];
+		const child = {
+			expressID: props.expressID,
+			type: props.type,
+			children: [],
+		};
+
+		await constructSpatialTreeNode(child, contains, spatials);
+		children.push(child);
+	}
+
+	item.children = children;
+}
+
+// Gets the property sets
+
+function getPropertySets(props) {
+	const id = props.expressID;
+	const propertyValues = Object.values(properties);
+	const allPsetsRels = propertyValues.filter(item => item.type === 'IFCRELDEFINESBYPROPERTIES');
+	const relatedPsetsRels = allPsetsRels.filter(item => item.RelatedObjects.includes(id));
+	const psets = relatedPsetsRels.map(item => properties[item.RelatingPropertyDefinition]);
+	for(let pset of psets) {
+		pset.HasProperty = pset.HasProperties.map(id => properties[id]);
+	}
+	props.psets = psets;
+  return props
+}
+
+//=============================================================================
 
 function createPropsMenu(props) {
   removeAllChildren(propsGUI);
@@ -353,10 +451,6 @@ function createSimpleChild(parent, node) {
   childNode.classList.add("leaf-node");
   childNode.textContent = content;
   parent.appendChild(childNode);
-
-  childNode.onmouseenter = () => {
-    viewer.IFC.selector.prepickIfcItemsByID(0, [node.expressID]);
-  };
 
   childNode.onclick = async () => {
     viewer.IFC.selector.pickIfcItemsByID(0, [node.expressID]);

@@ -47,12 +47,6 @@ import {
   closeNavBar,
 } from "../modules/twin.js";
 
-// import {
-// createProvinceMenu,
-// createCityMenu,
-// createSiteMenu,
-// } from "../modules/twin-map.js";
-
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
@@ -262,10 +256,8 @@ const customLayer = {
     camera = new PerspectiveCamera();
     scene = new Scene();
     const axes = new AxesHelper(10);
-    const grid = new GridHelper(10000, 100);
     axes.material.depthTest = false;
     axes.renderOrder = 3;
-    // scene.add(grid);
     scene.add(axes);
 
     // GLTF masses for hovering and raycasting
