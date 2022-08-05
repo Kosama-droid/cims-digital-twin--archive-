@@ -99,6 +99,7 @@ document.getElementById("projection").onclick = () =>
 
 let properties;
 let projectTree;
+const plansContainer = document.getElementById("plans-menu");
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loading-container");
   const progressText = document.getElementById("progress-text");
@@ -117,10 +118,12 @@ async function loadIfc(ifcURL) {
     }
   );
 
-  const rawProperties = await fetch(`../assets/carleton/json/ON_Ottawa_CDC_${currentModelId}_properties.json`)
+  const rawProperties = await fetch(
+    `../assets/carleton/json/ON_Ottawa_CDC_${currentModelId}_properties.json`
+  );
   properties = await rawProperties.json();
 
- // Get project tree 🌳
+  // Get project tree 🌳
   projectTree = await constructSpatialTree();
   createTreeMenu(projectTree);
 
@@ -162,7 +165,6 @@ async function loadIfc(ifcURL) {
 
   // Floor plan viewing
   const allPlans = viewer.plans.getAll(model.modelID);
-  const plansContainer = document.getElementById("plans-menu");
 
   for (const plan of allPlans) {
     const currentPlan = viewer.plans.planLists[model.modelID][plan];
@@ -178,22 +180,24 @@ async function loadIfc(ifcURL) {
         toggleShadow(false);
       };
     }
+  }
 
-  const button = document.createElement("button");
-  plansContainer.appendChild(button);
-  button.classList.add("button");
-  button.textContent = "Exit Level View";
-  button.onclick = () => {
-    viewer.plans.exitPlanView();
-    viewer.edges.toggle("plan-edges", false);
-    togglePostproduction(true);
-    toggleShadow(true);
-  };
-}
-  await viewer.shadowDropper.renderShadow(model.modelID);
+    viewer.shadowDropper.renderShadow(model.modelID);
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.style.display = "none";
-}
+  }
+    const button = document.createElement("button");
+    plansContainer.appendChild(button);
+    button.classList.add("button");
+    button.textContent = "Exit Level View";
+    button.onclick = () => {
+      viewer.plans.exitPlanView();
+      viewer.edges.toggle("plan-edges", false);
+      togglePostproduction(true);
+      toggleShadow(true);
+    };
+
+
 
 
 // Hover → Highlight
@@ -222,14 +226,14 @@ const clippingButton = document.getElementById("clipping");
 toggle.clipping = false;
 clippingButton.onclick = () => {
   toggle.clipping = !toggle.clipping;
-  viewer.clipper.active = toggle.clipping
+  viewer.clipper.active = toggle.clipping;
   let visibility = toggle.clipping ? "Hide" : "Show";
   let button = document.getElementById("clipping");
   button.setAttribute("title", `${visibility} ${button.id}`);
   toggle.clipping
     ? button.classList.add("selected-button")
     : button.classList.remove("selected-button");
-}
+};
 
 // Click → Dimensions
 window.onclick = () => {
@@ -255,7 +259,6 @@ window.onkeydown = (event) => {
   if (event.code === "Delete" && toggle.clipping) {
     viewer.clipper.deletePlane();
   }
-
 };
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
@@ -270,102 +273,97 @@ viewer.IFC.selector.selection.material = pickHighlihgtMateral;
 
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false);
-  if(result){
-  const foundProperties = properties[result.id]
-  const psets = getPropertySets(foundProperties);
-  createPropsMenu(psets);
+  if (result) {
+    const foundProperties = properties[result.id];
+    const psets = getPropertySets(foundProperties);
+    createPropsMenu(psets);
   }
-// Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️ 
-  if(toggle.clipping){
+  // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
+  if (toggle.clipping) {
     viewer.clipper.createPlane();
   }
 };
 
-
-
 // Utils functions
 function getFirstItemOfType(type) {
-	return Object.values(properties).find(item => item.type === type);
+  return Object.values(properties).find((item) => item.type === type);
 }
 
 function getAllItemsOfType(type) {
-	return Object.values(properties).filter(item => item.type === type);
+  return Object.values(properties).filter((item) => item.type === type);
 }
 
 // Get spatial tree
 async function constructSpatialTree() {
-	const ifcProject = getFirstItemOfType('IFCPROJECT');
+  const ifcProject = getFirstItemOfType("IFCPROJECT");
 
-	const ifcProjectNode = {
-		expressID: ifcProject.expressID,
-		type: 'IFCPROJECT',
-		children: [],
-	};
+  const ifcProjectNode = {
+    expressID: ifcProject.expressID,
+    type: "IFCPROJECT",
+    children: [],
+  };
 
-	const relContained = getAllItemsOfType('IFCRELAGGREGATES');
-	const relSpatial = getAllItemsOfType('IFCRELCONTAINEDINSPATIALSTRUCTURE');
+  const relContained = getAllItemsOfType("IFCRELAGGREGATES");
+  const relSpatial = getAllItemsOfType("IFCRELCONTAINEDINSPATIALSTRUCTURE");
 
-	await constructSpatialTreeNode(
-		ifcProjectNode,
-		relContained,
-		relSpatial,
-	);
+  await constructSpatialTreeNode(ifcProjectNode, relContained, relSpatial);
 
-	return ifcProjectNode;
-
+  return ifcProjectNode;
 }
 
 // Recursively constructs the spatial tree
-async function constructSpatialTreeNode(
-	item,
-	contains,
-	spatials,
-) {
-	const spatialRels = spatials.filter(
-		rel => rel.RelatingStructure === item.expressID,
-	);
-	const containsRels = contains.filter(
-		rel => rel.RelatingObject === item.expressID,
-	);
+async function constructSpatialTreeNode(item, contains, spatials) {
+  const spatialRels = spatials.filter(
+    (rel) => rel.RelatingStructure === item.expressID
+  );
+  const containsRels = contains.filter(
+    (rel) => rel.RelatingObject === item.expressID
+  );
 
-	const spatialRelsIDs = [];
-	spatialRels.forEach(rel => spatialRelsIDs.push(...rel.RelatedElements));
+  const spatialRelsIDs = [];
+  spatialRels.forEach((rel) => spatialRelsIDs.push(...rel.RelatedElements));
 
-	const containsRelsIDs = [];
-	containsRels.forEach(rel => containsRelsIDs.push(...rel.RelatedObjects));
+  const containsRelsIDs = [];
+  containsRels.forEach((rel) => containsRelsIDs.push(...rel.RelatedObjects));
 
-	const childrenIDs = [...spatialRelsIDs, ...containsRelsIDs];
+  const childrenIDs = [...spatialRelsIDs, ...containsRelsIDs];
 
-	const children = [];
-	for (let i = 0; i < childrenIDs.length; i++) {
-		const childID = childrenIDs[i];
-		const props = properties[childID];
-		const child = {
-			expressID: props.expressID,
-			type: props.type,
-			children: [],
-		};
+  const children = [];
+  for (let i = 0; i < childrenIDs.length; i++) {
+    const childID = childrenIDs[i];
+    const props = properties[childID];
+    const child = {
+      expressID: props.expressID,
+      type: props.type,
+      children: [],
+    };
 
-		await constructSpatialTreeNode(child, contains, spatials);
-		children.push(child);
-	}
+    await constructSpatialTreeNode(child, contains, spatials);
+    children.push(child);
+  }
 
-	item.children = children;
+  item.children = children;
 }
 
 // Gets the property sets
 
 function getPropertySets(props) {
-	const id = props.expressID;
-	const propertyValues = Object.values(properties);
-	const allPsetsRels = propertyValues.filter(item => item.type === 'IFCRELDEFINESBYPROPERTIES');
-	const relatedPsetsRels = allPsetsRels.filter(item => item.RelatedObjects.includes(id));
-	const psets = relatedPsetsRels.map(item => properties[item.RelatingPropertyDefinition]);
-	for(let pset of psets) {
-		pset.HasProperty = pset.HasProperties.map(id => properties[id]);
-	}
-	props.psets = psets;
-  return props
+  const id = props.expressID;
+  const propertyValues = Object.values(properties);
+  const allPsetsRels = propertyValues.filter(
+    (item) => item.type === "IFCRELDEFINESBYPROPERTIES"
+  );
+  const relatedPsetsRels = allPsetsRels.filter((item) =>
+    item.RelatedObjects.includes(id)
+  );
+  const psets = relatedPsetsRels.map(
+    (item) => properties[item.RelatingPropertyDefinition]
+  );
+  for (let pset of psets) {
+    pset.HasProperty = pset.HasProperties.map((id) => properties[id]);
+  }
+  props.psets = psets;
+  return props;
 }
 
 function createPropsMenu(props) {
