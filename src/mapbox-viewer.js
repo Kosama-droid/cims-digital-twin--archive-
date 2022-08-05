@@ -78,7 +78,7 @@ const highlightMaterial = new MeshBasicMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const province = {term: ""},
+const province = { term: "" },
   city = {},
   site = {},
   geoJson = { fill: "", outline: "" },
@@ -154,17 +154,17 @@ styleSelect.addEventListener("change", function () {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-osmButton.onclick = function () {
-  let layer = map.getLayer("OSM-buildings");
-  if (toggle) {
-    loadOSM(map, 0.9);
-    this.setAttribute("title", "Hide OSM Buildings");
-  } else {
-    map.removeLayer("OSM-buildings");
-  }
-  toggle = !toggle;
-};
-};
+  osmButton.onclick = function () {
+    let layer = map.getLayer("OSM-buildings");
+    if (toggle) {
+      loadOSM(map, 0.9);
+      this.setAttribute("title", "Hide OSM Buildings");
+    } else {
+      map.removeLayer("OSM-buildings");
+    }
+    toggle = !toggle;
+  };
+}
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
@@ -226,7 +226,7 @@ document
   });
 
 // Select province or Territory 🍁 _________________________________________________________
-createProvinceMenu(province, city, site)
+createProvinceMenu(province, city, site);
 
 const modelOrigin = [lng.current, lat.current];
 const modelAltitude = msl.current;
@@ -284,23 +284,6 @@ const customLayer = {
       });
       scene.add(gltfMasses);
 
-      // Load GLTF of buildings
-      let buildingGltf;
-      const categories = ['walls', 'curtainwalls', 'roofs', 'slabs', 'windows']
-      categories.forEach(category => {
-        for (const id in buildingsNames) {
-        let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`
-        console.log(gltf);
-        gltfloader.load(gltfPath, (gltf) => {
-          buildingGltf = gltf.scene;
-          gltfMasses.name = `${id}-${category}`;
-        });
-        scene.add(buildingGltf);
-      }
-      });
-
-
-
       // Show downtown buildings
       if (false) {
         gltfloader.load(
@@ -314,6 +297,21 @@ const customLayer = {
             scene.add(buildings);
           }
         );
+      }
+    });
+
+    // Load GLTF of buildings
+    let buildingGltf;
+    const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
+    categories.forEach((category) => {
+      for (const id in buildingsNames) {
+        let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
+        gltfloader.load(gltfPath, (gltf) => {
+          buildingGltf = gltf.scene;
+          buildingGltf.name = `${id}-${category}`;
+          scene.add(buildingGltf);
+        });
+        
       }
     });
 
@@ -687,10 +685,10 @@ function createProvinceMenu(province, city, site) {
         geoJson.outline = map.getLayer("geoJson-outline");
         isolateSelector(selectors, "city-select", "style-select");
       });
-      city = createCityMenu(province, city, site)
+      city = createCityMenu(province, city, site);
     });
-    return province;
-  }
+  return province;
+}
 
 function createCityMenu(province, city, site) {
   const cityNames = [];
@@ -731,21 +729,19 @@ function createCityMenu(province, city, site) {
         geoJson.source.setData(geoJson.current);
       });
     });
-    createSiteMenu(province, city, site)
+    createSiteMenu(province, city, site);
   });
-  console.log(province.term)
+  console.log(province.term);
   return city;
-  }
+}
 
-  function createSiteMenu(province, city, site) {
-    const diteNames = [];
-    const siteSelect =  document
+function createSiteMenu(province, city, site) {
+  const siteNames = [];
+  const siteSelect = document
     .getElementById("site-select")
     .addEventListener("click", function () {
       removeGeojson(map, "geoJson");
       console.log(city.name);
     });
-    return site;
-  }
-
-  
+  return site;
+}
