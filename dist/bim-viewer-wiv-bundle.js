@@ -122082,15 +122082,13 @@ window.ondblclick = async () => {
   const psets = getPropertySets(foundProperties);
   createPropsMenu(psets);
   }
-};
-
-
 // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️ 
   if(toggle.clipping){
     viewer.clipper.createPlane();
   }
+};
 
-//=============================================================================
+
 
 // Utils functions
 function getFirstItemOfType(type) {
@@ -122176,8 +122174,6 @@ function getPropertySets(props) {
 	props.psets = psets;
   return props
 }
-
-//=============================================================================
 
 function createPropsMenu(props) {
   removeAllChildren(propsGUI);
