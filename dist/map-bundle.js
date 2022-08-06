@@ -105559,12 +105559,6 @@ function sortChildren(parent) {
         });
       }
 
-// import {
-// createProvinceMenu,
-// createCityMenu,
-// createSiteMenu,
-// } from "../modules/twin-map.js";
-
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
@@ -105774,10 +105768,8 @@ const customLayer = {
     camera = new PerspectiveCamera();
     scene = new Scene();
     const axes = new AxesHelper(10);
-    new GridHelper(10000, 100);
     axes.material.depthTest = false;
     axes.renderOrder = 3;
-    // scene.add(grid);
     scene.add(axes);
 
     // GLTF masses for hovering and raycasting
@@ -105934,7 +105926,7 @@ map.on("dblclick", () => {
   let id = gltfMasses.selected.id;
   updateSelectBldgMenu(building, id);
   isolateSelector(selectors, "building-select");
-  loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
+  openBimViewer(id);
 });
 
 const bimViewerURL = "./bim-viewer.html";
@@ -105951,8 +105943,8 @@ map.on("click", () => {
 });
 
 const ifcLoader = new IFCLoader$1();
-const loader = document.getElementById("loader-container");
-const progressText = document.getElementById("progress-text");
+document.getElementById("loader-container");
+document.getElementById("progress-text");
 
 document
   .getElementById("building-select")
@@ -106120,33 +106112,15 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-async function loadBuildingIFC(path, file, id) {
-  const ifcFile = `${path}${file}`;
-  let selectedOption = document.getElementById(id).value;
-  await ifcLoader.ifcManager.setWasmPath("../src/wasm/");
-  ifcLoader.load(
-    ifcFile,
-    (ifcModel) => {
-      ifcModel.name = `ifc-${id}`;
-      scene.add(ifcModel);
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == id) {
-          object.visible = false;
-        }
-      });
-
-      loader.style.display = "none";
-    },
-    (progress) => {
-      loader.style.display = "flex";
-      progressText.textContent = `Loading ${selectedOption}: ${Math.round(
-        (progress.loaded * 100) / progress.total
-      )}%`;
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+function openBimViewer(id){
+  console.log(id);
+  const bimContainer = document.getElementById('bim-container');
+  const bimViewer = document.createElement("iframe");
+  bimViewer.setAttribute('src', `./bim-viewer-iframe.html?id=${id}`);
+  bimViewer.classList.add("bim-viewer");
+  isolateSelector(selectors, "");
+  console.log(bimViewer);
+  bimContainer.appendChild(bimViewer);
 }
 
 function createProvinceMenu(province, city, site) {

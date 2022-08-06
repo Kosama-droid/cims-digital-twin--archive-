@@ -486,8 +486,12 @@ ul, #myUL {
 
 .bim-viewer{
   top: var(--header-heigt);
-  z-index: 2;
+  z-index: 5;
   justify-content: center;
   height: 85vh;
-  width: 94%;
+  width: 100%;
+  box-shadow: var(--shadow);
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.5s ease 0s;
 }

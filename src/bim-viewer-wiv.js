@@ -75,8 +75,10 @@ viewer.axes.setAxes();
 // Set up stats
 const stats = new Stats();
 stats.showPanel(0);
-document.body.append(stats.dom);
-stats.dom.style.right = "0px";
+// document.body.append(stats.dom);
+stats.dom.style.right = "5px";
+stats.dom.style.bottom = "5px";
+
 stats.dom.style.left = "auto";
 viewer.context.stats = stats;
 
