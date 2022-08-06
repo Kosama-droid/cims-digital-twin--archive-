@@ -495,3 +495,11 @@ ul, #myUL {
   border-radius: 0.5rem;
   transition: all 0.5s ease 0s;
 }
+
+#close-bim-viewer{
+  z-index: 6;
+  position: absolute;
+  top: 90px;
+  right: 1rem;
+
+}

@@ -105774,7 +105774,7 @@ const customLayer = {
 
     // GLTF masses for hovering and raycasting
     const gltfloader = new GLTFLoader();
-    gltfloader.load("../static/public-glb/CDC-MASSES.glb", (gltf) => {
+    gltfloader.load("../assets/carleton/glb/CDC-MASSES.glb", (gltf) => {
       gltfMasses = gltf.scene;
       gltfMasses.name = "gltf-masses";
       gltfMasses.position.x = -485;
@@ -105927,6 +105927,11 @@ map.on("dblclick", () => {
   updateSelectBldgMenu(building, id);
   isolateSelector(selectors, "building-select");
   openBimViewer(id);
+});
+document.getElementById('close-bim-viewer').addEventListener('click', ()=>{
+  isolateSelector(selectors, "building-select");
+  document.getElementById('bim-viewer').remove();
+  document.getElementById('close-bim-viewer').classList.add('hidden');
 });
 
 const bimViewerURL = "./bim-viewer.html";
@@ -106116,11 +106121,13 @@ function openBimViewer(id){
   console.log(id);
   const bimContainer = document.getElementById('bim-container');
   const bimViewer = document.createElement("iframe");
-  bimViewer.setAttribute('src', `./bim-viewer-iframe.html?id=${id}`);
+  bimViewer.setAttribute('id', 'bim-viewer');
+  bimViewer.setAttribute('src', `./bim-viewer.html?id=${id}`);
   bimViewer.classList.add("bim-viewer");
   isolateSelector(selectors, "");
   console.log(bimViewer);
   bimContainer.appendChild(bimViewer);
+  document.getElementById('close-bim-viewer').classList.remove('hidden');
 }
 
 function createProvinceMenu(province, city, site) {

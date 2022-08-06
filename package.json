@@ -6,11 +6,12 @@
   "dependencies": {
     "camera-controls": "^1.35.0",
     "cpy-cli": "^4.1.0",
+    "mapbox": "^1.0.0-beta10",
     "stats.js": "^0.17.0",
     "three": "^0.135.0",
     "three-mesh-bvh": "^0.5.14",
     "web-ifc-three": "^0.0.117",
-    "web-ifc-viewer": "^1.0.207"
+    "web-ifc-viewer": "^1.0.208"
   },
   "name": "ifc-js-crash-course",
   "description": "https://nicoarellano.github.io/ifc-js-crash-course/src",
