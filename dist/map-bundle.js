@@ -105687,7 +105687,6 @@ goTo.onclick = function () {
     // Building select menu 🏢 _______________________________________________________
     const listedBuildings = document.getElementById("listed-buildings");
     createBuildingSelector(building, buildingsNames, listedBuildings);
-
     isolateSelector(selectors, "building-select", "style-select");
     isolateSelector(toolbar, "go-to", "osm", "info", "bim");
     this.setAttribute("title", "Go to Canada");
@@ -105719,6 +105718,7 @@ goTo.onclick = function () {
     }, 2100);
   }
   toggleGoTo = !toggleGoTo;
+  setTimeout(()=> alert('Double click on buildings to open BIM viewer'), 4000);
 };
 
 // Select Building from list 🏢
@@ -105774,7 +105774,7 @@ const customLayer = {
 
     // GLTF masses for hovering and raycasting
     const gltfloader = new GLTFLoader();
-    gltfloader.load("../assets/carleton/glb/CDC-MASSES.glb", (gltf) => {
+    gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
       gltfMasses = gltf.scene;
       gltfMasses.name = "gltf-masses";
       gltfMasses.position.x = -485;

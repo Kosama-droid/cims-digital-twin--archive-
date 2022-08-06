@@ -172,6 +172,7 @@ a {
   outline: none;
   align-items: center;
   width: fit-content;
+  max-width: 315px;
   font-size: 0.8rem;
   text-transform: uppercase;
   pointer-events: all;
@@ -488,7 +489,7 @@ ul, #myUL {
   top: var(--header-heigt);
   z-index: 5;
   justify-content: center;
-  height: 85vh;
+  height: 87vh;
   width: 100%;
   box-shadow: var(--shadow);
   border: none;
