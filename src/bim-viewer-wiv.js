@@ -199,9 +199,6 @@ async function loadIfc(ifcURL) {
       toggleShadow(true);
     };
 
-
-
-
 // Hover → Highlight
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
