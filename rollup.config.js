@@ -25,4 +25,16 @@ export default [
     resolve(),
   ],
 },
+{
+  input: "src/preprocessingIFC-bundle.js",
+  output: [
+    {
+    format: "esm",
+    file: "./dist/preprocessingIFC-bundle.js-bundle.js"
+    }
+  ],
+  plugins: [
+    resolve(),
+  ],
+},
 ]
