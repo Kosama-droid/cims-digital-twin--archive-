@@ -1,157 +1,317 @@
 export const canada = {
-    provinces: [
-      {
-        provinceName: "Alberta",
-        code: 48,
-        term: "AB",
-        coordinates: {
-          DD: {
-            lat: 55,
-            lng: -115
-          }
-        }
-      },
-      {
-        provinceName: "British Columbia",
-        code: 59,
-        term: "BC",
-        coordinates: {
-          DD: {
-            lat: 53.726669,
-            lng: -127.647621
-          }
-        }
-      },
-      {
-        provinceName: "Manitoba",
-        code: 46,
-        term: "MB",
-        coordinates: {
-          DD: {
-            lat: 56.415211,
-            lng: -98.739075
-          }
-        }
-      },
-      {
-        provinceName: "New Brunswick",
-        code: 13,
-        term: "NB",
-        coordinates: {
-          DD: {
-            lat: 46.49839,
-            lng: -66.159668
-          }
-        }
-      },
-      {
-        provinceName: "Newfoundland and Labrador",
-        code: 10,
-        term: "NL",
-        coordinates: {
-          DD: {
-            lat: 53.135509,
-            lng: -57.660435
-          }
-        }
-      },
-      {
-        provinceName: "Nova Scotia",
-        code: 12,
-        term: "NS",
-        coordinates: {
-          DD: {
-            lat: 45,
-            lng: -63
-          }
-        }
-      },
-      {
-        provinceName: "Ontario",
-        code: 35,
-        term: "ON",
-        coordinates: {
-          DD: {
-            lat: 47.75,
-            lng: -84.83333
+  AB: {
+    name: "Alberta",
+    code: 48,
+    term: "AB",
+    coordinates: {
+      lat: 55,
+      lng: -115,
+    },
+    cities: {},
+  },
+  BC: {
+    name: "British Columbia",
+    code: 59,
+    term: "BC",
+    coordinates: {
+      lat: 53.726669,
+      lng: -127.647621,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  MB: {
+    name: "Manitoba",
+    code: 46,
+    term: "MB",
+    coordinates: {
+      lat: 56.415211,
+      lng: -98.739075,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  NB: {
+    name: "New Brunswick",
+    code: 13,
+    term: "NB",
+    coordinates: {
+      lat: 46.49839,
+      lng: -66.159668,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  NL: {
+    name: "Newfoundland and Labrador",
+    code: 10,
+    term: "NL",
+    coordinates: {
+      lat: 53.135509,
+      lng: -57.660435,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  NS: {
+    name: "Nova Scotia",
+    code: 12,
+    term: "NS",
+    coordinates: {
+      lat: 45,
+      lng: -63,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  ON: {
+    name: "Ontario",
+    code: 35,
+    term: "ON",
+    coordinates: {
+      lat: 47.75,
+      lng: -84.83333,
+    },
+    cities: {
+      Ottawa: {
+        sites: {
+          CU: {
+            name: "Carleton University",
+            coordinates: {
+              lat: 45.38435,
+              lng: -75.69435,
+              msl: 80,
+              zoom: 13,
+            },
+            buildingsNames: {
+              MB: "Maintenance and Grounds Building",
+              AC: "Athletics Alumni and Fieldhouse",
+              DT: "Dunton Tower",
+              NB: "Nesbitt Biology Building",
+              AA: "Building 22",
+              AR: "Arise",
+              AP: "Azrieli Pavilion",
+              AT: "Azrieli Theatre",
+              CB: "Canal Building",
+              HS: "Health Sciences Building",
+              HP: "Hezberg Laboratories",
+              LA: "Loeb Building",
+              ME: "Mackenzie",
+              ML: "Macodrum Library",
+              MC: "Minto Centre",
+              NI: "Nicol Building",
+              PA: "Paterson Hall",
+              RB: "River Building",
+              SR: "Social Sciences Research Building",
+              SA: "Southam Hall and Kailash Mital Theatre",
+              SC: "Steacie Building",
+              TB: "Tory Building",
+              UC: "University Centre",
+              VS: "Vsim Building",
+              FR: "Frontenac House",
+              GH: "Glengarry House",
+              LH: "Lanark House",
+              LE: "Leeds House",
+              LX: "Lennox and Addington House",
+              PH: "Prescott House",
+              RH: "Renfrew House",
+              CO: "Residence Commons",
+              RU: "Russell and Grenville House",
+              SP: "St Patricks Building",
+              IH: "Ice House",
+              TC: "Tennis Centre",
+              P9: "Parking Garage P9",
+              PS: "Parking Garage P18",
+              SS: "Bronson Sub-Station",
+              TT: "CTTC Bldg",
+              UH: "CHEER",
+              CC: "Colonel By Child Care Centre",
+              RO: "Robertson Hall",
+              Z1: "Exterior Zone 1",
+              Z2: "Exterior Zone 2",
+              Z3: "Exterior Zone 3",
+              Z4: "Exterior Zone 4",
+              RD: "Roads",
+              TU: "Tunnels",
+            },
+            ifcFileName: {
+              AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
+              AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
+              AP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
+              AR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
+              AT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
+              CB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
+              CC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
+              CO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
+              DT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
+              FR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
+              GH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
+              HP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
+              HS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
+              IH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
+              LA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
+              LE: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
+              LH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
+              LX: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
+              MB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
+              MC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
+              ME: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
+              ML: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
+              NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+              NI: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
+              P9: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
+              PA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
+              PH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
+              PS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
+              RB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
+              RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+              RH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
+              RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
+              RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
+              SA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+              SC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
+              SP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
+              SR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
+              SS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
+              TB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
+              TC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
+              TT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
+              TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+              UC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
+              UH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
+              VS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
+              Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+              Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+              Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+              Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc",
+            },
           },
-          geohash: "f07xtsd7bh",
-          UTM: "16T 662399.49658445 5290787.47733606"
-        }
-      },
-      {
-        provinceName: "Prince Edward Island",
-        code: 11,
-        term: "PE",
-        coordinates: {
-          DD: {
-            lat: 46.25,
-            lng: -63
-          }
-        }
-      },
-      {
-        provinceName: "Quebec",
-        code: 24,
-        term: "QC",
-        coordinates: {
-          DD: {
-            lat: 52.9399,
-            lng: -73.5491
-          }
-        }
-      },
-      {
-        provinceName: "Saskatchewan",
-        code: 47,
-        term: "SK",
-        coordinates: {
-          DD: {
-            lat: 55,
-            lng: -106
-          }
-        }
-      }
-    ],
-    territories: [
-      {
-        provinceName: "Northwest Territories",
-        code: 61,
-        term: "NT",
-        coordinates: {
-          DD: {
-            lat: 64.26667,
-            lng: -119.18333
+          PB: {
+            name: "Parliament Buildings",
+            coordinates: {
+              lat: 45.42521,
+              lng: -75.70011,
+              msl: 85,
+              zoom: 15,
+            },
           },
-          geohash: "c77jxgmk7n",
-          UTM: "11W 394243.3226043 7128545.45753264"
-        }
-      },
-      {
-        provinceName: "Nunavut",
-        code: 62,
-        term: "NU",
-        coordinates: {
-          DD: {
-            lat: 64.15,
-            lng: -95.5
+          HM: {
+            name: "Holocaust Memorial",
+            id: "HM",
+            location: "ON-OT-HM",
+            coordinates: {
+              lat: 45.41716147946148,
+              lng: -75.71449380975366,
+              msl: 53,
+              zoom: 13,
+            },
           },
-          geohash: "cgkhfy5hbf",
-          UTM: "15W 378399.52660017 7116117.16072684"
-        }
+        },
       },
-      {
-        provinceName: "Yukon",
-        code: 60,
-        term: "YU",
-        coordinates: {
-          DD: {
-            lat: 63.63333,
-            lng: -135.76666
+      Toronto: {
+        sites: {
+          DA: {
+            name: "Downsview Airport",
+            id: "DA",
+            location: "ON-TO-DA",
+            coordinates: {
+              lat: 45.38435,
+              lng: -75.69435,
+              msl: 80,
+              zoom: 13,
+            },
+            buildingsNames: {
+              Admin: "Admin Building",
+              bay7_10: "Bays 7 to 10",
+              bay11: "Bay 11",
+              bay12: "Bay 12",
+            },
+            ifcFileName: {
+              Admin: "da-admin_shell.ifc",
+              bay7_10: "da-bay_7-10_shell.ifc",
+              bay11: "da-bay_11_shell.ifc",
+              bay12: "da-bay_12_shell.ifc",
+            }
           },
-          geohash: "bgr6n81ep2",
-          UTM: "8V 462010.89545906 7056383.97415986"
-        }
-      }
-    ]
-  }
+        },
+      },
+    },
+  },
+  PE: {
+    name: "Prince Edward Island",
+    code: 11,
+    term: "PE",
+    coordinates: {
+      lat: 46.25,
+      lng: -63,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  QC: {
+    name: "Quebec",
+    code: 24,
+    term: "QC",
+    coordinates: {
+      lat: 52.9399,
+      lng: -73.5491,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  SK: {
+    name: "Saskatchewan",
+    code: 47,
+    term: "SK",
+    coordinates: {
+      lat: 55,
+      lng: -106,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  NT: {
+    name: "Northwest Territories",
+    code: 61,
+    term: "NT",
+    coordinates: {
+      lat: 64.26667,
+      lng: -119.18333,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  NU: {
+    name: "Nunavut",
+    code: 62,
+    term: "NU",
+    coordinates: {
+      lat: 64.15,
+      lng: -95.5,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+  YU: {
+    name: "Yukon",
+    code: 60,
+    term: "YU",
+    coordinates: {
+      lat: 63.63333,
+      lng: -135.76666,
+    },
+    cities: {
+      sites: {},
+    },
+  },
+};

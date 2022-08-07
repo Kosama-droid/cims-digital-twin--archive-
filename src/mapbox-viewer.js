@@ -7,9 +7,7 @@ import {
   ifcFileName,
 } from "../static/data/cdc-data.js";
 
-import {
-sites,
-} from "../static/data/sites.js";
+import { sites } from "../static/data/sites.js";
 
 import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -204,7 +202,7 @@ goTo.onclick = function () {
     }, 2100);
   }
   toggleGoTo = !toggleGoTo;
-  headerMessage('Double click on buildings to open BIM viewer');
+  headerMessage("Double click on buildings to open BIM viewer");
 };
 
 // Select Building from list 🏢
@@ -291,19 +289,19 @@ const customLayer = {
     });
 
     // Load GLTF of buildings
-    let buildingGltf;
-    const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
-    categories.forEach((category) => {
-      for (const id in buildingsNames) {
-        let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
-        gltfloader.load(gltfPath, (gltf) => {
-          buildingGltf = gltf.scene;
-          buildingGltf.name = `${id}-${category}`;
-          scene.add(buildingGltf);
-        });
-        
-      }
-    });
+    // let buildingGltf;
+    // const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
+    // categories.forEach((category) => {
+    //   for (const id in buildingsNames) {
+    //     let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
+    //     gltfloader.load(gltfPath, (gltf) => {
+    //       buildingGltf = gltf.scene;
+    //       buildingGltf.name = `${id}-${category}`;
+    //       scene.add(buildingGltf);
+    //     });
+
+    //   }
+    // });
 
     // const gui = new GUI();
     // gui.close();
@@ -429,11 +427,11 @@ map.on("dblclick", () => {
   isolateSelector(selectors, "building-select");
   openBimViewer(id);
 });
-document.getElementById('close-bim-viewer').addEventListener('click', ()=>{
+document.getElementById("close-bim-viewer").addEventListener("click", () => {
   isolateSelector(selectors, "building-select");
-  document.getElementById('bim-viewer').remove();
-  document.getElementById('close-bim-viewer').classList.add('hidden')
-})
+  document.getElementById("bim-viewer").remove();
+  document.getElementById("close-bim-viewer").classList.add("hidden");
+});
 
 const bimViewerURL = "./bim-viewer.html";
 let bimURL = "./bim-viewer.html";
@@ -618,37 +616,31 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function openBimViewer(id){
-  console.log(id)
-  const bimContainer = document.getElementById('bim-container');
+function openBimViewer(id) {
+  console.log(id);
+  const bimContainer = document.getElementById("bim-container");
   const bimViewer = document.createElement("iframe");
-  bimViewer.setAttribute('id', 'bim-viewer')
-  bimViewer.setAttribute('src', `./bim-viewer.html?id=${id}`)
+  bimViewer.setAttribute("id", "bim-viewer");
+  bimViewer.setAttribute("src", `./bim-viewer.html?id=${id}`);
   bimViewer.classList.add("bim-viewer");
   isolateSelector(selectors, "");
   bimContainer.appendChild(bimViewer);
-  document.getElementById('close-bim-viewer').classList.remove('hidden')
+  document.getElementById("close-bim-viewer").classList.remove("hidden");
 }
 
 function createProvinceMenu(province, city, site) {
-  const provinceNames = [];
-  const provinces = canada.provinces;
-  const territories = canada.territories;
-  territories.forEach((territory) => {
-    provinces.push(territory);
-  });
-  provinces.forEach((province) => {
+  for (const province in canada) {
+    const name = canada[province].name;
     let option = document.createElement("option");
-    option.innerHTML = province.provinceName;
-    provinceNames.push(province.provinceName);
+    option.innerHTML = name;
+    option.setAttribute("id", province);
     document.getElementById("province-select").appendChild(option);
-  });
+  }
   document
     .getElementById("province-select")
     .addEventListener("change", function () {
-      province.index = provinceNames.indexOf(this.value);
-      province.code = provinces[province.index].code;
-      province.term = provinces[province.index].term;
+      let id = this[this.selectedIndex].id;
+      province = canada[id];
       // GET PROVINCE GEOJSON 🍁🌐 ___________________________
       getJson(
         "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
@@ -662,7 +654,7 @@ function createProvinceMenu(province, city, site) {
         geoJson.outline = map.getLayer("geoJson-outline");
         isolateSelector(selectors, "city-select", "style-select");
       });
-      city = createCityMenu(province, city, site);
+      createCityMenu(province, city, site);
     });
   return province;
 }
@@ -690,11 +682,16 @@ function createCityMenu(province, city, site) {
     citySelect.addEventListener("change", function () {
       const selectedCityIndex = cityNames.indexOf(this.value);
       selectedCity = cityItems[selectedCityIndex];
-      city.name = selectedCity.name;
+      city = canada[province.term].cities[selectedCity.name];
+      if(city){console.log(city)}
+      else{
+        city = selectedCity.name;
+      }
+      createSiteMenu(province, city, site);
       // GET CITY GEOJSON 🏙️🌐 _________________________
       getJson(
         "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-          city.name +
+          selectedCity.name +
           "&concise=CITY&province=" +
           province.code
       ).then((cityGeojson) => {
@@ -706,37 +703,38 @@ function createCityMenu(province, city, site) {
         geoJson.source.setData(geoJson.current);
       });
     });
-    createSiteMenu(province, city, site);
   });
-  console.log(province.term);
   return city;
 }
 
 function createSiteMenu(province, city, site) {
-  const siteNames = [];
-  const siteSelect = document
+  if (city.sites) {
+    for (const site in city.sites) {
+      const name = city.sites[site].name;
+      let option = document.createElement("option");
+      option.innerHTML = name;
+      option.setAttribute("id", site);
+      document.getElementById("site-select").appendChild(option);
+    }
+  } else {
+    headerMessage(`No sites at ${city}`);
+  }
+  const siteSelect = document  
     .getElementById("site-select")
-    .addEventListener("click", function () {
+    .addEventListener("change", function () {
       removeGeojson(map, "geoJson");
-      const siteNames = [];
-      const citySites = sites[province.term][city.name];
-      if (citySites) {
-        console.log(citySites);
-      citySites.forEach(site => {
-        let siteName = site.name
-        siteNames.push(siteName)
-      });
-      console.log(siteNames);
-      }
-      else{
-        headerMessage(`No sites at ${city.name}`)
-      }; 
-  
+      let id = this[this.selectedIndex].id;
+      site = city.sites[id];
+      lng.current = site.coordinates.lng;
+      lat.current = site.coordinates.lat;
+      msl.current = site.coordinates.msl;
+      let zoom = site.coordinates.zoom;
+      flyTo(map, lng.current, lat.current, zoom);
     });
   return site;
 }
 
-function headerMessage(message){
-  document.getElementById('message').innerHTML = message
-  setTimeout(()=> document.getElementById('message').innerHTML = "", 6000);
+function headerMessage(message) {
+  document.getElementById("message").innerHTML = message;
+  setTimeout(() => (document.getElementById("message").innerHTML = ""), 6000);
 }
