@@ -274,6 +274,7 @@ const buildingsNames = {
   "RB": "River Building",
   "SR": "Social Sciences Research Building",
   "SA": "Southam Hall and Kailash Mital Theatre",
+  "SD": "Stormont and Dundas House",
   "SC": "Steacie Building",
   "TB": "Tory Building",
   "UC": "University Centre",
@@ -340,6 +341,7 @@ const ifcFileName = {
   RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
   RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
   SA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+  SD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STORMONT_AND_DUNDAS_HOUSE-AS_FOUND.ifc",
   SC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
   SP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
   SR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
@@ -355,6 +357,162 @@ const ifcFileName = {
   // Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
   // Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
   // Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
+};
+
+const sites = {
+  ON: {
+    Ottawa: [
+      {
+        name: "Carleton University",
+        code: "CU",
+        location: "ON-OT-CU",
+        coordinates: {
+          lat: 45.38435,
+          lng: -75.69435,
+          msl: 80,
+          zoom: 13,
+        },
+        buildingsNames: {
+          MB: "Maintenance and Grounds Building",
+          AC: "Athletics Alumni and Fieldhouse",
+          DT: "Dunton Tower",
+          NB: "Nesbitt Biology Building",
+          AA: "Building 22",
+          AR: "Arise",
+          AP: "Azrieli Pavilion",
+          AT: "Azrieli Theatre",
+          CB: "Canal Building",
+          HS: "Health Sciences Building",
+          HP: "Hezberg Laboratories",
+          LA: "Loeb Building",
+          ME: "Mackenzie",
+          ML: "Macodrum Library",
+          MC: "Minto Centre",
+          NI: "Nicol Building",
+          PA: "Paterson Hall",
+          RB: "River Building",
+          SR: "Social Sciences Research Building",
+          SA: "Southam Hall and Kailash Mital Theatre",
+          SC: "Steacie Building",
+          TB: "Tory Building",
+          UC: "University Centre",
+          VS: "Vsim Building",
+          FR: "Frontenac House",
+          GH: "Glengarry House",
+          LH: "Lanark House",
+          LE: "Leeds House",
+          LX: "Lennox and Addington House",
+          PH: "Prescott House",
+          RH: "Renfrew House",
+          CO: "Residence Commons",
+          RU: "Russell and Grenville House",
+          SP: "St Patricks Building",
+          IH: "Ice House",
+          TC: "Tennis Centre",
+          P9: "Parking Garage P9",
+          PS: "Parking Garage P18",
+          SS: "Bronson Sub-Station",
+          TT: "CTTC Bldg",
+          UH: "CHEER",
+          CC: "Colonel By Child Care Centre",
+          RO: "Robertson Hall",
+          Z1: "Exterior Zone 1",
+          Z2: "Exterior Zone 2",
+          Z3: "Exterior Zone 3",
+          Z4: "Exterior Zone 4",
+          RD: "Roads",
+          TU: "Tunnels",
+        },
+        ifcFileName: {
+          AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
+          AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
+          AP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
+          AR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
+          AT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
+          CB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
+          CC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
+          CO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
+          DT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
+          FR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
+          GH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
+          HP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
+          HS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
+          IH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
+          LA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
+          LE: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
+          LH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
+          LX: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
+          MB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
+          MC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
+          ME: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
+          ML: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
+          NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+          NI: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
+          P9: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
+          PA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
+          PH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
+          PS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
+          RB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
+          RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+          RH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
+          RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
+          RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
+          SA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+          SC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
+          SP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
+          SR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
+          SS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
+          TB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
+          TC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
+          TT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
+          TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+          UC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
+          UH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
+          VS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
+          Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+          Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+          Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+          Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc",
+        },
+      },
+      {
+        name: "Parliament Buildings",
+        code: "PB",
+        location: "ON-OT-PB",
+        coordinates: {
+          lat: 45.42521,
+          lng: -75.70011,
+          msl: 85,
+          zoom: 13,
+        },
+      },
+      {
+        name: "Holocaust Memorial",
+        code: "HM",
+        location: "ON-OT-HM",
+        coordinates: {
+          lat: 45.41716147946148,
+          lng: -75.71449380975366,
+          msl: 53,
+          zoom: 13,
+        },
+      },
+    ],
+  
+  Toronto: [
+    {
+      name: "Downsview Airport",
+      code: "DA",
+      location: "ON-TO-DA",
+      coordinates: {
+        lat: 45.38435,
+        lng: -75.69435,
+        msl: 80,
+        zoom: 13,
+      },
+    },
+  ],
+},
 };
 
 var __defProp = Object.defineProperty;
@@ -96011,845 +96169,6 @@ function toTrianglesDrawMode( geometry, drawMode ) {
 
 }
 
-class SeparatingAxisBounds {
-
-	constructor() {
-
-		this.min = Infinity;
-		this.max = - Infinity;
-
-	}
-
-	setFromPointsField( points, field ) {
-
-		let min = Infinity;
-		let max = - Infinity;
-		for ( let i = 0, l = points.length; i < l; i ++ ) {
-
-			const p = points[ i ];
-			const val = p[ field ];
-			min = val < min ? val : min;
-			max = val > max ? val : max;
-
-		}
-
-		this.min = min;
-		this.max = max;
-
-	}
-
-	setFromPoints( axis, points ) {
-
-		let min = Infinity;
-		let max = - Infinity;
-		for ( let i = 0, l = points.length; i < l; i ++ ) {
-
-			const p = points[ i ];
-			const val = axis.dot( p );
-			min = val < min ? val : min;
-			max = val > max ? val : max;
-
-		}
-
-		this.min = min;
-		this.max = max;
-
-	}
-
-	isSeparated( other ) {
-
-		return this.min > other.max || other.min > this.max;
-
-	}
-
-}
-
-SeparatingAxisBounds.prototype.setFromBox = ( function () {
-
-	const p = new Vector3();
-	return function setFromBox( axis, box ) {
-
-		const boxMin = box.min;
-		const boxMax = box.max;
-		let min = Infinity;
-		let max = - Infinity;
-		for ( let x = 0; x <= 1; x ++ ) {
-
-			for ( let y = 0; y <= 1; y ++ ) {
-
-				for ( let z = 0; z <= 1; z ++ ) {
-
-					p.x = boxMin.x * x + boxMax.x * ( 1 - x );
-					p.y = boxMin.y * y + boxMax.y * ( 1 - y );
-					p.z = boxMin.z * z + boxMax.z * ( 1 - z );
-
-					const val = axis.dot( p );
-					min = Math.min( val, min );
-					max = Math.max( val, max );
-
-				}
-
-			}
-
-		}
-
-		this.min = min;
-		this.max = max;
-
-	};
-
-} )();
-
-( (function () {
-
-	const cacheSatBounds = new SeparatingAxisBounds();
-	return function areIntersecting( shape1, shape2 ) {
-
-		const points1 = shape1.points;
-		const satAxes1 = shape1.satAxes;
-		const satBounds1 = shape1.satBounds;
-
-		const points2 = shape2.points;
-		const satAxes2 = shape2.satAxes;
-		const satBounds2 = shape2.satBounds;
-
-		// check axes of the first shape
-		for ( let i = 0; i < 3; i ++ ) {
-
-			const sb = satBounds1[ i ];
-			const sa = satAxes1[ i ];
-			cacheSatBounds.setFromPoints( sa, points2 );
-			if ( sb.isSeparated( cacheSatBounds ) ) return false;
-
-		}
-
-		// check axes of the second shape
-		for ( let i = 0; i < 3; i ++ ) {
-
-			const sb = satBounds2[ i ];
-			const sa = satAxes2[ i ];
-			cacheSatBounds.setFromPoints( sa, points1 );
-			if ( sb.isSeparated( cacheSatBounds ) ) return false;
-
-		}
-
-	};
-
-}) )();
-
-const closestPointLineToLine = ( function () {
-
-	// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/Line.cpp#L56
-	const dir1 = new Vector3();
-	const dir2 = new Vector3();
-	const v02 = new Vector3();
-	return function closestPointLineToLine( l1, l2, result ) {
-
-		const v0 = l1.start;
-		const v10 = dir1;
-		const v2 = l2.start;
-		const v32 = dir2;
-
-		v02.subVectors( v0, v2 );
-		dir1.subVectors( l1.end, l2.start );
-		dir2.subVectors( l2.end, l2.start );
-
-		// float d0232 = v02.Dot(v32);
-		const d0232 = v02.dot( v32 );
-
-		// float d3210 = v32.Dot(v10);
-		const d3210 = v32.dot( v10 );
-
-		// float d3232 = v32.Dot(v32);
-		const d3232 = v32.dot( v32 );
-
-		// float d0210 = v02.Dot(v10);
-		const d0210 = v02.dot( v10 );
-
-		// float d1010 = v10.Dot(v10);
-		const d1010 = v10.dot( v10 );
-
-		// float denom = d1010*d3232 - d3210*d3210;
-		const denom = d1010 * d3232 - d3210 * d3210;
-
-		let d, d2;
-		if ( denom !== 0 ) {
-
-			d = ( d0232 * d3210 - d0210 * d3232 ) / denom;
-
-		} else {
-
-			d = 0;
-
-		}
-
-		d2 = ( d0232 + d * d3210 ) / d3232;
-
-		result.x = d;
-		result.y = d2;
-
-	};
-
-} )();
-
-const closestPointsSegmentToSegment = ( function () {
-
-	// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/LineSegment.cpp#L187
-	const paramResult = new Vector2();
-	const temp1 = new Vector3();
-	const temp2 = new Vector3();
-	return function closestPointsSegmentToSegment( l1, l2, target1, target2 ) {
-
-		closestPointLineToLine( l1, l2, paramResult );
-
-		let d = paramResult.x;
-		let d2 = paramResult.y;
-		if ( d >= 0 && d <= 1 && d2 >= 0 && d2 <= 1 ) {
-
-			l1.at( d, target1 );
-			l2.at( d2, target2 );
-
-			return;
-
-		} else if ( d >= 0 && d <= 1 ) {
-
-			// Only d2 is out of bounds.
-			if ( d2 < 0 ) {
-
-				l2.at( 0, target2 );
-
-			} else {
-
-				l2.at( 1, target2 );
-
-			}
-
-			l1.closestPointToPoint( target2, true, target1 );
-			return;
-
-		} else if ( d2 >= 0 && d2 <= 1 ) {
-
-			// Only d is out of bounds.
-			if ( d < 0 ) {
-
-				l1.at( 0, target1 );
-
-			} else {
-
-				l1.at( 1, target1 );
-
-			}
-
-			l2.closestPointToPoint( target1, true, target2 );
-			return;
-
-		} else {
-
-			// Both u and u2 are out of bounds.
-			let p;
-			if ( d < 0 ) {
-
-				p = l1.start;
-
-			} else {
-
-				p = l1.end;
-
-			}
-
-			let p2;
-			if ( d2 < 0 ) {
-
-				p2 = l2.start;
-
-			} else {
-
-				p2 = l2.end;
-
-			}
-
-			const closestPoint = temp1;
-			const closestPoint2 = temp2;
-			l1.closestPointToPoint( p2, true, temp1 );
-			l2.closestPointToPoint( p, true, temp2 );
-
-			if ( closestPoint.distanceToSquared( p2 ) <= closestPoint2.distanceToSquared( p ) ) {
-
-				target1.copy( closestPoint );
-				target2.copy( p2 );
-				return;
-
-			} else {
-
-				target1.copy( p );
-				target2.copy( closestPoint2 );
-				return;
-
-			}
-
-		}
-
-	};
-
-} )();
-
-
-const sphereIntersectTriangle = ( function () {
-
-	// https://stackoverflow.com/questions/34043955/detect-collision-between-sphere-and-triangle-in-three-js
-	const closestPointTemp = new Vector3();
-	const projectedPointTemp = new Vector3();
-	const planeTemp = new Plane();
-	const lineTemp = new Line3();
-	return function sphereIntersectTriangle( sphere, triangle ) {
-
-		const { radius, center } = sphere;
-		const { a, b, c } = triangle;
-
-		// phase 1
-		lineTemp.start = a;
-		lineTemp.end = b;
-		const closestPoint1 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
-		if ( closestPoint1.distanceTo( center ) <= radius ) return true;
-
-		lineTemp.start = a;
-		lineTemp.end = c;
-		const closestPoint2 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
-		if ( closestPoint2.distanceTo( center ) <= radius ) return true;
-
-		lineTemp.start = b;
-		lineTemp.end = c;
-		const closestPoint3 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
-		if ( closestPoint3.distanceTo( center ) <= radius ) return true;
-
-		// phase 2
-		const plane = triangle.getPlane( planeTemp );
-		const dp = Math.abs( plane.distanceToPoint( center ) );
-		if ( dp <= radius ) {
-
-			const pp = plane.projectPoint( center, projectedPointTemp );
-			const cp = triangle.containsPoint( pp );
-			if ( cp ) return true;
-
-		}
-
-		return false;
-
-	};
-
-} )();
-
-const DIST_EPSILON = 1e-15;
-function isNearZero( value ) {
-
-	return Math.abs( value ) < DIST_EPSILON;
-
-}
-
-class ExtendedTriangle extends Triangle {
-
-	constructor( ...args ) {
-
-		super( ...args );
-
-		this.isExtendedTriangle = true;
-		this.satAxes = new Array( 4 ).fill().map( () => new Vector3() );
-		this.satBounds = new Array( 4 ).fill().map( () => new SeparatingAxisBounds() );
-		this.points = [ this.a, this.b, this.c ];
-		this.sphere = new Sphere();
-		this.plane = new Plane();
-		this.needsUpdate = true;
-
-	}
-
-	intersectsSphere( sphere ) {
-
-		return sphereIntersectTriangle( sphere, this );
-
-	}
-
-	update() {
-
-		const a = this.a;
-		const b = this.b;
-		const c = this.c;
-		const points = this.points;
-
-		const satAxes = this.satAxes;
-		const satBounds = this.satBounds;
-
-		const axis0 = satAxes[ 0 ];
-		const sab0 = satBounds[ 0 ];
-		this.getNormal( axis0 );
-		sab0.setFromPoints( axis0, points );
-
-		const axis1 = satAxes[ 1 ];
-		const sab1 = satBounds[ 1 ];
-		axis1.subVectors( a, b );
-		sab1.setFromPoints( axis1, points );
-
-		const axis2 = satAxes[ 2 ];
-		const sab2 = satBounds[ 2 ];
-		axis2.subVectors( b, c );
-		sab2.setFromPoints( axis2, points );
-
-		const axis3 = satAxes[ 3 ];
-		const sab3 = satBounds[ 3 ];
-		axis3.subVectors( c, a );
-		sab3.setFromPoints( axis3, points );
-
-		this.sphere.setFromPoints( this.points );
-		this.plane.setFromNormalAndCoplanarPoint( axis0, a );
-		this.needsUpdate = false;
-
-	}
-
-}
-
-ExtendedTriangle.prototype.closestPointToSegment = ( function () {
-
-	const point1 = new Vector3();
-	const point2 = new Vector3();
-	const edge = new Line3();
-
-	return function distanceToSegment( segment, target1 = null, target2 = null ) {
-
-		const { start, end } = segment;
-		const points = this.points;
-		let distSq;
-		let closestDistanceSq = Infinity;
-
-		// check the triangle edges
-		for ( let i = 0; i < 3; i ++ ) {
-
-			const nexti = ( i + 1 ) % 3;
-			edge.start.copy( points[ i ] );
-			edge.end.copy( points[ nexti ] );
-
-			closestPointsSegmentToSegment( edge, segment, point1, point2 );
-
-			distSq = point1.distanceToSquared( point2 );
-			if ( distSq < closestDistanceSq ) {
-
-				closestDistanceSq = distSq;
-				if ( target1 ) target1.copy( point1 );
-				if ( target2 ) target2.copy( point2 );
-
-			}
-
-		}
-
-		// check end points
-		this.closestPointToPoint( start, point1 );
-		distSq = start.distanceToSquared( point1 );
-		if ( distSq < closestDistanceSq ) {
-
-			closestDistanceSq = distSq;
-			if ( target1 ) target1.copy( point1 );
-			if ( target2 ) target2.copy( start );
-
-		}
-
-		this.closestPointToPoint( end, point1 );
-		distSq = end.distanceToSquared( point1 );
-		if ( distSq < closestDistanceSq ) {
-
-			closestDistanceSq = distSq;
-			if ( target1 ) target1.copy( point1 );
-			if ( target2 ) target2.copy( end );
-
-		}
-
-		return Math.sqrt( closestDistanceSq );
-
-	};
-
-} )();
-
-ExtendedTriangle.prototype.intersectsTriangle = ( function () {
-
-	const saTri2 = new ExtendedTriangle();
-	const arr1 = new Array( 3 );
-	const arr2 = new Array( 3 );
-	const cachedSatBounds = new SeparatingAxisBounds();
-	const cachedSatBounds2 = new SeparatingAxisBounds();
-	const cachedAxis = new Vector3();
-	const dir1 = new Vector3();
-	const dir2 = new Vector3();
-	const tempDir = new Vector3();
-	const edge = new Line3();
-	const edge1 = new Line3();
-	const edge2 = new Line3();
-
-	// TODO: If the triangles are coplanar and intersecting the target is nonsensical. It should at least
-	// be a line contained by both triangles if not a different special case somehow represented in the return result.
-	return function intersectsTriangle( other, target = null ) {
-
-		if ( this.needsUpdate ) {
-
-			this.update();
-
-		}
-
-		if ( ! other.isExtendedTriangle ) {
-
-			saTri2.copy( other );
-			saTri2.update();
-			other = saTri2;
-
-		} else if ( other.needsUpdate ) {
-
-			other.update();
-
-		}
-
-		const plane1 = this.plane;
-		const plane2 = other.plane;
-
-		if ( Math.abs( plane1.normal.dot( plane2.normal ) ) > 1.0 - 1e-10 ) {
-
-			// perform separating axis intersection test only for coplanar triangles
-			const satBounds1 = this.satBounds;
-			const satAxes1 = this.satAxes;
-			arr2[ 0 ] = other.a;
-			arr2[ 1 ] = other.b;
-			arr2[ 2 ] = other.c;
-			for ( let i = 0; i < 4; i ++ ) {
-
-				const sb = satBounds1[ i ];
-				const sa = satAxes1[ i ];
-				cachedSatBounds.setFromPoints( sa, arr2 );
-				if ( sb.isSeparated( cachedSatBounds ) ) return false;
-
-			}
-
-			const satBounds2 = other.satBounds;
-			const satAxes2 = other.satAxes;
-			arr1[ 0 ] = this.a;
-			arr1[ 1 ] = this.b;
-			arr1[ 2 ] = this.c;
-			for ( let i = 0; i < 4; i ++ ) {
-
-				const sb = satBounds2[ i ];
-				const sa = satAxes2[ i ];
-				cachedSatBounds.setFromPoints( sa, arr1 );
-				if ( sb.isSeparated( cachedSatBounds ) ) return false;
-
-			}
-
-			// check crossed axes
-			for ( let i = 0; i < 4; i ++ ) {
-
-				const sa1 = satAxes1[ i ];
-				for ( let i2 = 0; i2 < 4; i2 ++ ) {
-
-					const sa2 = satAxes2[ i2 ];
-					cachedAxis.crossVectors( sa1, sa2 );
-					cachedSatBounds.setFromPoints( cachedAxis, arr1 );
-					cachedSatBounds2.setFromPoints( cachedAxis, arr2 );
-					if ( cachedSatBounds.isSeparated( cachedSatBounds2 ) ) return false;
-
-				}
-
-			}
-
-			if ( target ) {
-
-				// TODO find two points that intersect on the edges and make that the result
-				console.warn( 'ExtendedTriangle.intersectsTriangle: Triangles are coplanar which does not support an output edge. Setting edge to 0, 0, 0.' );
-
-				target.start.set( 0, 0, 0 );
-				target.end.set( 0, 0, 0 );
-
-			}
-
-			return true;
-
-		} else {
-
-			// find the edge that intersects the other triangle plane
-			const points1 = this.points;
-			let found1 = false;
-			let count1 = 0;
-			for ( let i = 0; i < 3; i ++ ) {
-
-				const p = points1[ i ];
-				const pNext = points1[ ( i + 1 ) % 3 ];
-
-				edge.start.copy( p );
-				edge.end.copy( pNext );
-				edge.delta( dir1 );
-
-				const targetPoint = found1 ? edge1.start : edge1.end;
-				const startIntersects = isNearZero( plane2.distanceToPoint( p ) );
-				if ( isNearZero( plane2.normal.dot( dir1 ) ) && startIntersects ) {
-
-					// if the edge lies on the plane then take the line
-					edge1.copy( edge );
-					count1 = 2;
-					break;
-
-				}
-
-				// check if the start point is near the plane because "intersectLine" is not robust to that case
-				const doesIntersect = plane2.intersectLine( edge, targetPoint ) || startIntersects;
-				if ( doesIntersect && ! isNearZero( targetPoint.distanceTo( pNext ) ) ) {
-
-					count1 ++;
-					if ( found1 ) {
-
-						break;
-
-					}
-
-					found1 = true;
-
-				}
-
-			}
-
-			if ( count1 === 1 && this.containsPoint( edge1.start ) ) {
-
-				if ( target ) {
-
-					target.start.copy( edge1.start );
-					target.end.copy( edge1.start );
-
-				}
-
-				return true;
-
-			} else if ( count1 !== 2 ) {
-
-				return false;
-
-			}
-
-			// find the other triangles edge that intersects this plane
-			const points2 = other.points;
-			let found2 = false;
-			let count2 = 0;
-			for ( let i = 0; i < 3; i ++ ) {
-
-				const p = points2[ i ];
-				const pNext = points2[ ( i + 1 ) % 3 ];
-
-				edge.start.copy( p );
-				edge.end.copy( pNext );
-				edge.delta( dir2 );
-
-				const targetPoint = found2 ? edge2.start : edge2.end;
-				const startIntersects = isNearZero( plane1.distanceToPoint( p ) );
-				if ( isNearZero( plane1.normal.dot( dir2 ) ) && startIntersects ) {
-
-					// if the edge lies on the plane then take the line
-					edge2.copy( edge );
-					count2 = 2;
-					break;
-
-				}
-
-				// check if the start point is near the plane because "intersectLine" is not robust to that case
-				const doesIntersect = plane1.intersectLine( edge, targetPoint ) || startIntersects;
-				if ( doesIntersect && ! isNearZero( targetPoint.distanceTo( pNext ) ) ) {
-
-					count2 ++;
-					if ( found2 ) {
-
-						break;
-
-					}
-
-					found2 = true;
-
-				}
-
-			}
-
-			if ( count2 === 1 && this.containsPoint( edge2.start ) ) {
-
-				if ( target ) {
-
-					target.start.copy( edge2.start );
-					target.end.copy( edge2.start );
-
-				}
-
-				return true;
-
-			} else if ( count2 !== 2 ) {
-
-				return false;
-
-			}
-
-			// find swap the second edge so both lines are running the same direction
-			edge1.delta( dir1 );
-			edge2.delta( dir2 );
-
-			if ( dir1.dot( dir2 ) < 0 ) {
-
-				let tmp = edge2.start;
-				edge2.start = edge2.end;
-				edge2.end = tmp;
-
-			}
-
-			// check if the edges are overlapping
-			const s1 = edge1.start.dot( dir1 );
-			const e1 = edge1.end.dot( dir1 );
-			const s2 = edge2.start.dot( dir1 );
-			const e2 = edge2.end.dot( dir1 );
-			const separated1 = e1 < s2;
-			const separated2 = s1 < e2;
-
-			if ( s1 !== e2 && s2 !== e1 && separated1 === separated2 ) {
-
-				return false;
-
-			}
-
-			// assign the target output
-			if ( target ) {
-
-				tempDir.subVectors( edge1.start, edge2.start );
-				if ( tempDir.dot( dir1 ) > 0 ) {
-
-					target.start.copy( edge1.start );
-
-				} else {
-
-					target.start.copy( edge2.start );
-
-				}
-
-				tempDir.subVectors( edge1.end, edge2.end );
-				if ( tempDir.dot( dir1 ) < 0 ) {
-
-					target.end.copy( edge1.end );
-
-				} else {
-
-					target.end.copy( edge2.end );
-
-				}
-
-			}
-
-			return true;
-
-		}
-
-	};
-
-} )();
-
-
-ExtendedTriangle.prototype.distanceToPoint = ( function () {
-
-	const target = new Vector3();
-	return function distanceToPoint( point ) {
-
-		this.closestPointToPoint( point, target );
-		return point.distanceTo( target );
-
-	};
-
-} )();
-
-
-ExtendedTriangle.prototype.distanceToTriangle = ( function () {
-
-	const point = new Vector3();
-	const point2 = new Vector3();
-	const cornerFields = [ 'a', 'b', 'c' ];
-	const line1 = new Line3();
-	const line2 = new Line3();
-
-	return function distanceToTriangle( other, target1 = null, target2 = null ) {
-
-		const lineTarget = target1 || target2 ? line1 : null;
-		if ( this.intersectsTriangle( other, lineTarget ) ) {
-
-			if ( target1 || target2 ) {
-
-				if ( target1 ) lineTarget.getCenter( target1 );
-				if ( target2 ) lineTarget.getCenter( target2 );
-
-			}
-
-			return 0;
-
-		}
-
-		let closestDistanceSq = Infinity;
-
-		// check all point distances
-		for ( let i = 0; i < 3; i ++ ) {
-
-			let dist;
-			const field = cornerFields[ i ];
-			const otherVec = other[ field ];
-			this.closestPointToPoint( otherVec, point );
-
-			dist = otherVec.distanceToSquared( point );
-
-			if ( dist < closestDistanceSq ) {
-
-				closestDistanceSq = dist;
-				if ( target1 ) target1.copy( point );
-				if ( target2 ) target2.copy( otherVec );
-
-			}
-
-
-			const thisVec = this[ field ];
-			other.closestPointToPoint( thisVec, point );
-
-			dist = thisVec.distanceToSquared( point );
-
-			if ( dist < closestDistanceSq ) {
-
-				closestDistanceSq = dist;
-				if ( target1 ) target1.copy( thisVec );
-				if ( target2 ) target2.copy( point );
-
-			}
-
-		}
-
-		for ( let i = 0; i < 3; i ++ ) {
-
-			const f11 = cornerFields[ i ];
-			const f12 = cornerFields[ ( i + 1 ) % 3 ];
-			line1.set( this[ f11 ], this[ f12 ] );
-			for ( let i2 = 0; i2 < 3; i2 ++ ) {
-
-				const f21 = cornerFields[ i2 ];
-				const f22 = cornerFields[ ( i2 + 1 ) % 3 ];
-				line2.set( other[ f21 ], other[ f22 ] );
-
-				closestPointsSegmentToSegment( line1, line2, point, point2 );
-
-				const dist = point.distanceToSquared( point2 );
-				if ( dist < closestDistanceSq ) {
-
-					closestDistanceSq = dist;
-					if ( target1 ) target1.copy( point );
-					if ( target2 ) target2.copy( point2 );
-
-				}
-
-			}
-
-		}
-
-		return Math.sqrt( closestDistanceSq );
-
-	};
-
-} )();
-
 var NavigationModes;
 (function (NavigationModes) {
     NavigationModes[NavigationModes["Orbit"] = 0] = "Orbit";
@@ -100148,6 +99467,845 @@ new Matrix4();
 new Matrix4();
 new Vector3();
 new Vector3();
+
+class SeparatingAxisBounds {
+
+	constructor() {
+
+		this.min = Infinity;
+		this.max = - Infinity;
+
+	}
+
+	setFromPointsField( points, field ) {
+
+		let min = Infinity;
+		let max = - Infinity;
+		for ( let i = 0, l = points.length; i < l; i ++ ) {
+
+			const p = points[ i ];
+			const val = p[ field ];
+			min = val < min ? val : min;
+			max = val > max ? val : max;
+
+		}
+
+		this.min = min;
+		this.max = max;
+
+	}
+
+	setFromPoints( axis, points ) {
+
+		let min = Infinity;
+		let max = - Infinity;
+		for ( let i = 0, l = points.length; i < l; i ++ ) {
+
+			const p = points[ i ];
+			const val = axis.dot( p );
+			min = val < min ? val : min;
+			max = val > max ? val : max;
+
+		}
+
+		this.min = min;
+		this.max = max;
+
+	}
+
+	isSeparated( other ) {
+
+		return this.min > other.max || other.min > this.max;
+
+	}
+
+}
+
+SeparatingAxisBounds.prototype.setFromBox = ( function () {
+
+	const p = new Vector3();
+	return function setFromBox( axis, box ) {
+
+		const boxMin = box.min;
+		const boxMax = box.max;
+		let min = Infinity;
+		let max = - Infinity;
+		for ( let x = 0; x <= 1; x ++ ) {
+
+			for ( let y = 0; y <= 1; y ++ ) {
+
+				for ( let z = 0; z <= 1; z ++ ) {
+
+					p.x = boxMin.x * x + boxMax.x * ( 1 - x );
+					p.y = boxMin.y * y + boxMax.y * ( 1 - y );
+					p.z = boxMin.z * z + boxMax.z * ( 1 - z );
+
+					const val = axis.dot( p );
+					min = Math.min( val, min );
+					max = Math.max( val, max );
+
+				}
+
+			}
+
+		}
+
+		this.min = min;
+		this.max = max;
+
+	};
+
+} )();
+
+( (function () {
+
+	const cacheSatBounds = new SeparatingAxisBounds();
+	return function areIntersecting( shape1, shape2 ) {
+
+		const points1 = shape1.points;
+		const satAxes1 = shape1.satAxes;
+		const satBounds1 = shape1.satBounds;
+
+		const points2 = shape2.points;
+		const satAxes2 = shape2.satAxes;
+		const satBounds2 = shape2.satBounds;
+
+		// check axes of the first shape
+		for ( let i = 0; i < 3; i ++ ) {
+
+			const sb = satBounds1[ i ];
+			const sa = satAxes1[ i ];
+			cacheSatBounds.setFromPoints( sa, points2 );
+			if ( sb.isSeparated( cacheSatBounds ) ) return false;
+
+		}
+
+		// check axes of the second shape
+		for ( let i = 0; i < 3; i ++ ) {
+
+			const sb = satBounds2[ i ];
+			const sa = satAxes2[ i ];
+			cacheSatBounds.setFromPoints( sa, points1 );
+			if ( sb.isSeparated( cacheSatBounds ) ) return false;
+
+		}
+
+	};
+
+}) )();
+
+const closestPointLineToLine = ( function () {
+
+	// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/Line.cpp#L56
+	const dir1 = new Vector3();
+	const dir2 = new Vector3();
+	const v02 = new Vector3();
+	return function closestPointLineToLine( l1, l2, result ) {
+
+		const v0 = l1.start;
+		const v10 = dir1;
+		const v2 = l2.start;
+		const v32 = dir2;
+
+		v02.subVectors( v0, v2 );
+		dir1.subVectors( l1.end, l2.start );
+		dir2.subVectors( l2.end, l2.start );
+
+		// float d0232 = v02.Dot(v32);
+		const d0232 = v02.dot( v32 );
+
+		// float d3210 = v32.Dot(v10);
+		const d3210 = v32.dot( v10 );
+
+		// float d3232 = v32.Dot(v32);
+		const d3232 = v32.dot( v32 );
+
+		// float d0210 = v02.Dot(v10);
+		const d0210 = v02.dot( v10 );
+
+		// float d1010 = v10.Dot(v10);
+		const d1010 = v10.dot( v10 );
+
+		// float denom = d1010*d3232 - d3210*d3210;
+		const denom = d1010 * d3232 - d3210 * d3210;
+
+		let d, d2;
+		if ( denom !== 0 ) {
+
+			d = ( d0232 * d3210 - d0210 * d3232 ) / denom;
+
+		} else {
+
+			d = 0;
+
+		}
+
+		d2 = ( d0232 + d * d3210 ) / d3232;
+
+		result.x = d;
+		result.y = d2;
+
+	};
+
+} )();
+
+const closestPointsSegmentToSegment = ( function () {
+
+	// https://github.com/juj/MathGeoLib/blob/master/src/Geometry/LineSegment.cpp#L187
+	const paramResult = new Vector2();
+	const temp1 = new Vector3();
+	const temp2 = new Vector3();
+	return function closestPointsSegmentToSegment( l1, l2, target1, target2 ) {
+
+		closestPointLineToLine( l1, l2, paramResult );
+
+		let d = paramResult.x;
+		let d2 = paramResult.y;
+		if ( d >= 0 && d <= 1 && d2 >= 0 && d2 <= 1 ) {
+
+			l1.at( d, target1 );
+			l2.at( d2, target2 );
+
+			return;
+
+		} else if ( d >= 0 && d <= 1 ) {
+
+			// Only d2 is out of bounds.
+			if ( d2 < 0 ) {
+
+				l2.at( 0, target2 );
+
+			} else {
+
+				l2.at( 1, target2 );
+
+			}
+
+			l1.closestPointToPoint( target2, true, target1 );
+			return;
+
+		} else if ( d2 >= 0 && d2 <= 1 ) {
+
+			// Only d is out of bounds.
+			if ( d < 0 ) {
+
+				l1.at( 0, target1 );
+
+			} else {
+
+				l1.at( 1, target1 );
+
+			}
+
+			l2.closestPointToPoint( target1, true, target2 );
+			return;
+
+		} else {
+
+			// Both u and u2 are out of bounds.
+			let p;
+			if ( d < 0 ) {
+
+				p = l1.start;
+
+			} else {
+
+				p = l1.end;
+
+			}
+
+			let p2;
+			if ( d2 < 0 ) {
+
+				p2 = l2.start;
+
+			} else {
+
+				p2 = l2.end;
+
+			}
+
+			const closestPoint = temp1;
+			const closestPoint2 = temp2;
+			l1.closestPointToPoint( p2, true, temp1 );
+			l2.closestPointToPoint( p, true, temp2 );
+
+			if ( closestPoint.distanceToSquared( p2 ) <= closestPoint2.distanceToSquared( p ) ) {
+
+				target1.copy( closestPoint );
+				target2.copy( p2 );
+				return;
+
+			} else {
+
+				target1.copy( p );
+				target2.copy( closestPoint2 );
+				return;
+
+			}
+
+		}
+
+	};
+
+} )();
+
+
+const sphereIntersectTriangle = ( function () {
+
+	// https://stackoverflow.com/questions/34043955/detect-collision-between-sphere-and-triangle-in-three-js
+	const closestPointTemp = new Vector3();
+	const projectedPointTemp = new Vector3();
+	const planeTemp = new Plane();
+	const lineTemp = new Line3();
+	return function sphereIntersectTriangle( sphere, triangle ) {
+
+		const { radius, center } = sphere;
+		const { a, b, c } = triangle;
+
+		// phase 1
+		lineTemp.start = a;
+		lineTemp.end = b;
+		const closestPoint1 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
+		if ( closestPoint1.distanceTo( center ) <= radius ) return true;
+
+		lineTemp.start = a;
+		lineTemp.end = c;
+		const closestPoint2 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
+		if ( closestPoint2.distanceTo( center ) <= radius ) return true;
+
+		lineTemp.start = b;
+		lineTemp.end = c;
+		const closestPoint3 = lineTemp.closestPointToPoint( center, true, closestPointTemp );
+		if ( closestPoint3.distanceTo( center ) <= radius ) return true;
+
+		// phase 2
+		const plane = triangle.getPlane( planeTemp );
+		const dp = Math.abs( plane.distanceToPoint( center ) );
+		if ( dp <= radius ) {
+
+			const pp = plane.projectPoint( center, projectedPointTemp );
+			const cp = triangle.containsPoint( pp );
+			if ( cp ) return true;
+
+		}
+
+		return false;
+
+	};
+
+} )();
+
+const DIST_EPSILON = 1e-15;
+function isNearZero( value ) {
+
+	return Math.abs( value ) < DIST_EPSILON;
+
+}
+
+class ExtendedTriangle extends Triangle {
+
+	constructor( ...args ) {
+
+		super( ...args );
+
+		this.isExtendedTriangle = true;
+		this.satAxes = new Array( 4 ).fill().map( () => new Vector3() );
+		this.satBounds = new Array( 4 ).fill().map( () => new SeparatingAxisBounds() );
+		this.points = [ this.a, this.b, this.c ];
+		this.sphere = new Sphere();
+		this.plane = new Plane();
+		this.needsUpdate = true;
+
+	}
+
+	intersectsSphere( sphere ) {
+
+		return sphereIntersectTriangle( sphere, this );
+
+	}
+
+	update() {
+
+		const a = this.a;
+		const b = this.b;
+		const c = this.c;
+		const points = this.points;
+
+		const satAxes = this.satAxes;
+		const satBounds = this.satBounds;
+
+		const axis0 = satAxes[ 0 ];
+		const sab0 = satBounds[ 0 ];
+		this.getNormal( axis0 );
+		sab0.setFromPoints( axis0, points );
+
+		const axis1 = satAxes[ 1 ];
+		const sab1 = satBounds[ 1 ];
+		axis1.subVectors( a, b );
+		sab1.setFromPoints( axis1, points );
+
+		const axis2 = satAxes[ 2 ];
+		const sab2 = satBounds[ 2 ];
+		axis2.subVectors( b, c );
+		sab2.setFromPoints( axis2, points );
+
+		const axis3 = satAxes[ 3 ];
+		const sab3 = satBounds[ 3 ];
+		axis3.subVectors( c, a );
+		sab3.setFromPoints( axis3, points );
+
+		this.sphere.setFromPoints( this.points );
+		this.plane.setFromNormalAndCoplanarPoint( axis0, a );
+		this.needsUpdate = false;
+
+	}
+
+}
+
+ExtendedTriangle.prototype.closestPointToSegment = ( function () {
+
+	const point1 = new Vector3();
+	const point2 = new Vector3();
+	const edge = new Line3();
+
+	return function distanceToSegment( segment, target1 = null, target2 = null ) {
+
+		const { start, end } = segment;
+		const points = this.points;
+		let distSq;
+		let closestDistanceSq = Infinity;
+
+		// check the triangle edges
+		for ( let i = 0; i < 3; i ++ ) {
+
+			const nexti = ( i + 1 ) % 3;
+			edge.start.copy( points[ i ] );
+			edge.end.copy( points[ nexti ] );
+
+			closestPointsSegmentToSegment( edge, segment, point1, point2 );
+
+			distSq = point1.distanceToSquared( point2 );
+			if ( distSq < closestDistanceSq ) {
+
+				closestDistanceSq = distSq;
+				if ( target1 ) target1.copy( point1 );
+				if ( target2 ) target2.copy( point2 );
+
+			}
+
+		}
+
+		// check end points
+		this.closestPointToPoint( start, point1 );
+		distSq = start.distanceToSquared( point1 );
+		if ( distSq < closestDistanceSq ) {
+
+			closestDistanceSq = distSq;
+			if ( target1 ) target1.copy( point1 );
+			if ( target2 ) target2.copy( start );
+
+		}
+
+		this.closestPointToPoint( end, point1 );
+		distSq = end.distanceToSquared( point1 );
+		if ( distSq < closestDistanceSq ) {
+
+			closestDistanceSq = distSq;
+			if ( target1 ) target1.copy( point1 );
+			if ( target2 ) target2.copy( end );
+
+		}
+
+		return Math.sqrt( closestDistanceSq );
+
+	};
+
+} )();
+
+ExtendedTriangle.prototype.intersectsTriangle = ( function () {
+
+	const saTri2 = new ExtendedTriangle();
+	const arr1 = new Array( 3 );
+	const arr2 = new Array( 3 );
+	const cachedSatBounds = new SeparatingAxisBounds();
+	const cachedSatBounds2 = new SeparatingAxisBounds();
+	const cachedAxis = new Vector3();
+	const dir1 = new Vector3();
+	const dir2 = new Vector3();
+	const tempDir = new Vector3();
+	const edge = new Line3();
+	const edge1 = new Line3();
+	const edge2 = new Line3();
+
+	// TODO: If the triangles are coplanar and intersecting the target is nonsensical. It should at least
+	// be a line contained by both triangles if not a different special case somehow represented in the return result.
+	return function intersectsTriangle( other, target = null ) {
+
+		if ( this.needsUpdate ) {
+
+			this.update();
+
+		}
+
+		if ( ! other.isExtendedTriangle ) {
+
+			saTri2.copy( other );
+			saTri2.update();
+			other = saTri2;
+
+		} else if ( other.needsUpdate ) {
+
+			other.update();
+
+		}
+
+		const plane1 = this.plane;
+		const plane2 = other.plane;
+
+		if ( Math.abs( plane1.normal.dot( plane2.normal ) ) > 1.0 - 1e-10 ) {
+
+			// perform separating axis intersection test only for coplanar triangles
+			const satBounds1 = this.satBounds;
+			const satAxes1 = this.satAxes;
+			arr2[ 0 ] = other.a;
+			arr2[ 1 ] = other.b;
+			arr2[ 2 ] = other.c;
+			for ( let i = 0; i < 4; i ++ ) {
+
+				const sb = satBounds1[ i ];
+				const sa = satAxes1[ i ];
+				cachedSatBounds.setFromPoints( sa, arr2 );
+				if ( sb.isSeparated( cachedSatBounds ) ) return false;
+
+			}
+
+			const satBounds2 = other.satBounds;
+			const satAxes2 = other.satAxes;
+			arr1[ 0 ] = this.a;
+			arr1[ 1 ] = this.b;
+			arr1[ 2 ] = this.c;
+			for ( let i = 0; i < 4; i ++ ) {
+
+				const sb = satBounds2[ i ];
+				const sa = satAxes2[ i ];
+				cachedSatBounds.setFromPoints( sa, arr1 );
+				if ( sb.isSeparated( cachedSatBounds ) ) return false;
+
+			}
+
+			// check crossed axes
+			for ( let i = 0; i < 4; i ++ ) {
+
+				const sa1 = satAxes1[ i ];
+				for ( let i2 = 0; i2 < 4; i2 ++ ) {
+
+					const sa2 = satAxes2[ i2 ];
+					cachedAxis.crossVectors( sa1, sa2 );
+					cachedSatBounds.setFromPoints( cachedAxis, arr1 );
+					cachedSatBounds2.setFromPoints( cachedAxis, arr2 );
+					if ( cachedSatBounds.isSeparated( cachedSatBounds2 ) ) return false;
+
+				}
+
+			}
+
+			if ( target ) {
+
+				// TODO find two points that intersect on the edges and make that the result
+				console.warn( 'ExtendedTriangle.intersectsTriangle: Triangles are coplanar which does not support an output edge. Setting edge to 0, 0, 0.' );
+
+				target.start.set( 0, 0, 0 );
+				target.end.set( 0, 0, 0 );
+
+			}
+
+			return true;
+
+		} else {
+
+			// find the edge that intersects the other triangle plane
+			const points1 = this.points;
+			let found1 = false;
+			let count1 = 0;
+			for ( let i = 0; i < 3; i ++ ) {
+
+				const p = points1[ i ];
+				const pNext = points1[ ( i + 1 ) % 3 ];
+
+				edge.start.copy( p );
+				edge.end.copy( pNext );
+				edge.delta( dir1 );
+
+				const targetPoint = found1 ? edge1.start : edge1.end;
+				const startIntersects = isNearZero( plane2.distanceToPoint( p ) );
+				if ( isNearZero( plane2.normal.dot( dir1 ) ) && startIntersects ) {
+
+					// if the edge lies on the plane then take the line
+					edge1.copy( edge );
+					count1 = 2;
+					break;
+
+				}
+
+				// check if the start point is near the plane because "intersectLine" is not robust to that case
+				const doesIntersect = plane2.intersectLine( edge, targetPoint ) || startIntersects;
+				if ( doesIntersect && ! isNearZero( targetPoint.distanceTo( pNext ) ) ) {
+
+					count1 ++;
+					if ( found1 ) {
+
+						break;
+
+					}
+
+					found1 = true;
+
+				}
+
+			}
+
+			if ( count1 === 1 && this.containsPoint( edge1.start ) ) {
+
+				if ( target ) {
+
+					target.start.copy( edge1.start );
+					target.end.copy( edge1.start );
+
+				}
+
+				return true;
+
+			} else if ( count1 !== 2 ) {
+
+				return false;
+
+			}
+
+			// find the other triangles edge that intersects this plane
+			const points2 = other.points;
+			let found2 = false;
+			let count2 = 0;
+			for ( let i = 0; i < 3; i ++ ) {
+
+				const p = points2[ i ];
+				const pNext = points2[ ( i + 1 ) % 3 ];
+
+				edge.start.copy( p );
+				edge.end.copy( pNext );
+				edge.delta( dir2 );
+
+				const targetPoint = found2 ? edge2.start : edge2.end;
+				const startIntersects = isNearZero( plane1.distanceToPoint( p ) );
+				if ( isNearZero( plane1.normal.dot( dir2 ) ) && startIntersects ) {
+
+					// if the edge lies on the plane then take the line
+					edge2.copy( edge );
+					count2 = 2;
+					break;
+
+				}
+
+				// check if the start point is near the plane because "intersectLine" is not robust to that case
+				const doesIntersect = plane1.intersectLine( edge, targetPoint ) || startIntersects;
+				if ( doesIntersect && ! isNearZero( targetPoint.distanceTo( pNext ) ) ) {
+
+					count2 ++;
+					if ( found2 ) {
+
+						break;
+
+					}
+
+					found2 = true;
+
+				}
+
+			}
+
+			if ( count2 === 1 && this.containsPoint( edge2.start ) ) {
+
+				if ( target ) {
+
+					target.start.copy( edge2.start );
+					target.end.copy( edge2.start );
+
+				}
+
+				return true;
+
+			} else if ( count2 !== 2 ) {
+
+				return false;
+
+			}
+
+			// find swap the second edge so both lines are running the same direction
+			edge1.delta( dir1 );
+			edge2.delta( dir2 );
+
+			if ( dir1.dot( dir2 ) < 0 ) {
+
+				let tmp = edge2.start;
+				edge2.start = edge2.end;
+				edge2.end = tmp;
+
+			}
+
+			// check if the edges are overlapping
+			const s1 = edge1.start.dot( dir1 );
+			const e1 = edge1.end.dot( dir1 );
+			const s2 = edge2.start.dot( dir1 );
+			const e2 = edge2.end.dot( dir1 );
+			const separated1 = e1 < s2;
+			const separated2 = s1 < e2;
+
+			if ( s1 !== e2 && s2 !== e1 && separated1 === separated2 ) {
+
+				return false;
+
+			}
+
+			// assign the target output
+			if ( target ) {
+
+				tempDir.subVectors( edge1.start, edge2.start );
+				if ( tempDir.dot( dir1 ) > 0 ) {
+
+					target.start.copy( edge1.start );
+
+				} else {
+
+					target.start.copy( edge2.start );
+
+				}
+
+				tempDir.subVectors( edge1.end, edge2.end );
+				if ( tempDir.dot( dir1 ) < 0 ) {
+
+					target.end.copy( edge1.end );
+
+				} else {
+
+					target.end.copy( edge2.end );
+
+				}
+
+			}
+
+			return true;
+
+		}
+
+	};
+
+} )();
+
+
+ExtendedTriangle.prototype.distanceToPoint = ( function () {
+
+	const target = new Vector3();
+	return function distanceToPoint( point ) {
+
+		this.closestPointToPoint( point, target );
+		return point.distanceTo( target );
+
+	};
+
+} )();
+
+
+ExtendedTriangle.prototype.distanceToTriangle = ( function () {
+
+	const point = new Vector3();
+	const point2 = new Vector3();
+	const cornerFields = [ 'a', 'b', 'c' ];
+	const line1 = new Line3();
+	const line2 = new Line3();
+
+	return function distanceToTriangle( other, target1 = null, target2 = null ) {
+
+		const lineTarget = target1 || target2 ? line1 : null;
+		if ( this.intersectsTriangle( other, lineTarget ) ) {
+
+			if ( target1 || target2 ) {
+
+				if ( target1 ) lineTarget.getCenter( target1 );
+				if ( target2 ) lineTarget.getCenter( target2 );
+
+			}
+
+			return 0;
+
+		}
+
+		let closestDistanceSq = Infinity;
+
+		// check all point distances
+		for ( let i = 0; i < 3; i ++ ) {
+
+			let dist;
+			const field = cornerFields[ i ];
+			const otherVec = other[ field ];
+			this.closestPointToPoint( otherVec, point );
+
+			dist = otherVec.distanceToSquared( point );
+
+			if ( dist < closestDistanceSq ) {
+
+				closestDistanceSq = dist;
+				if ( target1 ) target1.copy( point );
+				if ( target2 ) target2.copy( otherVec );
+
+			}
+
+
+			const thisVec = this[ field ];
+			other.closestPointToPoint( thisVec, point );
+
+			dist = thisVec.distanceToSquared( point );
+
+			if ( dist < closestDistanceSq ) {
+
+				closestDistanceSq = dist;
+				if ( target1 ) target1.copy( thisVec );
+				if ( target2 ) target2.copy( point );
+
+			}
+
+		}
+
+		for ( let i = 0; i < 3; i ++ ) {
+
+			const f11 = cornerFields[ i ];
+			const f12 = cornerFields[ ( i + 1 ) % 3 ];
+			line1.set( this[ f11 ], this[ f12 ] );
+			for ( let i2 = 0; i2 < 3; i2 ++ ) {
+
+				const f21 = cornerFields[ i2 ];
+				const f22 = cornerFields[ ( i2 + 1 ) % 3 ];
+				line2.set( other[ f21 ], other[ f22 ] );
+
+				closestPointsSegmentToSegment( line1, line2, point, point2 );
+
+				const dist = point.distanceToSquared( point2 );
+				if ( dist < closestDistanceSq ) {
+
+					closestDistanceSq = dist;
+					if ( target1 ) target1.copy( point );
+					if ( target2 ) target2.copy( point2 );
+
+				}
+
+			}
+
+		}
+
+		return Math.sqrt( closestDistanceSq );
+
+	};
+
+} )();
 
 const nullIfcManagerErrorMessage = 'IfcManager is null!';
 
@@ -105718,7 +105876,7 @@ goTo.onclick = function () {
     }, 2100);
   }
   toggleGoTo = !toggleGoTo;
-  setTimeout(()=> alert('Double click on buildings to open BIM viewer'), 4000);
+  headerMessage('Double click on buildings to open BIM viewer');
 };
 
 // Select Building from list 🏢
@@ -106125,7 +106283,6 @@ function openBimViewer(id){
   bimViewer.setAttribute('src', `./bim-viewer.html?id=${id}`);
   bimViewer.classList.add("bim-viewer");
   isolateSelector(selectors, "");
-  console.log(bimViewer);
   bimContainer.appendChild(bimViewer);
   document.getElementById('close-bim-viewer').classList.remove('hidden');
 }
@@ -106217,7 +106374,24 @@ function createSiteMenu(province, city, site) {
     .getElementById("site-select")
     .addEventListener("click", function () {
       removeGeojson(map);
-      console.log(city.name);
+      const siteNames = [];
+      const citySites = sites[province.term][city.name];
+      if (citySites) {
+        console.log(citySites);
+      citySites.forEach(site => {
+        let siteName = site.name;
+        siteNames.push(siteName);
+      });
+      console.log(siteNames);
+      }
+      else {
+        headerMessage(`No sites at ${city.name}`);
+      }  
     });
   return site;
+}
+
+function headerMessage(message){
+  document.getElementById('message').innerHTML = message;
+  setTimeout(()=> document.getElementById('message').innerHTML = "", 6000);
 }

@@ -1,6 +1,6 @@
 import { Color, LineBasicMaterial, MeshBasicMaterial } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
-import { buildingsNames, ifcFileName } from "../static/data/cdc-data.js";
+import { buildingsNames, ifcFileName, IfcPath } from "../static/data/cdc-data.js";
 import {
   updateSelectBldgMenu,
   createBuildingSelector,
@@ -10,17 +10,6 @@ import {
   pickHighlihgtMateral,
   labeling,
 } from "../modules/twin.js";
-
-import {
-  IFCWALL,
-  IFCWALLSTANDARDCASE,
-  IFCSLAB,
-  IFCWINDOW,
-  IFCMEMBER,
-  IFCPLATE,
-  IFCCURTAINWALL,
-  IFCDOOR,
-} from "web-ifc";
 
 import Stats from "stats.js/src/Stats";
 
@@ -71,6 +60,8 @@ viewer.IFC.setWasmPath("../src/wasm/");
 const scene = viewer.context.getScene();
 // Create axes
 viewer.axes.setAxes();
+
+preposcessIfc(newURL, fileRoute);
 
 // Set up stats
 const stats = new Stats();

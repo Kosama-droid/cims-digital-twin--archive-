@@ -16,8 +16,8 @@ import {
   IfcPath,
   buildingsNames,
   ifcFileName,
-  da_IfcPath,
-  da_ifcFileName,
+  // da_IfcPath,
+  // da_ifcFileName,
 } from "../static/data/cdc-data.js";
 
 let province = "ON";
@@ -26,15 +26,15 @@ let site = "cu";
 let currentModelId = "SD";
 let fileRoute = `${province}_${city}_${site}_${currentModelId}_`;
 // let ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
-let ifcURL = `${da_IfcPath}${da_ifcFileName[currentModelId]}`;
+// let ifcURL = `${IfcPath}${ifcFileName[currentModelId]}`;
+let ifcURL = '../assets/carleton/ifc/CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STORMONT_AND_DUNDAS_HOUSE-AS_FOUND.ifcCDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STORMONT_AND_DUNDAS_HOUSE-AS_FOUND.ifc'
+
 
 const container = document.getElementById("viewer-container");
 const viewer = new IfcViewerAPI({
   container,
   backgroundColor: new Color(0xffffff),
 });
-viewer.grid.setGrid();
-viewer.axes.setAxes();
 viewer.IFC.setWasmPath("../src/wasm/");
 
 preposcessIfc(ifcURL, fileRoute);
@@ -47,8 +47,6 @@ const ids = [];
 // let ifcURL = `${da_IfcPath}${da_ifcFileName[currentModelId]}`;
 //   ids.push(currentModelId);
 // }
-
-console.log(ids)
 
 // let i = 0;
 // document.getElementById("gltf").addEventListener("click", () => {
@@ -72,9 +70,9 @@ async function preposcessIfc(url, fileRoute) {
       curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL],
       doors: [IFCDOOR],
       roofs:[IFCROOF],
-      furniture: [],
-      structure: [],
-      mep: [],
+      // furniture: [],
+      // structure: [],
+      // mep: [],
     },
     getProperties: true,
   });

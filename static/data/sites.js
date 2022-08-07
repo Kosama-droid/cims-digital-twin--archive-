@@ -1,5 +1,5 @@
 export const sites = {
-  ontario: {
+  ON: {
     Ottawa: [
       {
         name: "Carleton University",
@@ -137,7 +137,7 @@ export const sites = {
         },
       },
     ],
-  },
+  
   Toronto: [
     {
       name: "Downsview Airport",
@@ -151,4 +151,5 @@ export const sites = {
       },
     },
   ],
+},
 };

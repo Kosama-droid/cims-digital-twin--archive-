@@ -7,6 +7,10 @@ import {
   ifcFileName,
 } from "../static/data/cdc-data.js";
 
+import {
+sites,
+} from "../static/data/sites.js";
+
 import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
@@ -32,12 +36,6 @@ import {
 } from "three";
 
 // import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
-
-import {
-  acceleratedRaycast,
-  computeBoundsTree,
-  disposeBoundsTree,
-} from "three-mesh-bvh";
 
 import {
   updateSelectBldgMenu,
@@ -206,7 +204,7 @@ goTo.onclick = function () {
     }, 2100);
   }
   toggleGoTo = !toggleGoTo;
-  setTimeout(()=> alert('Double click on buildings to open BIM viewer'), 4000)
+  headerMessage('Double click on buildings to open BIM viewer');
 };
 
 // Select Building from list 🏢
@@ -628,7 +626,6 @@ function openBimViewer(id){
   bimViewer.setAttribute('src', `./bim-viewer.html?id=${id}`)
   bimViewer.classList.add("bim-viewer");
   isolateSelector(selectors, "");
-  console.log(bimViewer)
   bimContainer.appendChild(bimViewer);
   document.getElementById('close-bim-viewer').classList.remove('hidden')
 }
@@ -721,7 +718,25 @@ function createSiteMenu(province, city, site) {
     .getElementById("site-select")
     .addEventListener("click", function () {
       removeGeojson(map, "geoJson");
-      console.log(city.name);
+      const siteNames = [];
+      const citySites = sites[province.term][city.name];
+      if (citySites) {
+        console.log(citySites);
+      citySites.forEach(site => {
+        let siteName = site.name
+        siteNames.push(siteName)
+      });
+      console.log(siteNames);
+      }
+      else{
+        headerMessage(`No sites at ${city.name}`)
+      }; 
+  
     });
   return site;
+}
+
+function headerMessage(message){
+  document.getElementById('message').innerHTML = message
+  setTimeout(()=> document.getElementById('message').innerHTML = "", 6000);
 }
