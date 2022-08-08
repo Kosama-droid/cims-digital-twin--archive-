@@ -195,6 +195,11 @@ export const canada = {
                 ifcFileName:
                   "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
               },
+              SD: {
+                name: "Stormont and Dundas House",
+                ifcFileName:
+                "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STORMONT_AND_DUNDAS_HOUSE-AS_FOUND.ifc",
+              },
               TB: {
                 name: "Tory Building",
                 ifcFileName:
