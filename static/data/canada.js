@@ -342,7 +342,8 @@ export const canada = {
                 ifcFileName:
                   "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
               },
-            }
+            },
+            IfcPath : "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/"
           },
           PB: {
             name: "Parliament Buildings",
@@ -350,7 +351,7 @@ export const canada = {
               lat: 45.42521,
               lng: -75.70011,
               msl: 85,
-              zoom: 15,
+              zoom: 16,
             },
           },
           HM: {

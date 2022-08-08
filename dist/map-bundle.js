@@ -342,7 +342,8 @@ const canada = {
                 ifcFileName:
                   "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
               },
-            }
+            },
+            IfcPath : "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/"
           },
           PB: {
             name: "Parliament Buildings",
@@ -350,7 +351,7 @@ const canada = {
               lat: 45.42521,
               lng: -75.70011,
               msl: 85,
-              zoom: 15,
+              zoom: 16,
             },
           },
           HM: {
@@ -570,61 +571,6 @@ const mapStyles = [
     //     }
     // },
 ];
-
-const IfcPath$1 = "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/";
-
-const ifcFileName = {
-  AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
-  AC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
-  AP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
-  AR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
-  AT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
-  CB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
-  CC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
-  CO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
-  DT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
-  FR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
-  GH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
-  HP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
-  HS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
-  IH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
-  LA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
-  LE: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
-  LH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
-  LX: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
-  MB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
-  MC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
-  ME: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
-  ML: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
-  NB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AND-NATIONAL_WILDLIFE_RESEARCH_CENTRE-AS_FOUND.ifc",
-  NI: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
-  P9: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
-  PA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
-  PH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
-  PS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
-  RB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
-  // RD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
-  RH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
-  RO: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
-  RU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
-  SA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
-  SD: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STORMONT_AND_DUNDAS_HOUSE-AS_FOUND.ifc",
-  SC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
-  SP: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
-  SR: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
-  SS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
-  TB: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
-  TC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
-  TT: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
-  // TU: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
-  UC: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
-  UH: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
-  VS: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
-  // Z1: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
-  // Z2: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
-  // Z3: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
-  // Z4: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"
-};
 
 var __defProp = Object.defineProperty;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
@@ -105743,8 +105689,8 @@ var SelectionWindowMode;
     SelectionWindowMode[SelectionWindowMode["box"] = 1] = "box";
 })(SelectionWindowMode || (SelectionWindowMode = {}));
 
-const listedBuildings$1 = document.getElementById("listed-buildings");
-const loadedBuildings = document.getElementById("loaded-buildings");
+document.getElementById("listed-buildings");
+document.getElementById("loaded-buildings");
 const navigationBar = document.getElementById("selectors");
 const navigationButton = document.getElementById("close-nav-bar");
 
@@ -105789,22 +105735,6 @@ navigationButton.onclick = function () {
 };
 }
 
-function updateSelectBldgMenu(building, id) {
-    let selectedOption = document.getElementById(id);
-      building.current.id = id;
-      if (!(building.current.id in building.loaded)) {
-        delete building.listed[id];
-        building.loaded[id] = id;
-        loadedBuildings.appendChild(selectedOption);
-        sortChildren(loadedBuildings);
-      } else {
-        delete building.loaded[id];
-        building.listed[id] = id;
-        listedBuildings$1.appendChild(selectedOption);
-        sortChildren(listedBuildings$1);
-      }
-    }
-
 function sortChildren(parent) {
         const items = Array.prototype.slice.call(parent.children);
         items.sort(function (a, b) {
@@ -105826,6 +105756,7 @@ isolateSelector(toolbar, "go-to", "coordinates");
 
 let scene, map, camera, renderer, raycaster, gltfMasses;
 let province, city, site;
+let carleton = canada.ON.cities.Ottawa.sites.CU;
 
 let previousSelection = {
   mesh: null,
@@ -105930,22 +105861,15 @@ function osmVisibility(map, toggle) {
 
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
-const building = {
-  current: {},
-  ifcFile: {},
-  listed: {},
-  loaded: {},
-};
 
 let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
-    document.getElementById("listed-buildings");
-    let buildings = canada.ON.cities.Ottawa.sites.CU.buildings;
-    const buildingSelector = document.getElementById('building-select');
+    let buildings = carleton.buildings;
+    const buildingSelector = document.getElementById("building-select");
     createOptions(buildingSelector, buildings);
-    buildingSelector.addEventListener('change', ()=>{
+    buildingSelector.addEventListener("change", () => {
       let id = buildingSelector[buildingSelector.selectedIndex].id;
       isolateSelector(selectors, "building-select");
       isolateSelector(toolbar, "");
@@ -105983,7 +105907,7 @@ goTo.onclick = function () {
     }, 2100);
   }
   toggleGoTo = !toggleGoTo;
-  headerMessage("Double click on buildings to open BIM viewer");
+  headerMessage("Double click buildings to open BIM viewer");
 };
 
 // Navigate Canada 🍁 _________________________________________________________
@@ -106004,7 +105928,7 @@ provinceSelector.addEventListener("change", (event) => {
     url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${code}`;
     geoJson = getGeojson(cityName, url, map, geoJson);
     if (!city.hasOwnProperty("sites")) {
-      headerMessage(`No sites at ${cityName}`);
+      headerMessage(`⚠️ No sites at ${cityName}`);
       isolateSelector(
         selectors,
         "province-select",
@@ -106027,8 +105951,16 @@ provinceSelector.addEventListener("change", (event) => {
         msl.current = site.coordinates.msl;
         let zoom = site.coordinates.zoom;
         flyTo(map, lng.current, lat.current, zoom);
+        if (!site.hasOwnProperty("buildings")) {
+          headerMessage(`⚠️ No buildings at ${site.name}`);
+          isolateSelector(
+            selectors,
+            "site-select",
+            "style-select"
+          );
+        }
+        else {
         let buildings = site.buildings;
-        console.log(buildings);
         isolateSelector(
           selectors,
           "site-select",
@@ -106037,267 +105969,245 @@ provinceSelector.addEventListener("change", (event) => {
         );
         let buildingSelector = document.getElementById("building-select");
         createOptions(buildingSelector, buildings);
-        console.log(buildings);
-
+        }
       });
     }
   });
 });
 
-        const modelOrigin = [lng.current, lat.current];
-        const modelAltitude = msl.current;
-        const modelRotate = [Math.PI / 2, 0, 0];
-        const modelAsMercatorCoordinate =
-          mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude);
+const modelOrigin = [lng.current, lat.current];
+const modelAltitude = msl.current;
+const modelRotate = [Math.PI / 2, 0, 0];
+const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
+  modelOrigin,
+  modelAltitude
+);
 
-        const modelTransform = {
-          translateX: modelAsMercatorCoordinate.x,
-          translateY: modelAsMercatorCoordinate.y,
-          translateZ: modelAsMercatorCoordinate.z,
-          rotateX: modelRotate[0],
-          rotateY: modelRotate[1],
-          rotateZ: modelRotate[2],
-          /* Since the 3D model is in real world meters, a scale transform needs to be
-           * applied since the CustomLayerInterface expects units in MercatorCoordinates.
-           */
-          scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
-        };
+const modelTransform = {
+  translateX: modelAsMercatorCoordinate.x,
+  translateY: modelAsMercatorCoordinate.y,
+  translateZ: modelAsMercatorCoordinate.z,
+  rotateX: modelRotate[0],
+  rotateY: modelRotate[1],
+  rotateZ: modelRotate[2],
+  /* Since the 3D model is in real world meters, a scale transform needs to be
+   * applied since the CustomLayerInterface expects units in MercatorCoordinates.
+   */
+  scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+};
 
-        // THREE JS 3️⃣  ________________________________________________________________________
-        // configuration of the custom layer for a 3D models per the CustomLayerInterface
-        const customLayer = {
-          id: "3d-models",
-          type: "custom",
-          renderingMode: "3d",
-          onAdd: function (map, gl) {
-            camera = new PerspectiveCamera();
-            scene = new Scene();
-            const axes = new AxesHelper(10);
-            axes.material.depthTest = false;
-            axes.renderOrder = 3;
-            scene.add(axes);
+// THREE JS 3️⃣  ________________________________________________________________________
+// configuration of the custom layer for a 3D models per the CustomLayerInterface
+const customLayer = {
+  id: "3d-models",
+  type: "custom",
+  renderingMode: "3d",
+  onAdd: function (map, gl) {
+    camera = new PerspectiveCamera();
+    scene = new Scene();
+    const axes = new AxesHelper(10);
+    axes.material.depthTest = false;
+    axes.renderOrder = 3;
+    scene.add(axes);
 
-            // GLTF masses for hovering and raycasting
-            const gltfloader = new GLTFLoader();
-            gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
-              gltfMasses = gltf.scene;
-              gltfMasses.name = "gltf-masses";
-              gltfMasses.position.x = -485;
-              gltfMasses.position.z = 435;
-              gltfMasses.traverse(function (object) {
-                if (object.isMesh) {
-                  // object.material = massesMaterial;
-                  object.visible = false;
-                  masses.push(object);
-                }
-              });
-              scene.add(gltfMasses);
-            });
+    // GLTF masses for hovering and raycasting
+    const gltfloader = new GLTFLoader();
+    gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
+      gltfMasses = gltf.scene;
+      gltfMasses.name = "gltf-masses";
+      gltfMasses.position.x = -485;
+      gltfMasses.position.z = 435;
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh) {
+          // object.material = massesMaterial;
+          object.visible = false;
+          masses.push(object);
+        }
+      });
+      scene.add(gltfMasses);
 
-            let site = canada.ON.cities.Ottawa.sites.CU;
-            console.log(site);
-
-            loadBldsGltf(site);
-
-            function loadBldsGltf(site) {
-              console.log(site);
-              let buildings = site.buildings;
-              let buildingGltf;
-              const categories = [
-                "walls",
-                "curtainwalls",
-                "roofs",
-                "slabs",
-                "windows",
-              ];
-              categories.forEach((category) => {
-                for (const id in buildings) {
-                  let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
-                  gltfloader.load(gltfPath, (gltf) => {
-                    buildingGltf = gltf.scene;
-                    buildingGltf.name = `${id}-${category}`;
-                    scene.add(buildingGltf);
-                  });
-                }
-              });
-            }
-
-            // const gui = new GUI();
-            // gui.close();
-            // const origingPosition = gui.addFolder("Origin position");
-            // origingPosition
-            //   .add(scene.position, "z", -1000, 1000, 1)
-            //   .name("North-South");
-            // origingPosition
-            //   .add(scene.position, "x", -1000, 1000, 1)
-            //   .name("West-East");
-            // origingPosition
-            //   .add(scene.position, "y", -1000, 1000, 1)
-            //   .name("Height");
-            // origingPosition
-            //   .add(
-            //     scene.rotation,
-            //     "y",
-            //     MathUtils.degToRad(-180),
-            //     MathUtils.degToRad(180),
-            //     MathUtils.degToRad(1)
-            //   )
-            //   .name("Rotate");
-
-            // create three.js lights to illuminate the model
-
-            const lightColor = 0xffffff;
-            const ambientLight = new AmbientLight(lightColor, 0.2);
-            scene.add(ambientLight);
-
-            const directionalLight = new DirectionalLight(lightColor, 0.9);
-            directionalLight.position.set(0, 400, 600).normalize();
-            scene.add(directionalLight);
-
-            // use the Mapbox GL JS map canvas for three.js
-            renderer = new WebGLRenderer({
-              canvas: map.getCanvas(),
-              context: gl,
-              antialias: true,
-            });
-            renderer.autoClear = false;
-
-            raycaster = new Raycaster();
-          },
-
-          render: function (gl, matrix) {
-            const rotationX = new Matrix4().makeRotationAxis(
-              new Vector3(1, 0, 0),
-              modelTransform.rotateX
-            );
-            const rotationY = new Matrix4().makeRotationAxis(
-              new Vector3(0, 1, 0),
-              modelTransform.rotateY
-            );
-            const rotationZ = new Matrix4().makeRotationAxis(
-              new Vector3(0, 0, 1),
-              modelTransform.rotateZ
-            );
-
-            const m = new Matrix4().fromArray(matrix);
-            const l = new Matrix4()
-              .makeTranslation(
-                modelTransform.translateX,
-                modelTransform.translateY,
-                modelTransform.translateZ
-              )
-              .scale(
-                new Vector3(
-                  modelTransform.scale,
-                  -modelTransform.scale,
-                  modelTransform.scale
-                )
-              )
-              .multiply(rotationX)
-              .multiply(rotationY)
-              .multiply(rotationZ);
-
-            camera.projectionMatrix = m.multiply(l);
-            renderer.resetState();
-            renderer.render(scene, camera);
-            map.triggerRepaint();
-
-            const freeCamera = map.getFreeCameraOptions();
-            let cameraPosition = new Vector4(
-              freeCamera.position.x,
-              freeCamera.position.y,
-              freeCamera.position.z,
-              1
-            );
-            cameraPosition.applyMatrix4(l.invert());
-            let direction = mouse
-              .clone()
-              .applyMatrix4(camera.projectionMatrix.clone().invert());
-            direction.divideScalar(direction.w);
-            raycaster.set(
-              cameraPosition,
-              direction.sub(cameraPosition).normalize()
-            );
-
-            const intersections = raycaster.intersectObjects(masses);
-
-            if (hasNotCollided(intersections)) {
-              restorePreviousSelection();
-              return;
-            }
-
-            const foundItem = intersections[0];
-
-            if (isPreviousSeletion(foundItem)) return;
-
-            restorePreviousSelection();
-            savePreviousSelectio(foundItem);
-            highlightItem(foundItem);
-
-            renderer.render(scene, camera);
-          },
-        };
-
-        map.on("mousemove", (event) => {
-          getMousePosition(event);
-          map.triggerRepaint();
-        });
-
-        map.on("dblclick", () => {
-          let id = gltfMasses.selected.id;
-          updateSelectBldgMenu(building, id);
-          isolateSelector(selectors, "building-select");
-          isolateSelector(toolbar, "");
-          openBimViewer(id);
-        });
-        document
-          .getElementById("close-bim-viewer")
-          .addEventListener("click", () => {
-            isolateSelector(selectors, "building-select");
-            isolateSelector(toolbar, "go-to", "osm");
-            document.getElementById("bim-viewer").remove();
-            document.getElementById("close-bim-viewer").classList.add("hidden");
-          });
-
-        const bimViewerURL = "./bim-viewer.html";
-        let bimURL = "./bim-viewer.html";
-        map.on("click", () => {
-          let id = gltfMasses.selected.id;
-          bimURL = bimViewerURL + `?id=${id}`;
-          document
-            .getElementById("bim")
-            .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
-          if (window.event.ctrlKey) {
-            window.open(bimURL);
+      // Show downtown buildings
+      {
+        gltfloader.load(
+          "../assets/ottawa/glb/buildings-downtown.glb",
+          (gltf) => {
+            const buildings = gltf.scene;
+            buildings.name = "buildings downtown";
+            buildings.position.x = -485;
+            buildings.position.z = 1286;
+            buildings.position.y = -80;
+            scene.add(buildings);
           }
-        });
+        );
+      }
+    });
 
-        new IFCLoader$1();
-        document.getElementById("loader-container");
-        document.getElementById("progress-text");
+    let site = canada.ON.cities.Ottawa.sites.CU;
 
-        document
-          .getElementById("building-select")
-          .addEventListener("change", function () {
-            let selectedOption = this[this.selectedIndex];
-            let id = selectedOption.id;
-            if (id in building.loaded) {
-              loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
-            } else {
-              let ifc = scene.getObjectByName(`ifc-${id}`);
-              gltfMasses.traverse(function (object) {
-                if (object.isMesh && object.name == id) {
-                  object.visible = true;
-                }
-                ifc.removeFromParent();
-              });
-            }
+    loadBldsGltf(site);
+
+    function loadBldsGltf(site) {
+      let buildings = site.buildings;
+      let buildingGltf;
+      const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
+      categories.forEach((category) => {
+        for (const id in buildings) {
+          let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+          gltfloader.load(gltfPath, (gltf) => {
+            buildingGltf = gltf.scene;
+            buildingGltf.name = `${id}-${category}`;
+            scene.add(buildingGltf);
           });
+        }
+      });
+    }
 
-        map.on("style.load", () => {
-          map.addLayer(customLayer, "waterway-label");
-        });
+    // const gui = new GUI();
+    // gui.close();
+    // const origingPosition = gui.addFolder("Origin position");
+    // origingPosition
+    //   .add(scene.position, "z", -1000, 1000, 1)
+    //   .name("North-South");
+    // origingPosition
+    //   .add(scene.position, "x", -1000, 1000, 1)
+    //   .name("West-East");
+    // origingPosition
+    //   .add(scene.position, "y", -1000, 1000, 1)
+    //   .name("Height");
+    // origingPosition
+    //   .add(
+    //     scene.rotation,
+    //     "y",
+    //     MathUtils.degToRad(-180),
+    //     MathUtils.degToRad(180),
+    //     MathUtils.degToRad(1)
+    //   )
+    //   .name("Rotate");
 
+    // create three.js lights to illuminate the model
+
+    const lightColor = 0xffffff;
+    const ambientLight = new AmbientLight(lightColor, 0.2);
+    scene.add(ambientLight);
+
+    const directionalLight = new DirectionalLight(lightColor, 0.9);
+    directionalLight.position.set(0, 400, 600).normalize();
+    scene.add(directionalLight);
+
+    // use the Mapbox GL JS map canvas for three.js
+    renderer = new WebGLRenderer({
+      canvas: map.getCanvas(),
+      context: gl,
+      antialias: true,
+    });
+    renderer.autoClear = false;
+
+    raycaster = new Raycaster();
+  },
+
+  render: function (gl, matrix) {
+    const rotationX = new Matrix4().makeRotationAxis(
+      new Vector3(1, 0, 0),
+      modelTransform.rotateX
+    );
+    const rotationY = new Matrix4().makeRotationAxis(
+      new Vector3(0, 1, 0),
+      modelTransform.rotateY
+    );
+    const rotationZ = new Matrix4().makeRotationAxis(
+      new Vector3(0, 0, 1),
+      modelTransform.rotateZ
+    );
+
+    const m = new Matrix4().fromArray(matrix);
+    const l = new Matrix4()
+      .makeTranslation(
+        modelTransform.translateX,
+        modelTransform.translateY,
+        modelTransform.translateZ
+      )
+      .scale(
+        new Vector3(
+          modelTransform.scale,
+          -modelTransform.scale,
+          modelTransform.scale
+        )
+      )
+      .multiply(rotationX)
+      .multiply(rotationY)
+      .multiply(rotationZ);
+
+    camera.projectionMatrix = m.multiply(l);
+    renderer.resetState();
+    renderer.render(scene, camera);
+    map.triggerRepaint();
+
+    const freeCamera = map.getFreeCameraOptions();
+    let cameraPosition = new Vector4(
+      freeCamera.position.x,
+      freeCamera.position.y,
+      freeCamera.position.z,
+      1
+    );
+    cameraPosition.applyMatrix4(l.invert());
+    let direction = mouse
+      .clone()
+      .applyMatrix4(camera.projectionMatrix.clone().invert());
+    direction.divideScalar(direction.w);
+    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
+
+    const intersections = raycaster.intersectObjects(masses);
+
+    if (hasNotCollided(intersections)) {
+      restorePreviousSelection();
+      return;
+    }
+
+    const foundItem = intersections[0];
+
+    if (isPreviousSeletion(foundItem)) return;
+
+    restorePreviousSelection();
+    savePreviousSelectio(foundItem);
+    highlightItem(foundItem);
+
+    renderer.render(scene, camera);
+  },
+};
+
+map.on("mousemove", (event) => {
+  getMousePosition(event);
+  map.triggerRepaint();
+});
+
+map.on("dblclick", () => {
+  let id = gltfMasses.selected.id;
+  isolateSelector(toolbar, "");
+  openBimViewer(id);
+});
+document.getElementById("close-bim-viewer").addEventListener("click", () => {
+  isolateSelector(selectors, "building-select");
+  isolateSelector(toolbar, "go-to", "osm");
+  document.getElementById("bim-viewer").remove();
+  document.getElementById("close-bim-viewer").classList.add("hidden");
+});
+
+const bimViewerURL = "./bim-viewer.html";
+let bimURL = "./bim-viewer.html";
+map.on("click", () => {
+  let id = gltfMasses.selected.id;
+  bimURL = bimViewerURL + `?id=${id}`;
+  document
+    .getElementById("bim")
+    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
+  if (window.event.ctrlKey) {
+    window.open(bimURL);
+  }
+});
+
+map.on("style.load", () => {
+  map.addLayer(customLayer, "waterway-label");
+});
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
