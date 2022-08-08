@@ -88,57 +88,256 @@ export const canada = {
               msl: 80,
               zoom: 15,
             },
+            gltfPath: "../assets/carleton/glb/ON_Ottawa_CDC_",
             buildings: {
-              MB: {name: "Maintenance and Grounds Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc"},
-              AC: {name: "Athletics Alumni and Fieldhouse", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc"},
-              DT: {name: "Dunton Tower", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc"},
-              NB: {name: "Nesbitt Biology Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc"},
-              AA: {name: "Building 22", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc"},
-              AR: {name: "Arise", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc"},
-              AP: {name: "Azrieli Pavilion", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc"},
-              AT: {name: "Azrieli Theatre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc"},
-              CB: {name: "Canal Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc"},
-              HS: {name: "Health Sciences Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc"},
-              HP: {name: "Hezberg Laboratories", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc"},
-              LA: {name: "Loeb Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc"},
-              ME: {name: "Mackenzie", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc"},
-              ML: {name: "Macodrum Library", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc"},
-              MC: {name: "Minto Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc"},
-              NI: {name: "Nicol Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc"},
-              PA: {name: "Paterson Hall", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc"},
-              RB: {name: "River Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc"},
-              SR: {name: "Social Sciences Research Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc"},
-              SA: {name: "Southam Hall and Kailash Mital Theatre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc"},
-              SC: {name: "Steacie Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc"},
-              TB: {name: "Tory Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc"},
-              UC: {name: "University Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc"},
-              VS: {name: "Vsim Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc"},
-              FR: {name: "Frontenac House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc"},
-              GH: {name: "Glengarry House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc"},
-              LH: {name: "Lanark House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc"},
-              LE: {name: "Leeds House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc"},
-              LX: {name: "Lennox and Addington House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc"},
-              PH: {name: "Prescott House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc"},
-              RH: {name: "Renfrew House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc"},
-              CO: {name: "Residence Commons", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc"},
-              RU: {name: "Russell and Grenville House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc"},
-              SP: {name: "St Patricks Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc"},
-              IH: {name: "Ice House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc"},
-              TC: {name: "Tennis Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc"},
-              P9: {name: "Parking Garage P9", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc"},
-              PS: {name: "Parking Garage P18", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc"},
-              SS: {name: "Bronson Sub-Station", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc"},
-              TT: {name: "CTTC Bldg", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc"},
-              UH: {name: "CHEER", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc"},
-              CC: {name: "Colonel By Child Care Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc"},
-              RO: {name: "Robertson Hall", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc"},
-              Z1: {name: "Exterior Zone 1", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc"},
-              Z2: {name: "Exterior Zone 2", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc"},
-              Z3: {name: "Exterior Zone 3", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc"},
-              Z4: {name: "Exterior Zone 4", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"},
-              RD: {name: "Roads", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc"},
-              TU: {name: "Tunnels", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc"}
+              MB: {
+                name: "Maintenance and Grounds Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
+              },
+              AC: {
+                name: "Athletics Alumni and Fieldhouse",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
+              },
+              DT: {
+                name: "Dunton Tower",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
+              },
+              NB: {
+                name: "Nesbitt Biology Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+              },
+              AA: {
+                name: "Building 22",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
+              },
+              AR: {
+                name: "Arise",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
+              },
+              AP: {
+                name: "Azrieli Pavilion",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
+              },
+              AT: {
+                name: "Azrieli Theatre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
+              },
+              CB: {
+                name: "Canal Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
+              },
+              HS: {
+                name: "Health Sciences Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
+              },
+              HP: {
+                name: "Hezberg Laboratories",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
+              },
+              LA: {
+                name: "Loeb Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
+              },
+              ME: {
+                name: "Mackenzie",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
+              },
+              ML: {
+                name: "Macodrum Library",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
+              },
+              MC: {
+                name: "Minto Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
+              },
+              NI: {
+                name: "Nicol Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
+              },
+              PA: {
+                name: "Paterson Hall",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
+              },
+              RB: {
+                name: "River Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
+              },
+              SR: {
+                name: "Social Sciences Research Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
+              },
+              SA: {
+                name: "Southam Hall and Kailash Mital Theatre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+              },
+              SC: {
+                name: "Steacie Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
+              },
+              TB: {
+                name: "Tory Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
+              },
+              UC: {
+                name: "University Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
+              },
+              VS: {
+                name: "Vsim Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
+              },
+              FR: {
+                name: "Frontenac House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
+              },
+              GH: {
+                name: "Glengarry House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
+              },
+              LH: {
+                name: "Lanark House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
+              },
+              LE: {
+                name: "Leeds House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
+              },
+              LX: {
+                name: "Lennox and Addington House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
+              },
+              PH: {
+                name: "Prescott House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
+              },
+              RH: {
+                name: "Renfrew House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
+              },
+              CO: {
+                name: "Residence Commons",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
+              },
+              RU: {
+                name: "Russell and Grenville House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
+              },
+              SP: {
+                name: "St Patricks Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
+              },
+              IH: {
+                name: "Ice House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
+              },
+              TC: {
+                name: "Tennis Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
+              },
+              P9: {
+                name: "Parking Garage P9",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
+              },
+              PS: {
+                name: "Parking Garage P18",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
+              },
+              SS: {
+                name: "Bronson Sub-Station",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
+              },
+              TT: {
+                name: "CTTC Bldg",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
+              },
+              UH: {
+                name: "CHEER",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
+              },
+              CC: {
+                name: "Colonel By Child Care Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
+              },
+              RO: {
+                name: "Robertson Hall",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
+              },
             },
+            context:{
+              Z1: {
+                name: "Exterior Zone 1",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+              },
+              Z2: {
+                name: "Exterior Zone 2",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+              },
+              Z3: {
+                name: "Exterior Zone 3",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+              },
+              Z4: {
+                name: "Exterior Zone 4",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc",
+              },
+              RD: {
+                name: "Roads",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+              },
+              TU: {
+                name: "Tunnels",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+              },
+            }
           },
           PB: {
             name: "Parliament Buildings",
@@ -181,18 +380,18 @@ export const canada = {
               msl: 80,
               zoom: 15,
             },
-            buildingsNames: {
-              Admin: "Admin Building",
-              bay7_10: "Bays 7 to 10",
-              bay11: "Bay 11",
-              bay12: "Bay 12",
+            buildings: {
+              Admin: {
+                name: "Admin Building",
+                ifcFileName: "da-admin_shell.ifc",
+              },
+              bay7_10: {
+                name: "Bays 7 to 10",
+                ifcFileName: "da-bay_7-10_shell.ifc",
+              },
+              bay11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
+              bay12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
             },
-            ifcFileName: {
-              Admin: "da-admin_shell.ifc",
-              bay7_10: "da-bay_7-10_shell.ifc",
-              bay11: "da-bay_11_shell.ifc",
-              bay12: "da-bay_12_shell.ifc",
-            }
           },
         },
       },

@@ -61,8 +61,6 @@ const scene = viewer.context.getScene();
 // Create axes
 viewer.axes.setAxes();
 
-preposcessIfc(newURL, fileRoute);
-
 // Set up stats
 const stats = new Stats();
 stats.showPanel(0);

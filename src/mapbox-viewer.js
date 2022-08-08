@@ -3,11 +3,8 @@ import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
 import {
   IfcPath,
-  buildingsNames,
   ifcFileName,
 } from "../static/data/cdc-data.js";
-
-import { sites } from "../static/data/sites.js";
 
 import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -51,6 +48,7 @@ isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "coordinates");
 
 let scene, map, camera, renderer, raycaster, gltfMasses;
+let province, city, site;
 
 let previousSelection = {
   mesh: null,
@@ -68,11 +66,8 @@ const highlightMaterial = new MeshBasicMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const province = { term: "" },
-  city = {},
-  site = {},
-  geoJson = { fill: "", outline: "" },
-  lng = { canada: -98.74 },
+let geoJson;
+const lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
@@ -170,9 +165,18 @@ goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
     const listedBuildings = document.getElementById("listed-buildings");
-    createBuildingSelector(building, buildingsNames, listedBuildings);
+    let buildings = canada.ON.cities.Ottawa.sites.CU.buildings
+    const buildingSelector = document.getElementById('building-select');
+    createOptions(buildingSelector, buildings);
+    buildingSelector.addEventListener('change', ()=>{
+      let id = buildingSelector[buildingSelector.selectedIndex].id;
+      isolateSelector(selectors, "building-select");
+      isolateSelector(toolbar, "");
+      openBimViewer(id);
+    })
+    // createBuildingSelector(building, buildingsNames, listedBuildings);
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "go-to", "osm", "info", "bim");
+    isolateSelector(toolbar, "go-to", "osm");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -205,280 +209,333 @@ goTo.onclick = function () {
   headerMessage("Double click on buildings to open BIM viewer");
 };
 
-// Select Building from list 🏢
-document
-  .getElementById("building-select")
-  .addEventListener("change", function () {
-    isolateSelector(selectors, "building-select");
-    let selectedOption = this[this.selectedIndex];
-    let selectedId = selectedOption.id;
-    updateSelectBldgMenu(building, selectedId);
-  });
-
-// Select province or Territory 🍁 _________________________________________________________
-createProvinceMenu(province, city, site);
-
-const modelOrigin = [lng.current, lat.current];
-const modelAltitude = msl.current;
-const modelRotate = [Math.PI / 2, 0, 0];
-
-document.getElementById("toolbar");
-
-const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
-  modelOrigin,
-  modelAltitude
-);
-
-const modelTransform = {
-  translateX: modelAsMercatorCoordinate.x,
-  translateY: modelAsMercatorCoordinate.y,
-  translateZ: modelAsMercatorCoordinate.z,
-  rotateX: modelRotate[0],
-  rotateY: modelRotate[1],
-  rotateZ: modelRotate[2],
-  /* Since the 3D model is in real world meters, a scale transform needs to be
-   * applied since the CustomLayerInterface expects units in MercatorCoordinates.
-   */
-  scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
-};
-
-// THREE JS 3️⃣  ________________________________________________________________________
-// configuration of the custom layer for a 3D models per the CustomLayerInterface
-const customLayer = {
-  id: "3d-models",
-  type: "custom",
-  renderingMode: "3d",
-  onAdd: function (map, gl) {
-    camera = new PerspectiveCamera();
-    scene = new Scene();
-    const axes = new AxesHelper(10);
-    axes.material.depthTest = false;
-    axes.renderOrder = 3;
-    scene.add(axes);
-
-    // GLTF masses for hovering and raycasting
-    const gltfloader = new GLTFLoader();
-    gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
-      gltfMasses = gltf.scene;
-      gltfMasses.name = "gltf-masses";
-      gltfMasses.position.x = -485;
-      gltfMasses.position.z = 435;
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh) {
-          // object.material = massesMaterial;
-          object.visible = false;
-          masses.push(object);
-        }
-      });
-      scene.add(gltfMasses);
-
-      // Show downtown buildings
-      if (false) {
-        gltfloader.load(
-          "../static/public-glb/buildings-downtown2.glb",
-          (gltf) => {
-            const buildings = gltf.scene;
-            buildings.name = "buildings downtown";
-            buildings.position.x = -485;
-            buildings.position.z = 1286;
-            buildings.position.y = -80;
-            scene.add(buildings);
-          }
-        );
-      }
-    });
-
-    // Load GLTF of buildings
-    // let buildingGltf;
-    // const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
-    // categories.forEach((category) => {
-    //   for (const id in buildingsNames) {
-    //     let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
-    //     gltfloader.load(gltfPath, (gltf) => {
-    //       buildingGltf = gltf.scene;
-    //       buildingGltf.name = `${id}-${category}`;
-    //       scene.add(buildingGltf);
-    //     });
-
-    //   }
-    // });
-
-    // const gui = new GUI();
-    // gui.close();
-    // const origingPosition = gui.addFolder("Origin position");
-    // origingPosition
-    //   .add(scene.position, "z", -1000, 1000, 1)
-    //   .name("North-South");
-    // origingPosition
-    //   .add(scene.position, "x", -1000, 1000, 1)
-    //   .name("West-East");
-    // origingPosition
-    //   .add(scene.position, "y", -1000, 1000, 1)
-    //   .name("Height");
-    // origingPosition
-    //   .add(
-    //     scene.rotation,
-    //     "y",
-    //     MathUtils.degToRad(-180),
-    //     MathUtils.degToRad(180),
-    //     MathUtils.degToRad(1)
-    //   )
-    //   .name("Rotate");
-
-    // create three.js lights to illuminate the model
-
-    const lightColor = 0xffffff;
-    const ambientLight = new AmbientLight(lightColor, 0.2);
-    scene.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(lightColor, 0.9);
-    directionalLight.position.set(0, 400, 600).normalize();
-    scene.add(directionalLight);
-
-    // use the Mapbox GL JS map canvas for three.js
-    renderer = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true,
-    });
-    renderer.autoClear = false;
-
-    raycaster = new Raycaster();
-  },
-
-  render: function (gl, matrix) {
-    const rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      modelTransform.rotateX
-    );
-    const rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      modelTransform.rotateY
-    );
-    const rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      modelTransform.rotateZ
-    );
-
-    const m = new Matrix4().fromArray(matrix);
-    const l = new Matrix4()
-      .makeTranslation(
-        modelTransform.translateX,
-        modelTransform.translateY,
-        modelTransform.translateZ
-      )
-      .scale(
-        new Vector3(
-          modelTransform.scale,
-          -modelTransform.scale,
-          modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
-
-    camera.projectionMatrix = m.multiply(l);
-    renderer.resetState();
-    renderer.render(scene, camera);
-    map.triggerRepaint();
-
-    const freeCamera = map.getFreeCameraOptions();
-    let cameraPosition = new Vector4(
-      freeCamera.position.x,
-      freeCamera.position.y,
-      freeCamera.position.z,
-      1
-    );
-    cameraPosition.applyMatrix4(l.invert());
-    let direction = mouse
-      .clone()
-      .applyMatrix4(camera.projectionMatrix.clone().invert());
-    direction.divideScalar(direction.w);
-    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
-
-    const intersections = raycaster.intersectObjects(masses);
-
-    if (hasNotCollided(intersections)) {
-      restorePreviousSelection();
-      return;
-    }
-
-    const foundItem = intersections[0];
-
-    if (isPreviousSeletion(foundItem)) return;
-
-    restorePreviousSelection();
-    savePreviousSelectio(foundItem);
-    highlightItem(foundItem);
-
-    renderer.render(scene, camera);
-  },
-};
-
-map.on("mousemove", (event) => {
-  getMousePosition(event);
-  map.triggerRepaint();
-});
-
-map.on("dblclick", () => {
-  let id = gltfMasses.selected.id;
-  updateSelectBldgMenu(building, id), id;
-  isolateSelector(selectors, "building-select");
-  openBimViewer(id);
-});
-document.getElementById("close-bim-viewer").addEventListener("click", () => {
-  isolateSelector(selectors, "building-select");
-  document.getElementById("bim-viewer").remove();
-  document.getElementById("close-bim-viewer").classList.add("hidden");
-});
-
-const bimViewerURL = "./bim-viewer.html";
-let bimURL = "./bim-viewer.html";
-map.on("click", () => {
-  let id = gltfMasses.selected.id;
-  bimURL = bimViewerURL + `?id=${id}`;
-  document
-    .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
-  if (window.event.ctrlKey) {
-    window.open(bimURL);
-  }
-});
-
-const ifcLoader = new IFCLoader();
-const loader = document.getElementById("loader-container");
-const progressText = document.getElementById("progress-text");
-
-document
-  .getElementById("building-select")
-  .addEventListener("change", function () {
-    let selectedOption = this[this.selectedIndex];
-    let id = selectedOption.id;
-    if (id in building.loaded) {
-      loadBuildingIFC(IfcPath, ifcFileName[id], id);
+// Navigate Canada 🍁 _________________________________________________________
+let provinceSelector = document.getElementById("province-select");
+createOptions(provinceSelector, canada);
+provinceSelector.addEventListener("change", (event) => {
+  province = event.target[event.target.selectedIndex].id;
+  let code = canada[province].code;
+  let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=${code}`;
+  geoJson = getGeojson(province, url, map, geoJson);
+  getCities(code);
+  isolateSelector(selectors, "province-select", "city-select", "style-select");
+  document.getElementById("city-select").addEventListener("change", (event) => {
+    let cityName = event.target[event.target.selectedIndex].id;
+    city = canada[province].cities[cityName]
+      ? canada[province].cities[cityName]
+      : cityName;
+    url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${code}`;
+    geoJson = getGeojson(cityName, url, map, geoJson);
+    if (!city.hasOwnProperty("sites")) {
+      headerMessage(`No sites at ${cityName}`);
+      isolateSelector(
+        selectors,
+        "province-select",
+        "city-select",
+        "style-select"
+      );
     } else {
-      let ifc = scene.getObjectByName(`ifc-${id}`);
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == id) {
-          object.visible = true;
+      let sites = city.sites;
+      isolateSelector(selectors, "city-select", "site-select", "style-select");
+      let siteSelector = document.getElementById("site-select");
+      createOptions(siteSelector, sites);
+      siteSelector.addEventListener("change", (event) => {
+        if (map.getSource(geoJson.source.id)) {
+          removeGeojson(map, geoJson);
         }
-        ifc.removeFromParent();
+        id = event.target[event.target.selectedIndex].id;
+        site = sites[id];
+        lng.current = site.coordinates.lng;
+        lat.current = site.coordinates.lat;
+        msl.current = site.coordinates.msl;
+        let zoom = site.coordinates.zoom;
+        flyTo(map, lng.current, lat.current, zoom);
+        let buildings = site.buildings;
+        console.log(buildings);
+        isolateSelector(
+          selectors,
+          "site-select",
+          "building-select",
+          "style-select"
+        );
+        let buildingSelector = document.getElementById("building-select");
+        createOptions(buildingSelector, buildings);
+        console.log(buildings);
+
       });
     }
-
-    // Load IFC file
-    const input = document.getElementById("file-input");
-    input.addEventListener("change", (changed) => {
-      const file = changed.target.files[0];
-      var ifcURL = URL.createObjectURL(file);
-      ifcLoader.load(ifcURL, (ifcModel) => scene.add(ifcModel));
-    });
   });
-
-map.on("style.load", () => {
-  map.addLayer(customLayer, "waterway-label");
 });
+
+        const modelOrigin = [lng.current, lat.current];
+        const modelAltitude = msl.current;
+        const modelRotate = [Math.PI / 2, 0, 0];
+        const modelAsMercatorCoordinate =
+          mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude);
+
+        const modelTransform = {
+          translateX: modelAsMercatorCoordinate.x,
+          translateY: modelAsMercatorCoordinate.y,
+          translateZ: modelAsMercatorCoordinate.z,
+          rotateX: modelRotate[0],
+          rotateY: modelRotate[1],
+          rotateZ: modelRotate[2],
+          /* Since the 3D model is in real world meters, a scale transform needs to be
+           * applied since the CustomLayerInterface expects units in MercatorCoordinates.
+           */
+          scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+        };
+
+        // THREE JS 3️⃣  ________________________________________________________________________
+        // configuration of the custom layer for a 3D models per the CustomLayerInterface
+        const customLayer = {
+          id: "3d-models",
+          type: "custom",
+          renderingMode: "3d",
+          onAdd: function (map, gl) {
+            camera = new PerspectiveCamera();
+            scene = new Scene();
+            const axes = new AxesHelper(10);
+            axes.material.depthTest = false;
+            axes.renderOrder = 3;
+            scene.add(axes);
+
+            // GLTF masses for hovering and raycasting
+            const gltfloader = new GLTFLoader();
+            gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
+              gltfMasses = gltf.scene;
+              gltfMasses.name = "gltf-masses";
+              gltfMasses.position.x = -485;
+              gltfMasses.position.z = 435;
+              gltfMasses.traverse(function (object) {
+                if (object.isMesh) {
+                  // object.material = massesMaterial;
+                  object.visible = false;
+                  masses.push(object);
+                }
+              });
+              scene.add(gltfMasses);
+
+              // Show downtown buildings
+              if (false) {
+                gltfloader.load(
+                  "../static/public-glb/buildings-downtown2.glb",
+                  (gltf) => {
+                    const buildings = gltf.scene;
+                    buildings.name = "buildings downtown";
+                    buildings.position.x = -485;
+                    buildings.position.z = 1286;
+                    buildings.position.y = -80;
+                    scene.add(buildings);
+                  }
+                );
+              }
+            });
+
+            let site = canada.ON.cities.Ottawa.sites.CU;
+            console.log(site)
+
+            loadBldsGltf(site);
+
+            function loadBldsGltf(site) {
+              console.log(site);
+              let buildings = site.buildings;
+              let buildingGltf;
+              const categories = [
+                "walls",
+                "curtainwalls",
+                "roofs",
+                "slabs",
+                "windows",
+              ];
+              categories.forEach((category) => {
+                for (const id in buildings) {
+                  let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+                  gltfloader.load(gltfPath, (gltf) => {
+                    buildingGltf = gltf.scene;
+                    buildingGltf.name = `${id}-${category}`;
+                    scene.add(buildingGltf);
+                  });
+                }
+              });
+            }
+
+            // const gui = new GUI();
+            // gui.close();
+            // const origingPosition = gui.addFolder("Origin position");
+            // origingPosition
+            //   .add(scene.position, "z", -1000, 1000, 1)
+            //   .name("North-South");
+            // origingPosition
+            //   .add(scene.position, "x", -1000, 1000, 1)
+            //   .name("West-East");
+            // origingPosition
+            //   .add(scene.position, "y", -1000, 1000, 1)
+            //   .name("Height");
+            // origingPosition
+            //   .add(
+            //     scene.rotation,
+            //     "y",
+            //     MathUtils.degToRad(-180),
+            //     MathUtils.degToRad(180),
+            //     MathUtils.degToRad(1)
+            //   )
+            //   .name("Rotate");
+
+            // create three.js lights to illuminate the model
+
+            const lightColor = 0xffffff;
+            const ambientLight = new AmbientLight(lightColor, 0.2);
+            scene.add(ambientLight);
+
+            const directionalLight = new DirectionalLight(lightColor, 0.9);
+            directionalLight.position.set(0, 400, 600).normalize();
+            scene.add(directionalLight);
+
+            // use the Mapbox GL JS map canvas for three.js
+            renderer = new WebGLRenderer({
+              canvas: map.getCanvas(),
+              context: gl,
+              antialias: true,
+            });
+            renderer.autoClear = false;
+
+            raycaster = new Raycaster();
+          },
+
+          render: function (gl, matrix) {
+            const rotationX = new Matrix4().makeRotationAxis(
+              new Vector3(1, 0, 0),
+              modelTransform.rotateX
+            );
+            const rotationY = new Matrix4().makeRotationAxis(
+              new Vector3(0, 1, 0),
+              modelTransform.rotateY
+            );
+            const rotationZ = new Matrix4().makeRotationAxis(
+              new Vector3(0, 0, 1),
+              modelTransform.rotateZ
+            );
+
+            const m = new Matrix4().fromArray(matrix);
+            const l = new Matrix4()
+              .makeTranslation(
+                modelTransform.translateX,
+                modelTransform.translateY,
+                modelTransform.translateZ
+              )
+              .scale(
+                new Vector3(
+                  modelTransform.scale,
+                  -modelTransform.scale,
+                  modelTransform.scale
+                )
+              )
+              .multiply(rotationX)
+              .multiply(rotationY)
+              .multiply(rotationZ);
+
+            camera.projectionMatrix = m.multiply(l);
+            renderer.resetState();
+            renderer.render(scene, camera);
+            map.triggerRepaint();
+
+            const freeCamera = map.getFreeCameraOptions();
+            let cameraPosition = new Vector4(
+              freeCamera.position.x,
+              freeCamera.position.y,
+              freeCamera.position.z,
+              1
+            );
+            cameraPosition.applyMatrix4(l.invert());
+            let direction = mouse
+              .clone()
+              .applyMatrix4(camera.projectionMatrix.clone().invert());
+            direction.divideScalar(direction.w);
+            raycaster.set(
+              cameraPosition,
+              direction.sub(cameraPosition).normalize()
+            );
+
+            const intersections = raycaster.intersectObjects(masses);
+
+            if (hasNotCollided(intersections)) {
+              restorePreviousSelection();
+              return;
+            }
+
+            const foundItem = intersections[0];
+
+            if (isPreviousSeletion(foundItem)) return;
+
+            restorePreviousSelection();
+            savePreviousSelectio(foundItem);
+            highlightItem(foundItem);
+
+            renderer.render(scene, camera);
+          },
+        };
+
+        map.on("mousemove", (event) => {
+          getMousePosition(event);
+          map.triggerRepaint();
+        });
+
+        map.on("dblclick", () => {
+          let id = gltfMasses.selected.id;
+          updateSelectBldgMenu(building, id);
+          isolateSelector(selectors, "building-select");
+          isolateSelector(toolbar, "");
+          openBimViewer(id);
+        });
+        document
+          .getElementById("close-bim-viewer")
+          .addEventListener("click", () => {
+            isolateSelector(selectors, "building-select");
+            isolateSelector(toolbar, "go-to", "osm");
+            document.getElementById("bim-viewer").remove();
+            document.getElementById("close-bim-viewer").classList.add("hidden");
+          });
+
+        const bimViewerURL = "./bim-viewer.html";
+        let bimURL = "./bim-viewer.html";
+        map.on("click", () => {
+          let id = gltfMasses.selected.id;
+          bimURL = bimViewerURL + `?id=${id}`;
+          document
+            .getElementById("bim")
+            .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
+          if (window.event.ctrlKey) {
+            window.open(bimURL);
+          }
+        });
+
+        const ifcLoader = new IFCLoader();
+        const loader = document.getElementById("loader-container");
+        const progressText = document.getElementById("progress-text");
+
+        document
+          .getElementById("building-select")
+          .addEventListener("change", function () {
+            let selectedOption = this[this.selectedIndex];
+            let id = selectedOption.id;
+            if (id in building.loaded) {
+              loadBuildingIFC(IfcPath, ifcFileName[id], id);
+            } else {
+              let ifc = scene.getObjectByName(`ifc-${id}`);
+              gltfMasses.traverse(function (object) {
+                if (object.isMesh && object.name == id) {
+                  object.visible = true;
+                }
+                ifc.removeFromParent();
+              });
+            }
+          });
+
+        map.on("style.load", () => {
+          map.addLayer(customLayer, "waterway-label");
+        });
+
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
@@ -527,10 +584,10 @@ async function loadGeojson(map, geojson, id) {
 }
 
 function removeGeojson(map, geoJson) {
-  if (map.getSource("geoJson") !== undefined) {
-    map.removeLayer("geoJson-fill");
-    map.removeLayer("geoJson-outline");
-    map.removeSource("geoJson");
+  if (geoJson) {
+    map.removeLayer(geoJson.fill.id);
+    map.removeLayer(geoJson.outline.id);
+    map.removeSource(geoJson.source.id);
   }
 }
 
@@ -628,113 +685,57 @@ function openBimViewer(id) {
   document.getElementById("close-bim-viewer").classList.remove("hidden");
 }
 
-function createProvinceMenu(province, city, site) {
-  for (const province in canada) {
-    const name = canada[province].name;
-    let option = document.createElement("option");
-    option.innerHTML = name;
-    option.setAttribute("id", province);
-    document.getElementById("province-select").appendChild(option);
-  }
-  document
-    .getElementById("province-select")
-    .addEventListener("change", function () {
-      let id = this[this.selectedIndex].id;
-      province = canada[id];
-      // GET PROVINCE GEOJSON 🍁🌐 ___________________________
-      getJson(
-        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-          province.code
-      ).then((provinceGeojson) => {
-        geoJson.current = provinceGeojson;
-        let id = province.term;
-        loadGeojson(map, geoJson.current, "geoJson");
-        geoJson.source = map.getSource("geoJson");
-        geoJson.fill = map.getLayer("geoJson-fill");
-        geoJson.outline = map.getLayer("geoJson-outline");
-        isolateSelector(selectors, "city-select", "style-select");
-      });
-      createCityMenu(province, city, site);
-    });
-  return province;
-}
-
-function createCityMenu(province, city, site) {
-  const cityNames = [];
-  const citySelect = document.getElementById("city-select");
+function getCities(provinceCode) {
+  citySelect = document.getElementById("city-select");
   getJson(
-    "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
-      province.code +
-      "&concise=CITY"
+    `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
   ).then((jsonCity) => {
     const cityItems = jsonCity.items;
-    let selectedCity = "";
     while (citySelect.childElementCount > 1) {
       citySelect.removeChild(citySelect.lastChild);
-    } //Clear cityItems
+    }
     cityItems.forEach((cityItem) => {
-      cityNames.push(cityItem.name);
+      let cityName = cityItem.name;
       let option = document.createElement("option");
-      option.innerHTML = cityItem.name;
+      option.innerHTML = cityName;
+      option.setAttribute("id", cityName);
       citySelect.appendChild(option);
       sortChildren(citySelect);
     });
-    citySelect.addEventListener("change", function () {
-      const selectedCityIndex = cityNames.indexOf(this.value);
-      selectedCity = cityItems[selectedCityIndex];
-      city = canada[province.term].cities[selectedCity.name];
-      if(city){console.log(city)}
-      else{
-        city = selectedCity.name;
-      }
-      createSiteMenu(province, city, site);
-      // GET CITY GEOJSON 🏙️🌐 _________________________
-      getJson(
-        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-          selectedCity.name +
-          "&concise=CITY&province=" +
-          province.code
-      ).then((cityGeojson) => {
-        isolateSelector(selectors, "site-select", "style-select");
-        isolateSelector(toolbar, "osm", "go-to", "coordinates");
-        geoJson.current = cityGeojson;
-        geoJson.bbox = turf.bbox(cityGeojson);
-        map.fitBounds(geoJson.bbox);
-        geoJson.source.setData(geoJson.current);
-      });
-    });
   });
-  return city;
 }
 
-function createSiteMenu(province, city, site) {
-  if (city.sites) {
-    for (const site in city.sites) {
-      const name = city.sites[site].name;
-      let option = document.createElement("option");
-      option.innerHTML = name;
-      option.setAttribute("id", site);
-      document.getElementById("site-select").appendChild(option);
-    }
-  } else {
-    headerMessage(`No sites at ${city}`);
-  }
-  const siteSelect = document  
-    .getElementById("site-select")
-    .addEventListener("change", function () {
-      removeGeojson(map, "geoJson");
-      let id = this[this.selectedIndex].id;
-      site = city.sites[id];
-      lng.current = site.coordinates.lng;
-      lat.current = site.coordinates.lat;
-      msl.current = site.coordinates.msl;
-      let zoom = site.coordinates.zoom;
-      flyTo(map, lng.current, lat.current, zoom);
-    });
-  return site;
-}
-
-function headerMessage(message) {
+function headerMessage(message, seconds = 6) {
   document.getElementById("message").innerHTML = message;
-  setTimeout(() => (document.getElementById("message").innerHTML = ""), 6000);
+  setTimeout(
+    () => (document.getElementById("message").innerHTML = ""),
+    seconds * 1000
+  );
+}
+
+function createOptions(selector, objects) {
+  while (selector.childElementCount > 1) {
+    selector.removeChild(selector.lastChild);
+  }
+  for (const object in objects) {
+    const name = objects[object].name;
+    let option = document.createElement("option");
+    option.innerHTML = name;
+    option.setAttribute("id", object);
+    selector.appendChild(option);
+    sortChildren(selector);
+  }
+}
+
+function getGeojson(id, url, map, geoJson) {
+  removeGeojson(map, geoJson);
+  geoJson = { fill: "", outline: "" };
+  getJson(url).then((geojson) => {
+    geoJson.current = geojson;
+    loadGeojson(map, geoJson.current, `${id}-geoJson`);
+    geoJson.source = map.getSource(`${id}-geoJson`);
+    geoJson.fill = map.getLayer(`${id}-geoJson-fill`);
+    geoJson.outline = map.getLayer(`${id}-geoJson-outline`);
+  });
+  return geoJson;
 }

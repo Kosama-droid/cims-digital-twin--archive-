@@ -88,57 +88,256 @@ const canada = {
               msl: 80,
               zoom: 15,
             },
+            gltfPath: "../assets/carleton/glb/ON_Ottawa_CDC_",
             buildings: {
-              MB: {name: "Maintenance and Grounds Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc"},
-              AC: {name: "Athletics Alumni and Fieldhouse", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc"},
-              DT: {name: "Dunton Tower", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc"},
-              NB: {name: "Nesbitt Biology Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc"},
-              AA: {name: "Building 22", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc"},
-              AR: {name: "Arise", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc"},
-              AP: {name: "Azrieli Pavilion", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc"},
-              AT: {name: "Azrieli Theatre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc"},
-              CB: {name: "Canal Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc"},
-              HS: {name: "Health Sciences Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc"},
-              HP: {name: "Hezberg Laboratories", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc"},
-              LA: {name: "Loeb Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc"},
-              ME: {name: "Mackenzie", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc"},
-              ML: {name: "Macodrum Library", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc"},
-              MC: {name: "Minto Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc"},
-              NI: {name: "Nicol Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc"},
-              PA: {name: "Paterson Hall", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc"},
-              RB: {name: "River Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc"},
-              SR: {name: "Social Sciences Research Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc"},
-              SA: {name: "Southam Hall and Kailash Mital Theatre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc"},
-              SC: {name: "Steacie Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc"},
-              TB: {name: "Tory Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc"},
-              UC: {name: "University Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc"},
-              VS: {name: "Vsim Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc"},
-              FR: {name: "Frontenac House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc"},
-              GH: {name: "Glengarry House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc"},
-              LH: {name: "Lanark House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc"},
-              LE: {name: "Leeds House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc"},
-              LX: {name: "Lennox and Addington House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc"},
-              PH: {name: "Prescott House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc"},
-              RH: {name: "Renfrew House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc"},
-              CO: {name: "Residence Commons", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc"},
-              RU: {name: "Russell and Grenville House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc"},
-              SP: {name: "St Patricks Building", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc"},
-              IH: {name: "Ice House", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc"},
-              TC: {name: "Tennis Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc"},
-              P9: {name: "Parking Garage P9", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc"},
-              PS: {name: "Parking Garage P18", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc"},
-              SS: {name: "Bronson Sub-Station", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc"},
-              TT: {name: "CTTC Bldg", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc"},
-              UH: {name: "CHEER", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc"},
-              CC: {name: "Colonel By Child Care Centre", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc"},
-              RO: {name: "Robertson Hall", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc"},
-              Z1: {name: "Exterior Zone 1", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc"},
-              Z2: {name: "Exterior Zone 2", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc"},
-              Z3: {name: "Exterior Zone 3", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc"},
-              Z4: {name: "Exterior Zone 4", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc"},
-              RD: {name: "Roads", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc"},
-              TU: {name: "Tunnels", ifcFileName: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc"}
+              MB: {
+                name: "Maintenance and Grounds Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MAINTENANCE_AND_GROUNDS_BLDG-AS_FOUND.ifc",
+              },
+              AC: {
+                name: "Athletics Alumni and Fieldhouse",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ATHLETICS_ALUMNI_AND_FIELDHOUSE-AS_FOUND.ifc",
+              },
+              DT: {
+                name: "Dunton Tower",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-DUNTON_TOWER-AS_FOUND.ifc",
+              },
+              NB: {
+                name: "Nesbitt Biology Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NESBITT_BIOLOGY_BLDG-AS_FOUND.ifc",
+              },
+              AA: {
+                name: "Building 22",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
+              },
+              AR: {
+                name: "Arise",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ARISE-AS_FOUND.ifc",
+              },
+              AP: {
+                name: "Azrieli Pavilion",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_PAVILION-AS_FOUND.ifc",
+              },
+              AT: {
+                name: "Azrieli Theatre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-AZRIELI_THEATRE-AS_FOUND.ifc",
+              },
+              CB: {
+                name: "Canal Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CANAL_BLDG-AS_FOUND.ifc",
+              },
+              HS: {
+                name: "Health Sciences Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEALTH_SCIENCES_BLDG-AS_FOUND.ifc",
+              },
+              HP: {
+                name: "Hezberg Laboratories",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-HEZBERG_LABORATORIES-AS_FOUND.ifc",
+              },
+              LA: {
+                name: "Loeb Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LOEB_BLDG-AS_FOUND.ifc",
+              },
+              ME: {
+                name: "Mackenzie",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACKENZIE-AS_FOUND.ifc",
+              },
+              ML: {
+                name: "Macodrum Library",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MACODRUM_LIBRARY-AS_FOUND.ifc",
+              },
+              MC: {
+                name: "Minto Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-MINTO_CENTRE-AS_FOUND.ifc",
+              },
+              NI: {
+                name: "Nicol Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-NICOL_BLDG-AS_FOUND.ifc",
+              },
+              PA: {
+                name: "Paterson Hall",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PATERSON_HALL-AS_FOUND.ifc",
+              },
+              RB: {
+                name: "River Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RIVER_BLDG-AS_FOUND.ifc",
+              },
+              SR: {
+                name: "Social Sciences Research Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOCIAL_SCIENCES_RESEARCH_BLDG-AS_FOUND.ifc",
+              },
+              SA: {
+                name: "Southam Hall and Kailash Mital Theatre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-SOUTHAM_HALL_AND_KAILASH_MITAL_THEATRE-AS_FOUND.ifc",
+              },
+              SC: {
+                name: "Steacie Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-STEACIE_BLDG-AS_FOUND.ifc",
+              },
+              TB: {
+                name: "Tory Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TORY_BLDG-AS_FOUND.ifc",
+              },
+              UC: {
+                name: "University Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-UNIVERSITY_CENTRE-AS_FOUND.ifc",
+              },
+              VS: {
+                name: "Vsim Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-VSIM_BLDG-AS_FOUND.ifc",
+              },
+              FR: {
+                name: "Frontenac House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-FRONTENAC_HOUSE-AS_FOUND.ifc",
+              },
+              GH: {
+                name: "Glengarry House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-GLENGARRY_HOUSE-AS_FOUND.ifc",
+              },
+              LH: {
+                name: "Lanark House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LANARK_HOUSE-AS_FOUND.ifc",
+              },
+              LE: {
+                name: "Leeds House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LEEDS_HOUSE-AS_FOUND.ifc",
+              },
+              LX: {
+                name: "Lennox and Addington House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-LENNOX_AND_ADDINGTON_HOUSE-AS_FOUND.ifc",
+              },
+              PH: {
+                name: "Prescott House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PRESCOTT_HOUSE-AS_FOUND.ifc",
+              },
+              RH: {
+                name: "Renfrew House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RENFREW_HOUSE-AS_FOUND.ifc",
+              },
+              CO: {
+                name: "Residence Commons",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RESIDENCE_COMMONS-AS_FOUND.ifc",
+              },
+              RU: {
+                name: "Russell and Grenville House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-RUSSELL_AND_GRENVILLE_HOUSE-AS_FOUND.ifc",
+              },
+              SP: {
+                name: "St Patricks Building",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ST_PATRICKS_BLDG-AS_FOUND.ifc",
+              },
+              IH: {
+                name: "Ice House",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ICE_HOUSE-AS_FOUND.ifc",
+              },
+              TC: {
+                name: "Tennis Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
+              },
+              P9: {
+                name: "Parking Garage P9",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
+              },
+              PS: {
+                name: "Parking Garage P18",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
+              },
+              SS: {
+                name: "Bronson Sub-Station",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BRONSON_SUB-STATION-AS_FOUND.ifc",
+              },
+              TT: {
+                name: "CTTC Bldg",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CTTC_BLDG-AS_FOUND.ifc",
+              },
+              UH: {
+                name: "CHEER",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-CHEER-AS_FOUND.ifc",
+              },
+              CC: {
+                name: "Colonel By Child Care Centre",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-COLONEL_BY_CHILD_CARE_CENTRE-AS_FOUND.ifc",
+              },
+              RO: {
+                name: "Robertson Hall",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROBERTSON_HALL-AS_FOUND.ifc",
+              },
             },
+            context:{
+              Z1: {
+                name: "Exterior Zone 1",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_1-AS_FOUND.ifc",
+              },
+              Z2: {
+                name: "Exterior Zone 2",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_2-AS_FOUND.ifc",
+              },
+              Z3: {
+                name: "Exterior Zone 3",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_3-AS_FOUND.ifc",
+              },
+              Z4: {
+                name: "Exterior Zone 4",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-EXTERIOR_ZONE_4-AS_FOUND.ifc",
+              },
+              RD: {
+                name: "Roads",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-ROADS-AS_FOUND.ifc",
+              },
+              TU: {
+                name: "Tunnels",
+                ifcFileName:
+                  "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
+              },
+            }
           },
           PB: {
             name: "Parliament Buildings",
@@ -181,18 +380,18 @@ const canada = {
               msl: 80,
               zoom: 15,
             },
-            buildingsNames: {
-              Admin: "Admin Building",
-              bay7_10: "Bays 7 to 10",
-              bay11: "Bay 11",
-              bay12: "Bay 12",
+            buildings: {
+              Admin: {
+                name: "Admin Building",
+                ifcFileName: "da-admin_shell.ifc",
+              },
+              bay7_10: {
+                name: "Bays 7 to 10",
+                ifcFileName: "da-bay_7-10_shell.ifc",
+              },
+              bay11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
+              bay12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
             },
-            ifcFileName: {
-              Admin: "da-admin_shell.ifc",
-              bay7_10: "da-bay_7-10_shell.ifc",
-              bay11: "da-bay_11_shell.ifc",
-              bay12: "da-bay_12_shell.ifc",
-            }
           },
         },
       },
@@ -368,59 +567,6 @@ const mapStyles = [
 ];
 
 const IfcPath$1 = "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/";
-
-const buildingsNames = {
-  "MB": "Maintenance and Grounds Building",
-  "AC": "Athletics Alumni and Fieldhouse",
-  "DT": "Dunton Tower",
-  "NB": "Nesbitt Biology Building",
-  "AA": "Building 22",
-  "AR": "Arise",
-  "AP": "Azrieli Pavilion",
-  "AT": "Azrieli Theatre",
-  "CB": "Canal Building",
-  "HS": "Health Sciences Building",
-  "HP": "Hezberg Laboratories",
-  "LA": "Loeb Building",
-  "ME": "Mackenzie",
-  "ML": "Macodrum Library",
-  "MC": "Minto Centre",
-  "NI": "Nicol Building",
-  "PA": "Paterson Hall",
-  "RB": "River Building",
-  "SR": "Social Sciences Research Building",
-  "SA": "Southam Hall and Kailash Mital Theatre",
-  "SD": "Stormont and Dundas House",
-  "SC": "Steacie Building",
-  "TB": "Tory Building",
-  "UC": "University Centre",
-  "VS": "Vsim Building",
-  "FR": "Frontenac House",
-  "GH": "Glengarry House",
-  "LH": "Lanark House",
-  "LE": "Leeds House",
-  "LX": "Lennox and Addington House",
-  "PH": "Prescott House",
-  "RH": "Renfrew House",
-  "CO": "Residence Commons",
-  "RU": "Russell and Grenville House",
-  "SP": "St Patricks Building",
-  "IH": "Ice House",
-  "TC": "Tennis Centre",
-  "P9": "Parking Garage P9",
-  "PS": "Parking Garage P18",
-  "SS": "Bronson Sub-Station",
-  "TT": "CTTC Bldg",
-  "UH": "CHEER",
-  "CC": "Colonel By Child Care Centre",
-  "RO": "Robertson Hall",
-  // "Z1": "Exterior Zone 1",
-  // "Z2": "Exterior Zone 2",
-  // "Z3": "Exterior Zone 3",
-  // "Z4": "Exterior Zone 4",
-  // "RD": "Roads",
-  // "TU": "Tunnels"
-};
 
 const ifcFileName = {
   AA: "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-BLDG_22-AS_FOUND.ifc",
@@ -105638,17 +105784,6 @@ navigationButton.onclick = function () {
 };
 }
 
-function createBuildingSelector(building, names, selector) {
-  for (id in names) {
-    let option = document.createElement("option");
-    option.setAttribute("id", id);
-    building.listed[id] = names[id];
-    option.innerHTML = names[id];
-    selector.appendChild(option);
-  }
-  sortChildren(selector);
-}
-
 function updateSelectBldgMenu(building, id) {
     let selectedOption = document.getElementById(id);
       building.current.id = id;
@@ -105685,6 +105820,7 @@ isolateSelector(selectors, "province-select", "style-select");
 isolateSelector(toolbar, "go-to", "coordinates");
 
 let scene, map, camera, renderer, raycaster, gltfMasses;
+let province, city, site;
 
 let previousSelection = {
   mesh: null,
@@ -105702,11 +105838,8 @@ const highlightMaterial = new MeshBasicMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-const province = { term: "" },
-  city = {},
-  site = {},
-  geoJson = { fill: "", outline: "" },
-  lng = { canada: -98.74 },
+let geoJson;
+const lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
@@ -105803,10 +105936,19 @@ let toggleGoTo = true;
 goTo.onclick = function () {
   if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
-    const listedBuildings = document.getElementById("listed-buildings");
-    createBuildingSelector(building, buildingsNames, listedBuildings);
+    document.getElementById("listed-buildings");
+    let buildings = canada.ON.cities.Ottawa.sites.CU.buildings;
+    const buildingSelector = document.getElementById('building-select');
+    createOptions(buildingSelector, buildings);
+    buildingSelector.addEventListener('change', ()=>{
+      let id = buildingSelector[buildingSelector.selectedIndex].id;
+      isolateSelector(selectors, "building-select");
+      isolateSelector(toolbar, "");
+      openBimViewer(id);
+    });
+    // createBuildingSelector(building, buildingsNames, listedBuildings);
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "go-to", "osm", "info", "bim");
+    isolateSelector(toolbar, "go-to", "osm");
     this.setAttribute("title", "Go to Canada");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
@@ -105839,265 +105981,318 @@ goTo.onclick = function () {
   headerMessage("Double click on buildings to open BIM viewer");
 };
 
-// Select Building from list 🏢
-document
-  .getElementById("building-select")
-  .addEventListener("change", function () {
-    isolateSelector(selectors, "building-select");
-    let selectedOption = this[this.selectedIndex];
-    let selectedId = selectedOption.id;
-    updateSelectBldgMenu(building, selectedId);
-  });
-
-// Select province or Territory 🍁 _________________________________________________________
-createProvinceMenu(province, city, site);
-
-const modelOrigin = [lng.current, lat.current];
-const modelAltitude = msl.current;
-const modelRotate = [Math.PI / 2, 0, 0];
-
-document.getElementById("toolbar");
-
-const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
-  modelOrigin,
-  modelAltitude
-);
-
-const modelTransform = {
-  translateX: modelAsMercatorCoordinate.x,
-  translateY: modelAsMercatorCoordinate.y,
-  translateZ: modelAsMercatorCoordinate.z,
-  rotateX: modelRotate[0],
-  rotateY: modelRotate[1],
-  rotateZ: modelRotate[2],
-  /* Since the 3D model is in real world meters, a scale transform needs to be
-   * applied since the CustomLayerInterface expects units in MercatorCoordinates.
-   */
-  scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
-};
-
-// THREE JS 3️⃣  ________________________________________________________________________
-// configuration of the custom layer for a 3D models per the CustomLayerInterface
-const customLayer = {
-  id: "3d-models",
-  type: "custom",
-  renderingMode: "3d",
-  onAdd: function (map, gl) {
-    camera = new PerspectiveCamera();
-    scene = new Scene();
-    const axes = new AxesHelper(10);
-    axes.material.depthTest = false;
-    axes.renderOrder = 3;
-    scene.add(axes);
-
-    // GLTF masses for hovering and raycasting
-    const gltfloader = new GLTFLoader();
-    gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
-      gltfMasses = gltf.scene;
-      gltfMasses.name = "gltf-masses";
-      gltfMasses.position.x = -485;
-      gltfMasses.position.z = 435;
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh) {
-          // object.material = massesMaterial;
-          object.visible = false;
-          masses.push(object);
-        }
-      });
-      scene.add(gltfMasses);
-    });
-
-    // Load GLTF of buildings
-    // let buildingGltf;
-    // const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
-    // categories.forEach((category) => {
-    //   for (const id in buildingsNames) {
-    //     let gltfPath = `../assets/carleton/glb/ON_Ottawa_CDC_${id}_${category}_allFloors.gltf`;
-    //     gltfloader.load(gltfPath, (gltf) => {
-    //       buildingGltf = gltf.scene;
-    //       buildingGltf.name = `${id}-${category}`;
-    //       scene.add(buildingGltf);
-    //     });
-
-    //   }
-    // });
-
-    // const gui = new GUI();
-    // gui.close();
-    // const origingPosition = gui.addFolder("Origin position");
-    // origingPosition
-    //   .add(scene.position, "z", -1000, 1000, 1)
-    //   .name("North-South");
-    // origingPosition
-    //   .add(scene.position, "x", -1000, 1000, 1)
-    //   .name("West-East");
-    // origingPosition
-    //   .add(scene.position, "y", -1000, 1000, 1)
-    //   .name("Height");
-    // origingPosition
-    //   .add(
-    //     scene.rotation,
-    //     "y",
-    //     MathUtils.degToRad(-180),
-    //     MathUtils.degToRad(180),
-    //     MathUtils.degToRad(1)
-    //   )
-    //   .name("Rotate");
-
-    // create three.js lights to illuminate the model
-
-    const lightColor = 0xffffff;
-    const ambientLight = new AmbientLight(lightColor, 0.2);
-    scene.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(lightColor, 0.9);
-    directionalLight.position.set(0, 400, 600).normalize();
-    scene.add(directionalLight);
-
-    // use the Mapbox GL JS map canvas for three.js
-    renderer = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true,
-    });
-    renderer.autoClear = false;
-
-    raycaster = new Raycaster();
-  },
-
-  render: function (gl, matrix) {
-    const rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      modelTransform.rotateX
-    );
-    const rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      modelTransform.rotateY
-    );
-    const rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      modelTransform.rotateZ
-    );
-
-    const m = new Matrix4().fromArray(matrix);
-    const l = new Matrix4()
-      .makeTranslation(
-        modelTransform.translateX,
-        modelTransform.translateY,
-        modelTransform.translateZ
-      )
-      .scale(
-        new Vector3(
-          modelTransform.scale,
-          -modelTransform.scale,
-          modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
-
-    camera.projectionMatrix = m.multiply(l);
-    renderer.resetState();
-    renderer.render(scene, camera);
-    map.triggerRepaint();
-
-    const freeCamera = map.getFreeCameraOptions();
-    let cameraPosition = new Vector4(
-      freeCamera.position.x,
-      freeCamera.position.y,
-      freeCamera.position.z,
-      1
-    );
-    cameraPosition.applyMatrix4(l.invert());
-    let direction = mouse
-      .clone()
-      .applyMatrix4(camera.projectionMatrix.clone().invert());
-    direction.divideScalar(direction.w);
-    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
-
-    const intersections = raycaster.intersectObjects(masses);
-
-    if (hasNotCollided(intersections)) {
-      restorePreviousSelection();
-      return;
-    }
-
-    const foundItem = intersections[0];
-
-    if (isPreviousSeletion(foundItem)) return;
-
-    restorePreviousSelection();
-    savePreviousSelectio(foundItem);
-    highlightItem(foundItem);
-
-    renderer.render(scene, camera);
-  },
-};
-
-map.on("mousemove", (event) => {
-  getMousePosition(event);
-  map.triggerRepaint();
-});
-
-map.on("dblclick", () => {
-  let id = gltfMasses.selected.id;
-  updateSelectBldgMenu(building, id);
-  isolateSelector(selectors, "building-select");
-  openBimViewer(id);
-});
-document.getElementById("close-bim-viewer").addEventListener("click", () => {
-  isolateSelector(selectors, "building-select");
-  document.getElementById("bim-viewer").remove();
-  document.getElementById("close-bim-viewer").classList.add("hidden");
-});
-
-const bimViewerURL = "./bim-viewer.html";
-let bimURL = "./bim-viewer.html";
-map.on("click", () => {
-  let id = gltfMasses.selected.id;
-  bimURL = bimViewerURL + `?id=${id}`;
-  document
-    .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
-  if (window.event.ctrlKey) {
-    window.open(bimURL);
-  }
-});
-
-const ifcLoader = new IFCLoader$1();
-document.getElementById("loader-container");
-document.getElementById("progress-text");
-
-document
-  .getElementById("building-select")
-  .addEventListener("change", function () {
-    let selectedOption = this[this.selectedIndex];
-    let id = selectedOption.id;
-    if (id in building.loaded) {
-      loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
+// Navigate Canada 🍁 _________________________________________________________
+let provinceSelector = document.getElementById("province-select");
+createOptions(provinceSelector, canada);
+provinceSelector.addEventListener("change", (event) => {
+  province = event.target[event.target.selectedIndex].id;
+  let code = canada[province].code;
+  let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=${code}`;
+  geoJson = getGeojson(province, url, map, geoJson);
+  getCities(code);
+  isolateSelector(selectors, "province-select", "city-select", "style-select");
+  document.getElementById("city-select").addEventListener("change", (event) => {
+    let cityName = event.target[event.target.selectedIndex].id;
+    city = canada[province].cities[cityName]
+      ? canada[province].cities[cityName]
+      : cityName;
+    url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${code}`;
+    geoJson = getGeojson(cityName, url, map, geoJson);
+    if (!city.hasOwnProperty("sites")) {
+      headerMessage(`No sites at ${cityName}`);
+      isolateSelector(
+        selectors,
+        "province-select",
+        "city-select",
+        "style-select"
+      );
     } else {
-      let ifc = scene.getObjectByName(`ifc-${id}`);
-      gltfMasses.traverse(function (object) {
-        if (object.isMesh && object.name == id) {
-          object.visible = true;
+      let sites = city.sites;
+      isolateSelector(selectors, "city-select", "site-select", "style-select");
+      let siteSelector = document.getElementById("site-select");
+      createOptions(siteSelector, sites);
+      siteSelector.addEventListener("change", (event) => {
+        if (map.getSource(geoJson.source.id)) {
+          removeGeojson(map, geoJson);
         }
-        ifc.removeFromParent();
+        id = event.target[event.target.selectedIndex].id;
+        site = sites[id];
+        lng.current = site.coordinates.lng;
+        lat.current = site.coordinates.lat;
+        msl.current = site.coordinates.msl;
+        let zoom = site.coordinates.zoom;
+        flyTo(map, lng.current, lat.current, zoom);
+        let buildings = site.buildings;
+        console.log(buildings);
+        isolateSelector(
+          selectors,
+          "site-select",
+          "building-select",
+          "style-select"
+        );
+        let buildingSelector = document.getElementById("building-select");
+        createOptions(buildingSelector, buildings);
+        console.log(buildings);
+
       });
     }
-
-    // Load IFC file
-    const input = document.getElementById("file-input");
-    input.addEventListener("change", (changed) => {
-      const file = changed.target.files[0];
-      var ifcURL = URL.createObjectURL(file);
-      ifcLoader.load(ifcURL, (ifcModel) => scene.add(ifcModel));
-    });
   });
-
-map.on("style.load", () => {
-  map.addLayer(customLayer, "waterway-label");
 });
+
+        const modelOrigin = [lng.current, lat.current];
+        const modelAltitude = msl.current;
+        const modelRotate = [Math.PI / 2, 0, 0];
+        const modelAsMercatorCoordinate =
+          mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude);
+
+        const modelTransform = {
+          translateX: modelAsMercatorCoordinate.x,
+          translateY: modelAsMercatorCoordinate.y,
+          translateZ: modelAsMercatorCoordinate.z,
+          rotateX: modelRotate[0],
+          rotateY: modelRotate[1],
+          rotateZ: modelRotate[2],
+          /* Since the 3D model is in real world meters, a scale transform needs to be
+           * applied since the CustomLayerInterface expects units in MercatorCoordinates.
+           */
+          scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+        };
+
+        // THREE JS 3️⃣  ________________________________________________________________________
+        // configuration of the custom layer for a 3D models per the CustomLayerInterface
+        const customLayer = {
+          id: "3d-models",
+          type: "custom",
+          renderingMode: "3d",
+          onAdd: function (map, gl) {
+            camera = new PerspectiveCamera();
+            scene = new Scene();
+            const axes = new AxesHelper(10);
+            axes.material.depthTest = false;
+            axes.renderOrder = 3;
+            scene.add(axes);
+
+            // GLTF masses for hovering and raycasting
+            const gltfloader = new GLTFLoader();
+            gltfloader.load("../assets/ottawa/glb/CDC-MASSES.glb", (gltf) => {
+              gltfMasses = gltf.scene;
+              gltfMasses.name = "gltf-masses";
+              gltfMasses.position.x = -485;
+              gltfMasses.position.z = 435;
+              gltfMasses.traverse(function (object) {
+                if (object.isMesh) {
+                  // object.material = massesMaterial;
+                  object.visible = false;
+                  masses.push(object);
+                }
+              });
+              scene.add(gltfMasses);
+            });
+
+            let site = canada.ON.cities.Ottawa.sites.CU;
+            console.log(site);
+
+            loadBldsGltf(site);
+
+            function loadBldsGltf(site) {
+              console.log(site);
+              let buildings = site.buildings;
+              let buildingGltf;
+              const categories = [
+                "walls",
+                "curtainwalls",
+                "roofs",
+                "slabs",
+                "windows",
+              ];
+              categories.forEach((category) => {
+                for (const id in buildings) {
+                  let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+                  gltfloader.load(gltfPath, (gltf) => {
+                    buildingGltf = gltf.scene;
+                    buildingGltf.name = `${id}-${category}`;
+                    scene.add(buildingGltf);
+                  });
+                }
+              });
+            }
+
+            // const gui = new GUI();
+            // gui.close();
+            // const origingPosition = gui.addFolder("Origin position");
+            // origingPosition
+            //   .add(scene.position, "z", -1000, 1000, 1)
+            //   .name("North-South");
+            // origingPosition
+            //   .add(scene.position, "x", -1000, 1000, 1)
+            //   .name("West-East");
+            // origingPosition
+            //   .add(scene.position, "y", -1000, 1000, 1)
+            //   .name("Height");
+            // origingPosition
+            //   .add(
+            //     scene.rotation,
+            //     "y",
+            //     MathUtils.degToRad(-180),
+            //     MathUtils.degToRad(180),
+            //     MathUtils.degToRad(1)
+            //   )
+            //   .name("Rotate");
+
+            // create three.js lights to illuminate the model
+
+            const lightColor = 0xffffff;
+            const ambientLight = new AmbientLight(lightColor, 0.2);
+            scene.add(ambientLight);
+
+            const directionalLight = new DirectionalLight(lightColor, 0.9);
+            directionalLight.position.set(0, 400, 600).normalize();
+            scene.add(directionalLight);
+
+            // use the Mapbox GL JS map canvas for three.js
+            renderer = new WebGLRenderer({
+              canvas: map.getCanvas(),
+              context: gl,
+              antialias: true,
+            });
+            renderer.autoClear = false;
+
+            raycaster = new Raycaster();
+          },
+
+          render: function (gl, matrix) {
+            const rotationX = new Matrix4().makeRotationAxis(
+              new Vector3(1, 0, 0),
+              modelTransform.rotateX
+            );
+            const rotationY = new Matrix4().makeRotationAxis(
+              new Vector3(0, 1, 0),
+              modelTransform.rotateY
+            );
+            const rotationZ = new Matrix4().makeRotationAxis(
+              new Vector3(0, 0, 1),
+              modelTransform.rotateZ
+            );
+
+            const m = new Matrix4().fromArray(matrix);
+            const l = new Matrix4()
+              .makeTranslation(
+                modelTransform.translateX,
+                modelTransform.translateY,
+                modelTransform.translateZ
+              )
+              .scale(
+                new Vector3(
+                  modelTransform.scale,
+                  -modelTransform.scale,
+                  modelTransform.scale
+                )
+              )
+              .multiply(rotationX)
+              .multiply(rotationY)
+              .multiply(rotationZ);
+
+            camera.projectionMatrix = m.multiply(l);
+            renderer.resetState();
+            renderer.render(scene, camera);
+            map.triggerRepaint();
+
+            const freeCamera = map.getFreeCameraOptions();
+            let cameraPosition = new Vector4(
+              freeCamera.position.x,
+              freeCamera.position.y,
+              freeCamera.position.z,
+              1
+            );
+            cameraPosition.applyMatrix4(l.invert());
+            let direction = mouse
+              .clone()
+              .applyMatrix4(camera.projectionMatrix.clone().invert());
+            direction.divideScalar(direction.w);
+            raycaster.set(
+              cameraPosition,
+              direction.sub(cameraPosition).normalize()
+            );
+
+            const intersections = raycaster.intersectObjects(masses);
+
+            if (hasNotCollided(intersections)) {
+              restorePreviousSelection();
+              return;
+            }
+
+            const foundItem = intersections[0];
+
+            if (isPreviousSeletion(foundItem)) return;
+
+            restorePreviousSelection();
+            savePreviousSelectio(foundItem);
+            highlightItem(foundItem);
+
+            renderer.render(scene, camera);
+          },
+        };
+
+        map.on("mousemove", (event) => {
+          getMousePosition(event);
+          map.triggerRepaint();
+        });
+
+        map.on("dblclick", () => {
+          let id = gltfMasses.selected.id;
+          updateSelectBldgMenu(building, id);
+          isolateSelector(selectors, "building-select");
+          isolateSelector(toolbar, "");
+          openBimViewer(id);
+        });
+        document
+          .getElementById("close-bim-viewer")
+          .addEventListener("click", () => {
+            isolateSelector(selectors, "building-select");
+            isolateSelector(toolbar, "go-to", "osm");
+            document.getElementById("bim-viewer").remove();
+            document.getElementById("close-bim-viewer").classList.add("hidden");
+          });
+
+        const bimViewerURL = "./bim-viewer.html";
+        let bimURL = "./bim-viewer.html";
+        map.on("click", () => {
+          let id = gltfMasses.selected.id;
+          bimURL = bimViewerURL + `?id=${id}`;
+          document
+            .getElementById("bim")
+            .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
+          if (window.event.ctrlKey) {
+            window.open(bimURL);
+          }
+        });
+
+        new IFCLoader$1();
+        document.getElementById("loader-container");
+        document.getElementById("progress-text");
+
+        document
+          .getElementById("building-select")
+          .addEventListener("change", function () {
+            let selectedOption = this[this.selectedIndex];
+            let id = selectedOption.id;
+            if (id in building.loaded) {
+              loadBuildingIFC(IfcPath$1, ifcFileName[id], id);
+            } else {
+              let ifc = scene.getObjectByName(`ifc-${id}`);
+              gltfMasses.traverse(function (object) {
+                if (object.isMesh && object.name == id) {
+                  object.visible = true;
+                }
+                ifc.removeFromParent();
+              });
+            }
+          });
+
+        map.on("style.load", () => {
+          map.addLayer(customLayer, "waterway-label");
+        });
+
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
@@ -106146,10 +106341,10 @@ async function loadGeojson(map, geojson, id) {
 }
 
 function removeGeojson(map, geoJson) {
-  if (map.getSource("geoJson") !== undefined) {
-    map.removeLayer("geoJson-fill");
-    map.removeLayer("geoJson-outline");
-    map.removeSource("geoJson");
+  if (geoJson) {
+    map.removeLayer(geoJson.fill.id);
+    map.removeLayer(geoJson.outline.id);
+    map.removeSource(geoJson.source.id);
   }
 }
 
@@ -106247,113 +106442,57 @@ function openBimViewer(id) {
   document.getElementById("close-bim-viewer").classList.remove("hidden");
 }
 
-function createProvinceMenu(province, city, site) {
-  for (const province in canada) {
-    const name = canada[province].name;
-    let option = document.createElement("option");
-    option.innerHTML = name;
-    option.setAttribute("id", province);
-    document.getElementById("province-select").appendChild(option);
-  }
-  document
-    .getElementById("province-select")
-    .addEventListener("change", function () {
-      let id = this[this.selectedIndex].id;
-      province = canada[id];
-      // GET PROVINCE GEOJSON 🍁🌐 ___________________________
-      getJson(
-        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=PROV&province=" +
-          province.code
-      ).then((provinceGeojson) => {
-        geoJson.current = provinceGeojson;
-        province.term;
-        loadGeojson(map, geoJson.current, "geoJson");
-        geoJson.source = map.getSource("geoJson");
-        geoJson.fill = map.getLayer("geoJson-fill");
-        geoJson.outline = map.getLayer("geoJson-outline");
-        isolateSelector(selectors, "city-select", "style-select");
-      });
-      createCityMenu(province, city, site);
-    });
-  return province;
-}
-
-function createCityMenu(province, city, site) {
-  const cityNames = [];
-  const citySelect = document.getElementById("city-select");
+function getCities(provinceCode) {
+  citySelect = document.getElementById("city-select");
   getJson(
-    "https://geogratis.gc.ca/services/geoname/en/geonames.json?province=" +
-      province.code +
-      "&concise=CITY"
+    `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
   ).then((jsonCity) => {
     const cityItems = jsonCity.items;
-    let selectedCity = "";
     while (citySelect.childElementCount > 1) {
       citySelect.removeChild(citySelect.lastChild);
-    } //Clear cityItems
+    }
     cityItems.forEach((cityItem) => {
-      cityNames.push(cityItem.name);
+      let cityName = cityItem.name;
       let option = document.createElement("option");
-      option.innerHTML = cityItem.name;
+      option.innerHTML = cityName;
+      option.setAttribute("id", cityName);
       citySelect.appendChild(option);
       sortChildren(citySelect);
     });
-    citySelect.addEventListener("change", function () {
-      const selectedCityIndex = cityNames.indexOf(this.value);
-      selectedCity = cityItems[selectedCityIndex];
-      city = canada[province.term].cities[selectedCity.name];
-      if(city){console.log(city);}
-      else {
-        city = selectedCity.name;
-      }
-      createSiteMenu(province, city, site);
-      // GET CITY GEOJSON 🏙️🌐 _________________________
-      getJson(
-        "https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=" +
-          selectedCity.name +
-          "&concise=CITY&province=" +
-          province.code
-      ).then((cityGeojson) => {
-        isolateSelector(selectors, "site-select", "style-select");
-        isolateSelector(toolbar, "osm", "go-to", "coordinates");
-        geoJson.current = cityGeojson;
-        geoJson.bbox = turf.bbox(cityGeojson);
-        map.fitBounds(geoJson.bbox);
-        geoJson.source.setData(geoJson.current);
-      });
-    });
   });
-  return city;
 }
 
-function createSiteMenu(province, city, site) {
-  if (city.sites) {
-    for (const site in city.sites) {
-      const name = city.sites[site].name;
-      let option = document.createElement("option");
-      option.innerHTML = name;
-      option.setAttribute("id", site);
-      document.getElementById("site-select").appendChild(option);
-    }
-  } else {
-    headerMessage(`No sites at ${city}`);
-  }
-  document  
-    .getElementById("site-select")
-    .addEventListener("change", function () {
-      removeGeojson(map);
-      let id = this[this.selectedIndex].id;
-      site = city.sites[id];
-      lng.current = site.coordinates.lng;
-      lat.current = site.coordinates.lat;
-      msl.current = site.coordinates.msl;
-      let zoom = site.coordinates.zoom;
-      flyTo(map, lng.current, lat.current, zoom);
-    });
-  return site;
-}
-
-function headerMessage(message) {
+function headerMessage(message, seconds = 6) {
   document.getElementById("message").innerHTML = message;
-  setTimeout(() => (document.getElementById("message").innerHTML = ""), 6000);
+  setTimeout(
+    () => (document.getElementById("message").innerHTML = ""),
+    seconds * 1000
+  );
+}
+
+function createOptions(selector, objects) {
+  while (selector.childElementCount > 1) {
+    selector.removeChild(selector.lastChild);
+  }
+  for (const object in objects) {
+    const name = objects[object].name;
+    let option = document.createElement("option");
+    option.innerHTML = name;
+    option.setAttribute("id", object);
+    selector.appendChild(option);
+    sortChildren(selector);
+  }
+}
+
+function getGeojson(id, url, map, geoJson) {
+  removeGeojson(map, geoJson);
+  geoJson = { fill: "", outline: "" };
+  getJson(url).then((geojson) => {
+    geoJson.current = geojson;
+    loadGeojson(map, geoJson.current, `${id}-geoJson`);
+    geoJson.source = map.getSource(`${id}-geoJson`);
+    geoJson.fill = map.getLayer(`${id}-geoJson-fill`);
+    geoJson.outline = map.getLayer(`${id}-geoJson-outline`);
+  });
+  return geoJson;
 }
