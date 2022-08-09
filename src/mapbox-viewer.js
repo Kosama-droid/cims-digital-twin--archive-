@@ -152,7 +152,7 @@ goTo.onclick = function () {
       openBimViewer(id);
     });
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "canada", "go-to", "osm");
+    isolateSelector(toolbar, "canada", "osm");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
     if (document.getElementById("lng").value !== "") {
@@ -221,6 +221,7 @@ provinceSelector.addEventListener("change", (event) => {
       let siteSelector = document.getElementById("site-select");
       createOptions(siteSelector, sites);
       siteSelector.addEventListener("change", (event) => {
+        isolateSelector(toolbar, "canada", "osm");
         sites = city.sites;
         if (map.getSource(geoJson.source.id)) {
           removeGeojson(map, geoJson);
@@ -338,22 +339,6 @@ const customLayer = {
       loadBldsGltf(site);
     });
 
-    // function loadBldsGltf(site) {
-    //   let buildings = site.buildings;
-    //   let buildingGltf;
-    //   const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
-    //   categories.forEach((category) => {
-    //     for (const id in buildings) {
-    //       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
-    //       gltfloader.load(gltfPath, (gltf) => {
-    //         buildingGltf = gltf.scene;
-    //         buildingGltf.name = `${id}-${category}`;
-    //         scene.add(buildingGltf);
-    //       });
-    //     }
-    //   });
-    // }
-
     // const gui = new GUI();
     // gui.close();
     // const origingPosition = gui.addFolder("Origin position");
@@ -467,19 +452,30 @@ const customLayer = {
   },
 };
 
+map.on('onkeydown', (event) => {
+  if (event.code === "space") {
+    console.log(event.code)
+    console.log("carleton")
+  }
+  if (event.code === "d") {
+    console.log("downsview")
+  }
+})
+
 map.on("mousemove", (event) => {
   getMousePosition(event);
   map.triggerRepaint();
 });
-
+ 
 map.on("dblclick", () => {
+  if(!gltfMasses.selected) return;
   let id = gltfMasses.selected.id;
   isolateSelector(toolbar, "");
   openBimViewer(id);
 });
 document.getElementById("close-bim-viewer").addEventListener("click", () => {
   isolateSelector(selectors, "building-select");
-  isolateSelector(toolbar, "canada", "go-to", "osm");
+  isolateSelector(toolbar, "canada", "osm");
   document.getElementById("bim-viewer").remove();
   document.getElementById("close-bim-viewer").classList.add("hidden");
 });
@@ -487,14 +483,12 @@ document.getElementById("close-bim-viewer").addEventListener("click", () => {
 const bimViewerURL = "./bim-viewer.html";
 let bimURL = "./bim-viewer.html";
 map.on("click", () => {
+  if(!gltfMasses.selected) return;
   let id = gltfMasses.selected.id;
   bimURL = bimViewerURL + `?id=${id}`;
   document
     .getElementById("bim")
     .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
-  if (window.event.ctrlKey) {
-    window.open(bimURL);
-  }
 });
 
 map.on("style.load", () => {
