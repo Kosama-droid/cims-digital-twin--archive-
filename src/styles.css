@@ -504,3 +504,14 @@ ul, #myUL {
   top: 90px;
   right: 1rem;
 }
+
+#progress-text{
+  animation: opacity-change 2s infinite;
+}
+@keyframes opacity-change {
+  0% { color: #000; }
+  25% { color: rgba(0, 0, 0, 0.5); }
+  50% { color:  rgba(0, 0, 0, 0) }
+  75% { color: rgba(0, 0, 0, 0.5); }
+  100% { color: #000; }
+}

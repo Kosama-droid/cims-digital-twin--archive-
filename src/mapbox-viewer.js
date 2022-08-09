@@ -1,8 +1,6 @@
 import { canada } from "../static/data/canada.js";
 import { icons } from "../static/icons.js";
 import { mapStyles } from "../static/map-styles.js";
-
-import { IFCLoader } from "web-ifc-three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   AmbientLight,
@@ -29,9 +27,7 @@ import {
 // import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 import {
-  updateSelectBldgMenu,
   sortChildren,
-  createBuildingSelector,
   isolateSelector,
   closeNavBar,
 } from "../modules/twin.js";
@@ -63,18 +59,11 @@ const highlightMaterial = new MeshBasicMaterial({
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-let geoJson;
+let geoJson = {source:{id:false}}
 const lng = { canada: -98.74 },
   lat = { canada: 56.415 },
   msl = { canada: 0 },
   masses = [];
-
-const massesMaterial = new MeshStandardMaterial({
-  color: 0x555555,
-  flatShading: true,
-  side: DoubleSide,
-  emissive: 0x555555,
-});
 
 closeNavBar();
 
@@ -183,6 +172,7 @@ goTo.onclick = function () {
       map.removeSource("geoJson");
     }
     headerMessage("Double click buildings to open BIM viewer");
+    removeGeojson(map, geoJson)
 };
 // Fly to Canada or reset page🛬🍁 ____________________________________________________
 document.getElementById('canada').addEventListener('click', () =>{
@@ -195,6 +185,7 @@ document.getElementById('canada').addEventListener('click', () =>{
 })
 
 // Navigate Canada 🍁 _________________________________________________________
+// Province ➡️________________
 let provinceSelector = document.getElementById("province-select");
 createOptions(provinceSelector, canada);
 provinceSelector.addEventListener("change", (event) => {
@@ -205,6 +196,8 @@ provinceSelector.addEventListener("change", (event) => {
   getCities(code);
   isolateSelector(selectors, "province-select", "city-select", "style-select");
   isolateSelector(toolbar, "canada", "go-to", "coordinates");
+  
+  // City ➡️________________
   document.getElementById("city-select").addEventListener("change", (event) => {
     let cityName = event.target[event.target.selectedIndex].id;
     city = canada[province].cities[cityName]
@@ -221,11 +214,14 @@ provinceSelector.addEventListener("change", (event) => {
         "style-select"
       );
     } else {
+      
+      // Site ➡️________________
       let sites = city.sites;
       isolateSelector(selectors, "city-select", "site-select", "style-select");
       let siteSelector = document.getElementById("site-select");
       createOptions(siteSelector, sites);
       siteSelector.addEventListener("change", (event) => {
+        sites = city.sites;
         if (map.getSource(geoJson.source.id)) {
           removeGeojson(map, geoJson);
         }
@@ -245,7 +241,9 @@ provinceSelector.addEventListener("change", (event) => {
           )
         }
         else{
-        let buildings = site.buildings;
+        
+          // Building ➡️________________
+          let buildings = site.buildings;
         isolateSelector(
           selectors,
           "site-select",
@@ -340,21 +338,21 @@ const customLayer = {
       loadBldsGltf(site);
     });
 
-    function loadBldsGltf(site) {
-      let buildings = site.buildings;
-      let buildingGltf;
-      const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
-      categories.forEach((category) => {
-        for (const id in buildings) {
-          let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
-          gltfloader.load(gltfPath, (gltf) => {
-            buildingGltf = gltf.scene;
-            buildingGltf.name = `${id}-${category}`;
-            scene.add(buildingGltf);
-          });
-        }
-      });
-    }
+    // function loadBldsGltf(site) {
+    //   let buildings = site.buildings;
+    //   let buildingGltf;
+    //   const categories = ["walls", "curtainwalls", "roofs", "slabs", "windows"];
+    //   categories.forEach((category) => {
+    //     for (const id in buildings) {
+    //       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+    //       gltfloader.load(gltfPath, (gltf) => {
+    //         buildingGltf = gltf.scene;
+    //         buildingGltf.name = `${id}-${category}`;
+    //         scene.add(buildingGltf);
+    //       });
+    //     }
+    //   });
+    // }
 
     // const gui = new GUI();
     // gui.close();
@@ -550,11 +548,12 @@ async function loadGeojson(map, geojson, id) {
 }
 
 function removeGeojson(map, geoJson) {
-  if (geoJson) {
+  if (map.getSource(geoJson.source.id)) {
     map.removeLayer(geoJson.fill.id);
     map.removeLayer(geoJson.outline.id);
     map.removeSource(geoJson.source.id);
   }
+  geoJson = {source:{id:false}}
 }
 
 // ADD DEM TERRAIN 🏔️
@@ -596,12 +595,6 @@ function loadOSM(map, opacity = 0.9) {
     },
     labelLayerId
   );
-}
-
-function deleteChildren(parent) {
-  while (parent.children.length > 0) {
-    parent.remove(parent.children[0]);
-  }
 }
 
 // Raycasting
@@ -704,4 +697,32 @@ function getGeojson(id, url, map, geoJson) {
     geoJson.outline = map.getLayer(`${id}-geoJson-outline`);
   });
   return geoJson;
+}
+
+function loadBldsGltf(site) {
+  const gltfloader = new GLTFLoader();
+  let buildings = site.buildings;
+  let buildingGltf;
+  let loadingContainer = document.getElementById("loader-container")
+  let progressText = document.getElementById("progress-text")
+  const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
+  categories.forEach((category) => {
+    for (const id in buildings) {
+      let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+      gltfloader.load(gltfPath, (gltf) => {
+        buildingGltf = gltf.scene;
+        buildingGltf.name = `${id}-${category}`;
+        scene.add(buildingGltf);
+        loadingContainer.style.display = "none";
+      },
+      (progress) => {
+        loadingContainer.style.display = "flex";
+        progressText.textContent = `Loading ${site.name}'s buildings`;
+      },
+      (error) => {
+        return
+        // console.log(error);
+      });
+    }
+  });
 }

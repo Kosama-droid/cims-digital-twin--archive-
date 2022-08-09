@@ -140,3 +140,10 @@ export function labeling(scene, collisionLocation, user = "User") {
         container.onmouseenter = () => deleteButton.classList.remove("hidden");
         container.onmouseleave = () => deleteButton.classList.add("hidden");
       }
+
+      
+export function deleteChildren(parent) {
+  while (parent.children.length > 0) {
+    parent.remove(parent.children[0]);
+  }
+}
