@@ -79,6 +79,7 @@ export const canada = {
     },
     cities: {
       Ottawa: {
+        name: "Ottawa", 
         sites: {
           CU: {
             name: "Carleton University",
@@ -375,6 +376,7 @@ export const canada = {
         },
       },
       Toronto: {
+        name: "Toronto",
         sites: {
           DA: {
             name: "Downsview Airport",
@@ -391,13 +393,14 @@ export const canada = {
                 name: "Admin Building",
                 ifcFileName: "da-admin_shell.ifc",
               },
-              bay7_10: {
+              b7_10: {
                 name: "Bays 7 to 10",
                 ifcFileName: "da-bay_7-10_shell.ifc",
               },
-              bay11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
-              bay12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
+              b11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
+              b12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
             },
+            gltfPath: "../assets/downsview/glb/ON_Toronto_da_",
           },
         },
       },

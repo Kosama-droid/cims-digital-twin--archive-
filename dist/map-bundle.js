@@ -79,6 +79,7 @@ const canada = {
     },
     cities: {
       Ottawa: {
+        name: "Ottawa", 
         sites: {
           CU: {
             name: "Carleton University",
@@ -375,6 +376,7 @@ const canada = {
         },
       },
       Toronto: {
+        name: "Toronto",
         sites: {
           DA: {
             name: "Downsview Airport",
@@ -391,13 +393,14 @@ const canada = {
                 name: "Admin Building",
                 ifcFileName: "da-admin_shell.ifc",
               },
-              bay7_10: {
+              b7_10: {
                 name: "Bays 7 to 10",
                 ifcFileName: "da-bay_7-10_shell.ifc",
               },
-              bay11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
-              bay12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
+              b11: { name: "Bay 11", ifcFileName: "da-bay_11_shell.ifc" },
+              b12: { name: "Bay 12", ifcFileName: "da-bay_12_shell.ifc" },
             },
+            gltfPath: "../assets/downsview/glb/ON_Toronto_da_",
           },
         },
       },
@@ -105862,9 +105865,7 @@ function osmVisibility(map, toggle) {
 // Go To Site 🛬___________________________________________________
 const goTo = document.getElementById("go-to");
 
-let toggleGoTo = true;
 goTo.onclick = function () {
-  if (toggleGoTo) {
     // Building select menu 🏢 _______________________________________________________
     let buildings = carleton.buildings;
     const buildingSelector = document.getElementById("building-select");
@@ -105875,10 +105876,8 @@ goTo.onclick = function () {
       isolateSelector(toolbar, "");
       openBimViewer(id);
     });
-    // createBuildingSelector(building, buildingsNames, listedBuildings);
     isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "go-to", "osm");
-    this.setAttribute("title", "Go to Canada");
+    isolateSelector(toolbar, "canada", "go-to", "osm");
     document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
 
     if (document.getElementById("lng").value !== "") {
@@ -105897,18 +105896,17 @@ goTo.onclick = function () {
       map.removeLayer("geoJson-outline");
       map.removeSource("geoJson");
     }
-  } else {
-    // Fly to Canada or reset page🛬🍁 ____________________________________________________
-    deleteChildren(scene);
+    headerMessage("Double click buildings to open BIM viewer");
+};
+// Fly to Canada or reset page🛬🍁 ____________________________________________________
+document.getElementById('canada').addEventListener('click', () =>{
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.setStyle(mapStyles[1].url);
+    isolateSelector(toolbar, "go-to", "coordinates");
     setTimeout(function () {
       location.reload();
-    }, 2100);
-  }
-  toggleGoTo = !toggleGoTo;
-  headerMessage("Double click buildings to open BIM viewer");
-};
+    }, 2000);
+});
 
 // Navigate Canada 🍁 _________________________________________________________
 let provinceSelector = document.getElementById("province-select");
@@ -105920,6 +105918,7 @@ provinceSelector.addEventListener("change", (event) => {
   geoJson = getGeojson(province, url, map, geoJson);
   getCities(code);
   isolateSelector(selectors, "province-select", "city-select", "style-select");
+  isolateSelector(toolbar, "canada", "go-to", "coordinates");
   document.getElementById("city-select").addEventListener("change", (event) => {
     let cityName = event.target[event.target.selectedIndex].id;
     city = canada[province].cities[cityName]
@@ -105965,7 +105964,6 @@ provinceSelector.addEventListener("change", (event) => {
           selectors,
           "site-select",
           "building-select",
-          "style-select"
         );
         let buildingSelector = document.getElementById("building-select");
         createOptions(buildingSelector, buildings);
@@ -106042,9 +106040,19 @@ const customLayer = {
       }
     });
 
-    let site = canada.ON.cities.Ottawa.sites.CU;
-
-    loadBldsGltf(site);
+    let siteSelector = document.getElementById("site-select");
+    siteSelector.addEventListener("change", (event) => {
+      id = event.target[event.target.selectedIndex].id;
+      console.log(province);
+      console.log(city.name);
+      let sites = canada[province].cities[city.name].sites;
+      site = sites[id];
+      lng.current = site.coordinates.lng;
+      lat.current = site.coordinates.lat;
+      msl.current = site.coordinates.msl;
+      console.log("inside map", site);
+      loadBldsGltf(site);
+    });
 
     function loadBldsGltf(site) {
       let buildings = site.buildings;
@@ -106187,7 +106195,7 @@ map.on("dblclick", () => {
 });
 document.getElementById("close-bim-viewer").addEventListener("click", () => {
   isolateSelector(selectors, "building-select");
-  isolateSelector(toolbar, "go-to", "osm");
+  isolateSelector(toolbar, "canada", "go-to", "osm");
   document.getElementById("bim-viewer").remove();
   document.getElementById("close-bim-viewer").classList.add("hidden");
 });
@@ -106302,12 +106310,6 @@ function loadOSM(map, opacity = 0.9) {
     },
     labelLayerId
   );
-}
-
-function deleteChildren(parent) {
-  while (parent.children.length > 0) {
-    parent.remove(parent.children[0]);
-  }
 }
 
 // Raycasting
