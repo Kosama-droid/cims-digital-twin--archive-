@@ -1,22 +1,41 @@
+import canada from "../static/data/canada.js";
 import { Color, LineBasicMaterial, MeshBasicMaterial } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
-import { buildingsNames, ifcFileName, IfcPath } from "../static/data/cdc-data.js";
+
 import {
-  updateSelectBldgMenu,
-  createBuildingSelector,
   closeNavBar,
+  selectedButton,
   toggleVisibility,
   hoverHighlihgtMateral,
   pickHighlihgtMateral,
   labeling,
-} from "../modules/twin.js";
+  createOptions,
+  sortChildren,
+} from "../modules/cims-dt-api"
+
+import {
+  IFCWALL,
+  IFCWALLSTANDARDCASE,
+  IFCSLAB,
+  IFCWINDOW,
+  IFCMEMBER,
+  IFCPLATE,
+  IFCCURTAINWALL,
+  IFCDOOR,
+  IFCROOF,
+} from "web-ifc";
 
 import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
 const currentURL = window.location.href;
 const url = new URL(currentURL);
-const currentModelId = url.searchParams.get("id");
+const currentModelCode = url.searchParams.get("id");
+let codes = currentModelCode.split("/");
+let province = {term: codes[0]};
+let city = {name: codes[1]};
+let site = {id: codes[2]};
+let building = {id:codes[3]};
 const toggle = {};
 
 // Get user
@@ -28,28 +47,35 @@ document
     () => (currentUser = document.getElementById("user").value)
   );
 
-const building = {
-  current: { currentModelId },
-  ifcFile: {},
-  listed: {},
-  loaded: {},
-};
-
-option.innerHTML = buildingsNames[currentModelId];
-const listedBuildings = document.getElementById("listed-buildings");
-createBuildingSelector(building, buildingsNames, listedBuildings);
-updateSelectBldgMenu(building, currentModelId);
+site = canada.provinces[province.term].cities[city.name].sites[site.id];
+let buildings = site.buildings;
+building.name = buildings[building.id].name;
+const buildingSelector = document.getElementById("building-select");
+createOptions(buildingSelector, buildings);
 
 document
   .getElementById("building-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex].id;
-    let newURL = currentURL.slice(0, -2) + selectedOption;
+    let previosBuildingId = currentURL.split('/').slice(-1)[0];
+    let len = -previosBuildingId.length
+    let newURL = currentURL.slice(0, len) + selectedOption
     location.href = newURL;
   });
 closeNavBar();
 
 const container = document.getElementById("viewer-container");
+
+// Layers 🍰
+const layerButton = document.getElementById("layers");
+let layersToggle = true;
+layerButton.onclick = () => {
+  layersToggle = !layersToggle;
+  selectedButton(layerButton, layersToggle);
+  layersToggle ?
+  document.getElementById('toolbar').classList.remove('hidden') :
+  document.getElementById('toolbar').classList.add('hidden')
+};
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
@@ -76,9 +102,10 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[currentModelId]}`;
+// const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[building.id]}`;
+let ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
+building.ifcURL = ifcURL
 let model;
-const ifcModels = [];
 
 loadIfc(ifcURL);
 
@@ -100,18 +127,14 @@ async function loadIfc(ifcURL) {
     true,
     (progress) => {
       loadingContainer.style.display = "flex";
-      progressText.textContent = `Loading ${
-        buildingsNames[currentModelId]
-      }: ${Math.round((progress.loaded * 100) / progress.total)}%`;
+      progressText.textContent = `Loading ${building.name}: ${Math.round((progress.loaded * 100) / progress.total)}%`;
     },
     (error) => {
-      console.log(error);
+      return
     }
   );
 
-  const rawProperties = await fetch(
-    `../assets/carleton/json/ON_Ottawa_CDC_${currentModelId}_properties.json`
-  );
+  const rawProperties = await fetch( `${site.jsonPropertiesPath}${building.id}_properties.json`);
   properties = await rawProperties.json();
 
   // Get project tree 🌳
@@ -159,7 +182,6 @@ async function loadIfc(ifcURL) {
 
   for (const plan of allPlans) {
     const currentPlan = viewer.plans.planLists[model.modelID][plan];
-    if (currentPlan.name.includes("LV")) {
       const planButton = document.createElement("button");
       planButton.classList.add("levels");
       plansContainer.appendChild(planButton);
@@ -170,7 +192,6 @@ async function loadIfc(ifcURL) {
         togglePostproduction(false);
         toggleShadow(false);
       };
-    }
   }
 
     viewer.shadowDropper.renderShadow(model.modelID);
@@ -218,9 +239,7 @@ clippingButton.onclick = () => {
   let visibility = toggle.clipping ? "Hide" : "Show";
   let button = document.getElementById("clipping");
   button.setAttribute("title", `${visibility} ${button.id}`);
-  toggle.clipping
-    ? button.classList.add("selected-button")
-    : button.classList.remove("selected-button");
+  selectedButton(button, toggle.clipping)
 };
 
 // Click → Dimensions
@@ -233,6 +252,11 @@ window.onclick = () => {
 
 // Keybord ⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️
 window.onkeydown = (event) => {
+  const keyName = event.key;
+  if (keyName === "e") {
+    console.log('export:', building)
+    preposcessIfc(building)
+  }
   if (event.code === "Escape") {
     viewer.IFC.selector.unpickIfcItems();
     viewer.IFC.selector.unHighlightIfcItems();
@@ -261,14 +285,15 @@ viewer.IFC.selector.selection.material = pickHighlihgtMateral;
 
 window.ondblclick = async () => {
   const result = await viewer.IFC.selector.pickIfcItem(false);
+    // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
+  if (toggle.clipping) {
+    viewer.clipper.createPlane();
+    return
+  }
   if (result) {
     const foundProperties = properties[result.id];
     const psets = getPropertySets(foundProperties);
     createPropsMenu(psets);
-  }
-  // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
-  if (toggle.clipping) {
-    viewer.clipper.createPlane();
   }
 };
 
@@ -489,4 +514,46 @@ function toggleShadow(active) {
 
 function togglePostproduction(active) {
   viewer.context.renderer.postProduction.active = active;
+}
+
+async function preposcessIfc(building) {
+  let url = building.ifcURL
+  let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
+  // Export to glTF and JSON
+  const result = await viewer.GLTF.exportIfcFileAsGltf({
+    ifcFileUrl: url,
+    splitByFloors: false,
+    categories: {
+      walls: [IFCWALL, IFCWALLSTANDARDCASE],
+      slabs: [IFCSLAB],
+      windows: [IFCWINDOW],
+      curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL],
+      doors: [IFCDOOR],
+      roofs:[IFCROOF],
+    },
+    getProperties: true,
+  });
+  console.log(result)
+
+  // Download result
+  let link = document.createElement("a");
+  document.body.appendChild(link);
+
+  for (const categoryName in result.gltf) {
+    const category = result.gltf[categoryName];
+      const file = category.file;
+      if (file) {
+        link.download = `${fileRoute}${categoryName}_allFloors.gltf`;
+        link.href = URL.createObjectURL(file);
+        link.click();
+      }
+  }
+
+  for (let jsonFile of result.json) {
+    link.download = `${fileRoute}${jsonFile.name}`;
+    link.href = URL.createObjectURL(jsonFile);
+    link.click();
+  }
+
+    link.remove();
 }

@@ -18,27 +18,27 @@
     <a href="http://cims.carleton.ca/#/home"><img src="../static/logos/cims-logo-black.png" alt="CIMSlab"
         title="Go to CIMS lab Page" height="55px" />
     </a>
-    <h3 id="model-title">CIMS | Digital Twin</h3>
+    <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
+    <a href="https://canadasdigitaltwin.ca/"><img src="../static/logos/icdt-logo.png" alt="CIMSlab"
+      title="Imagine Canada's Digital Twin" height="55px" />
+  </a>
   </header>
   <nav class="nav-bar transp1-background" id="nav-bar">
     <div id="selectors">
       <select id="style-select" class="button transp1-background select">
-        <option class="option" value="none" selected disabled hidden>-- select map style --</option>
+        <option class="option" value="none">-- select map style --</option>
       </select>
       <select id="province-select" class="button transp1-background select">
-        <option class="option" value="none" selected disabled hidden>-- select a Province or Territory --</option>
+        <option class="option" value="none">-- select a Province or Territory --</option>
       </select>
       <select id="city-select" class="button transp1-background select">
-        <option class="option" value="none" selected disabled hidden>-- select a City --</option>
+        <option class="option" value="none">-- select a City --</option>
       </select>
       <select id="site-select" class="button transp1-background select">
-        <option class="option" value="none" selected disabled hidden>-- select a Site --</option>
+        <option class="option" value="none">-- select a Site --</option>
       </select>
       <select id="building-select" class="button transp1-background select">
-        <option class="option" value="none" selected disabled hidden>-- select a Building --</option>
-        <optgroup label="Loaded buildings" id="loaded-buildings">
-        </optgroup>
-        <optgroup label="Available buildings" id="listed-buildings" class="unloaded"></optgroup>
+        <option class="option" value="none">-- select a Building --</option>
       </select>
     </div>
     <div id="loader-container">
@@ -53,17 +53,31 @@
     </a>
     <a id="close-bim-viewer" title="Close BIM viewer" class="hidden">
       <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" fill-rule="nonzero"/>
+        <path
+          d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+          fill-rule="nonzero" />
       </svg>
     </a>
     <div class="bim-container" id="bim-container">
-  </div>
+    </div>
   </nav>
-  <div class="toolbar-container bottom">
-    <div class="toolbar" id="toolbar">
+  <nav class="toolbar-container bottom">
+    <div id="toolbar-left-button">
       <a class="button transp1-background circular" id="canada" title="Go to Canada">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1860 -2000 3720 4030">
-          <path d="m-90 2030 45-863a95 95 0 0 0-111-98l-859 151 116-320a65 65 0 0 0-20-73l-941-762 212-99a65 65 0 0 0 34-79l-186-572 542 115a65 65 0 0 0 73-38l105-247 423 454a65 65 0 0 0 111-57l-204-1052 327 189a65 65 0 0 0 91-27l332-652 332 652a65 65 0 0 0 91 27l327-189-204 1052a65 65 0 0 0 111 57l423-454 105 247a65 65 0 0 0 73 38l542-115-186 572a65 65 0 0 0 34 79l212 99-941 762a65 65 0 0 0-20 73l116 320-859-151a95 95 0 0 0-111 98l45 863z"/>
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.000000 180.000000" preserveAspectRatio="xMidYMid meet">
+          <g transform="translate(0.000000,180.000000) scale(0.100000,-0.100000)">
+          <path d="M911 1615 c-52 -91 -98 -165 -103 -165 -5 0 -40 16 -78 35 -38 19 -72 35 -75 35 -10 0 -5 -39 35 -249 22 -117 40 -227 40 -245 0 -35 -20 -60 -42 -54 -8 2 -65 58 -127 126 -63 67 -116 122 -120 122 -3 0 -15 -29 -25 -65 -10 -36 -22 -67 -25 -69 -4 -3 -68 7 -144 22 -75 14 -139 23 -143 20 -5 -5 30 -154 72 -303 4 -17 -5 -26 -55 -50 -34 -16 -61 -32 -61 -36 0 -5 102 -90 227 -190 126 -100 232 -193 238 -206 6 -17 4 -42 -8 -87 -9 -36 -17 -67 -17 -70 0 -3 91 -6 203 -6 l202 -1 50 -74 c27 -41 52 -75 55 -75 3 0 30 34 59 76 l53 76 205 -7 c197 -7 205 -7 199 11 -38 124 -47 156 -44 159 2 2 111 89 243 195 132 105 241 195 242 198 1 4 -25 20 -57 37 -35 17 -60 36 -60 45 0 8 18 82 40 164 22 83 38 151 36 153 -1 2 -62 -9 -135 -23 -73 -14 -140 -24 -148 -22 -9 2 -24 30 -35 68 -11 36 -22 67 -24 69 -2 2 -56 -43 -120 -99 -157 -139 -174 -153 -179 -148 -3 2 18 123 45 268 28 145 48 266 45 269 -3 2 -42 -13 -86 -34 -67 -33 -82 -37 -89 -25 -6 8 -49 84 -97 168 -48 83 -89 152 -92 152 -3 0 -48 -74 -100 -165z"/>
+          </g>
+          </svg>
+      </a>
+    </div>
+    <div class="toolbar" id="toolbar">
+      <input id="lng" type="number" name="Longitud" autocomplete="off" class="input" placeholder="LNG" value="">
+      <input id="lat" type="number" name="Latitude" autocomplete="off" class="input" placeholder="LAT" value="">
+      <a class="button transp1-background circular" id="go-to" title="Go to site">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path id="go-to-icon"
+            d="M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z" />
         </svg>
       </a>
       <a class="button transp1-background circular" id="osm" title="Show OSM buildings">
@@ -72,30 +86,42 @@
             d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
         </svg>
       </a>
-      <a id="coordinates">
-      <input id="lng" type="number" name="Longitud" autocomplete="off" class="input" placeholder="LNG" value="">
-      <input id="lat" type="number" name="Latitude" autocomplete="off" class="input" placeholder="LAT" value="">
-      </a>
-      <a class="button transp1-background circular" id="go-to" title="Go to site">
+      <a class="button transp1-background circular" id="trees" title="Show trees">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path id="go-to-icon"
-            d="M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z" />
+          <path
+            d="M13 24h-2v-4.829c-.695-.173-1.413-.502-1.951-.895-.5.15-1.019.225-1.549.225-3.033 0-5.5-2.505-5.5-5.584 0-1.283.421-2.494 1.197-3.477-.195-.496-.297-1.025-.297-1.565 0-2.025 1.403-3.721 3.298-4.12 1.042-2.27 3.301-3.755 5.802-3.755 2.501 0 4.761 1.485 5.803 3.756 1.894.398 3.297 2.094 3.297 4.119 0 .54-.102 1.07-.296 1.565.776.983 1.196 2.193 1.196 3.477 0 3.079-2.468 5.584-5.5 5.584-.528 0-1.046-.075-1.545-.224-.518.387-1.224.734-1.955.908v4.815zm-3.45-8.081c.948 1.371 2.191 1.384 2.506 1.384.341 0 1.567-.075 2.395-1.384.701.416 2.891 1.161 4.494-.438 1.389-1.392 1.615-4.14-.617-5.726 1.118-1.212.803-2.311.567-2.824-.343-.748-1.085-1.334-2.524-1.293-.416-1.98-2.462-3.638-4.371-3.638-1.894 0-3.986 1.616-4.37 3.638-1.245-.028-2.052.523-2.368 1.007-.325.5-.667 1.812.41 3.11-2.188 1.862-1.99 4.352-.616 5.726 1.866 1.864 4.011.648 4.494.438z" />
+        </svg>
+      </a>
+      <a class="button transp1-background circular" id="bus-stops" title="Show bus stops">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M6 24h-2c-.552 0-1-.448-1-1v-1c-.53 0-1.039-.211-1.414-.586s-.586-.884-.586-1.414v-8c-.552 0-1-.448-1-1v-3c0-.552.448-1 1-1v-4c0-1.657 1.343-3 3-3h16c1.657 0 3 1.343 3 3v4c.552 0 1 .448 1 1v3c0 .552-.448 1-1 1v8c0 .53-.211 1.039-.586 1.414s-.884.586-1.414.586v1c0 .552-.448 1-1 1h-2c-.552 0-1-.448-1-1v-1h-10v1c0 .552-.448 1-1 1zm-1.5-7c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm15 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm-5 1h-5c-.276 0-.5.224-.5.5s.224.5.5.5h5c.276 0 .5-.224.5-.5s-.224-.5-.5-.5zm6.5-12.5c0-.276-.224-.5-.5-.5h-17c-.276 0-.5.224-.5.5v8.5s3.098 1 9 1 9-1 9-1v-8.5zm-5-3.5h-8v1h8v-1z" />
         </svg>
       </a>
     </div>
-  </div>
-  <div id="full-screen-flex-container">
-    <a id="message" class="centre transp1-background circular hidden"></a>
-  </div>
-  <div class="hide-overflow canvas">
-    <div id='map' style='width: 100vw; height: 100vh;'></div>
-  </div>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+      <div id="layers-container">
+        <a class="button transp1-background circular selected-button layers" id="layers" title="Hide layers">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M21.698 10.658l2.302 1.342-12.002 7-11.998-7 2.301-1.342 9.697 5.658 9.7-5.658zm-9.7 10.657l-9.697-5.658-2.301 1.343 11.998 7 12.002-7-2.302-1.342-9.7 5.657zm0-19l8.032 4.685-8.032 4.685-8.029-4.685 8.029-4.685zm0-2.315l-11.998 7 11.998 7 12.002-7-12.002-7z" />
+          </svg>
+        </a>
+      </div>
+    </nav>
+    
+    </nav>
+    <div id="full-screen-flex-container">
+      <a id="message" class="centre transp1-background circular hidden"></a>
+    </div>
+    <div class="hide-overflow canvas">
+      <div id='map' style='width: 100vw; height: 100vh;'></div>
+    </div>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
-  <script src="../dist/map-bundle.js"></script>
-  
+    <script src="../dist/map-bundle.js"></script>
+
 </body>
 
 </html>

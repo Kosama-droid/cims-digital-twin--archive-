@@ -16,11 +16,8 @@
 <body class="hide-overflow">
   <nav class="nav-bar transp1-background" id="nav-bar">
     <div id="selectors" class="select-visible">
-      <select id="building-select" class="button transp1-background select-visible">
-        <option class="option" value="none" id="option" selected disabled hidden></option>
-        <optgroup label="Loaded buildings" id="loaded-buildings">
-        </optgroup>
-        <optgroup label="Available buildings" id="listed-buildings" class="unloaded"></optgroup>
+      <select id="building-select" class="button transp1-background select">
+        <option class="option" value="none" selected disabled hidden>-- select a Building --</option>
       </select>
     </div>
     <a class="info button toolbar">
@@ -38,6 +35,7 @@
     </a>
   </nav>
   <div class="toolbar-container bottom">
+    <div style="min-width: 62.77px;"></div>
     <div class="toolbar" id="toolbar">
       <a id="project-tree" class="button transp1-background circular" title="Show project tree">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 21c0 1.657-1.344 3-3 3-1.657 0-3-1.343-3-3s1.343-3 3-3c1.656 0 3 1.343 3 3zm6-3c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm0-18c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm9 18c-1.656 0-3 1.343-3 3s1.344 3 3 3 3-1.343 3-3-1.344-3-3-3zm-1.577-1.721l-6.423-5.028v-3.352c-.323.066-.658.101-1 .101s-.677-.035-1-.101v3.352l-6.423 5.028c.694.233 1.323.602 1.844 1.093l5.579-4.372 5.579 4.373c.522-.492 1.15-.861 1.844-1.094z"/></svg>
@@ -74,6 +72,14 @@
         </svg>
       </a>
       <!-- <a id="gltf" class="button transp1-background circular" title="GLTF"></a> -->
+    </div>
+    <div id="toolbar-right-button">
+      <a class="button transp1-background circular selected-button" id="layers" title="Hide layers">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M21.698 10.658l2.302 1.342-12.002 7-11.998-7 2.301-1.342 9.697 5.658 9.7-5.658zm-9.7 10.657l-9.697-5.658-2.301 1.343 11.998 7 12.002-7-2.302-1.342-9.7 5.657zm0-19l8.032 4.685-8.032 4.685-8.029-4.685 8.029-4.685zm0-2.315l-11.998 7 11.998 7 12.002-7-12.002-7z" />
+        </svg>
+      </a>
     </div>
   </div>
 

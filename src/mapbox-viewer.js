@@ -1,221 +1,194 @@
-import { canada } from "../static/data/canada.js";
-import { icons } from "../static/icons.js";
+import canada from "../static/data/canada.js";
 import { mapStyles } from "../static/map-styles.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   AmbientLight,
   DirectionalLight,
   Scene,
+  Group,
   PerspectiveCamera,
   WebGLRenderer,
   Matrix4,
-  Vector2,
   Vector3,
   Vector4,
   AxesHelper,
-  MathUtils,
-  GridHelper,
   Raycaster,
-  CSS2DObject,
-  MeshLambertMaterial,
-  MeshStandardMaterial,
-  MeshBasicMaterial,
-  DoubleSide,
-  FrontSide,
 } from "three";
 
 // import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
-import { sortChildren, isolateSelector, closeNavBar} from "../modules/twin.js";
+import {
+getJson,
+sortChildren,
+isolateSelector, 
+hideElementsById,
+closeNavBar,
+selectedButton,
+unhideElementsById,
+highlightMaterial,
+createOptions
+} from "../modules/cims-dt-api"
+
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
 
-isolateSelector(selectors, "province-select", "style-select");
-isolateSelector(toolbar, "go-to", "coordinates");
+hideElementsById(
+  "city-select",
+  "site-select",
+  "building-select",
+  "osm",
+  "trees",
+  "bus-stops"
+);
 
-let scene, map, camera, renderer, raycaster, gltfMasses;
-let province, city, site;
+let scene,
+  map,
+  three,
+  camera,
+  renderer,
+  raycaster,
+  intersections,
+  gltfMasses,
+  sites,
+  siteMarkers;
 
 // Favourite sites ⭐⭐⭐⭐⭐⭐⭐
-let carleton = canada.provinces.ON.cities.Ottawa.sites.CU;
+let carleton = canada.provinces.ON.cities.Ottawa.sites.CDC;
+let parliament = canada.provinces.ON.cities.Ottawa.sites.PB;
 let downsview = canada.provinces.ON.cities.Toronto.sites.DA;
 let def = carleton;
+
+let province = { term: "ON" };
+let city = { name: "Ottawa" };
+let site = { id: "CDC" };
+let building = { id: "VS" };
+
+// Selectors 🧲
+const buildingSelector = document.getElementById("building-select");
+
+// Layers 🍰
+const layerButton = document.getElementById("layers");
+let layersToggle = true;
+layerButton.onclick = () => {
+  layersToggle = !layersToggle;
+  selectedButton(layerButton, layersToggle);
+  layersToggle
+    ? document.getElementById("toolbar").classList.remove("hidden")
+    : document.getElementById("toolbar").classList.add("hidden");
+};
+
+// Buses 🚍
+const busStopButton = document.getElementById("bus-stops");
+let busStopToggle = false;
+toggleCustomLayer(
+  busStopButton,
+  busStopToggle,
+  "busStops"
+);
+
+// Trees 🌳
+const treesButton = document.getElementById("trees");
+let treesToggle = false;
+toggleCustomLayer(
+  treesButton,
+  treesToggle,
+  "trees"
+);
+
+// Set model oringin from WGS coordinates to Three (0,0,0)
+let modelOrigin,
+  modelAltitude,
+  modelRotate,
+  modelAsMercatorCoordinate,
+  modelTransform;
+setModelOrigin(def);
 
 let previousSelection = {
   mesh: null,
   material: null,
 };
 
-const highlightMaterial = new MeshBasicMaterial({
-  color: 0xcccc70,
-  flatShading: true,
-  side: DoubleSide,
-  transparent: true,
-  opacity: 0.9,
-  depthTest: false,
-});
-
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-let geoJson = { source: { id: false } };
-const masses = [];
-
+let locGeojason = { source: { id: false } };
+let masses = [];
 let lng = { canada: canada.lng, current: def.coordinates.lng },
-  lat = { canada: canada.lat, current: def.coordinates.lat },
-  msl = { canada: 0, current: def.coordinates.msl };
+  lat = { canada: canada.lat, current: def.coordinates.lat };
+
 closeNavBar();
 
-// MAPBOX 🗺️📦 _________________________________________________________________________________________
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
-map = new mapboxgl.Map({
-  container: "map", // container ID
-  style: mapStyles[1].url,
-  center: [lng.canada, lat.canada], // starting position [lng, lat]
-  zoom: 4, // starting zoom
-  pitch: 0,
-  antialias: true,
-  doubleClickZoom: false,
-  projection: "globe", // display the map as a 3D globe
-});
-map.fitBounds(canada.bbox);
-// Day sky
-map.on("style.load", () => {
-  // Set the default atmosphere style
-  // add sky styling with `setFog` that will show when the map is highly pitched
-  map.setFog({
-    "horizon-blend": 0.3,
-    color: "#f8f0e3",
-    "high-color": "#add8e6",
-    "space-color": "#d8f2ff",
-    "star-intensity": 0.0,
-  });
-  addTerrain(map);
-  osmVisibility(map, toggleOSM);
-});
+// Setting Mapbox 🗺️📦
+mapbox()
 
+// Open Street Map buildings 🏢🏢🏢
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
 
-// Select map style 🗺️🎨 ___________________________________________________
-const styleNames = [];
+// Select map style 🗺️🎨 
 const styleSelect = document.getElementById("style-select");
-mapStyles.forEach((style) => {
-  styleNames.push(style.name);
-});
-mapStyles.forEach((mapStyle) => {
-  let option = document.createElement("option");
-  option.innerHTML = mapStyle.name;
-  styleSelect.appendChild(option);
-});
-sortChildren(styleSelect);
-styleSelect.addEventListener("change", function () {
-  const selectedStyle = styleNames.indexOf(this.value);
-  const url = mapStyles[selectedStyle].url;
+createOptions(styleSelect, mapStyles)
+styleSelect.addEventListener("change", function (event) {
+  let style = event.target[event.target.selectedIndex].id;
+  const url = mapStyles[style].url;
   map.setStyle(url);
-  map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-  osmVisibility(map, toggleOSM);
+  event.target.selectedIndex = 0;
 });
 
-// Navigate Canada 🍁 _________________________________________________________
+// Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
 // Province ➡️________________
 let provinceSelector = document.getElementById("province-select");
 createOptions(provinceSelector, canada.provinces);
 provinceSelector.addEventListener("change", (event) => {
-  province = event.target[event.target.selectedIndex].id;
-  let code = canada.provinces[province].code;
-  let concise = canada.provinces[province].concise;
-  let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${concise}&province=${code}`;
-  geoJson = getGeojson(province, url, map, geoJson);
-  getCities(code);
-  isolateSelector(selectors, "province-select", "city-select", "style-select");
-  isolateSelector(toolbar, "canada", "go-to", "coordinates");
-
-  // City ➡️________________
-  document.getElementById("city-select").addEventListener("change", (event) => {
-    let cityName = event.target[event.target.selectedIndex].id;
-    city = canada.provinces[province].cities[cityName]
-      ? canada.provinces[province].cities[cityName]
-      : cityName;
-    url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${code}`;
-    geoJson = getGeojson(cityName, url, map, geoJson);
-    if (!city.hasOwnProperty("sites")) {
-      infoMessage(`⚠️ No sites at ${cityName}`);
-      isolateSelector(
-        selectors,
-        "province-select",
-        "city-select",
-        "style-select"
-      );
-    }
-     else {
-      // Site ➡️________________
-      let sites = city.sites;
-      isolateSelector(selectors, "city-select", "site-select", "style-select");
-      let siteSelector = document.getElementById("site-select");
-      createOptions(siteSelector, sites);
-      siteSelector.addEventListener("change", (event) => {
-        isolateSelector(toolbar, "canada", "osm");
-        sites = city.sites;
-        removeGeojson(map, geoJson);
-        id = event.target[event.target.selectedIndex].id;
-        site = sites[id];
-        lng.current = site.coordinates.lng;
-        lat.current = site.coordinates.lat;
-        msl.current = site.coordinates.msl;
-        let zoom = site.coordinates.zoom;
-        flyTo(map, lng.current, lat.current, zoom);
-        infoMessage("Double click buildings to open BIM viewer")
-
-        if (!site.hasOwnProperty("buildings")) {
-          infoMessage(`⚠️ No buildings at ${site.name}`);
-          isolateSelector(selectors, "site-select", "style-select");
-          if(site.hasOwnProperty("gltfMasses")){
-            loadMasses(masses, site.gltfMasses.url, true, site.gltfMasses.position.x, site.gltfMasses.position.y, site.gltfMasses.position.z)
-          }
-        } else {
-          let buildings = site.buildings;
-          isolateSelector(selectors, "site-select", "building-select");
-
-          // Building ➡️________________
-          let buildingSelector = document.getElementById("building-select");
-          createOptions(buildingSelector, buildings);
-          selectBuilding(buildingSelector)
-        }
-      });
-    }
-  });
+  removeMarker(siteMarkers);
+  let term = event.target[event.target.selectedIndex].id;
+  province = canada.provinces[term];
+  let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
+  locGeojason = getGeojson(province, url, map, locGeojason);
+  getCities(province.code);
+  unhideElementsById("city-select");
+  event.target.selectedIndex = 0;
+});
+// City ➡️________________
+document.getElementById("city-select").addEventListener("change", (event) => {
+  removeMarker(siteMarkers);
+  let cityName = event.target[event.target.selectedIndex].id;
+  city = canada.provinces[province.term].cities[cityName];
+  if (!city) city = { name: cityName };
+  url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
+  locGeojason = getGeojson(cityName, url, map, locGeojason);
+  if (!city.hasOwnProperty("sites")) {
+    unhideElementsById("province-select");
+    infoMessage(`⚠️ No sites at ${cityName}`);
+  } else {
+    hideElementsById("province-select", "building-select");
+    unhideElementsById("site-select");
+    sites = city.sites;
+    siteMarkers = siteMarker(sites);
+    createOptions(siteSelector, sites);
+  }
+  event.target.selectedIndex = 0;
 });
 
-// transformOrigin(lng.current, lat.current, msl.current, modelRotate, modelAsMercatorCoordinate);
-
-const modelOrigin = [lng.current, lat.current];
-const modelAltitude = msl.current;
-const modelRotate = [Math.PI / 2, 0, 0];
-const modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
-  modelOrigin,
-  modelAltitude
-);
-
-const modelTransform = {
-  translateX: modelAsMercatorCoordinate.x,
-  translateY: modelAsMercatorCoordinate.y,
-  translateZ: modelAsMercatorCoordinate.z,
-  rotateX: modelRotate[0],
-  rotateY: modelRotate[1],
-  rotateZ: modelRotate[2],
-  /* Since the 3D model is in real world meters, a scale transform needs to be
-  applied since the CustomLayerInterface expects units in MercatorCoordinates.*/
-  scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
-};
+// Site ➡️________________
+let siteSelector = document.getElementById("site-select");
+createOptions(siteSelector, sites);
+siteSelector.addEventListener("change", (event) => {
+  sites = city.sites;
+  removeMarker(siteMarkers);
+  removeGeojson(locGeojason);
+  id = event.target[event.target.selectedIndex].id;
+  site = sites[id];
+  setSite(site, province.term, city.name);
+  event.target.selectedIndex = 0;
+});
 
 // THREE JS 3️⃣  ________________________________________________________________________
 // configuration of the custom layer for a 3D models per the CustomLayerInterface
 const customLayer = {
-  id: "3d-models",
+  id: "three-scene",
   type: "custom",
   renderingMode: "3d",
   onAdd: function (map, gl) {
@@ -228,72 +201,11 @@ const customLayer = {
 
     // Go To Site 🛬__________________________________________________
     const goToButton = document.getElementById("go-to");
-    goTo(def, goToButton);
-    loadMasses(masses, carleton.gltfMasses.url, false)
-
-    let siteSelector = document.getElementById("site-select");
-    siteSelector.addEventListener("change", (event) => {
-      id = event.target[event.target.selectedIndex].id;
-      let sites = canada.provinces[province].cities[city.name].sites;
-      site = sites[id];
-      lng.current = site.coordinates.lng;
-      lat.current = site.coordinates.lat;
-      msl.current = site.coordinates.msl;
-      loadBldsGltf(site);
+    goToButton.addEventListener("click", () => {
+      goTo(def);
     });
-
-    document.addEventListener("keydown", (event) => {
-      const keyName = event.key;
-      let buildingSelector = document.getElementById("building-select");
-      if (keyName === "c") {
-        loadBldsGltf(carleton);
-        loadMasses(masses, carleton.gltfMasses.url, false)
-        flyTo(
-          map,
-          carleton.coordinates.lng,
-          carleton.coordinates.lat,
-          carleton.coordinates.zoom
-        );
-        siteScaleGui()
-        createOptions(buildingSelector, carleton.buildings)
-        selectBuilding(buildingSelector)
-        return;
-      }
-      if (keyName === "d") {
-        console.log("Downsview");
-        loadBldsGltf(downsview);
-        flyTo(map, lng.current, lat.current);
-        siteScaleGui()
-        createOptions(buildingSelector, downsview.buildings)
-        selectBuilding(buildingSelector)
-        return;
-      }
-    });
-
-    // const gui = new GUI();
-    // gui.close();
-    // const origingPosition = gui.addFolder("Origin position");
-    // origingPosition
-    //   .add(scene.position, "z", -1000, 1000, 1)
-    //   .name("North-South");
-    // origingPosition
-    //   .add(scene.position, "x", -1000, 1000, 1)
-    //   .name("West-East");
-    // origingPosition
-    //   .add(scene.position, "y", -1000, 1000, 1)
-    //   .name("Height");
-    // origingPosition
-    //   .add(
-    //     scene.rotation,
-    //     "y",
-    //     MathUtils.degToRad(-180),
-    //     MathUtils.degToRad(180),
-    //     MathUtils.degToRad(1)
-    //   )
-    //   .name("Rotate");
 
     // create three.js lights to illuminate the model
-
     const lightColor = 0xffffff;
     const ambientLight = new AmbientLight(lightColor, 0.2);
     scene.add(ambientLight);
@@ -364,51 +276,54 @@ const customLayer = {
     direction.divideScalar(direction.w);
     raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
 
-    const intersections = raycaster.intersectObjects(masses);
+    intersections = raycaster.intersectObjects(masses);
 
-    if (hasNotCollided(intersections)) {
-      restorePreviousSelection();
-      return;
-    }
-
-    const foundItem = intersections[0];
-
-    if (isPreviousSeletion(foundItem)) return;
-
-    restorePreviousSelection();
-    savePreviousSelectio(foundItem);
-    highlightItem(foundItem);
+    setIntesections()
 
     renderer.render(scene, camera);
   },
 };
 
-map.on("mousemove", (event) => {
-  getMousePosition(event);
-  map.triggerRepaint();
-});
-
 map.on("dblclick", () => {
-  if (!gltfMasses.selected) return;
-  let id = gltfMasses.selected.id;
-  bimViewer(id);
+  if (!gltfMasses || !gltfMasses.selected) return;
+  building.id = gltfMasses.selected.id;
+  openBimViewer(building);
 });
 closeBimViewer();
 
-const bimViewerURL = "./bim-viewer.html";
-let bimURL = "./bim-viewer.html";
-
-map.on("click", (event) => {
-  if (!gltfMasses.selected) return;
-  let id = gltfMasses.selected.id;
-  bimURL = bimViewerURL + `?id=${id}`;
-  document
-    .getElementById("bim")
-    .addEventListener("click", () => window.open(bimURL, "BIM-Viewer"));
+map.on("wheel", () => {
+  removeGeojson(locGeojason);
 });
 
-map.on("style.load", () => {
+map.on("style.load", function () {
   map.addLayer(customLayer, "waterway-label");
+  if (three) setSite(site, province.term, city.name);
+});
+
+document.addEventListener("keydown", (event) => {
+  three = true;
+  const keyName = event.key;
+  if (keyName === "c") {
+    province = canada.provinces.ON;
+    city = province.cities.Ottawa;
+    site = carleton;
+    setSite(site, "ON", "Ottawa");
+    return;
+  }
+  if (keyName === "p") {
+    province = canada.provinces.ON;
+    city = province.cities.Ottawa;
+    site = parliament;
+    setSite(site, "ON", "Ottawa");
+    return;
+  }
+  if (keyName === "d") {
+    province = canada.provinces.ON;
+    city = province.cities.Ottawa;
+    site = downsview;
+    setSite(site, "ON", "Toronto");
+    return;
+  }
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -422,10 +337,13 @@ function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   });
 }
 
-async function getJson(path) {
-  let response = await fetch(path);
-  let json = await response.json();
-  return json;
+function flyToSite(site, pitch = 50) {
+  map.flyTo({
+    center: [site.coordinates.lng, site.coordinates.lat],
+    zoom: site.coordinates.zoom,
+    pitch: pitch,
+    duration: 2000,
+  });
 }
 
 async function loadGeojson(map, geojson, id) {
@@ -453,17 +371,17 @@ async function loadGeojson(map, geojson, id) {
       "line-width": 2,
     },
   });
-  geoJson.bbox = turf.bbox(geojson);
-  map.fitBounds(geoJson.bbox);
+  locGeojason.bbox = turf.bbox(geojson);
+  map.fitBounds(locGeojason.bbox);
 }
 
-function removeGeojson(map, geoJson) {
-  if (map.getSource(geoJson.source.id)) {
-    map.removeLayer(geoJson.fill.id);
-    map.removeLayer(geoJson.outline.id);
-    map.removeSource(geoJson.source.id);
+function removeGeojson(locGeojason) {
+  if (map.getSource(locGeojason.source.id)) {
+    map.removeLayer(locGeojason.fill.id);
+    map.removeLayer(locGeojason.outline.id);
+    map.removeSource(locGeojason.source.id);
   }
-  geoJson = { source: { id: false } };
+  locGeojason = { source: { id: false } };
 }
 
 // ADD DEM TERRAIN 🏔️
@@ -542,14 +460,19 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function openBimViewer(id) {
-  const bimContainer = document.getElementById("bim-container");
-  const bimViewer = document.createElement("iframe");
-  bimViewer.setAttribute("id", "bim-viewer");
-  bimViewer.setAttribute("src", `./bim-viewer.html?id=${id}`);
-  bimViewer.classList.add("bim-viewer");
-  isolateSelector(selectors, "");
-  bimContainer.appendChild(bimViewer);
+function openBimViewer(building) {
+  hideSelectors();
+  let bimContainer;
+  bimContainer = document.getElementById("bim-container");
+  bimViewer = document.getElementById("bim-viewer");
+  if (!bimViewer) {
+    bimViewer = document.createElement("iframe");
+    bimViewer.setAttribute("id", "bim-viewer");
+    bimViewer.classList.add("bim-viewer");
+    bimContainer.appendChild(bimViewer);
+  }
+  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${site.id}/${building.id}`;
+  bimViewer.setAttribute("src", url);
   document.getElementById("close-bim-viewer").classList.remove("hidden");
 }
 
@@ -574,43 +497,29 @@ function getCities(provinceCode) {
 }
 
 function infoMessage(message, seconds = 6) {
-  let container = document.getElementById("message")
+  let container = document.getElementById("message");
   container.innerHTML = message;
-  container.classList.remove('hidden')
-  setTimeout(
-    () => (container.classList.add('hidden')),
-    seconds * 1000
-  );
+  container.classList.remove("hidden");
+  setTimeout(() => container.classList.add("hidden"), seconds * 1000);
 }
 
-function createOptions(selector, objects) {
-  while (selector.childElementCount > 1) {
-    selector.removeChild(selector.lastChild);
-  }
-  for (const object in objects) {
-    const name = objects[object].name;
-    let option = document.createElement("option");
-    option.innerHTML = name;
-    option.setAttribute("id", object);
-    selector.appendChild(option);
-    sortChildren(selector);
-  }
-}
-
-function getGeojson(id, url, map, geoJson) {
-  removeGeojson(map, geoJson);
-  geoJson = { fill: "", outline: "" };
+function getGeojson(id, url, map, locGeojason) {
+  removeGeojson(locGeojason);
+  locGeojason = { fill: "", outline: "" };
   getJson(url).then((geojson) => {
-    geoJson.current = geojson;
-    loadGeojson(map, geoJson.current, `${id}-geoJson`);
-    geoJson.source = map.getSource(`${id}-geoJson`);
-    geoJson.fill = map.getLayer(`${id}-geoJson-fill`);
-    geoJson.outline = map.getLayer(`${id}-geoJson-outline`);
+    locGeojason.current = geojson;
+    loadGeojson(map, locGeojason.current, `${id}-locGeojason`);
+    locGeojason.source = map.getSource(`${id}-locGeojason`);
+    locGeojason.fill = map.getLayer(`${id}-locGeojason-fill`);
+    locGeojason.outline = map.getLayer(`${id}-locGeojason-outline`);
   });
-  return geoJson;
+  return locGeojason;
 }
 
 function loadBldsGltf(site) {
+  site.id = site.id;
+  const group = new Group();
+  group.name = `${site.id}-buildings`;
   const gltfloader = new GLTFLoader();
   let buildings = site.buildings;
   let buildingGltf;
@@ -625,25 +534,25 @@ function loadBldsGltf(site) {
         (gltf) => {
           buildingGltf = gltf.scene;
           buildingGltf.name = `${id}-${category}`;
-          scene.add(buildingGltf);
+          scene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
           loadingContainer.style.display = "none";
         },
-        (progress) => {
+        () => {
           loadingContainer.style.display = "flex";
           progressText.textContent = `Loading ${site.name}'s buildings`;
         },
         (error) => {
           return;
-          // console.log(error);
         }
       );
     }
   });
+  if (!scene.getObjectByName(`${site.id}-buildings`)) scene.add(group);
 }
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-  osmButton.onclick = function () {
+  osmButton.onclick = () => {
     let layer = map.getLayer("OSM-buildings");
     if (toggle) {
       loadOSM(map, 0.9);
@@ -657,17 +566,19 @@ function osmVisibility(map, toggle) {
 
 function closeBimViewer() {
   document.getElementById("close-bim-viewer").addEventListener("click", () => {
-    isolateSelector(selectors, "building-select");
-    isolateSelector(toolbar, "canada", "osm");
+    unhideElementsById(
+      "style-select",
+      "city-select",
+      "site-select",
+      "building-select"
+    );
     document.getElementById("bim-viewer").remove();
     document.getElementById("close-bim-viewer").classList.add("hidden");
   });
 }
 
-function bimViewer(id) {
-  isolateSelector(selectors, "building-select");
-  isolateSelector(toolbar, "");
-  openBimViewer(id);
+function bimViewer(building) {
+  openBimViewer(building);
 }
 
 function flyToCanada() {
@@ -676,71 +587,294 @@ function flyToCanada() {
     map.fitBounds(canada.bbox);
     map.setStyle(mapStyles[1].url);
     isolateSelector(selectors, "province-select", "style-select");
-    isolateSelector(toolbar, "go-to", "coordinates");
+    isolateSelector(toolbar, "go-to", "lng", "lat");
     setTimeout(function () {
       location.reload();
     }, 2000);
   });
 }
 
-function siteScaleGui() {
-      isolateSelector(selectors, "building-select", "style-select");
-    isolateSelector(toolbar, "canada", "osm");
-    infoMessage("Double click buildings to open BIM viewer")
-}
-
-function goTo(site, button) {
-  button.onclick = function () {  
-    document.getElementById("go-to-icon").setAttribute("d", icons.worldIcon);
-
-    if (
-      document.getElementById("lng").value == "" ||
-      ocument.getElementById("lat").value == ""
-    ) {
-      lng.current = def.coordinates.lng;
-      lat.current = def.coordinates.lat;
-      let buildings = site.buildings;
-      const buildingSelector = document.getElementById("building-select");
-      createOptions(buildingSelector, buildings);
-      selectBuilding(buildingSelector)
-      loadBldsGltf(site);
-
-    } else {
-      lng.current = document.getElementById("lng").value;
-      lat.current = document.getElementById("lat").value;
-    }
-    flyTo(map, lng.current, lat.current);
-    siteScaleGui()
-    removeGeojson(map, geoJson);
-  };
-}
-
-function selectBuilding(selector){
-  selector.addEventListener("change", () => {
+function selectBuilding(selector) {
+  selector.addEventListener("change", (event) => {
     let id = selector[selector.selectedIndex].id;
-    bimViewer(id);
+    building.id = id;
+    openBimViewer(building);
     closeBimViewer();
+    event.target.selectedIndex = 0;
   });
 }
 
-function loadMasses(masses, url, visible = true, x=0, y=0, z=0) {
+function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
   // GLTF masses for hovering and raycasting
+  const group = new Group();
+  group.name = `${site.id}-masses`;
+  let url = site.gltfMasses.url;
   const gltfloader = new GLTFLoader();
   gltfloader.load(url, (gltf) => {
     gltfMasses = gltf.scene;
-    gltfMasses.name = "gltf-masses";
+    gltfMasses.name = `${site.id}-masses`;
     gltfMasses.position.x = x;
     gltfMasses.position.y = y;
     gltfMasses.position.z = z;
-    if(!visible){
-    gltfMasses.traverse(function (object) {
-      if (object.isMesh) {
-        // object.material = massesMaterial;
-        object.visible = visible;
-        masses.push(object);
-      }
-    });
-  }
-    scene.add(gltfMasses);
+    if (!visible) {
+      gltfMasses.traverse(function (object) {
+        if (object.isMesh) {
+          object.visible = visible;
+          masses.push(object);
+        }
+      });
+    }
+    group.add(gltfMasses);
+    if (!scene.getObjectByName(`${site.id}-masses`)) scene.add(group);
   });
 }
+
+function setModelOrigin(site) {
+  let lng = site.coordinates.lng;
+  let lat = site.coordinates.lat;
+  let msl = site.coordinates.msl;
+
+  modelOrigin = [lng, lat];
+  modelAltitude = msl;
+  modelRotate = [Math.PI / 2, 0, 0];
+  modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
+    modelOrigin,
+    modelAltitude
+  );
+
+  modelTransform = {
+    translateX: modelAsMercatorCoordinate.x,
+    translateY: modelAsMercatorCoordinate.y,
+    translateZ: modelAsMercatorCoordinate.z,
+    rotateX: modelRotate[0],
+    rotateY: modelRotate[1],
+    rotateZ: modelRotate[2],
+    /* Since the 3D model is in real world meters, a scale transform needs to be
+    applied since the CustomLayerInterface expects units in MercatorCoordinates.*/
+    scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+  };
+}
+
+function setSite(site, provinceTerm, cityName) {
+  province = canada.provinces[provinceTerm];
+  city = province.cities[cityName];
+  if (province.cities) getCities(province.code);
+  if (city.sites)
+    createOptions(document.getElementById("site-select"), city.sites);
+  removeFromScene();
+  removeGeojson(locGeojason);
+  setModelOrigin(site);
+  flyToSite(site);
+  hideElementsById("province-select", "lng", "lat", "go-to");
+  unhideElementsById("city-select", "site-select", "osm", "trees", "bus-stops");
+  masses = [];
+  if (!site.hasOwnProperty("buildings")) {
+    removeFromScene();
+    infoMessage(`⚠️ No buildings at ${site.name}`);
+    hideElementsById("lng", "lat", "building-select");
+    unhideElementsById("osm");
+    if (site.hasOwnProperty("gltfMasses")) {
+      loadMasses(
+        masses,
+        site,
+        true,
+        site.gltfMasses.position.x,
+        site.gltfMasses.position.y,
+        site.gltfMasses.position.z
+      );
+    }
+  } else {
+    loadMasses(masses, site, false);
+    loadBldsGltf(site);
+    unhideElementsById("building-select");
+    createOptions(buildingSelector, site.buildings);
+    selectBuilding(buildingSelector);
+  }
+}
+
+function removeFromScene() {
+  let toRemove = scene.children.slice(3);
+  if (toRemove.lenght === 0) return;
+  toRemove.forEach((group) => {
+    group.traverse(function (object) {
+      if (object.isMesh) {
+        object.geometry.dispose();
+        object.material.dispose();
+      }
+    });
+    scene.remove(group);
+  });
+}
+
+function siteMarker(sites) {
+  let markers = [];
+  for (let key in sites) {
+    site = sites[key];
+    const el = document.createElement("div");
+    el.className = "mapbox-marker";
+    el.setAttribute("id", key);
+    el.setAttribute("title", sites[key].name);
+    if (site.logo)
+      el.style.setProperty("background-image", `url(${site.logo})`);
+    markers.push(el);
+    el.addEventListener("click", (e) => {
+      let id = e.target.id
+      site = sites[id];
+      setSite(site, province.term, city.name);
+      markers.forEach((marker) => {
+        marker.remove();
+      });
+    });
+    new mapboxgl.Marker(el).setLngLat(site.coordinates).addTo(map);
+  }
+  return markers;
+}
+
+function toggleCustomLayer(button, toggle, layerName, radius) {
+  button.onclick = () => {
+    let layer = canada.provinces[province.term].cities[city.name].layers[layerName]
+    let color = layer.color ? layer.color : "red";
+    toggle = !toggle;
+    if (typeof layer.geojson === 'function' && toggle) {
+      layer.geojson(site).then((features) => {
+        addCustomLayer(features, layerName, color, radius);
+      });
+    };  
+      if (typeof layer.geojson !== 'function' && toggle) {
+        layer.geojson.then((features) => {
+          addCustomLayer(features, layerName, color, radius);
+        });
+    } if (!toggle) {
+      map.removeLayer(`${layerName}-layer`);
+      map.removeSource(layerName);
+    }
+  } 
+}
+
+function addCustomLayer(features, layerName, color, radius = 7) {
+  map.addSource(layerName, {
+    type: "geojson",
+    // Use a URL for the value for the `data` property.
+    data: features,
+  });
+
+  let popup;
+  map.addLayer({
+    id: `${layerName}-layer`,
+    type: "circle",
+    source: layerName,
+    paint: {
+      "circle-radius": radius,
+      "circle-stroke-width": 2,
+      "circle-color": color,
+      "circle-stroke-color": "white",
+    },
+  });
+  map.on("mouseenter", `${layerName}-layer`, function (e) {
+    let feature = e.features[0];
+    popup = new mapboxgl.Popup()
+      .setLngLat(feature.geometry.coordinates)
+      .setHTML(`<p>${feature.properties.title}</p>`)
+      .addTo(map);
+    map.getCanvas().style.cursor = "pointer";
+  });
+  map.on("mouseleave", `${layerName}-layer`, function (e) {
+    popup.remove();
+    map.getCanvas().style.cursor = "";
+  });
+  map.on("click", `${layerName}-layer`, function (e) {
+    let feature = e.features[0];
+    new mapboxgl.Popup()
+      .setLngLat(feature.geometry.coordinates)
+      .setHTML(`<p>${feature.properties.title}</p>`)
+      .addTo(map);
+  });
+}
+
+function removeMarker(markers) {
+  if (markers)
+    markers.forEach((marker) => {
+      marker.remove();
+    });
+}
+
+function goTo(site) {
+  if (
+    !(
+      document.getElementById("lng").value == "" ||
+      document.getElementById("lat").value == ""
+    )
+  ) {
+    def.coordinates.lng = document.getElementById("lng").value;
+    def.current = document.getElementById("lat").value;
+    delete def.buildings;
+    delete def.gltfMasses;
+    def.name = "this site";
+  }
+  setSite(site, province.term, city.name);
+  removeGeojson(locGeojason);
+}
+
+function hideSelectors() {
+  hideElementsById(
+    "style-select",
+    "province-select",
+    "city-select",
+    "site-select",
+    "building-select"
+  );
+}
+
+// MAPBOX 🗺️📦
+function mapbox(){
+  mapboxgl.accessToken =
+    "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
+  map = new mapboxgl.Map({
+    container: "map", // container ID
+    style: mapStyles.satellite_labels.url,
+    center: [lng.canada, lat.canada], // starting position [lng, lat]
+    zoom: 4, // starting zoom
+    pitch: 0,
+    antialias: true,
+    doubleClickZoom: false,
+    projection: "globe", // display the map as a 3D globe
+  });
+  map.fitBounds(canada.bbox);
+  // Day sky
+  map.on("style.load", () => {
+    // Set the default atmosphere style
+    // add sky styling with `setFog` that will show when the map is highly pitched
+    map.setFog({
+      "horizon-blend": 0.3,
+      color: "#f8f0e3",
+      "high-color": "#add8e6",
+      "space-color": "#d8f2ff",
+      "star-intensity": 0.0,
+    });
+    addTerrain(map);
+    osmVisibility(map, toggleOSM);
+    map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+    osmVisibility(map, toggleOSM);
+  });
+  }
+
+  function setIntesections() {
+
+    if (hasNotCollided(intersections)) {
+      restorePreviousSelection();
+      return;
+    }
+  
+    const foundItem = intersections[0];
+  
+    if (isPreviousSeletion(foundItem)) return;
+  
+    restorePreviousSelection();
+    savePreviousSelectio(foundItem);
+    highlightItem(foundItem);
+  }
+  
+  map.on("mousemove", (event) => {
+    getMousePosition(event);
+    map.triggerRepaint();
+  });

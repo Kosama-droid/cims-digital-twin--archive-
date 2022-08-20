@@ -1,14 +1,14 @@
-export const mapStyles = [
+export const mapStyles = {
     //Styles with labels
-    {name: "Default Map", url:"mapbox://styles/mapbox/streets-v11"},
-    {name: "Satellite", url:"mapbox://styles/mapbox/satellite-streets-v11"},
-    {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
-    {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
-    {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
-    {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
+    map: {name: "Map", url:"mapbox://styles/mapbox/streets-v11"},
+    satellite_labels: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
+    light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
+    dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
+    traffic: {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
     // Styles without labels (The models don't show) -------------------
-    // {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
-    // {name: "Google satellite", url: {
+    // satellite: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
+    // google: {name: "Google satellite", url: {
     //     'version': 8,
     //     'sources': {
     //     'raster-tiles': {
@@ -32,7 +32,7 @@ export const mapStyles = [
     //     ]
     //     }
     // },
-    // {name: "Google hybrid", url: {
+    // goggle_labels: {name: "Google hybrid", url: {
     //     'version': 8,
     //     'sources': {
     //     'raster-tiles': {
@@ -56,7 +56,7 @@ export const mapStyles = [
     //     ]
     //     }
     // },
-    // {name: "Watercolor", url: {
+    // watercolor: {name: "Watercolor", url: {
     //     'version': 8,
     //     'sources': {
     //     'raster-tiles': {
@@ -80,4 +80,4 @@ export const mapStyles = [
     //     ]
     //     }
     // },
-];
+};

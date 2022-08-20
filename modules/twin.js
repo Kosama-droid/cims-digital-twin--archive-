@@ -1,6 +1,7 @@
 import { IfcViewerAPI } from "web-ifc-viewer";
 import {
   MeshBasicMaterial,
+  DoubleSide,
 } from "three";
 
 import {
@@ -17,7 +18,6 @@ export const hoverHighlihgtMateral = new MeshBasicMaterial({
   opacity: 0.3,
   color: 0xffffcc,
   depthTest: false,
-  
 });
 
 export const pickHighlihgtMateral = new MeshBasicMaterial({
@@ -27,13 +27,34 @@ export const pickHighlihgtMateral = new MeshBasicMaterial({
   depthTest: false,
 });
 
+export const highlightMaterial = new MeshBasicMaterial({
+  color: 0xcccc70,
+  flatShading: true,
+  side: DoubleSide,
+  transparent: true,
+  opacity: 0.9,
+  depthTest: false,
+});
+
 export function isolateSelector(selectors, ...keys) {
     selectors.forEach((selector) => {
       if (keys.includes(selector.id)) {
-        selector.style.display = "inline-block";
+        selector.classList.remove('hidden');
       } else {
-        selector.style.display = "none";
+        selector.classList.add('hidden');
       }
+    });
+  }
+
+  export function hideElementsById(...ids) {
+    ids.forEach(id => {
+       document.getElementById(id).classList.add('hidden');
+    });
+  }
+
+  export function unhideElementsById(...ids) {
+    ids.forEach(id => {
+       document.getElementById(id).classList.remove('hidden');
     });
   }
 
@@ -145,5 +166,78 @@ export function labeling(scene, collisionLocation, user = "User") {
 export function deleteChildren(parent) {
   while (parent.children.length > 0) {
     parent.remove(parent.children[0]);
+  }
+}
+
+export function createOptions(selector, objects) {
+  while (selector.childElementCount > 1) {
+    selector.removeChild(selector.lastChild);
+  }
+  for (const object in objects) {
+    const name = objects[object].name;
+    let option = document.createElement("option");
+    option.innerHTML = name;
+    option.setAttribute("id", object);
+    selector.appendChild(option);
+    sortChildren(selector);
+  }
+}
+
+export function selectedButton(button, toggle) {
+  toggle
+    ? button.classList.add("selected-button")
+    : button.classList.remove("selected-button");
+    }
+
+export async function getJson(path) {
+  let response = await fetch(path);
+  let json = await response.json();
+  return json;
+}
+
+function setGeojson(objects) {
+  const geojson = { type: "FeatureCollection" };
+  geojson.features = [];
+  for (let key in objects) {
+    let object = objects[key];
+    geojson.features.push({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [object.coordinates.lng, object.coordinates.lat],
+      },
+      properties: {
+        title: `${object.name}`,
+        description: `${object}.description`,
+      },
+    });
+  }
+  return geojson;
+}
+
+async function setMarker(objects, toggle, markers) {
+  if (toggle) {
+    for (let key in objects) {
+      let object = objects[key];
+      const el = document.createElement("div");
+      el.className = "mapbox-marker";
+      el.setAttribute("id", key);
+      el.setAttribute(
+        "title",
+        object.title ? objects[key].title : objects[key].name
+      );
+      el.style.setProperty("width", 20);
+      el.style.setProperty("height", 20);
+      if (object.logo)
+        el.style.setProperty("background-image", `url(${object.logo})`);
+      markers.push(el);
+      el.addEventListener("click", () => {});
+      markers.forEach((marker) => {
+        toggle
+          ? marker.classList.remove("hidden")
+          : marker.classList.add("hidden");
+      });
+      new mapboxgl.Marker(el).setLngLat(object.coordinates).addTo(map);
+    }
   }
 }
