@@ -111,10 +111,10 @@ var canada$1 = canada = {
                 msl: 80,
                 zoom: 15,
               },
-              logo: "../assets/ON/Ottawa/CU/cu_logo.jfif",
-              gltfPath: "../assets/ON/Ottawa/CU/glb/ON_Ottawa_CDC_",
+              logo: "../assets/ON/Ottawa/CDC/cu_logo.jfif",
+              gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/CU/glb/ON-Ottawa-cu-masses.glb",
+                url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
                 position: { x: 0, y: 0, z: 0 },
               },
               buildings: {
@@ -373,7 +373,7 @@ var canada$1 = canada = {
               },
               ifcPath:
                 "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
-              jsonPropertiesPath: "../assets/ON/Ottawa/CU/json/ON_Ottawa_CDC_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
             PB: {
               name: "Parliament Buildings",

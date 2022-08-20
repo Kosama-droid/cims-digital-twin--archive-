@@ -111,10 +111,10 @@ var canada$1 = canada = {
                 msl: 80,
                 zoom: 15,
               },
-              logo: "../assets/ON/Ottawa/CU/cu_logo.jfif",
-              gltfPath: "../assets/ON/Ottawa/CU/glb/ON_Ottawa_CDC_",
+              logo: "../assets/ON/Ottawa/CDC/cu_logo.jfif",
+              gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/CU/glb/ON-Ottawa-cu-masses.glb",
+                url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
                 position: { x: 0, y: 0, z: 0 },
               },
               buildings: {
@@ -373,7 +373,7 @@ var canada$1 = canada = {
               },
               ifcPath:
                 "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
-              jsonPropertiesPath: "../assets/ON/Ottawa/CU/json/ON_Ottawa_CDC_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
             PB: {
               name: "Parliament Buildings",
@@ -47938,20 +47938,12 @@ layerButton.onclick = () => {
 // Buses 🚍
 const busStopButton = document.getElementById("bus-stops");
 let busStopToggle = false;
-toggleCustomLayer(
-  busStopButton,
-  busStopToggle,
-  "busStops"
-);
+toggleCustomLayer(busStopButton, busStopToggle, "busStops");
 
 // Trees 🌳
 const treesButton = document.getElementById("trees");
 let treesToggle = false;
-toggleCustomLayer(
-  treesButton,
-  treesToggle,
-  "trees"
-);
+toggleCustomLayer(treesButton, treesToggle, "trees");
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
 let modelOrigin,
@@ -47982,7 +47974,7 @@ mapbox();
 const osmButton = document.getElementById("osm");
 let toggleOSM = true;
 
-// Select map style 🗺️🎨 
+// Select map style 🗺️🎨
 const styleSelect = document.getElementById("style-select");
 createOptions(styleSelect, mapStyles);
 styleSelect.addEventListener("change", function (event) {
@@ -48041,6 +48033,8 @@ siteSelector.addEventListener("change", (event) => {
   event.target.selectedIndex = 0;
 });
 
+// trees(site);
+
 // THREE JS 3️⃣  ________________________________________________________________________
 // configuration of the custom layer for a 3D models per the CustomLayerInterface
 const customLayer = {
@@ -48054,12 +48048,6 @@ const customLayer = {
     axes.material.depthTest = false;
     axes.renderOrder = 3;
     scene.add(axes);
-
-    // Go To Site 🛬__________________________________________________
-    const goToButton = document.getElementById("go-to");
-    goToButton.addEventListener("click", () => {
-      goTo(def);
-    });
 
     // create three.js lights to illuminate the model
     const lightColor = 0xffffff;
@@ -48180,6 +48168,12 @@ document.addEventListener("keydown", (event) => {
     setSite(site, "ON", "Toronto");
     return;
   }
+});
+
+// Go To Site 🛬__________________________________________________
+const goToButton = document.getElementById("go-to");
+goToButton.addEventListener("click", () => {
+  goTo(def);
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -48588,22 +48582,25 @@ function siteMarker(sites) {
 
 function toggleCustomLayer(button, toggle, layerName, radius) {
   button.onclick = () => {
-    let layer = canada$1.provinces[province.term].cities[city.name].layers[layerName];
+    let layer =
+      canada$1.provinces[province.term].cities[city.name].layers[layerName];
     let color = layer.color ? layer.color : "red";
     toggle = !toggle;
-    if (typeof layer.geojson === 'function' && toggle) {
+    if (typeof layer.geojson === "function" && toggle) {
       layer.geojson(site).then((features) => {
         addCustomLayer(features, layerName, color, radius);
       });
-    }      if (typeof layer.geojson !== 'function' && toggle) {
-        layer.geojson.then((features) => {
-          addCustomLayer(features, layerName, color, radius);
-        });
-    } if (!toggle) {
+    }
+    if (typeof layer.geojson !== "function" && toggle) {
+      layer.geojson.then((features) => {
+        addCustomLayer(features, layerName, color, radius);
+      });
+    }
+    if (!toggle) {
       map.removeLayer(`${layerName}-layer`);
       map.removeSource(layerName);
     }
-  }; 
+  };
 }
 
 function addCustomLayer(features, layerName, color, radius = 7) {
@@ -48681,7 +48678,7 @@ function hideSelectors() {
 }
 
 // MAPBOX 🗺️📦
-function mapbox(){
+function mapbox() {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   map = new mapboxgl.Map({
@@ -48711,25 +48708,24 @@ function mapbox(){
     map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
     osmVisibility(map, toggleOSM);
   });
-  }
+}
 
-  function setIntesections() {
-
-    if (hasNotCollided(intersections)) {
-      restorePreviousSelection();
-      return;
-    }
-  
-    const foundItem = intersections[0];
-  
-    if (isPreviousSeletion(foundItem)) return;
-  
+function setIntesections() {
+  if (hasNotCollided(intersections)) {
     restorePreviousSelection();
-    savePreviousSelectio(foundItem);
-    highlightItem(foundItem);
+    return;
   }
-  
-  map.on("mousemove", (event) => {
-    getMousePosition(event);
-    map.triggerRepaint();
-  });
+
+  const foundItem = intersections[0];
+
+  if (isPreviousSeletion(foundItem)) return;
+
+  restorePreviousSelection();
+  savePreviousSelectio(foundItem);
+  highlightItem(foundItem);
+}
+
+map.on("mousemove", (event) => {
+  getMousePosition(event);
+  map.triggerRepaint();
+});
