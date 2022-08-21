@@ -485,29 +485,29 @@ var canada$1 = canada = {
               },
               logo: "../assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
-                url: "../assets/ON/Toronto/DA/glb/ON-Toronto-da-masses.gltf",
+                url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
                 position: { x: 0, y: 0, z: 0 },
               },
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
-              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_da_",
+              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
 
               buildings: {
                 Admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
-                  ifcFileName: "ON-Toronto-DA-admin.ifc",
+                  ifcFileName: "ON_Toronto_DA_admin.ifc",
                 },
                 b7_10: {
                   name: "Bays 7 to 10",
-                  ifcFileName: "ON-Toronto-DA-b7_10.ifc",
+                  ifcFileName: "ON_Toronto_DA_b7_10.ifc",
                 },
                 b11: {
                   name: "Bay 11",
-                  ifcFileName: "ON-Toronto-DA-b11.ifc",
+                  ifcFileName: "ON_Toronto_DA_b11.ifc",
                 },
                 b12: {
                   name: "Bay 12",
-                  ifcFileName: "ON-Toronto-DA-b12.ifc",
+                  ifcFileName: "ON_Toronto_DA_b12.ifc",
                 },
               },
             },
@@ -122468,7 +122468,6 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-// const ifcURL = `https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/${ifcFileName[building.id]}`;
 let ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
 building.ifcURL = ifcURL;
 let model;
@@ -122883,11 +122882,12 @@ function togglePostproduction(active) {
 }
 
 async function preposcessIfc(building) {
-  let url = building.ifcURL;
+  // let url = building.ifcURL
   let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
   // Export to glTF and JSON
+  // const url = URL.createObjectURL(file);
   const result = await viewer.GLTF.exportIfcFileAsGltf({
-    ifcFileUrl: url,
+    ifcFileUrl: ifcURL,
     splitByFloors: false,
     categories: {
       walls: [IFCWALL, IFCWALLSTANDARDCASE],
@@ -122899,27 +122899,54 @@ async function preposcessIfc(building) {
     },
     getProperties: true,
   });
-  console.log(result);
 
-  // Download result
-  let link = document.createElement("a");
-  document.body.appendChild(link);
 
-  for (const categoryName in result.gltf) {
-    const category = result.gltf[categoryName];
-      const file = category.file;
-      if (file) {
-        link.download = `${fileRoute}${categoryName}_allFloors.gltf`;
-        link.href = URL.createObjectURL(file);
+    // Download result
+    const link = document.createElement('a');
+    document.body.appendChild(link);
+
+    for(const categoryName in result.gltf) {
+        const category = result.gltf[categoryName];
+        for(const levelName in category) {
+            const file = category[levelName].file;
+            if(file) {
+                link.download = `${fileRoute}_${categoryName}_allFloors.gltf`;
+                link.href = URL.createObjectURL(file);
+                link.click();
+            }
+		}
+    }
+
+    for(let jsonFile of result.json) {
+        link.download = `${fileRoute}_${jsonFile.name}.json`;
+        link.href = URL.createObjectURL(jsonFile);
         link.click();
-      }
-  }
-
-  for (let jsonFile of result.json) {
-    link.download = `${fileRoute}${jsonFile.name}`;
-    link.href = URL.createObjectURL(jsonFile);
-    link.click();
-  }
+    }
 
     link.remove();
+
+
+  // // Download result
+  // let link = document.createElement("a");
+  // document.body.appendChild(link);
+
+  // for (const categoryName in result.gltf) {
+  //   const category = result.gltf[categoryName];
+  //   for(const levelName in category) {
+  //   const file = category[levelName].file;
+  //     if (file) {
+  //       link.download = `${fileRoute}${categoryName}_allFloors.gltf`;
+  //       link.href = URL.createObjectURL(file);
+  //       link.click();
+  //     }
+  //   }
+  // }
+
+  // for (let jsonFile of result.json) {
+  //   link.download = `${fileRoute}${jsonFile.name}`;
+  //   link.href = URL.createObjectURL(jsonFile);
+  //   link.click();
+  // }
+
+  //   link.remove();
 }

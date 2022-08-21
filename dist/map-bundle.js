@@ -485,29 +485,29 @@ var canada$1 = canada = {
               },
               logo: "../assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
-                url: "../assets/ON/Toronto/DA/glb/ON-Toronto-da-masses.gltf",
+                url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
                 position: { x: 0, y: 0, z: 0 },
               },
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
-              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_da_",
+              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
 
               buildings: {
                 Admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
-                  ifcFileName: "ON-Toronto-DA-admin.ifc",
+                  ifcFileName: "ON_Toronto_DA_admin.ifc",
                 },
                 b7_10: {
                   name: "Bays 7 to 10",
-                  ifcFileName: "ON-Toronto-DA-b7_10.ifc",
+                  ifcFileName: "ON_Toronto_DA_b7_10.ifc",
                 },
                 b11: {
                   name: "Bay 11",
-                  ifcFileName: "ON-Toronto-DA-b11.ifc",
+                  ifcFileName: "ON_Toronto_DA_b11.ifc",
                 },
                 b12: {
                   name: "Bay 12",
-                  ifcFileName: "ON-Toronto-DA-b12.ifc",
+                  ifcFileName: "ON_Toronto_DA_b12.ifc",
                 },
               },
             },
