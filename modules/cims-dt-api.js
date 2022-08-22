@@ -8,6 +8,7 @@ export { default as unhideElementsById } from "../modules/unhideElementsById.js"
 export { default as toggleVisibility } from "../modules/toggleVisibility.js"
 export { default as labeling } from "../modules/labeling.js"
 export { default as createOptions } from "../modules/createOptions.js"
+export { default as infoMessage } from "../modules/infoMessage.js"
 
 // Materials 🎨
 export { default as highlightMaterial } from "../modules/materials/highlightMaterial.js"

@@ -411,63 +411,18 @@ export default canada = {
             },
           },
           layers: {
-            busStops: {
-              name: "OCTranspo bus stops",
-              logo: "../assets/ON/Ottawa/oc-logo.jpg",
-              svg: icons.busStops,
-              color: "#CE343B",
-              geojson: getJson(
-                "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json"
-              )
-                .then((json) => {
-                  let busStops = {};
-                  json.forEach((busStop) => {
-                    busStops[busStop.stop_code] = {
-                      id: busStop.stop_code,
-                      name: busStop.stop_name,
-                      coordinates: [busStop.stop_lon, busStop.stop_lat],
-                      title: `<b>Stop code:</b> ${busStop.stop_code}<br> <b>Stop Name:</b> ${busStop.stop_name}`,
-                    };
-                  });
-                  return busStops;
-                })
-                .then((items) => {
-                  return setGeojson(items);
-                }),
-                children: "",
-            },
-            trees: {
-              name: "Ottawa trees",
-              url: "",
-              svg: icons.trees,
-              color: "green",
-              geojson: (site) => getJson("../assets/ON/Ottawa/json/ON-Ottawa-trees.json")
-              .then((json) => {
-                let trees = {};
-                let features = json.features;
-                let {lng, lat} = site.coordinates;
-                features.forEach((feature) => {
-                  if (!feature.geometry) return
-                  let fLng = feature.geometry.coordinates[0];
-                  let fLat = feature.geometry.coordinates[1];
-                  if (fLng > lng - lngRange &&
-                    fLng < lng + lngRange &&
-                    fLat < lat + latRange &&
-                    fLat > lat - latRange) {
-                      trees[feature.properties.OBJECTID] = {
-                        id: feature.properties.OBJECTID,
-                        name: feature.properties.SPECIES,
-                        coordinates: feature.geometry.coordinates,
-                        title: `<b>Tree specie:</b> ${feature.properties.SPECIES}<br> <b>DBH:</b> ${parseFloat(feature.properties.DBH).toFixed(2)}`,
-                      };
-                    }
-                  });
-                  return trees;
-                })
-                .then((items) => {
-                  return setGeojson(items);
-                }),
-            },
+            busStops: setLayer(
+              "OCTranspo bus stops",
+              "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json",
+              "#CE343B",
+              ocTranspo
+            ),
+            trees: setLayer(
+              "Ottawa trees",
+              "../assets/ON/Ottawa/json/ON-Ottawa-trees.json",
+              "green",
+              ottawaTrees
+            ),
           },
         },
         Toronto: {
@@ -491,7 +446,6 @@ export default canada = {
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
-
               buildings: {
                 Admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
@@ -512,40 +466,23 @@ export default canada = {
               },
             },
           },
-                    layers: {
-            // busStops: infoMessage('⚠️ No bus stops data on this city'),
-            trees: {
-              name: "Toronto trees",
-              url: "",
-              svg: icons.trees,
-              color: "green",
-              geojson: (site) => getJson("../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson")
-                .then((json) => {
-                  let trees = {};
-                  let features = json.features;
-                  let {lng, lat} = site.coordinates;
-                  features.forEach((feature) => {
-                    if (!feature.geometry) return
-                    let fLng = feature.geometry.coordinates[0];
-                    let fLat = feature.geometry.coordinates[1];
-                    if (fLng > lng - lngRange &&
-                      fLng < lng + lngRange &&
-                      fLat < lat + latRange &&
-                      fLat > lat - latRange) {
-                      trees[feature.properties._id] = {
-                        id: feature.properties._id,
-                        name: feature.properties.COMMON_NAME,
-                        coordinates: feature.geometry.coordinates,
-                        title: `<b>Tree specie:</b> ${feature.properties.COMMON_NAME}<br> <b>DBH:</b> ${parseFloat(feature.properties.DBH_TRUNK).toFixed(2)}`,
-                      };
-                    }
-                  });
-                  return trees;
-                })
-                .then((items) => {
-                  return setGeojson(items);
-                }),
-            },
+          layers: {
+            trees: setLayer(
+              "Toronto trees",
+              "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson",
+              "green",
+              torontoTrees
+            ),
+            bikes: setLayer(
+              "Bicycle parking",
+              "../assets/ON/Toronto/geojson/ON-Toronto-bike_parking.geojson",
+              "blue"
+            ),
+            busStops: setLayer(
+              "Transit shelter",
+              "../assets/ON/Toronto/geojson/ON-Toronto-transit_shelter.geojson",
+              "yellow"
+            ),
           },
         },
       },
@@ -637,7 +574,7 @@ async function getJson(path) {
   return json;
 }
 
-function setGeojson(items) {
+async function setGeojson(items) {
   const geojson = { type: "FeatureCollection" };
   geojson.features = [];
   for (let key in items) {
@@ -658,9 +595,116 @@ function setGeojson(items) {
   return geojson;
 }
 
-function infoMessage(message, seconds = 6) {
-  let container = document.getElementById("message");
-  container.innerHTML = message;
-  container.classList.remove("hidden");
-  setTimeout(() => container.classList.add("hidden"), seconds * 1000);
+async function setLayer(layerName, url, color, funct) {
+  let layer = {
+    name: layerName,
+    // color : Math. floor(Math. random()*16777215), // random color
+    color: color,
+  };
+  !funct
+    ? (layer.geojson = async () => await geojsonLayer(layerName, url))
+    : (layer.geojson = funct);
+  return layer;
+}
+
+async function geojsonLayer(layerName, url) {
+  let json = await getJson(url);
+  let items = {};
+  let features = json.features;
+  features.forEach((feature) => {
+    let { ID } = feature.properties;
+    if (ID === "" || !ID) return;
+    if (!feature.geometry) return;
+    items[ID] = {
+      id: ID,
+      name: `${layerName}: ${ID}`,
+      coordinates: feature.geometry.coordinates,
+      title: `<b>${layerName}</b> <br> ID: ${ID}}`,
+    };
+  });
+  let geojson = await setGeojson(items);
+  return geojson;
+}
+
+async function torontoTrees(site) {
+  let json = await getJson(
+    "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson"
+  );
+  let trees = {};
+  let features = json.features;
+  let { lng, lat } = site.coordinates;
+  let geojson;
+  features.forEach((feature) => {
+    if (!feature.geometry) return;
+    let fLng = feature.geometry.coordinates[0];
+    let fLat = feature.geometry.coordinates[1];
+    if (
+      fLng > lng - lngRange &&
+      fLng < lng + lngRange &&
+      fLat < lat + latRange &&
+      fLat > lat - latRange
+    ) {
+      trees[feature.properties._id] = {
+        id: feature.properties._id,
+        name: feature.properties.COMMON_NAME,
+        coordinates: feature.geometry.coordinates,
+        title: `<b>Tree specie:</b> ${
+          feature.properties.COMMON_NAME
+        }<br> <b>DBH:</b> ${parseFloat(feature.properties.DBH_TRUNK).toFixed(
+          2
+        )}`,
+      };
+    }
+  });
+  geojson = await setGeojson(trees);
+  return geojson;
+}
+
+async function ottawaTrees(site) {
+  let json = await getJson(
+    "../assets/ON/Ottawa/json/ON-Ottawa-trees.json"
+  );
+  let trees = {};
+  let features = json.features;
+  let { lng, lat } = site.coordinates;
+  features.forEach((feature) => {
+    if (!feature.geometry) return;
+    let fLng = feature.geometry.coordinates[0];
+    let fLat = feature.geometry.coordinates[1];
+    if (
+      fLng > lng - lngRange &&
+      fLng < lng + lngRange &&
+      fLat < lat + latRange &&
+      fLat > lat - latRange
+    ) {
+      trees[feature.properties.OBJECTID] = {
+        id: feature.properties.OBJECTID,
+        name: feature.properties.SPECIES,
+        coordinates: feature.geometry.coordinates,
+        title: `<b>Tree specie:</b> ${
+          feature.properties.SPECIES
+        }<br> <b>DBH:</b> ${parseFloat(
+          feature.properties.DBH
+        ).toFixed(2)}`,
+      };
+    }
+  });
+  return await setGeojson(trees);
+}
+
+async function ocTranspo(site) {
+  let json = await getJson(
+    "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json"
+  );
+  let busStops = {};
+  json.forEach((busStop) => {
+    busStops[busStop.stop_code] = {
+      id: busStop.stop_code,
+      name: busStop.stop_name,
+      coordinates: [busStop.stop_lon, busStop.stop_lat],
+      title: `<b>Stop code:</b> ${busStop.stop_code}<br> <b>Stop Name:</b> ${busStop.stop_name}`,
+    };
+    return busStops;
+  });
+  return await setGeojson(busStops);
 }

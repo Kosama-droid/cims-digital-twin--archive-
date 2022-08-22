@@ -15,31 +15,20 @@ import {
   Raycaster,
 } from "three";
 
-// import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
-
-import {
-  getJson,
-  sortChildren,
-  isolateSelector,
-  hideElementsById,
-  closeNavBar,
-  selectedButton,
-  unhideElementsById,
-  highlightMaterial,
-  createOptions,
-} from "../modules/cims-dt-api";
+import * as dt from "../modules/cims-dt-api";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
 
-hideElementsById(
+dt.hideElementsById(
   "city-select",
   "site-select",
   "building-select",
   "osm",
   "trees",
-  "bus-stops"
+  "bus-stops",
+  "bikes"
 );
 
 let scene,
@@ -72,7 +61,7 @@ const layerButton = document.getElementById("layers");
 let layersToggle = true;
 layerButton.onclick = () => {
   layersToggle = !layersToggle;
-  selectedButton(layerButton, layersToggle);
+  dt.selectedButton(layerButton, layersToggle);
   layersToggle
     ? document.getElementById("toolbar").classList.remove("hidden")
     : document.getElementById("toolbar").classList.add("hidden");
@@ -87,6 +76,11 @@ toggleCustomLayer(busStopButton, busStopToggle, "busStops");
 const treesButton = document.getElementById("trees");
 let treesToggle = false;
 toggleCustomLayer(treesButton, treesToggle, "trees");
+
+// Trees 🌳
+const bikesButton = document.getElementById("bikes");
+let bikesToggle = false;
+toggleCustomLayer(bikesButton, bikesToggle, "bikes");
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
 let modelOrigin,
@@ -108,7 +102,7 @@ let masses = [];
 let lng = { canada: canada.lng, current: def.coordinates.lng },
   lat = { canada: canada.lat, current: def.coordinates.lat };
 
-closeNavBar();
+dt.closeNavBar();
 
 // Setting Mapbox 🗺️📦
 mapbox();
@@ -119,7 +113,7 @@ let toggleOSM = true;
 
 // Select map style 🗺️🎨
 const styleSelect = document.getElementById("style-select");
-createOptions(styleSelect, mapStyles);
+dt.createOptions(styleSelect, mapStyles);
 styleSelect.addEventListener("change", function (event) {
   let style = event.target[event.target.selectedIndex].id;
   const url = mapStyles[style].url;
@@ -131,7 +125,7 @@ styleSelect.addEventListener("change", function (event) {
 flyToCanada();
 // Province ➡️________________
 let provinceSelector = document.getElementById("province-select");
-createOptions(provinceSelector, canada.provinces);
+dt.createOptions(provinceSelector, canada.provinces);
 provinceSelector.addEventListener("change", (event) => {
   removeMarker(siteMarkers);
   let term = event.target[event.target.selectedIndex].id;
@@ -139,7 +133,7 @@ provinceSelector.addEventListener("change", (event) => {
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
   locGeojason = getGeojson(province, url, map, locGeojason);
   getCities(province.code);
-  unhideElementsById("city-select");
+  dt.unhideElementsById("city-select");
   event.target.selectedIndex = 0;
 });
 // City ➡️________________
@@ -151,21 +145,21 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
   locGeojason = getGeojson(cityName, url, map, locGeojason);
   if (!city.hasOwnProperty("sites")) {
-    unhideElementsById("province-select");
+    dt.unhideElementsById("province-select");
     infoMessage(`⚠️ No sites at ${cityName}`);
   } else {
-    hideElementsById("province-select", "building-select");
-    unhideElementsById("site-select");
+    dt.hideElementsById("province-select", "building-select");
+    dt.unhideElementsById("site-select");
     sites = city.sites;
     siteMarkers = siteMarker(sites);
-    createOptions(siteSelector, sites);
+    dt.createOptions(siteSelector, sites);
   }
   event.target.selectedIndex = 0;
 });
 
 // Site ➡️________________
 let siteSelector = document.getElementById("site-select");
-createOptions(siteSelector, sites);
+dt.createOptions(siteSelector, sites);
 siteSelector.addEventListener("change", (event) => {
   sites = city.sites;
   removeMarker(siteMarkers);
@@ -429,7 +423,7 @@ function hasNotCollided(intersections) {
 }
 
 function highlightItem(item) {
-  item.object.material = highlightMaterial;
+  item.object.material = dt.highlightMaterial;
   item.object.visible = true;
   gltfMasses.selected = item;
   gltfMasses.selected.id = item.object.name;
@@ -471,7 +465,7 @@ function openBimViewer(building) {
 
 function getCities(provinceCode) {
   citySelect = document.getElementById("city-select");
-  getJson(
+  dt.getJson(
     `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
   ).then((jsonCity) => {
     const cityItems = jsonCity.items;
@@ -484,7 +478,7 @@ function getCities(provinceCode) {
       option.innerHTML = cityName;
       option.setAttribute("id", cityName);
       citySelect.appendChild(option);
-      sortChildren(citySelect);
+      dt.sortChildren(citySelect);
     });
   });
 }
@@ -499,7 +493,7 @@ function infoMessage(message, seconds = 6) {
 function getGeojson(id, url, map, locGeojason) {
   removeGeojson(locGeojason);
   locGeojason = { fill: "", outline: "" };
-  getJson(url).then((geojson) => {
+  dt.getJson(url).then((geojson) => {
     locGeojason.current = geojson;
     loadGeojson(map, locGeojason.current, `${id}-locGeojason`);
     locGeojason.source = map.getSource(`${id}-locGeojason`);
@@ -559,7 +553,7 @@ function osmVisibility(map, toggle) {
 
 function closeBimViewer() {
   document.getElementById("close-bim-viewer").addEventListener("click", () => {
-    unhideElementsById(
+    dt.unhideElementsById(
       "style-select",
       "city-select",
       "site-select",
@@ -579,8 +573,8 @@ function flyToCanada() {
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
     map.setStyle(mapStyles[1].url);
-    isolateSelector(selectors, "province-select", "style-select");
-    isolateSelector(toolbar, "go-to", "lng", "lat");
+    dt.isolateSelector(selectors, "province-select", "style-select");
+    dt.isolateSelector(toolbar, "go-to", "lng", "lat");
     setTimeout(function () {
       location.reload();
     }, 2000);
@@ -653,19 +647,26 @@ function setSite(site, provinceTerm, cityName) {
   city = province.cities[cityName];
   if (province.cities) getCities(province.code);
   if (city.sites)
-    createOptions(document.getElementById("site-select"), city.sites);
+    dt.createOptions(document.getElementById("site-select"), city.sites);
   removeFromScene();
   removeGeojson(locGeojason);
   setModelOrigin(site);
   flyToSite(site);
-  hideElementsById("province-select", "lng", "lat", "go-to");
-  unhideElementsById("city-select", "site-select", "osm", "trees", "bus-stops");
+  dt.hideElementsById("province-select", "lng", "lat", "go-to");
+  dt.unhideElementsById(
+    "city-select",
+    "site-select",
+    "osm",
+    "trees",
+    "bus-stops",
+    "bikes"
+  );
   masses = [];
   if (!site.hasOwnProperty("buildings")) {
     removeFromScene();
     infoMessage(`⚠️ No buildings at ${site.name}`);
-    hideElementsById("lng", "lat", "building-select");
-    unhideElementsById("osm");
+    dt.hideElementsById("lng", "lat", "building-select");
+    dt.unhideElementsById("osm");
     if (site.hasOwnProperty("gltfMasses")) {
       loadMasses(
         masses,
@@ -679,8 +680,8 @@ function setSite(site, provinceTerm, cityName) {
   } else {
     loadMasses(masses, site, false);
     loadBldsGltf(site);
-    unhideElementsById("building-select");
-    createOptions(buildingSelector, site.buildings);
+    dt.unhideElementsById("building-select");
+    dt.createOptions(buildingSelector, site.buildings);
     selectBuilding(buildingSelector);
   }
 }
@@ -723,49 +724,46 @@ function siteMarker(sites) {
   return markers;
 }
 
-function toggleCustomLayer(button, toggle, layerName, radius) {
-  button.onclick = () => {
-    let layer =
-      canada.provinces[province.term].cities[city.name].layers[layerName];
-    let color = layer.color ? layer.color : "red";
+function toggleCustomLayer(button, toggle, layerKey) {
+  button.onclick = async () => {
     toggle = !toggle;
-    if (typeof layer.geojson === "function" && toggle) {
-      layer.geojson(site).then((features) => {
-        addCustomLayer(features, layerName, color, radius);
-      });
-    }
-    if (typeof layer.geojson !== "function" && toggle) {
-      layer.geojson.then((features) => {
-        addCustomLayer(features, layerName, color, radius);
-      });
+    let layers = canada.provinces[province.term].cities[city.name].layers;
+    let initialGeojson = (await layers[layerKey]).geojson;
+    if (toggle) {
+      let layer = await layers[layerKey];
+      layer.id = layerKey;
+      layer.geojson = await layer.geojson(site);
+      addCustomLayer(layer);
+      layer.geojson = await initialGeojson;
     }
     if (!toggle) {
-      map.removeLayer(`${layerName}-layer`);
-      map.removeSource(layerName);
+      map.removeLayer(`${layerKey}-layer`);
+      map.removeSource(layerKey);
+      return;
     }
   };
 }
 
-function addCustomLayer(features, layerName, color, radius = 7) {
-  map.addSource(layerName, {
+async function addCustomLayer(layer, radius = 7) {
+  let customLayer = await layer;
+  map.addSource(customLayer.id, {
     type: "geojson",
-    // Use a URL for the value for the `data` property.
-    data: features,
+    data: customLayer.geojson,
   });
 
   let popup;
   map.addLayer({
-    id: `${layerName}-layer`,
+    id: `${customLayer.id}-layer`,
     type: "circle",
-    source: layerName,
+    source: `${customLayer.id}`,
     paint: {
       "circle-radius": radius,
       "circle-stroke-width": 2,
-      "circle-color": color,
+      "circle-color": customLayer.color,
       "circle-stroke-color": "white",
     },
   });
-  map.on("mouseenter", `${layerName}-layer`, function (e) {
+  map.on("mouseenter", `${customLayer.id}-layer`, function (e) {
     let feature = e.features[0];
     popup = new mapboxgl.Popup()
       .setLngLat(feature.geometry.coordinates)
@@ -773,11 +771,11 @@ function addCustomLayer(features, layerName, color, radius = 7) {
       .addTo(map);
     map.getCanvas().style.cursor = "pointer";
   });
-  map.on("mouseleave", `${layerName}-layer`, function (e) {
+  map.on("mouseleave", `${customLayer.id}-layer`, function (e) {
     popup.remove();
     map.getCanvas().style.cursor = "";
   });
-  map.on("click", `${layerName}-layer`, function (e) {
+  map.on("click", `${customLayer.id}-layer`, function (e) {
     let feature = e.features[0];
     new mapboxgl.Popup()
       .setLngLat(feature.geometry.coordinates)
@@ -811,7 +809,7 @@ function goTo(site) {
 }
 
 function hideSelectors() {
-  hideElementsById(
+  dt.hideElementsById(
     "style-select",
     "province-select",
     "city-select",

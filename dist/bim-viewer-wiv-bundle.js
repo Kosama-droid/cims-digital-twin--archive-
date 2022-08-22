@@ -416,7 +416,7 @@ var canada$1 = canada = {
               logo: "../assets/ON/Ottawa/oc-logo.jpg",
               svg: icons.busStops,
               color: "#CE343B",
-              geojson: getJson(
+              geojson: (site) => getJson(
                 "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json"
               )
                 .then((json) => {
@@ -491,7 +491,6 @@ var canada$1 = canada = {
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
-
               buildings: {
                 Admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
@@ -512,7 +511,7 @@ var canada$1 = canada = {
               },
             },
           },
-                    layers: {
+          layers: {
             // busStops: infoMessage('⚠️ No bus stops data on this city'),
             trees: {
               name: "Toronto trees",
@@ -546,7 +545,8 @@ var canada$1 = canada = {
                   return setGeojson(items);
                 }),
             },
-          },
+            bikes: (site) => geojsonLayer('Bicycle parking', "../assets/ON/Toronto/geojson/Bicycle parking data.geojson", "bike"),
+          },    
         },
       },
     },
@@ -656,6 +656,31 @@ function setGeojson(items) {
     });
   }
   return geojson;
+}
+
+function geojsonLayer(layerName, url, icon) {
+  console.log(this);
+  this.name = layerName;
+  this.url = url;
+  icons[icon] ? this.svg = icons[icon] : icons.cims;
+  this.color = Math. floor(Math. random()*16777215); // random color
+  this.geojson = () => getJson(url)
+    .then((json) => {
+      let object = {};
+      let features = json.features;
+      features.forEach((feature) => {
+        if (!feature.geometry) return
+        object[feature.properties._id] = {
+        id: feature.properties.ID,
+        coordinates: feature.geometry.coordinates,
+        title: `<b>${layerName}</b> <br> ID: ${id}}`,
+        };
+      });
+      return bikes;
+    })
+    .then((items) => {
+      return setGeojson(items);
+    });
 }
 
 /**
