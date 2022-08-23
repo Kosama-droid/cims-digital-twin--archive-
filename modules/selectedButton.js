@@ -1,11 +1,9 @@
-export default function selectedButton(button, toggle) {
+export default function selectedButton(button, toggle, changeTitle = false) {
   toggle
     ? button.classList.add("selected-button")
     : button.classList.remove("selected-button");
-    }
+    
+    changeTitle && toggle ? button.title = `Hide ${button.name}` : button.title = `Show ${button.name}`;
+  }
 
-export async function getJson(path) {
-  let response = await fetch(path);
-  let json = await response.json();
-  return json;
-}
+    

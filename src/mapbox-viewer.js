@@ -25,7 +25,7 @@ dt.hideElementsById(
   "city-select",
   "site-select",
   "building-select",
-  "osm",
+  "osm"
   // "trees",
   // "bus-stops",
   // "bikes"
@@ -42,7 +42,7 @@ let scene,
   sites,
   siteMarkers;
 
-let toggle = {};
+let toggle = {osm: false};
 
 // Favourite sites ⭐⭐⭐⭐⭐⭐⭐
 let carleton = canada.provinces.ON.cities.Ottawa.sites.CDC;
@@ -108,10 +108,6 @@ dt.closeNavBar();
 
 // Setting Mapbox 🗺️📦
 mapbox();
-
-// Open Street Map buildings 🏢🏢🏢
-const osmButton = document.getElementById("osm");
-let toggleOSM = true;
 
 // Select map style 🗺️🎨
 const styleSelect = document.getElementById("style-select");
@@ -538,15 +534,13 @@ function loadBldsGltf(site) {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
+  const osmButton = document.getElementById("osm");
   osmButton.onclick = () => {
-    let layer = map.getLayer("OSM-buildings");
-    if (toggle) {
-      loadOSM(map, 0.9);
-      this.setAttribute("title", "Hide OSM Buildings");
-    } else {
-      map.removeLayer("OSM-buildings");
-    }
     toggle = !toggle;
+    dt.selectedButton(osmButton, toggle, true);
+    map.getLayer("OSM-buildings");
+    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
+    toggle.osm = toggle
   };
 }
 
@@ -644,18 +638,22 @@ async function setSite(site, provinceTerm, cityName) {
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
   let layers = city.layers;
+  const toolbar = document.getElementById("toolbar");
+  while (toolbar.childElementCount > 4) {
+    toolbar.removeChild(toolbar.lastChild);
+  }
   for (key in layers) {
-    const toolbar = document.getElementById("toolbar")
-    const osm = document.getElementById("osm")
-    const newButton = osm.cloneNode(true)
-    newButton.classList.remove('hidden')
-    const layer = await layers[key]
-    newButton.title = `Show ${layer.name}`
-    newButton.id = key
-toggle[key] = false;
-toggleCustomLayer(newButton, toggle[key], key);
+    const osm = document.getElementById("osm");
+    const newButton = osm.cloneNode(true);
+    newButton.classList.remove("hidden");
+    const layer = await layers[key];
+    newButton.title = `Show ${layer.name}`;
+    newButton.name = `${layer.name}`;
+    newButton.id = key;
+    toggle[key] = false;
+    toggleCustomLayer(newButton, toggle[key], key);
 
-    toolbar.appendChild(newButton)
+    toolbar.appendChild(newButton);
     // dt.unhideElementsById([key])
   }
   if (province.cities) getCities(province.code);
@@ -669,7 +667,7 @@ toggleCustomLayer(newButton, toggle[key], key);
   dt.unhideElementsById(
     "city-select",
     "site-select",
-    "osm",
+    "osm"
     // "trees",
     // "bus-stops",
     // "bikes"
@@ -740,6 +738,7 @@ function siteMarker(sites) {
 function toggleCustomLayer(button, toggle, layerKey) {
   button.onclick = async () => {
     toggle = !toggle;
+    dt.selectedButton(button, toggle, true);
     let layers = canada.provinces[province.term].cities[city.name].layers;
     let initialGeojson = (await layers[layerKey]).geojson;
     if (toggle) {
@@ -816,10 +815,10 @@ function goTo(location) {
     delete def.buildings;
     delete def.gltfMasses;
     def.name = "this site";
+  } else {
+    site = def;
+    setSite(site, province.term, city.name);
   }
-  else{ site = def 
-  setSite(site, province.term, city.name);
-}
 }
 
 function hideSelectors() {
@@ -859,9 +858,8 @@ function mapbox() {
       "star-intensity": 0.0,
     });
     addTerrain(map);
-    osmVisibility(map, toggleOSM);
+    osmVisibility(map, toggle.osm);
     map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-    osmVisibility(map, toggleOSM);
   });
 }
 
