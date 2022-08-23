@@ -1,4 +1,4 @@
-import icons from '../icons'
+import icons from "../icons";
 
 const lngRange = 0.03;
 const latRange = 0.03;
@@ -406,13 +406,15 @@ export default canada = {
             },
           },
           layers: {
-            busStops: setLayer("busStops", 
+            busStops: setLayer(
+              "busStops",
               "OCTranspo bus stops",
               "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json",
               "#CE343B",
               ocTranspo
             ),
-            trees: setLayer('trees', 
+            trees: setLayer(
+              "trees",
               "Ottawa trees",
               "../assets/ON/Ottawa/json/ON-Ottawa-trees.json",
               "green",
@@ -462,28 +464,43 @@ export default canada = {
             },
           },
           layers: {
-            trees: setLayer('trees', 
+            trees: setLayer(
+              "trees",
               "Toronto trees",
               "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson",
               "green",
               torontoTrees
             ),
-            bikes: setLayer('bikes', 
+            bikes: setLayer(
+              "bikes",
               "Bicycle parking",
               "../assets/ON/Toronto/geojson/ON-Toronto-bike_parking.geojson",
               "orange"
             ),
-            busStops: setLayer('busStops', 
+            busStops: setLayer(
+              "busStops",
               "Transit shelter",
               "../assets/ON/Toronto/geojson/ON-Toronto-transit_shelter.geojson",
               "yellow"
             ),
-            litter: setLayer('litter', 
-            "Litter Receptacles",
-            "../assets/ON/Toronto/geojson/ON-Toronto-litter_receptacle.geojson",
-            "blue"
-          ),
-            
+            litter: setLayer(
+              "litter",
+              "Litter Receptacles",
+              "../assets/ON/Toronto/geojson/ON-Toronto-litter_receptacle.geojson",
+              "blue"
+            ),
+            wc: setLayer(
+              "wc",
+              "Public Washrooms",
+              "../assets/ON/Toronto/geojson/ON-Toronto-public_washroom.geojson",
+              "#eeeeee"
+            ),
+            bench: setLayer(
+              "bench",
+              "Benches",
+              "../assets/ON/Toronto/geojson/ON-Toronto-bench.geojson",
+              "#a17c4c"
+            ),
           },
         },
       },
@@ -602,7 +619,7 @@ async function setLayer(id, layerName, url, color, funct) {
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
-    svg: icons[id] ? icons[id]: `<h1>${layerName[0]}</h1>`,
+    svg: icons[id] ? icons[id] : `<h1>${layerName[0]}</h1>`,
   };
   !funct
     ? (layer.geojson = async () => await geojsonLayer(layerName, url))
