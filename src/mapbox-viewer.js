@@ -26,9 +26,6 @@ dt.hideElementsById(
   "site-select",
   "building-select",
   "osm"
-  // "trees",
-  // "bus-stops",
-  // "bikes"
 );
 
 let scene,
@@ -42,7 +39,7 @@ let scene,
   sites,
   siteMarkers;
 
-let toggle = {osm: false};
+let toggle = { osm: false };
 
 // Favourite sites ⭐⭐⭐⭐⭐⭐⭐
 let carleton = canada.provinces.ON.cities.Ottawa.sites.CDC;
@@ -68,21 +65,6 @@ layerButton.onclick = () => {
     ? document.getElementById("toolbar").classList.remove("hidden")
     : document.getElementById("toolbar").classList.add("hidden");
 };
-
-// // Buses 🚍
-// const busStopButton = document.getElementById("bus-stops");
-// let busStopToggle = false;
-// toggleCustomLayer(busStopButton, busStopToggle, "busStops");
-
-// // Trees 🌳
-// const treesButton = document.getElementById("trees");
-// let treesToggle = false;
-// toggleCustomLayer(treesButton, treesToggle, "trees");
-
-// // Trees 🌳
-// const bikesButton = document.getElementById("bikes");
-// let bikesToggle = false;
-// toggleCustomLayer(bikesButton, bikesToggle, "bikes");
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
 let modelOrigin,
@@ -540,7 +522,7 @@ function osmVisibility(map, toggle) {
     dt.selectedButton(osmButton, toggle, true);
     map.getLayer("OSM-buildings");
     toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
-    toggle.osm = toggle
+    toggle.osm = toggle;
   };
 }
 
@@ -634,28 +616,11 @@ function setModelOrigin(site) {
   };
 }
 
-async function setSite(site, provinceTerm, cityName) {
+function setSite(site, provinceTerm, cityName) {
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
-  let layers = city.layers;
-  const toolbar = document.getElementById("toolbar");
-  while (toolbar.childElementCount > 4) {
-    toolbar.removeChild(toolbar.lastChild);
-  }
-  for (key in layers) {
-    const osm = document.getElementById("osm");
-    const newButton = osm.cloneNode(true);
-    newButton.classList.remove("hidden");
-    const layer = await layers[key];
-    newButton.title = `Show ${layer.name}`;
-    newButton.name = `${layer.name}`;
-    newButton.id = key;
-    toggle[key] = false;
-    toggleCustomLayer(newButton, toggle[key], key);
+  createLayerButtons(city);
 
-    toolbar.appendChild(newButton);
-    // dt.unhideElementsById([key])
-  }
   if (province.cities) getCities(province.code);
   if (city.sites)
     dt.createOptions(document.getElementById("site-select"), city.sites);
@@ -668,9 +633,6 @@ async function setSite(site, provinceTerm, cityName) {
     "city-select",
     "site-select",
     "osm"
-    // "trees",
-    // "bus-stops",
-    // "bikes"
   );
   masses = [];
   if (!site.hasOwnProperty("buildings")) {
@@ -694,6 +656,28 @@ async function setSite(site, provinceTerm, cityName) {
     dt.unhideElementsById("building-select");
     dt.createOptions(buildingSelector, site.buildings);
     selectBuilding(buildingSelector);
+  }
+}
+
+async function createLayerButtons(city) {
+  let layers = city.layers;
+  const toolbar = document.getElementById("toolbar");
+  while (toolbar.childElementCount > 4) {
+    toolbar.removeChild(toolbar.lastChild);
+  }
+  for (key in layers) {
+    const osm = document.getElementById("osm");
+    const newButton = osm.cloneNode(true);
+    newButton.classList.remove("hidden");
+    const layer = await layers[key];
+    newButton.title = `Show ${layer.name}`;
+    newButton.name = `${layer.name}`;
+    newButton.id = key;
+    console.log(layer)
+    newButton.innerHTML = `${layer.svg}`
+    toggle[key] = false;
+    toggleCustomLayer(newButton, toggle[key], key);
+    toolbar.appendChild(newButton);
   }
 }
 
