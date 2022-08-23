@@ -119,6 +119,7 @@ provinceSelector.addEventListener("change", (event) => {
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(siteMarkers);
+  dt.removeChildren(document.getElementById("toolbar"), 4)
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada.provinces[province.term].cities[cityName];
   if (!city) city = { name: cityName };
@@ -661,10 +662,8 @@ function setSite(site, provinceTerm, cityName) {
 
 async function createLayerButtons(city) {
   let layers = city.layers;
-  const toolbar = document.getElementById("toolbar");
-  while (toolbar.childElementCount > 4) {
-    toolbar.removeChild(toolbar.lastChild);
-  }
+  const toolbar = document.getElementById("toolbar")
+  dt.removeChildren(toolbar, 4);
   for (key in layers) {
     const osm = document.getElementById("osm");
     const newButton = osm.cloneNode(true);
@@ -673,7 +672,6 @@ async function createLayerButtons(city) {
     newButton.title = `Show ${layer.name}`;
     newButton.name = `${layer.name}`;
     newButton.id = key;
-    console.log(layer)
     newButton.innerHTML = `${layer.svg}`
     toggle[key] = false;
     toggleCustomLayer(newButton, toggle[key], key);

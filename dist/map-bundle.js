@@ -47927,6 +47927,12 @@ function createOptions(selector, objects) {
   }
 }
 
+function removeChildren(parent, childrenToKeep = 0) {
+    while (parent.childElementCount > childrenToKeep) {
+      parent.removeChild(parent.lastChild);
+    }
+  }
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc70,
     flatShading: true,
@@ -48052,6 +48058,7 @@ provinceSelector.addEventListener("change", (event) => {
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(siteMarkers);
+  removeChildren(document.getElementById("toolbar"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
   if (!city) city = { name: cityName };
@@ -48595,9 +48602,7 @@ function setSite(site, provinceTerm, cityName) {
 async function createLayerButtons(city) {
   let layers = city.layers;
   const toolbar = document.getElementById("toolbar");
-  while (toolbar.childElementCount > 4) {
-    toolbar.removeChild(toolbar.lastChild);
-  }
+  removeChildren(toolbar, 4);
   for (key in layers) {
     const osm = document.getElementById("osm");
     const newButton = osm.cloneNode(true);
@@ -48606,7 +48611,6 @@ async function createLayerButtons(city) {
     newButton.title = `Show ${layer.name}`;
     newButton.name = `${layer.name}`;
     newButton.id = key;
-    console.log(layer);
     newButton.innerHTML = `${layer.svg}`;
     toggle[key] = false;
     toggleCustomLayer(newButton, toggle[key], key);
