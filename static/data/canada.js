@@ -449,19 +449,19 @@ export default canada = {
               buildings: {
                 Admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
-                  ifcFileName: "ON_Toronto_DA_admin.ifc",
+                  ifcFileName: "ON-Toronto-DA-admin.ifc",
                 },
                 b7_10: {
                   name: "Bays 7 to 10",
-                  ifcFileName: "ON_Toronto_DA_b7_10.ifc",
+                  ifcFileName: "ON-Toronto-DA-b7-10.ifc",
                 },
                 b11: {
                   name: "Bay 11",
-                  ifcFileName: "ON_Toronto_DA_b11.ifc",
+                  ifcFileName: "ON-Toronto-DA-b11.ifc",
                 },
                 b12: {
                   name: "Bay 12",
-                  ifcFileName: "ON_Toronto_DA_b12.ifc",
+                  ifcFileName: "ON-Toronto-DA-b12.ifc",
                 },
               },
             },
