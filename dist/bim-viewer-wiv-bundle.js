@@ -379,8 +379,7 @@ var canada$1 = canada = {
                 },
               },
               publicIfc: true,
-              ifcPath:
-                "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
+              ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
             PB: {
@@ -122371,16 +122370,6 @@ const scene = viewer.context.getScene();
 // Create axes
 viewer.axes.setAxes();
 
-// Set up stats
-const stats = new Stats();
-stats.showPanel(0);
-// document.body.append(stats.dom);
-stats.dom.style.right = "5px";
-stats.dom.style.bottom = "5px";
-
-stats.dom.style.left = "auto";
-viewer.context.stats = stats;
-
 viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   USE_FAST_BOOLS: true,
   COORDINATE_TO_ORIGIN: true,
@@ -122390,6 +122379,7 @@ let ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
 building.ifcURL = ifcURL;
 let model;
 
+(site.publicIFC)? console.log("public IFC") : console.log("non public IFC");
 loadIfc(ifcURL);
 
 // Projection
@@ -122842,8 +122832,7 @@ async function preposcessIfc(building) {
     }
 
     link.remove();
-
-
+    
   // // Download result
   // let link = document.createElement("a");
   // document.body.appendChild(link);
@@ -122868,3 +122857,13 @@ async function preposcessIfc(building) {
 
   //   link.remove();
 }
+
+// Set up stats
+// const stats = new Stats();
+// stats.showPanel(0);
+// document.body.append(stats.dom);
+// stats.dom.style.right = "5px";
+// stats.dom.style.bottom = "5px";
+
+// stats.dom.style.left = "auto";
+// viewer.context.stats = stats;

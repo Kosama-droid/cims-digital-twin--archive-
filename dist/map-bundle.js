@@ -379,8 +379,7 @@ var canada$1 = canada = {
                 },
               },
               publicIfc: true,
-              ifcPath:
-                "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
+              ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
             PB: {

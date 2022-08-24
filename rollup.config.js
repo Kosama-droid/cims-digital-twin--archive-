@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve'
 
 export default [
 {
-  input: "src/mapbox-viewer.js",
+  input: "app/mapbox-viewer.js",
   output: [
     {
     format: "esm",
@@ -14,7 +14,7 @@ export default [
   ],
 },
 {
-  input: "src/bim-viewer-wiv.js",
+  input: "app/bim-viewer-wiv.js",
   output: [
     {
     format: "esm",
