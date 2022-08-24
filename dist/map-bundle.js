@@ -47954,6 +47954,41 @@ function removeChildren(parent, childrenToKeep = 0) {
     }
   }
 
+function loadBldsGltf(site, currentScene) {
+  site.id = site.id;
+  console.log(currentScene);
+  const group = new Group();
+  group.name = `${site.id}-buildings`;
+  const gltfloader = new GLTFLoader();
+  let buildings = site.buildings;
+  let buildingGltf;
+  let loadingContainer = document.getElementById("loader-container");
+  let progressText = document.getElementById("progress-text");
+  const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
+  categories.forEach((category) => {
+    for (const id in buildings) {
+      let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+      gltfloader.load(
+        gltfPath,
+        (gltf) => {
+          buildingGltf = gltf.scene;
+          buildingGltf.name = `${id}-${category}`;
+          currentScene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
+          loadingContainer.style.display = "none";
+        },
+        () => {
+          loadingContainer.style.display = "flex";
+          progressText.textContent = `Loading ${site.name}'s buildings`;
+        },
+        (error) => {
+          return;
+        }
+      );
+    }
+  });
+  if (!currentScene.getObjectByName(`${site.id}-buildings`)) currentScene.add(group);
+}
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc70,
     flatShading: true,
@@ -48061,6 +48096,98 @@ styleSelect.addEventListener("change", function (event) {
   event.target.selectedIndex = 0;
 });
 
+// THREE JS 3️⃣  ______________________________________________________________
+const customLayer = {
+  id: "three-scene",
+  type: "custom",
+  renderingMode: "3d",
+  onAdd: function (map, gl) {
+    camera = new PerspectiveCamera();
+    scene = new Scene();
+    const axes = new AxesHelper(10);
+    axes.material.depthTest = false;
+    axes.renderOrder = 3;
+    scene.add(axes);
+
+    // create three.js lights to illuminate the model
+    const lightColor = 0xffffff;
+    const ambientLight = new AmbientLight(lightColor, 0.2);
+    scene.add(ambientLight);
+
+    const directionalLight = new DirectionalLight(lightColor, 0.9);
+    directionalLight.position.set(0, 400, 600).normalize();
+    scene.add(directionalLight);
+
+    // use the Mapbox GL JS map canvas for three.js
+    renderer = new WebGLRenderer({
+      canvas: map.getCanvas(),
+      context: gl,
+      antialias: true,
+    });
+    renderer.autoClear = false;
+
+    raycaster = new Raycaster();
+  },
+
+  render: function (gl, matrix) {
+    const rotationX = new Matrix4().makeRotationAxis(
+      new Vector3(1, 0, 0),
+      modelTransform.rotateX
+    );
+    const rotationY = new Matrix4().makeRotationAxis(
+      new Vector3(0, 1, 0),
+      modelTransform.rotateY
+    );
+    const rotationZ = new Matrix4().makeRotationAxis(
+      new Vector3(0, 0, 1),
+      modelTransform.rotateZ
+    );
+
+    const m = new Matrix4().fromArray(matrix);
+    const l = new Matrix4()
+      .makeTranslation(
+        modelTransform.translateX,
+        modelTransform.translateY,
+        modelTransform.translateZ
+      )
+      .scale(
+        new Vector3(
+          modelTransform.scale,
+          -modelTransform.scale,
+          modelTransform.scale
+        )
+      )
+      .multiply(rotationX)
+      .multiply(rotationY)
+      .multiply(rotationZ);
+
+    camera.projectionMatrix = m.multiply(l);
+    renderer.resetState();
+    renderer.render(scene, camera);
+    map.triggerRepaint();
+
+    const freeCamera = map.getFreeCameraOptions();
+    let cameraPosition = new Vector4(
+      freeCamera.position.x,
+      freeCamera.position.y,
+      freeCamera.position.z,
+      1
+    );
+    cameraPosition.applyMatrix4(l.invert());
+    let direction = mouse
+      .clone()
+      .applyMatrix4(camera.projectionMatrix.clone().invert());
+    direction.divideScalar(direction.w);
+    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
+
+    intersections = raycaster.intersectObjects(masses);
+
+    setIntesections();
+
+    renderer.render(scene, camera);
+  },
+};
+
 // Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
 // Province ➡️________________
@@ -48158,98 +48285,6 @@ const goToButton = document.getElementById("go-to");
 goToButton.addEventListener("click", () => {
   goTo();
 });
-
-// THREE JS 3️⃣  ______________________________________________________________
-const customLayer = {
-  id: "three-scene",
-  type: "custom",
-  renderingMode: "3d",
-  onAdd: function (map, gl) {
-    camera = new PerspectiveCamera();
-    scene = new Scene();
-    const axes = new AxesHelper(10);
-    axes.material.depthTest = false;
-    axes.renderOrder = 3;
-    scene.add(axes);
-
-    // create three.js lights to illuminate the model
-    const lightColor = 0xffffff;
-    const ambientLight = new AmbientLight(lightColor, 0.2);
-    scene.add(ambientLight);
-
-    const directionalLight = new DirectionalLight(lightColor, 0.9);
-    directionalLight.position.set(0, 400, 600).normalize();
-    scene.add(directionalLight);
-
-    // use the Mapbox GL JS map canvas for three.js
-    renderer = new WebGLRenderer({
-      canvas: map.getCanvas(),
-      context: gl,
-      antialias: true,
-    });
-    renderer.autoClear = false;
-
-    raycaster = new Raycaster();
-  },
-
-  render: function (gl, matrix) {
-    const rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      modelTransform.rotateX
-    );
-    const rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      modelTransform.rotateY
-    );
-    const rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      modelTransform.rotateZ
-    );
-
-    const m = new Matrix4().fromArray(matrix);
-    const l = new Matrix4()
-      .makeTranslation(
-        modelTransform.translateX,
-        modelTransform.translateY,
-        modelTransform.translateZ
-      )
-      .scale(
-        new Vector3(
-          modelTransform.scale,
-          -modelTransform.scale,
-          modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
-
-    camera.projectionMatrix = m.multiply(l);
-    renderer.resetState();
-    renderer.render(scene, camera);
-    map.triggerRepaint();
-
-    const freeCamera = map.getFreeCameraOptions();
-    let cameraPosition = new Vector4(
-      freeCamera.position.x,
-      freeCamera.position.y,
-      freeCamera.position.z,
-      1
-    );
-    cameraPosition.applyMatrix4(l.invert());
-    let direction = mouse
-      .clone()
-      .applyMatrix4(camera.projectionMatrix.clone().invert());
-    direction.divideScalar(direction.w);
-    raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
-
-    intersections = raycaster.intersectObjects(masses);
-
-    setIntesections();
-
-    renderer.render(scene, camera);
-  },
-};
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
@@ -48441,39 +48476,39 @@ function getGeojson(id, url, map, locGeojason) {
   return locGeojason;
 }
 
-function loadBldsGltf(site) {
-  site.id = site.id;
-  const group = new Group();
-  group.name = `${site.id}-buildings`;
-  const gltfloader = new GLTFLoader();
-  let buildings = site.buildings;
-  let buildingGltf;
-  let loadingContainer = document.getElementById("loader-container");
-  let progressText = document.getElementById("progress-text");
-  const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
-  categories.forEach((category) => {
-    for (const id in buildings) {
-      let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
-      gltfloader.load(
-        gltfPath,
-        (gltf) => {
-          buildingGltf = gltf.scene;
-          buildingGltf.name = `${id}-${category}`;
-          scene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
-          loadingContainer.style.display = "none";
-        },
-        () => {
-          loadingContainer.style.display = "flex";
-          progressText.textContent = `Loading ${site.name}'s buildings`;
-        },
-        (error) => {
-          return;
-        }
-      );
-    }
-  });
-  if (!scene.getObjectByName(`${site.id}-buildings`)) scene.add(group);
-}
+// function loadBldsGltf(site, scene = scene) {
+//   site.id = site.id;
+//   const group = new Group();
+//   group.name = `${site.id}-buildings`;
+//   const gltfloader = new GLTFLoader();
+//   let buildings = site.buildings;
+//   let buildingGltf;
+//   let loadingContainer = document.getElementById("loader-container");
+//   let progressText = document.getElementById("progress-text");
+//   const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
+//   categories.forEach((category) => {
+//     for (const id in buildings) {
+//       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
+//       gltfloader.load(
+//         gltfPath,
+//         (gltf) => {
+//           buildingGltf = gltf.scene;
+//           buildingGltf.name = `${id}-${category}`;
+//           scene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
+//           loadingContainer.style.display = "none";
+//         },
+//         () => {
+//           loadingContainer.style.display = "flex";
+//           progressText.textContent = `Loading ${site.name}'s buildings`;
+//         },
+//         (error) => {
+//           return;
+//         }
+//       );
+//     }
+//   });
+//   if (!scene.getObjectByName(`${site.id}-buildings`)) scene.add(group);
+// }
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
@@ -48614,7 +48649,8 @@ function setSite(site, provinceTerm, cityName) {
     }
   } else {
     loadMasses(masses, site, false);
-    loadBldsGltf(site);
+    // console.log(scene)
+    loadBldsGltf(site, scene);
     unhideElementsById("building-select");
     createOptions(buildingSelector, site.buildings);
     selectBuilding(buildingSelector);

@@ -122379,8 +122379,8 @@ let ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
 building.ifcURL = ifcURL;
 let model;
 
-(site.publicIFC)? console.log("public IFC") : console.log("non public IFC");
-loadIfc(ifcURL);
+(site.publicIfc)? loadIfc(ifcURL) : console.log("load GLB");
+// loadIfc(ifcURL);
 
 // Projection
 document.getElementById("projection").onclick = () =>
@@ -122508,6 +122508,7 @@ const clippingButton = document.getElementById("clipping");
 toggle.clipping = false;
 clippingButton.onclick = () => {
   toggle.clipping = !toggle.clipping;
+  viewer.IFC.selector.unHighlightIfcItems();
   viewer.clipper.active = toggle.clipping;
   let visibility = toggle.clipping ? "Hide" : "Show";
   let button = document.getElementById("clipping");
@@ -122516,9 +122517,15 @@ clippingButton.onclick = () => {
 };
 
 // Click → Dimensions
-window.onclick = () => {
+window.onclick = async () => {
   if (clicked > 0 && toggle.dimensions) {
     viewer.dimensions.create();
+  }
+  const result = await viewer.IFC.selector.pickIfcItem(false);
+  if (result) {
+    const foundProperties = properties[result.id];
+    const psets = getPropertySets(foundProperties);
+    createPropsMenu(psets);
   }
   clicked++;
 };
@@ -122556,17 +122563,12 @@ toggleVisibility(propButton, toggle.proprerties, propertyMenu);
 // Pick → propterties
 viewer.IFC.selector.selection.material = pickHighlihgtMateral$1;
 
-window.ondblclick = async () => {
-  const result = await viewer.IFC.selector.pickIfcItem(false);
+window.ondblclick = () => {
+  
     // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
   if (toggle.clipping) {
     viewer.clipper.createPlane();
     return
-  }
-  if (result) {
-    const foundProperties = properties[result.id];
-    const psets = getPropertySets(foundProperties);
-    createPropsMenu(psets);
   }
 };
 
@@ -122664,6 +122666,7 @@ function createPropsMenu(props) {
   delete props.type;
 
   for (let key in props) {
+    if (props[key] === null) return;
     createPropertyEntry(key, props[key]);
   }
 }
