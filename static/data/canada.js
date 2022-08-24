@@ -1,7 +1,7 @@
 import icons from "../icons";
 
-const lngRange = 0.03;
-const latRange = 0.03;
+const lngRange = 0.025;
+const latRange = 0.025;
 
 export default canada = {
   lng: -98.74,
@@ -366,6 +366,7 @@ export default canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
+              publicIfc: true,
               ifcPath:
                 "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
@@ -440,11 +441,12 @@ export default canada = {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
                 position: { x: 0, y: 0, z: 0 },
               },
+              publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
               buildings: {
-                Admin: {
+                admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
                   ifcFileName: "ON-Toronto-DA-admin.ifc",
                 },
@@ -614,12 +616,13 @@ async function setGeojson(items) {
 }
 
 async function setLayer(id, layerName, url, color, funct) {
+  let infoText = info(`<b>${layerName}</b> <br>click on markers to see details`)
   let layer = {
     id: id,
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
-    svg: icons[id] ? icons[id] : `<h1>${layerName[0]}</h1>`,
+    svg: icons[id] ? `${icons[id]}${infoText}` : `<h1>${layerName[0]}${info}</h1>`,
   };
   !funct
     ? (layer.geojson = async () => await geojsonLayer(layerName, url))
@@ -639,7 +642,7 @@ async function geojsonLayer(layerName, url) {
       id: ID,
       name: `${layerName}: ${ID}`,
       coordinates: feature.geometry.coordinates,
-      title: `<b>${layerName}</b> <br> ID: ${ID}}`,
+      title: `<b>${layerName}</b> <br> ID: ${ID}`,
     };
   });
   let geojson = await setGeojson(items);
@@ -721,4 +724,8 @@ async function ocTranspo(site) {
     return busStops;
   });
   return await setGeojson(busStops);
+}
+
+function info(info) {
+  return `<span class="info-text">${info}</span>`;
 }

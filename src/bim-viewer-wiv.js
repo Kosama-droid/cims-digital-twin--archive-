@@ -10,7 +10,6 @@ import {
   pickHighlihgtMateral,
   labeling,
   createOptions,
-  sortChildren,
 } from "../modules/cims-dt-api"
 
 import {
@@ -25,7 +24,7 @@ import {
   IFCROOF,
 } from "web-ifc";
 
-import Stats from "stats.js/src/Stats";
+// import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
 const currentURL = window.location.href;

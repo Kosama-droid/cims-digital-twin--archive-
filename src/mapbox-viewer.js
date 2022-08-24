@@ -546,6 +546,7 @@ function bimViewer(building) {
 
 function flyToCanada() {
   document.getElementById("canada").addEventListener("click", () => {
+    dt.removeChildren(document.getElementById("toolbar"), 4)
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
     dt.isolateSelector(selectors, "province-select", "style-select");
@@ -848,6 +849,7 @@ function mapbox() {
 function setIntesections() {
   if (hasNotCollided(intersections)) {
     restorePreviousSelection();
+    map.getCanvas().style.cursor = "";
     return;
   }
 
@@ -858,6 +860,7 @@ function setIntesections() {
   restorePreviousSelection();
   savePreviousSelectio(foundItem);
   highlightItem(foundItem);
+  map.getCanvas().style.cursor = "pointer";
 }
 
 map.on("mousemove", (event) => {

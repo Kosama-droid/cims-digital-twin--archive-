@@ -1,5 +1,19 @@
-const lngRange = 0.03;
-const latRange = 0.03;
+var icons$1 = icons = {
+  cims: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450.000000 452.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,452.000000) scale(0.050000,-0.050000)"><path d="M35 9008 c-8 -8 -15 -2034 -15 -4501 l0 -4487 4490 0 4490 0 0 4490 -1 4490 -4417 0 c-2429 0 -4443 5 -4475 12 -31 6 -64 4 -72 -4z m2826 -1433 c1 -1429 4 -1293 -20 -1255 -11 17 -573 584 -1250 1262 -677 677 -1231 1235 -1231 1240 0 4 563 6 1250 3 l1251 -5 0 -1245z m5822 1255 c9 -9 -4144 -4170 -4163 -4170 -5 0 -332 323 -726 717 l-716 717 -4 1363 -4 1363 2780 5 c1529 3 2790 7 2802 10 12 3 26 1 31 -5z m-7142 -1480 l1329 -1331 -5 -1054 -4 -1053 -56 -53 c-30 -29 -624 -603 -1319 -1276 -695 -673 -1266 -1223 -1270 -1223 -3 0 -6 1647 -6 3660 0 2013 1 3660 1 3660 1 0 600 -599 1330 -1330z m7301 1305 c-1 -8 -2 -1914 -2 -4235 l0 -4220 -976 0 -975 0 -1134 1105 -1134 1105 -1 1030 0 1030 2095 2101 c1894 1900 2132 2133 2127 2084z m-4418 -5120 c3 -514 4 -935 2 -935 -2 0 -97 93 -210 206 -113 113 -415 411 -670 661 l-465 455 -5 954 -6 954 674 -680 674 -679 6 -936z m-919 -310 c289 -283 613 -600 720 -705 l195 -190 1 -1060 1 -1060 -2086 -5 c-1147 -3 -2095 -2 -2106 2 -13 5 -17 165 -12 445 l7 438 633 609 c999 963 1862 1800 1982 1923 61 62 117 113 125 115 8 2 251 -229 540 -512z m1785 -1747 c264 -257 668 -651 897 -874 230 -224 414 -408 410 -410 -4 -2 -450 -1 -992 2 l-984 5 -6 955 c-3 525 -1 962 4 973 4 10 49 -27 100 -82 50 -55 307 -311 571 -569z"/></g></svg>`,
+  goToIcon: `M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z`,
+  ortho: `m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z`,
+  mapbox: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet"> <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"> <path d="M1390 2994 c-335 -38 -577 -133 -814 -318 -691 -539 -768 -1564 -165 -2201 291 -307 666 -468 1089 -468 349 0 650 104 925 318 457 356 667 959 530 1524 -141 583 -610 1022 -1202 1126 -89 15 -299 26 -363 19z m465 -604 c518 -164 732 -768 422 -1187 -151 -203 -461 -365 -808 -422 -171 -28 -541 -31 -661 -6 -33 8 -35 15 -48 200 -26 379 49 764 199 1014 145 241 301 365 526 417 90 21 281 12 370 -16z" /><path d="M1601 1967 l-72 -147 -144 -73 c-80 -39 -145 -74 -144 -77 0 -3 65 -36 144 -74 l143 -69 72 -148 72 -148 74 150 74 150 148 71 147 70 -150 72 -149 72 -72 149 -72 150 -71 -148z" /> </g></svg>`,
+  ifc: `<g xmlns="http://www.w3.org/2000/svg" transform="translate(0.000000,298.000000) scale(0.100000,-0.100000)"><path d="M1863 2886 c-67 -22 -101 -48 -233 -181 l-125 -125 118 -117 117 -118 98 98 97 97 300 -300 300 -300 -358 -358 c-196 -196 -357 -362 -357 -369 0 -16 79 -80 123 -98 57 -24 162 -20 222 9 69 33 674 639 704 706 28 61 28 159 0 220 -28 63 -742 780 -813 817 -59 30 -136 38 -193 19z"/><path d="M971 2841 c-49 -17 -88 -53 -442 -407 -427 -426 -425 -424 -423 -539 1 -93 27 -133 179 -285 l135 -135 117 118 118 117 -97 97 -97 96 297 299 297 298 362 -362 363 -362 36 34 c58 56 88 124 88 201 0 116 -13 134 -366 485 -199 198 -328 320 -355 333 -62 31 -146 36 -212 12z"/><path d="M1173 2248 c-56 -59 -78 -114 -78 -198 0 -59 5 -84 24 -120 14 -26 101 -123 209 -233 l186 -187 118 117 118 118 -267 267 c-147 148 -270 268 -273 268 -4 0 -20 -15 -37 -32z"/><path d="M1990 1893 c-36 -12 -86 -57 -245 -214 l-200 -199 118 -117 117 -118 273 273 272 273 -40 36 c-22 19 -58 44 -80 55 -53 28 -155 33 -215 11z"/><path d="M890 1853 c-38 -13 -98 -68 -368 -337 -361 -358 -375 -376 -375 -486 -1 -119 3 -124 411 -533 202 -203 387 -380 412 -395 39 -24 56 -27 130 -27 64 0 94 5 120 19 19 10 97 80 173 154 l137 136 -117 118 -118 118 -97 -97 -98 -98 -300 300 -300 300 362 362 362 362 -29 32 c-17 17 -57 44 -90 60 -69 33 -141 37 -215 12z"/><path d="M985 1449 l-270 -270 51 -48 c58 -53 105 -71 190 -71 100 0 136 25 347 237 l187 188 -118 118 -117 117 -270 -271z"/><path d="M2500 1375 l-115 -115 93 -93 c50 -51 92 -97 92 -102 0 -6 -133 -143 -295 -305 l-295 -295 -364 364 -363 363 -46 -51 c-80 -90 -99 -209 -47 -312 15 -29 126 -149 334 -356 356 -357 372 -369 494 -361 37 2 85 12 107 23 26 12 168 146 412 389 423 422 429 429 421 554 -2 38 -12 84 -23 107 -16 33 -270 305 -285 305 -3 0 -57 -52 -120 -115z"/><path d="M1400 1335 l-115 -115 270 -270 269 -270 34 33 c54 51 82 120 82 202 -1 111 -16 135 -228 348 -102 103 -189 187 -192 187 -3 0 -57 -52 -120 -115z"/></g>`,
+  busStops: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 24h-2c-.552 0-1-.448-1-1v-1c-.53 0-1.039-.211-1.414-.586s-.586-.884-.586-1.414v-8c-.552 0-1-.448-1-1v-3c0-.552.448-1 1-1v-4c0-1.657 1.343-3 3-3h16c1.657 0 3 1.343 3 3v4c.552 0 1 .448 1 1v3c0 .552-.448 1-1 1v8c0 .53-.211 1.039-.586 1.414s-.884.586-1.414.586v1c0 .552-.448 1-1 1h-2c-.552 0-1-.448-1-1v-1h-10v1c0 .552-.448 1-1 1zm-1.5-7c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm15 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm-5 1h-5c-.276 0-.5.224-.5.5s.224.5.5.5h5c.276 0 .5-.224.5-.5s-.224-.5-.5-.5zm6.5-12.5c0-.276-.224-.5-.5-.5h-17c-.276 0-.5.224-.5.5v8.5s3.098 1 9 1 9-1 9-1v-8.5zm-5-3.5h-8v1h8v-1z" /></svg>`,
+  trees: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 24h-2v-4.829c-.695-.173-1.413-.502-1.951-.895-.5.15-1.019.225-1.549.225-3.033 0-5.5-2.505-5.5-5.584 0-1.283.421-2.494 1.197-3.477-.195-.496-.297-1.025-.297-1.565 0-2.025 1.403-3.721 3.298-4.12 1.042-2.27 3.301-3.755 5.802-3.755 2.501 0 4.761 1.485 5.803 3.756 1.894.398 3.297 2.094 3.297 4.119 0 .54-.102 1.07-.296 1.565.776.983 1.196 2.193 1.196 3.477 0 3.079-2.468 5.584-5.5 5.584-.528 0-1.046-.075-1.545-.224-.518.387-1.224.734-1.955.908v4.815zm-3.45-8.081c.948 1.371 2.191 1.384 2.506 1.384.341 0 1.567-.075 2.395-1.384.701.416 2.891 1.161 4.494-.438 1.389-1.392 1.615-4.14-.617-5.726 1.118-1.212.803-2.311.567-2.824-.343-.748-1.085-1.334-2.524-1.293-.416-1.98-2.462-3.638-4.371-3.638-1.894 0-3.986 1.616-4.37 3.638-1.245-.028-2.052.523-2.368 1.007-.325.5-.667 1.812.41 3.11-2.188 1.862-1.99 4.352-.616 5.726 1.866 1.864 4.011.648 4.494.438z"/></svg>`,
+  bikes: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.565 9.209c.454-.136.937-.209 1.435-.209 2.759 0 5 2.24 5 5s-2.241 5-5 5c-2.76 0-5-2.24-5-5 0-1.906 1.068-3.564 2.639-4.408l-.429-1.039-4.494 5.947h-1.741c-.251 2.525-2.385 4.5-4.975 4.5-2.76 0-5-2.24-5-5s2.24-5 5-5c.635 0 1.244.119 1.803.336l1.181-2.331-.462-1.005h-1.022c-.277 0-.5-.224-.5-.5 0-.239.189-.5.5-.5h2.491c.239 0 .5.189.5.5s-.26.5-.5.5h-.368l.47 1h6.484l-.421-1h-1.656c-.277 0-.5-.224-.5-.5 0-.311.259-.5.5-.5h2.33l1.735 4.209zm-11.217 1.024c-.421-.151-.875-.233-1.348-.233-2.208 0-4 1.792-4 4s1.792 4 4 4c2.038 0 3.722-1.528 3.969-3.5h-3.103c-.174.299-.497.5-.866.5-.552 0-1-.448-1-1 0-.533.419-.97.945-.998l1.403-2.769zm10.675.289c-1.208.689-2.023 1.989-2.023 3.478 0 2.208 1.792 4 4 4s4-1.792 4-4-1.792-4-4-4c-.364 0-.716.049-1.051.14l1.182 2.869c.491.064.869.484.869.991 0 .552-.449 1-1 1-.552 0-1-.448-1-1 0-.229.077-.44.207-.609l-1.184-2.869zm-9.783.165l-1.403 2.766.029.047h3.103c-.147-1.169-.798-2.183-1.729-2.813m.454-.898c1.254.804 2.126 2.152 2.281 3.711h.997l-2.454-5.336-.824 1.625zm7.683-1.789h-5.839l2.212 4.797 3.627-4.797z"/></svg>`,
+  litter: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/></svg>`,
+  bench: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 123.38 109.77" xml:space="preserve"><g><path class="st0" d="M115.74,73.47v35.2c0,0.47-0.39,0.85-0.85,0.85h-6.62c-0.47,0-0.86-0.39-0.86-0.86v-25.3H16.93v25.31 c0,0.47-0.38,0.85-0.85,0.85H9.46c-0.47,0-0.86-0.39-0.86-0.86V73.47H5.72c-1.51,0-2.88-0.61-3.87-1.6 c-0.99-0.99-1.6-2.36-1.6-3.87v-5.5c0-1.51,0.61-2.88,1.6-3.87c0.99-0.99,2.36-1.6,3.87-1.6h6.7V36.19H6 c-1.51,0-2.88-0.61-3.87-1.6c-0.99-0.99-1.6-2.36-1.6-3.87V9.79c0-1.51,0.61-2.88,1.6-3.87C3.12,4.94,4.49,4.32,6,4.32h6.42V1.17 c0-0.5,0.41-0.92,0.92-0.92h6.06c0.5,0,0.92,0.41,0.92,0.92v3.15h82.48V1.17c0-0.5,0.41-0.92,0.92-0.92h6.06 c0.5,0,0.92,0.41,0.92,0.92v3.15h6.97c1.51,0,2.88,0.61,3.87,1.6c0.99,0.99,1.6,2.36,1.6,3.87v20.92c0,1.51-0.61,2.88-1.6,3.87 c-0.99,0.99-2.36,1.6-3.87,1.6h-6.97v20.84h6.7c1.51,0,2.88,0.61,3.87,1.6c0.99,0.99,1.6,2.36,1.6,3.87V68 c0,1.51-0.61,2.88-1.6,3.87c-0.99,0.99-2.36,1.6-3.87,1.6H115.74L115.74,73.47z M5.03,62.02h113.75v6.9H5.03V62.02L5.03,62.02z M5.32,9.55h112.6v20.7H5.32V9.55L5.32,9.55z M107.41,79.54v-6.06H16.93v6.06H107.41L107.41,79.54z M102.79,57.03V36.19H20.31 v20.84H102.79L102.79,57.03z"/></g></svg>`,
+  wc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 109.91"><path d="M30.39,35.84v66.43a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.86-4.86V63.21H18.77v39.06a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.86-4.86V35.84H7.37V60.25a3.7,3.7,0,0,1-3.69,3.68h0A3.7,3.7,0,0,1,0,60.25V34c0-4.27,1.44-7.27,4.05-9.24,4.5-3.39,26.72-3.39,31.22,0,2.62,2,4.07,5,4.06,9.24V60.25a3.7,3.7,0,0,1-3.68,3.68h0A3.7,3.7,0,0,1,32,60.25V35.84ZM53.51,2.78a2.81,2.81,0,0,1,5.62,0V107.13a2.81,2.81,0,0,1-5.62,0V2.78ZM115,33c.06.15.11.3.16.46l7.59,27a3.77,3.77,0,1,1-7.27,2L108,35.81l-.11,0H106.3v1.69l10,39.74h-10v25a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.85-4.86v-25H94.68v25a4.88,4.88,0,0,1-4.86,4.86h0A4.87,4.87,0,0,1,85,102.27v-25H74.38L85,36.48v-.64h-1.7l-.14,0L75.64,62.46a3.77,3.77,0,1,1-7.27-2L75.8,34l-.08,0c1.14-4.25,2.09-7.27,4.71-9.24,4.5-3.39,26.24-3.39,30.75,0C113.6,26.56,114,29,115,33ZM95.57,2.78a8.78,8.78,0,1,1-8.78,8.78,8.78,8.78,0,0,1,8.78-8.78Zm-75.91,0a8.78,8.78,0,1,1-8.78,8.78,8.78,8.78,0,0,1,8.78-8.78Z"/></svg>`,
+};
+
+const lngRange = 0.025;
+const latRange = 0.025;
 
 var canada$1 = canada = {
   lng: -98.74,
@@ -364,6 +378,7 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
+              publicIfc: true,
               ifcPath:
                 "https://cimsprojects.ca/CDC/CIMS-WebApp/assets/ontario/ottawa/carleton/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
@@ -405,12 +420,14 @@ var canada$1 = canada = {
           },
           layers: {
             busStops: setLayer(
+              "busStops",
               "OCTranspo bus stops",
               "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json",
               "#CE343B",
               ocTranspo
             ),
             trees: setLayer(
+              "trees",
               "Ottawa trees",
               "../assets/ON/Ottawa/json/ON-Ottawa-trees.json",
               "green",
@@ -436,11 +453,12 @@ var canada$1 = canada = {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
                 position: { x: 0, y: 0, z: 0 },
               },
+              publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
               buildings: {
-                Admin: {
+                admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
                   ifcFileName: "ON-Toronto-DA-admin.ifc",
                 },
@@ -461,20 +479,41 @@ var canada$1 = canada = {
           },
           layers: {
             trees: setLayer(
+              "trees",
               "Toronto trees",
               "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson",
               "green",
               torontoTrees
             ),
             bikes: setLayer(
+              "bikes",
               "Bicycle parking",
               "../assets/ON/Toronto/geojson/ON-Toronto-bike_parking.geojson",
-              "blue"
+              "orange"
             ),
             busStops: setLayer(
+              "busStops",
               "Transit shelter",
               "../assets/ON/Toronto/geojson/ON-Toronto-transit_shelter.geojson",
               "yellow"
+            ),
+            litter: setLayer(
+              "litter",
+              "Litter Receptacles",
+              "../assets/ON/Toronto/geojson/ON-Toronto-litter_receptacle.geojson",
+              "blue"
+            ),
+            wc: setLayer(
+              "wc",
+              "Public Washrooms",
+              "../assets/ON/Toronto/geojson/ON-Toronto-public_washroom.geojson",
+              "#eeeeee"
+            ),
+            bench: setLayer(
+              "bench",
+              "Benches",
+              "../assets/ON/Toronto/geojson/ON-Toronto-bench.geojson",
+              "#a17c4c"
             ),
           },
         },
@@ -588,11 +627,14 @@ async function setGeojson(items) {
   return geojson;
 }
 
-async function setLayer(layerName, url, color, funct) {
+async function setLayer(id, layerName, url, color, funct) {
+  let infoText = info(`<b>${layerName}</b> <br>click on markers to see details`);
   let layer = {
+    id: id,
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
+    svg: icons$1[id] ? `${icons$1[id]}${infoText}` : `<h1>${layerName[0]}${info}</h1>`,
   };
   !funct
     ? (layer.geojson = async () => await geojsonLayer(layerName, url))
@@ -612,7 +654,7 @@ async function geojsonLayer(layerName, url) {
       id: ID,
       name: `${layerName}: ${ID}`,
       coordinates: feature.geometry.coordinates,
-      title: `<b>${layerName}</b> <br> ID: ${ID}}`,
+      title: `<b>${layerName}</b> <br> ID: ${ID}`,
     };
   });
   let geojson = await setGeojson(items);
@@ -654,9 +696,7 @@ async function torontoTrees(site) {
 }
 
 async function ottawaTrees(site) {
-  let json = await getJson(
-    "../assets/ON/Ottawa/json/ON-Ottawa-trees.json"
-  );
+  let json = await getJson("../assets/ON/Ottawa/json/ON-Ottawa-trees.json");
   let trees = {};
   let features = json.features;
   let { lng, lat } = site.coordinates;
@@ -676,9 +716,7 @@ async function ottawaTrees(site) {
         coordinates: feature.geometry.coordinates,
         title: `<b>Tree specie:</b> ${
           feature.properties.SPECIES
-        }<br> <b>DBH:</b> ${parseFloat(
-          feature.properties.DBH
-        ).toFixed(2)}`,
+        }<br> <b>DBH:</b> ${parseFloat(feature.properties.DBH).toFixed(2)}`,
       };
     }
   });
@@ -686,9 +724,7 @@ async function ottawaTrees(site) {
 }
 
 async function ocTranspo(site) {
-  let json = await getJson(
-    "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json"
-  );
+  let json = await getJson("../assets/ON/Ottawa/json/ON-Ottawa-busStops.json");
   let busStops = {};
   json.forEach((busStop) => {
     busStops[busStop.stop_code] = {
@@ -700,6 +736,10 @@ async function ocTranspo(site) {
     return busStops;
   });
   return await setGeojson(busStops);
+}
+
+function info(info) {
+  return `<span class="info-text">${info}</span>`;
 }
 
 /**
@@ -122177,11 +122217,13 @@ function closeNavBar() {
     };
     }
 
-function selectedButton(button, toggle) {
+function selectedButton(button, toggle, changeTitle = false) {
   toggle
     ? button.classList.add("selected-button")
     : button.classList.remove("selected-button");
-    }
+    
+    changeTitle && toggle ? button.title = `Hide ${button.name}` : button.title = `Show ${button.name}`;
+  }
 
 function toggleVisibility(button, toggle, object = null) {
     button.onclick = function () {
@@ -122267,175 +122309,7 @@ var pickHighlihgtMateral$1 = pickHighlihgtMateral = new MeshBasicMaterial({
     depthTest: false,
   });
 
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-var Stats = function () {
-
-	var mode = 0;
-
-	var container = document.createElement( 'div' );
-	container.style.cssText = 'position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
-	container.addEventListener( 'click', function ( event ) {
-
-		event.preventDefault();
-		showPanel( ++ mode % container.children.length );
-
-	}, false );
-
-	//
-
-	function addPanel( panel ) {
-
-		container.appendChild( panel.dom );
-		return panel;
-
-	}
-
-	function showPanel( id ) {
-
-		for ( var i = 0; i < container.children.length; i ++ ) {
-
-			container.children[ i ].style.display = i === id ? 'block' : 'none';
-
-		}
-
-		mode = id;
-
-	}
-
-	//
-
-	var beginTime = ( performance || Date ).now(), prevTime = beginTime, frames = 0;
-
-	var fpsPanel = addPanel( new Stats.Panel( 'FPS', '#0ff', '#002' ) );
-	var msPanel = addPanel( new Stats.Panel( 'MS', '#0f0', '#020' ) );
-
-	if ( self.performance && self.performance.memory ) {
-
-		var memPanel = addPanel( new Stats.Panel( 'MB', '#f08', '#201' ) );
-
-	}
-
-	showPanel( 0 );
-
-	return {
-
-		REVISION: 16,
-
-		dom: container,
-
-		addPanel: addPanel,
-		showPanel: showPanel,
-
-		begin: function () {
-
-			beginTime = ( performance || Date ).now();
-
-		},
-
-		end: function () {
-
-			frames ++;
-
-			var time = ( performance || Date ).now();
-
-			msPanel.update( time - beginTime, 200 );
-
-			if ( time > prevTime + 1000 ) {
-
-				fpsPanel.update( ( frames * 1000 ) / ( time - prevTime ), 100 );
-
-				prevTime = time;
-				frames = 0;
-
-				if ( memPanel ) {
-
-					var memory = performance.memory;
-					memPanel.update( memory.usedJSHeapSize / 1048576, memory.jsHeapSizeLimit / 1048576 );
-
-				}
-
-			}
-
-			return time;
-
-		},
-
-		update: function () {
-
-			beginTime = this.end();
-
-		},
-
-		// Backwards Compatibility
-
-		domElement: container,
-		setMode: showPanel
-
-	};
-
-};
-
-Stats.Panel = function ( name, fg, bg ) {
-
-	var min = Infinity, max = 0, round = Math.round;
-	var PR = round( window.devicePixelRatio || 1 );
-
-	var WIDTH = 80 * PR, HEIGHT = 48 * PR,
-			TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
-			GRAPH_X = 3 * PR, GRAPH_Y = 15 * PR,
-			GRAPH_WIDTH = 74 * PR, GRAPH_HEIGHT = 30 * PR;
-
-	var canvas = document.createElement( 'canvas' );
-	canvas.width = WIDTH;
-	canvas.height = HEIGHT;
-	canvas.style.cssText = 'width:80px;height:48px';
-
-	var context = canvas.getContext( '2d' );
-	context.font = 'bold ' + ( 9 * PR ) + 'px Helvetica,Arial,sans-serif';
-	context.textBaseline = 'top';
-
-	context.fillStyle = bg;
-	context.fillRect( 0, 0, WIDTH, HEIGHT );
-
-	context.fillStyle = fg;
-	context.fillText( name, TEXT_X, TEXT_Y );
-	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
-
-	context.fillStyle = bg;
-	context.globalAlpha = 0.9;
-	context.fillRect( GRAPH_X, GRAPH_Y, GRAPH_WIDTH, GRAPH_HEIGHT );
-
-	return {
-
-		dom: canvas,
-
-		update: function ( value, maxValue ) {
-
-			min = Math.min( min, value );
-			max = Math.max( max, value );
-
-			context.fillStyle = bg;
-			context.globalAlpha = 1;
-			context.fillRect( 0, 0, WIDTH, GRAPH_Y );
-			context.fillStyle = fg;
-			context.fillText( round( value ) + ' ' + name + ' (' + round( min ) + '-' + round( max ) + ')', TEXT_X, TEXT_Y );
-
-			context.drawImage( canvas, GRAPH_X + PR, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT, GRAPH_X, GRAPH_Y, GRAPH_WIDTH - PR, GRAPH_HEIGHT );
-
-			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, GRAPH_HEIGHT );
-
-			context.fillStyle = bg;
-			context.globalAlpha = 0.9;
-			context.fillRect( GRAPH_X + GRAPH_WIDTH - PR, GRAPH_Y, PR, round( ( 1 - ( value / maxValue ) ) * GRAPH_HEIGHT ) );
-
-		}
-
-	};
-
-};
+// import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
 const currentURL = window.location.href;

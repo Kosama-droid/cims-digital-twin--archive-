@@ -1,3 +1,2 @@
-# ifc-js-crash-course
-
-https://nicoarellano.github.io/cims-digital-twin/src
+# CIMS - Imagine Canada's Digital Twin
+https://cimsprojects.ca/CDC/cims-digital-twin/src/index.html
