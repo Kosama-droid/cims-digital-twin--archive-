@@ -119,7 +119,7 @@ var canada$1 = canada = {
                 zoom: 15,
               },
               logo: "../assets/ON/Ottawa/CDC/cu_logo.jfif",
-              gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
+              gltfPath: "../assets/ON/Ottawa/CDC/glb/",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
                 position: { x: 0, y: 0, z: 0 },
@@ -310,12 +310,12 @@ var canada$1 = canada = {
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
                 },
-                P9: {
+                PG9: {
                   name: "Parking Garage P9",
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
                 },
-                PS: {
+                PG: {
                   name: "Parking Garage P18",
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
@@ -378,7 +378,7 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
-              publicIfc: true,
+              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
@@ -454,24 +454,24 @@ var canada$1 = canada = {
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
-              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
+              gltfPath: "../assets/ON/Toronto/DA/glb/",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
               buildings: {
                 admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
-                  ifcFileName: "ON-Toronto-DA-admin.ifc",
+                  ifcFileName: "ON_Toronto_DA_admin.ifc",
                 },
                 b7_10: {
                   name: "Bays 7 to 10",
-                  ifcFileName: "ON-Toronto-DA-b7-10.ifc",
+                  ifcFileName: "ON_Toronto_DA_b7_10.ifc",
                 },
                 b11: {
                   name: "Bay 11",
-                  ifcFileName: "ON-Toronto-DA-b11.ifc",
+                  ifcFileName: "ON_Toronto_DA_b11.ifc",
                 },
                 b12: {
                   name: "Bay 12",
-                  ifcFileName: "ON-Toronto-DA-b12.ifc",
+                  ifcFileName: "ON_Toronto_DA_b12.ifc",
                 },
               },
             },
@@ -92484,7 +92484,7 @@ class IfcAxes extends IfcComponent {
     }
 }
 
-class CSS2DObject$1 extends Object3D {
+class CSS2DObject extends Object3D {
 
 	constructor( element = document.createElement( 'div' ) ) {
 
@@ -92525,7 +92525,7 @@ class CSS2DObject$1 extends Object3D {
 
 }
 
-CSS2DObject$1.prototype.isCSS2DObject = true;
+CSS2DObject.prototype.isCSS2DObject = true;
 
 //
 
@@ -92818,7 +92818,7 @@ class IfcDimensionLine {
         const htmlText = document.createElement('div');
         htmlText.className = this.labelClassName;
         htmlText.textContent = this.getTextContent();
-        const label = new CSS2DObject$1(htmlText);
+        const label = new CSS2DObject(htmlText);
         label.position.set(this.center.x, this.center.y, this.center.z);
         this.root.add(label);
         return label;
@@ -92881,7 +92881,7 @@ class IfcDimensions extends IfcComponent {
         this.endpoint = IfcDimensions.getDefaultEndpointGeometry();
         const htmlPreview = document.createElement('div');
         htmlPreview.className = this.previewClassName;
-        this.previewElement = new CSS2DObject$1(htmlPreview);
+        this.previewElement = new CSS2DObject(htmlPreview);
         this.previewElement.visible = false;
     }
     dispose() {
@@ -92916,7 +92916,7 @@ class IfcDimensions extends IfcComponent {
         this.endpoint = IfcDimensions.getDefaultEndpointGeometry(height, radius);
     }
     setPreviewElement(element) {
-        this.previewElement = new CSS2DObject$1(element);
+        this.previewElement = new CSS2DObject(element);
     }
     get active() {
         return this.enabled;
@@ -122315,11 +122315,15 @@ const currentURL = window.location.href;
 const url = new URL(currentURL);
 const currentModelCode = url.searchParams.get("id");
 let codes = currentModelCode.split("/");
-let province = {term: codes[0]};
-let city = {name: codes[1]};
-let site = {id: codes[2]};
-let building = {id:codes[3]};
+let province = { term: codes[0] };
+let city = { name: codes[1] };
+let site = { id: codes[2] };
+let building = { id: codes[3] };
 const toggle = {};
+const buildingPath = `../assets/${province.term}/${city.name}/${site.id}/buildings/${building.id}`;
+const buildingFileName = `${province.term}_${city.name}_${site.id}_${building.id}`;
+const glbFilePath = `${buildingPath}/glb/${buildingFileName}`;
+let model;
 
 // Get user
 let currentUser = "";
@@ -122340,7 +122344,7 @@ document
   .getElementById("building-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex].id;
-    let previosBuildingId = currentURL.split('/').slice(-1)[0];
+    let previosBuildingId = currentURL.split("/").slice(-1)[0];
     let len = -previosBuildingId.length;
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
@@ -122355,9 +122359,9 @@ let layersToggle = true;
 layerButton.onclick = () => {
   layersToggle = !layersToggle;
   selectedButton(layerButton, layersToggle);
-  layersToggle ?
-  document.getElementById('toolbar').classList.remove('hidden') :
-  document.getElementById('toolbar').classList.add('hidden');
+  layersToggle
+    ? document.getElementById("toolbar").classList.remove("hidden")
+    : document.getElementById("toolbar").classList.add("hidden");
 };
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
@@ -122375,12 +122379,7 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-let ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
-building.ifcURL = ifcURL;
-let model;
-
-(site.publicIfc)? loadIfc(ifcURL) : console.log("load GLB");
-// loadIfc(ifcURL);
+building.ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
 
 // Projection
 document.getElementById("projection").onclick = () =>
@@ -122391,23 +122390,53 @@ document.getElementById("projection").onclick = () =>
 let properties;
 let projectTree;
 const plansContainer = document.getElementById("plans-menu");
+
+loadIfc(building.ifcURL);
+
 async function loadIfc(ifcURL) {
-  const loadingContainer = document.getElementById("loading-container");
+  const loadingContainer = document.getElementById("loader-container");
   const progressText = document.getElementById("progress-text");
 
-  model = await viewer.IFC.loadIfcUrl(
-    ifcURL,
-    true,
-    (progress) => {
-      loadingContainer.style.display = "flex";
-      progressText.textContent = `Loading ${building.name}: ${Math.round((progress.loaded * 100) / progress.total)}%`;
-    },
-    (error) => {
-      return
-    }
-  );
+  if (!site.publicIfc) {
+    const categories = [
+      "roofs",
+      "slabs",
+      "curtainwalls",
+      "windows",
+      "doors",
+      "walls",
+      "columns",
+      "furniture",
+      "stairs"
+    ];
+  
+    model = categories.forEach(async (category) => {
+      let glbUrl = `${glbFilePath}_${category}.glb`;
+      model = await viewer.GLTF.loadModel(glbUrl);
+      if (category === "walls")
+        viewer.context.ifcCamera.cameraControls.fitToBox(model);
+        return model
+    });
 
-  const rawProperties = await fetch( `${site.jsonPropertiesPath}${building.id}_properties.json`);
+  } else {
+    model = await viewer.IFC.loadIfcUrl(
+      ifcURL,
+      false,
+      (progress) => {
+        loadingContainer.classList.remove("hidden");
+        progressText.textContent = `Loading ${building.name}: ${Math.round(
+          (progress.loaded * 100) / progress.total
+        )}%`;
+      },
+      (error) => {
+        return;
+      }
+    );
+  }
+
+  const rawProperties = await fetch(
+    `${buildingPath}/json/${buildingFileName}_properties.json`
+  );
   properties = await rawProperties.json();
 
   // Get project tree 🌳
@@ -122455,32 +122484,35 @@ async function loadIfc(ifcURL) {
 
   for (const plan of allPlans) {
     const currentPlan = viewer.plans.planLists[model.modelID][plan];
-      const planButton = document.createElement("button");
-      planButton.classList.add("levels");
-      plansContainer.appendChild(planButton);
-      planButton.textContent = currentPlan.name;
-      planButton.onclick = () => {
-        viewer.plans.goTo(model.modelID, plan, true);
-        viewer.edges.toggle("plan-edges", true);
-        togglePostproduction(false);
-        toggleShadow(false);
-      };
+    const planButton = document.createElement("button");
+    planButton.classList.add("levels");
+    plansContainer.appendChild(planButton);
+    planButton.textContent = currentPlan.name;
+    planButton.onclick = () => {
+      viewer.plans.goTo(model.modelID, plan, true);
+      viewer.edges.toggle("plan-edges", true);
+      togglePostproduction(false);
+      toggleShadow(false);
+    };
   }
 
-    viewer.shadowDropper.renderShadow(model.modelID);
+  console.log(model);
+  viewer.shadowDropper.renderShadow(model.modelID);
   viewer.context.renderer.postProduction.active = true;
-  loadingContainer.style.display = "none";
-  }
-    const button = document.createElement("button");
-    plansContainer.appendChild(button);
-    button.classList.add("button");
-    button.textContent = "Exit Level View";
-    button.onclick = () => {
-      viewer.plans.exitPlanView();
-      viewer.edges.toggle("plan-edges", false);
-      togglePostproduction(true);
-      toggleShadow(true);
-    };
+  loadingContainer.classList.add("hidden");
+  return await model;
+}
+
+const button = document.createElement("button");
+plansContainer.appendChild(button);
+button.classList.add("button");
+button.textContent = "Exit Level View";
+button.onclick = () => {
+  viewer.plans.exitPlanView();
+  viewer.edges.toggle("plan-edges", false);
+  togglePostproduction(true);
+  toggleShadow(true);
+};
 
 // Hover → Highlight
 viewer.IFC.selector.preselection.material = hoverHighlihgtMateral$1;
@@ -122534,7 +122566,7 @@ window.onclick = async () => {
 window.onkeydown = (event) => {
   const keyName = event.key;
   if (keyName === "e") {
-    console.log('export:', building);
+    console.log("export:", building.name);
     preposcessIfc(building);
   }
   if (event.code === "Escape") {
@@ -122564,11 +122596,10 @@ toggleVisibility(propButton, toggle.proprerties, propertyMenu);
 viewer.IFC.selector.selection.material = pickHighlihgtMateral$1;
 
 window.ondblclick = () => {
-  
-    // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
+  // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
   if (toggle.clipping) {
     viewer.clipper.createPlane();
-    return
+    return;
   }
 };
 
@@ -122793,72 +122824,49 @@ function togglePostproduction(active) {
 }
 
 async function preposcessIfc(building) {
-  // let url = building.ifcURL
-  let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
-  // Export to glTF and JSON
-  // const url = URL.createObjectURL(file);
+  // let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
   const result = await viewer.GLTF.exportIfcFileAsGltf({
-    ifcFileUrl: ifcURL,
+    ifcFileUrl: building.ifcURL,
+    getProperties: false,
     splitByFloors: false,
     categories: {
       walls: [IFCWALL, IFCWALLSTANDARDCASE],
+      doors: [IFCDOOR, IFCBUILDINGELEMENTPROXY],
       slabs: [IFCSLAB],
       windows: [IFCWINDOW],
-      curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL],
-      doors: [IFCDOOR],
-      roofs:[IFCROOF],
+      curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL, IFCSITE],
+      roofs: [IFCROOF],
+      furniture: [IFCFURNISHINGELEMENT],
+      columns: [IFCCOLUMN],
+      stairs: [IFCSTAIRFLIGHT, IFCSTAIR],
+      ramps: [IFCRAMP, IFCRAMPFLIGHT]
+      // mep: [],
     },
-    getProperties: true,
   });
 
+  // Download result
+  const link = document.createElement("a");
+  document.body.appendChild(link);
 
-    // Download result
-    const link = document.createElement('a');
-    document.body.appendChild(link);
+  for (let jsonFile of result.json) {
+    link.download = `${buildingFileName}_properties.json`;
+    link.href = URL.createObjectURL(jsonFile);
+    link.click();
+  }
 
-    for(const categoryName in result.gltf) {
-        const category = result.gltf[categoryName];
-        for(const levelName in category) {
-            const file = category[levelName].file;
-            if(file) {
-                link.download = `${fileRoute}_${categoryName}_allFloors.gltf`;
-                link.href = URL.createObjectURL(file);
-                link.click();
-            }
-		}
-    }
-
-    for(let jsonFile of result.json) {
-        link.download = `${fileRoute}_${jsonFile.name}.json`;
-        link.href = URL.createObjectURL(jsonFile);
+  for (const categoryName in result.gltf) {
+    const category = result.gltf[categoryName];
+    for (const levelName in category) {
+      const file = category[levelName].file;
+      if (file) {
+        link.download = `${buildingFileName}_${categoryName}.glb`;
+        link.href = URL.createObjectURL(file);
         link.click();
+      }
     }
+  }
 
-    link.remove();
-    
-  // // Download result
-  // let link = document.createElement("a");
-  // document.body.appendChild(link);
-
-  // for (const categoryName in result.gltf) {
-  //   const category = result.gltf[categoryName];
-  //   for(const levelName in category) {
-  //   const file = category[levelName].file;
-  //     if (file) {
-  //       link.download = `${fileRoute}${categoryName}_allFloors.gltf`;
-  //       link.href = URL.createObjectURL(file);
-  //       link.click();
-  //     }
-  //   }
-  // }
-
-  // for (let jsonFile of result.json) {
-  //   link.download = `${fileRoute}${jsonFile.name}`;
-  //   link.href = URL.createObjectURL(jsonFile);
-  //   link.click();
-  // }
-
-  //   link.remove();
+  link.remove();
 }
 
 // Set up stats

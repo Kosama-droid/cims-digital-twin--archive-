@@ -47956,7 +47956,6 @@ function removeChildren(parent, childrenToKeep = 0) {
 
 function loadBldsGltf(site, currentScene) {
   site.id = site.id;
-  console.log(currentScene);
   const group = new Group();
   group.name = `${site.id}-buildings`;
   const gltfloader = new GLTFLoader();
@@ -47974,10 +47973,10 @@ function loadBldsGltf(site, currentScene) {
           buildingGltf = gltf.scene;
           buildingGltf.name = `${id}-${category}`;
           currentScene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
-          loadingContainer.style.display = "none";
+          loadingContainer.classList.add("hidden");
         },
         () => {
-          loadingContainer.style.display = "flex";
+          loadingContainer.classList.remove("hidden");
           progressText.textContent = `Loading ${site.name}'s buildings`;
         },
         (error) => {
@@ -48475,40 +48474,6 @@ function getGeojson(id, url, map, locGeojason) {
   });
   return locGeojason;
 }
-
-// function loadBldsGltf(site, scene = scene) {
-//   site.id = site.id;
-//   const group = new Group();
-//   group.name = `${site.id}-buildings`;
-//   const gltfloader = new GLTFLoader();
-//   let buildings = site.buildings;
-//   let buildingGltf;
-//   let loadingContainer = document.getElementById("loader-container");
-//   let progressText = document.getElementById("progress-text");
-//   const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
-//   categories.forEach((category) => {
-//     for (const id in buildings) {
-//       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
-//       gltfloader.load(
-//         gltfPath,
-//         (gltf) => {
-//           buildingGltf = gltf.scene;
-//           buildingGltf.name = `${id}-${category}`;
-//           scene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
-//           loadingContainer.style.display = "none";
-//         },
-//         () => {
-//           loadingContainer.style.display = "flex";
-//           progressText.textContent = `Loading ${site.name}'s buildings`;
-//         },
-//         (error) => {
-//           return;
-//         }
-//       );
-//     }
-//   });
-//   if (!scene.getObjectByName(`${site.id}-buildings`)) scene.add(group);
-// }
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
