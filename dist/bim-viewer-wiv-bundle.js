@@ -122391,11 +122391,11 @@ let properties;
 let projectTree;
 const plansContainer = document.getElementById("plans-menu");
 
-loadIfc(building.ifcURL);
+loadIfc();
 
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loader-container");
-  const progressText = document.getElementById("progress-text");
+  document.getElementById("progress-text");
 
   if (!site.publicIfc) {
     
@@ -122411,34 +122411,44 @@ let categories = [
   "stairs"];
 
   categories.forEach( category => {
-    model[category] = viewer.GLTF.loadModel(`${glbFilePath}_${category}.glb`);
+
+    model[category] = loadGlbByCategory(category);
+
+    async function loadGlbByCategory(category){
+      let categoryGlb = await viewer.GLTF.loadModel(`${glbFilePath}_${category}.glb`);
+      if (categoryGlb.modelID > -1) {
+          // Postproduction 💅
+        viewer.shadowDropper.renderShadow(categoryGlb.modelID);
+        return categoryGlb}
+      else { throw new Error(`${category} does not exist in this building`)}}
+
   });
   let walls = await model.walls;
   await viewer.context.ifcCamera.cameraControls.fitToBox(walls);
 
-  } else {
-    model = await viewer.IFC.loadIfcUrl(
-      ifcURL,
-      false,
-      (progress) => {
-        loadingContainer.classList.remove("hidden");
-        progressText.textContent = `Loading ${building.name}: ${Math.round(
-          (progress.loaded * 100) / progress.total
-        )}%`;
-      },
-      (error) => {
-        return;
-      }
-    );
+  // } else {
+  //   model = await viewer.IFC.loadIfcUrl(
+  //     ifcURL,
+  //     false,
+  //     (progress) => {
+  //       loadingContainer.classList.remove("hidden");
+  //       progressText.textContent = `Loading ${building.name}: ${Math.round(
+  //         (progress.loaded * 100) / progress.total
+  //       )}%`;
+  //     },
+  //     (error) => {
+  //       return;
+  //     }
+  //   );
   }
 
-console.log(model);
   // Postproduction 💅
-  for (let cat in model) {
-    let i = await model[cat];
-    let id = i.modelID;
-    viewer.shadowDropper.renderShadow(id);
-  }  
+  // for (let cat in model) {
+  //   let i = await model[cat];
+  //   let id = i.modelID
+  //   viewer.shadowDropper.renderShadow(id)
+  // };
+  
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.classList.add("hidden");
 
@@ -122471,7 +122481,7 @@ console.log(model);
       : document.getElementById("left-menu").classList.add("hidden");
   };
 
-  await viewer.plans.computeAllPlanViews(models[0].modelID);
+  await viewer.plans.computeAllPlanViews(model.modelID);
 
   const lineMaterial = new LineBasicMaterial({ color: "black" });
   const baseMaterial = new MeshBasicMaterial({
@@ -122482,22 +122492,22 @@ console.log(model);
 
   await viewer.edges.create(
     "plan-edges",
-    models[0].modelID,
+    model.modelID,
     lineMaterial,
     baseMaterial
   );
 
   // Floor plan viewing
-  const allPlans = viewer.plans.getAll(models[0].modelID);
+  const allPlans = viewer.plans.getAll(model.modelID);
 
   for (const plan of allPlans) {
-    const currentPlan = viewer.plans.planLists[models[0].modelID][plan];
+    const currentPlan = viewer.plans.planLists[model.modelID][plan];
     const planButton = document.createElement("button");
     planButton.classList.add("levels");
     plansContainer.appendChild(planButton);
     planButton.textContent = currentPlan.name;
     planButton.onclick = () => {
-      viewer.plans.goTo(models[0].modelID, plan, true);
+      viewer.plans.goTo(model.modelID, plan, true);
       viewer.edges.toggle("plan-edges", true);
       togglePostproduction(false);
       toggleShadow(false);
@@ -122567,11 +122577,11 @@ window.onclick = async () => {
 
 // Keybord ⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️
 window.onkeydown = (event) => {
-  const keyName = event.key;
-  if (keyName === "e") {
-    console.log("export:", building.name);
-    preposcessIfc(building);
-  }
+  event.key;
+  // if (keyName === "e") {
+  //   console.log("export:", building.name);
+  //   preposcessIfc(building);
+  // }
   if (event.code === "Escape") {
     viewer.IFC.selector.unpickIfcItems();
     viewer.IFC.selector.unHighlightIfcItems();
@@ -122824,52 +122834,6 @@ function toggleShadow(active) {
 
 function togglePostproduction(active) {
   viewer.context.renderer.postProduction.active = active;
-}
-
-async function preposcessIfc(building) {
-  // let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
-  const result = await viewer.GLTF.exportIfcFileAsGltf({
-    ifcFileUrl: building.ifcURL,
-    getProperties: true,
-    splitByFloors: false,
-    categories: {
-      walls: [IFCWALL, IFCWALLSTANDARDCASE],
-      doors: [IFCDOOR, IFCBUILDINGELEMENTPROXY],
-      slabs: [IFCSLAB],
-      windows: [IFCWINDOW],
-      curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL, IFCSITE],
-      roofs: [IFCROOF],
-      furniture: [IFCFURNISHINGELEMENT],
-      columns: [IFCCOLUMN],
-      stairs: [IFCSTAIRFLIGHT, IFCSTAIR],
-      ramps: [IFCRAMP, IFCRAMPFLIGHT],
-      // mep: [],
-    },
-  });
-
-  // Download result
-  const link = document.createElement("a");
-  document.body.appendChild(link);
-
-  for (let jsonFile of result.json) {
-    link.download = `${buildingFileName}_properties.json`;
-    link.href = URL.createObjectURL(jsonFile);
-    link.click();
-  }
-
-  for (const categoryName in result.gltf) {
-    const category = result.gltf[categoryName];
-    for (const levelName in category) {
-      const file = category[levelName].file;
-      if (file) {
-        link.download = `${buildingFileName}_${categoryName}.glb`;
-        link.href = URL.createObjectURL(file);
-        link.click();
-      }
-    }
-  }
-
-  link.remove();
 }
 
 // Set up stats
