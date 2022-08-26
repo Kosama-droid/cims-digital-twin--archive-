@@ -310,12 +310,12 @@ var canada$1 = canada = {
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TENNIS_CENTRE-AS_FOUND.ifc",
                 },
-                P9: {
+                PG9: {
                   name: "Parking Garage P9",
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P9-AS_FOUND.ifc",
                 },
-                PS: {
+                PG: {
                   name: "Parking Garage P18",
                   ifcFileName:
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-PARKING_GARAGE_P18-AS_FOUND.ifc",
@@ -378,7 +378,7 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
-              publicIfc: true,
+              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
@@ -459,19 +459,19 @@ var canada$1 = canada = {
               buildings: {
                 admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
-                  ifcFileName: "ON-Toronto-DA-admin.ifc",
+                  ifcFileName: "ON_Toronto_DA_admin.ifc",
                 },
                 b7_10: {
                   name: "Bays 7 to 10",
-                  ifcFileName: "ON-Toronto-DA-b7-10.ifc",
+                  ifcFileName: "ON_Toronto_DA_b7_10.ifc",
                 },
                 b11: {
                   name: "Bay 11",
-                  ifcFileName: "ON-Toronto-DA-b11.ifc",
+                  ifcFileName: "ON_Toronto_DA_b11.ifc",
                 },
                 b12: {
                   name: "Bay 12",
-                  ifcFileName: "ON-Toronto-DA-b12.ifc",
+                  ifcFileName: "ON_Toronto_DA_b12.ifc",
                 },
               },
             },
@@ -47934,6 +47934,57 @@ function unhideElementsById(...ids) {
     });
   }
 
+class CSS2DObject extends Object3D {
+
+	constructor( element = document.createElement( 'div' ) ) {
+
+		super();
+
+		this.element = element;
+
+		this.element.style.position = 'absolute';
+		this.element.style.userSelect = 'none';
+
+		this.element.setAttribute( 'draggable', false );
+
+		this.addEventListener( 'removed', function () {
+
+			this.traverse( function ( object ) {
+
+				if ( object.element instanceof Element && object.element.parentNode !== null ) {
+
+					object.element.parentNode.removeChild( object.element );
+
+				}
+
+			} );
+
+		} );
+
+	}
+
+	copy( source, recursive ) {
+
+		super.copy( source, recursive );
+
+		this.element = source.element.cloneNode( true );
+
+		return this;
+
+	}
+
+}
+
+CSS2DObject.prototype.isCSS2DObject = true;
+
+//
+
+new Vector3();
+new Matrix4();
+new Matrix4();
+new Vector3();
+new Vector3();
+
 function createOptions(selector, objects) {
   while (selector.childElementCount > 1) {
     selector.removeChild(selector.lastChild);
@@ -48256,6 +48307,9 @@ map.on("style.load", function () {
 document.addEventListener("keydown", (event) => {
   three = true;
   const keyName = event.key;
+  if (keyName === "Enter"){
+    goTo();
+  }
   if (keyName === "c") {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
@@ -48748,21 +48802,17 @@ function removeMarker(markers) {
 }
 
 function goTo(location) {
-  if (
-    !(
-      document.getElementById("lng").value == "" ||
-      document.getElementById("lat").value == ""
-    )
-  ) {
-    def.coordinates.lng = document.getElementById("lng").value;
-    def.current = document.getElementById("lat").value;
+  if (document.getElementById("lng").value !== "" &&
+      !document.getElementById("lat").value !== "") {
+    def.coordinates.lng = parseFloat(document.getElementById("lng").value);
+    def.coordinates.lat = parseFloat(document.getElementById("lat").value);
     delete def.buildings;
     delete def.gltfMasses;
     def.name = "this site";
-  } else {
-    site = def;
-    setSite(site, province.term, city.name);
+    console.log(def);
   }
+  site = def;
+  setSite(site, province.term, city.name);
 }
 
 function hideSelectors() {

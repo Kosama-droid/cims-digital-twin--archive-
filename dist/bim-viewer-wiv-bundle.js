@@ -119,7 +119,7 @@ var canada$1 = canada = {
                 zoom: 15,
               },
               logo: "../assets/ON/Ottawa/CDC/cu_logo.jfif",
-              gltfPath: "../assets/ON/Ottawa/CDC/glb/",
+              gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
                 position: { x: 0, y: 0, z: 0 },
@@ -454,7 +454,7 @@ var canada$1 = canada = {
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
-              gltfPath: "../assets/ON/Toronto/DA/glb/",
+              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
               buildings: {
                 admin: {
@@ -122286,7 +122286,7 @@ function createOptions(selector, objects) {
 }
 
 highlightMaterial = new MeshBasicMaterial({
-    color: 0xcccc70,
+    color: 0xcccc50,
     flatShading: true,
     side: DoubleSide,
     transparent: true,
@@ -122296,7 +122296,7 @@ highlightMaterial = new MeshBasicMaterial({
 
 var hoverHighlihgtMateral$1 = hoverHighlihgtMateral = new MeshBasicMaterial({
     transparent: true,
-    opacity: 0.3,
+    opacity: 0.1,
     color: 0xffffcc,
     depthTest: false,
   });
@@ -122323,7 +122323,7 @@ const toggle = {};
 const buildingPath = `../assets/${province.term}/${city.name}/${site.id}/buildings/${building.id}`;
 const buildingFileName = `${province.term}_${city.name}_${site.id}_${building.id}`;
 const glbFilePath = `${buildingPath}/glb/${buildingFileName}`;
-let model;
+let model = {};
 
 // Get user
 let currentUser = "";
@@ -122398,25 +122398,23 @@ async function loadIfc(ifcURL) {
   const progressText = document.getElementById("progress-text");
 
   if (!site.publicIfc) {
-    const categories = [
-      "roofs",
-      "slabs",
-      "curtainwalls",
-      "windows",
-      "doors",
-      "walls",
-      "columns",
-      "furniture",
-      "stairs"
-    ];
-  
-    model = categories.forEach(async (category) => {
-      let glbUrl = `${glbFilePath}_${category}.glb`;
-      model = await viewer.GLTF.loadModel(glbUrl);
-      if (category === "walls")
-        viewer.context.ifcCamera.cameraControls.fitToBox(model);
-        return model
-    });
+    
+let categories = [
+  "slabs",
+  "roofs",
+  "curtainwalls",
+  "windows",
+  "doors",
+  "walls",
+  "columns",
+  "furniture",
+  "stairs"];
+
+  categories.forEach( category => {
+    model[category] = viewer.GLTF.loadModel(`${glbFilePath}_${category}.glb`);
+  });
+  let walls = await model.walls;
+  await viewer.context.ifcCamera.cameraControls.fitToBox(walls);
 
   } else {
     model = await viewer.IFC.loadIfcUrl(
@@ -122433,6 +122431,16 @@ async function loadIfc(ifcURL) {
       }
     );
   }
+
+console.log(model);
+  // Postproduction 💅
+  for (let cat in model) {
+    let i = await model[cat];
+    let id = i.modelID;
+    viewer.shadowDropper.renderShadow(id);
+  }  
+  viewer.context.renderer.postProduction.active = true;
+  loadingContainer.classList.add("hidden");
 
   const rawProperties = await fetch(
     `${buildingPath}/json/${buildingFileName}_properties.json`
@@ -122463,7 +122471,7 @@ async function loadIfc(ifcURL) {
       : document.getElementById("left-menu").classList.add("hidden");
   };
 
-  await viewer.plans.computeAllPlanViews(model.modelID);
+  await viewer.plans.computeAllPlanViews(models[0].modelID);
 
   const lineMaterial = new LineBasicMaterial({ color: "black" });
   const baseMaterial = new MeshBasicMaterial({
@@ -122474,33 +122482,28 @@ async function loadIfc(ifcURL) {
 
   await viewer.edges.create(
     "plan-edges",
-    model.modelID,
+    models[0].modelID,
     lineMaterial,
     baseMaterial
   );
 
   // Floor plan viewing
-  const allPlans = viewer.plans.getAll(model.modelID);
+  const allPlans = viewer.plans.getAll(models[0].modelID);
 
   for (const plan of allPlans) {
-    const currentPlan = viewer.plans.planLists[model.modelID][plan];
+    const currentPlan = viewer.plans.planLists[models[0].modelID][plan];
     const planButton = document.createElement("button");
     planButton.classList.add("levels");
     plansContainer.appendChild(planButton);
     planButton.textContent = currentPlan.name;
     planButton.onclick = () => {
-      viewer.plans.goTo(model.modelID, plan, true);
+      viewer.plans.goTo(models[0].modelID, plan, true);
       viewer.edges.toggle("plan-edges", true);
       togglePostproduction(false);
       toggleShadow(false);
     };
   }
-
-  console.log(model);
-  viewer.shadowDropper.renderShadow(model.modelID);
-  viewer.context.renderer.postProduction.active = true;
-  loadingContainer.classList.add("hidden");
-  return await model;
+  return await models;
 }
 
 const button = document.createElement("button");
@@ -122827,7 +122830,7 @@ async function preposcessIfc(building) {
   // let fileRoute = `${province.term}_${city.name}_${site.id}_${building.id}_`;
   const result = await viewer.GLTF.exportIfcFileAsGltf({
     ifcFileUrl: building.ifcURL,
-    getProperties: false,
+    getProperties: true,
     splitByFloors: false,
     categories: {
       walls: [IFCWALL, IFCWALLSTANDARDCASE],
@@ -122839,7 +122842,7 @@ async function preposcessIfc(building) {
       furniture: [IFCFURNISHINGELEMENT],
       columns: [IFCCOLUMN],
       stairs: [IFCSTAIRFLIGHT, IFCSTAIR],
-      ramps: [IFCRAMP, IFCRAMPFLIGHT]
+      ramps: [IFCRAMP, IFCRAMPFLIGHT],
       // mep: [],
     },
   });
