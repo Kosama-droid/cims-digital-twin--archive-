@@ -131,6 +131,8 @@ a {
   align-items: center;
   flex-wrap: wrap;
   pointer-events: all;
+  justify-content: center;
+  align-items: center;
 }
 
 .toolbar input {
@@ -162,8 +164,9 @@ a {
   background: var(--primary-light);
 }
 
-.layers-buttons{
-  flex-direction: row;
+.permanent{
+  display: flex;
+  align-items: flex-end;
 }
 
 .button {
@@ -178,10 +181,37 @@ a {
   outline: none;
   align-items: center;
   width: fit-content;
+  height: fit-content;
   max-width: 315px;
   font-size: 0.8rem;
   text-transform: uppercase;
   pointer-events: all;
+}
+
+.selector {
+  z-index: 1;
+  padding: 0.7rem;
+  margin: 0.3rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  max-width: 300px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  pointer-events: all;
+}
+
+.button:hover{
+  transform: translateY(-7px);
+}
+
+@media (max-width: 500px) {
+  .button:hover{
+    transform: translateY(0);
+  }
 }
 
 .transp1-background {
@@ -192,6 +222,8 @@ a {
 .selected-button {
   background-color: var(--primary-light);
   border: 1px solid;
+  background: var(--primary-light);
+  color: var(--primary-light);
 }
 
 .circular {
@@ -201,13 +233,7 @@ a {
   transition: all 0.3s ease 0s;
 }
 
-.circular:hover {
-  background: var(--primary-light);
-  color: var(--primary-light);
-  transform: translateY(-7px);
-}
-
-.circular:active {
+.circular input:active {
   transform: translateY(-1px);
 }
 
@@ -367,8 +393,8 @@ pointer-events: all;
   }
 }
 
-#loader-container {
-  display: none;
+.loader-container {
+  display: flex;
   flex-direction: row;
   justify-content: center;
 }
@@ -506,7 +532,7 @@ ul, #myUL {
   top: var(--header-heigt);
   z-index: 5;
   justify-content: center;
-  height: 90vh;
+  height: 87vh;
   width: 100%;
   box-shadow: var(--shadow);
   border: none;

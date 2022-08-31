@@ -384,6 +384,7 @@ var canada$1 = canada = {
             },
             PB: {
               name: "Parliament Buildings",
+              id: "PB",
               coordinates: {
                 lat: 45.42521,
                 lng: -75.70011,
@@ -392,19 +393,56 @@ var canada$1 = canada = {
               },
               logo: "../assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/PB/glb/buildings-downtown.glb",
+                url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
                 position: { x: 0, y: 0, z: 0 },
+              },
+              publicIfc: false,
+              ifcPath: "../assets/ON/Ottawa/PB/buildings/PT/ifc/",
+              gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
+              buildings: {
+                CB: {
+                  name: "Centre Block",
+                },
+                EB: {
+                  name: "East Block",
+                },
+                LOP: {
+                  name: "Library of Parliament",
+                },
+                PT: {
+                  name: "Peace Tower",
+                  ifcFileName: "ON-Ottawa-PB-PT.ifc"
+                },
+                WB: {
+                  name: "West Block",
+                },
               },
             },
             HM: {
-              name: "Holocaust Memorial",
+              name: "Holocaust Memorial", 
+              id: "HM",
               coordinates: {
-                lat: 45.41716147946148,
-                lng: -75.71449380975366,
-                msl: 53,
+                lat: 45.41681,
+                lng: -75.71448,
+                msl: 56.1,
                 zoom: 16,
               },
               logo: "../assets/ON/Ottawa/HM/ncc-logo.jpg",
+              gltfMasses: {
+                url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
+                position: { x: 0, y: 0, z: 0 },
+              },
+              publicIfc: false,
+              ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
+              gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
+              buildings: {
+                HM: {
+                  name: "Holocaust Memorial",
+                  ifcFileName: "ON-Ottawa-HM.ifc"
+                },
+              },
             },
             NAC: {
               name: "National Art Centre",
@@ -627,13 +665,17 @@ async function setGeojson(items) {
 }
 
 async function setLayer(id, layerName, url, color, funct) {
-  let infoText = info(`<b>${layerName}</b> <br>click on markers to see details`);
+  let infoText = info(
+    `<b>${layerName}</b> <br>click on markers to see details`
+  );
   let layer = {
     id: id,
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
-    svg: icons$1[id] ? `${icons$1[id]}${infoText}` : `<h1>${layerName[0]}${info}</h1>`,
+    svg: icons$1[id]
+      ? `${icons$1[id]}${infoText}`
+      : `<h1>${layerName[0]}${info}</h1>`,
   };
   !funct
     ? (layer.geojson = async () => await geojsonLayer(layerName, url))
@@ -48005,16 +48047,24 @@ function removeChildren(parent, childrenToKeep = 0) {
     }
   }
 
+const isMobile$1 = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 function loadBldsGltf(site, currentScene) {
   site.id = site.id;
   const group = new Group();
   group.name = `${site.id}-buildings`;
   const gltfloader = new GLTFLoader();
+  let categories = [];
   let buildings = site.buildings;
   let buildingGltf;
   let loadingContainer = document.getElementById("loader-container");
   let progressText = document.getElementById("progress-text");
-  const categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"];
+  if (isMobile$1) {
+    categories = [];
+  }
+  else { 
+    categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"]; 
+  }
   categories.forEach((category) => {
     for (const id in buildings) {
       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
@@ -48040,17 +48090,20 @@ function loadBldsGltf(site, currentScene) {
 }
 
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
-    color: 0xcccc70,
+    color: 0xcccc50,
     flatShading: true,
     side: DoubleSide,
     transparent: true,
     opacity: 0.9,
     depthTest: false,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
   });
 
 hoverHighlihgtMateral = new MeshBasicMaterial({
     transparent: true,
-    opacity: 0.3,
+    opacity: 0.1,
     color: 0xffffcc,
     depthTest: false,
   });
@@ -48062,9 +48115,17 @@ pickHighlihgtMateral = new MeshBasicMaterial({
     depthTest: false,
   });
 
+var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
+    color: 0x555555,
+    flatShading: true,
+    side: DoubleSide,
+    emissive: 0x555555,
+  });
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 hideElementsById(
   "city-select",
@@ -48072,6 +48133,7 @@ hideElementsById(
   "building-select",
   "osm"
 );
+
 
 let scene,
   map,
@@ -48090,6 +48152,7 @@ let toggle = { osm: false };
 let carleton = canada$1.provinces.ON.cities.Ottawa.sites.CDC;
 let parliament = canada$1.provinces.ON.cities.Ottawa.sites.PB;
 let downsview = canada$1.provinces.ON.cities.Toronto.sites.DA;
+let hm = canada$1.provinces.ON.cities.Ottawa.sites.HM;
 let def = carleton;
 
 let province = { term: "ON" };
@@ -48127,7 +48190,7 @@ let previousSelection = {
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
 let locGeojason = { source: { id: false } };
-let masses = [];
+let invisibleMasses = [];
 let lng = { canada: canada$1.lng, current: def.coordinates.lng },
   lat = { canada: canada$1.lat, current: def.coordinates.lat };
 
@@ -48230,7 +48293,7 @@ const customLayer = {
     direction.divideScalar(direction.w);
     raycaster.set(cameraPosition, direction.sub(cameraPosition).normalize());
 
-    intersections = raycaster.intersectObjects(masses);
+    intersections = raycaster.intersectObjects(invisibleMasses);
 
     setIntesections();
 
@@ -48321,6 +48384,13 @@ document.addEventListener("keydown", (event) => {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
     site = parliament;
+    setSite(site, "ON", "Ottawa");
+    return;
+  }
+  if (keyName === "h") {
+    province = canada$1.provinces.ON;
+    city = province.cities.Ottawa;
+    site = hm;
     setSite(site, "ON", "Ottawa");
     return;
   }
@@ -48474,7 +48544,7 @@ function savePreviousSelectio(item) {
 }
 
 function openBimViewer(building) {
-  hideSelectors();
+  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${site.id}/${building.id}`;
   let bimContainer;
   bimContainer = document.getElementById("bim-container");
   bimViewer = document.getElementById("bim-viewer");
@@ -48482,11 +48552,17 @@ function openBimViewer(building) {
     bimViewer = document.createElement("iframe");
     bimViewer.setAttribute("id", "bim-viewer");
     bimViewer.classList.add("bim-viewer");
+    if (isMobile) {
+      window.open(url);
+    }
+    else {
     bimContainer.appendChild(bimViewer);
+    document.getElementById("close-bim-viewer").classList.remove("hidden");
+    hideSelectors();
+    isolateSelector(toolbar, "");
+    }
   }
-  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${site.id}/${building.id}`;
   bimViewer.setAttribute("src", url);
-  document.getElementById("close-bim-viewer").classList.remove("hidden");
 }
 
 function getCities(provinceCode) {
@@ -48584,7 +48660,8 @@ function selectBuilding(selector) {
 function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
   // GLTF masses for hovering and raycasting
   const group = new Group();
-  group.name = `${site.id}-masses`;
+  if (!visible) group.name = `${site.id}-invisible-masses`;
+  if (visible) group.name = `${site.id}-visible-masses`;
   let url = site.gltfMasses.url;
   const gltfloader = new GLTFLoader();
   gltfloader.load(url, (gltf) => {
@@ -48593,16 +48670,16 @@ function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
     gltfMasses.position.x = x;
     gltfMasses.position.y = y;
     gltfMasses.position.z = z;
-    if (!visible) {
-      gltfMasses.traverse(function (object) {
+      gltfMasses.traverse((object) => {
         if (object.isMesh) {
           object.visible = visible;
+          if(visible) object.material = massesMaterial$1;
           masses.push(object);
         }
       });
-    }
     group.add(gltfMasses);
-    if (!scene.getObjectByName(`${site.id}-masses`)) scene.add(group);
+    if (!scene.getObjectByName(`${site.id}invisible-masses`)) scene.add(group);
+    if (!scene.getObjectByName(`${site.id}visible-masses`)) scene.add(group);
   });
 }
 
@@ -48650,7 +48727,8 @@ function setSite(site, provinceTerm, cityName) {
     "site-select",
     "osm"
   );
-  masses = [];
+  invisibleMasses = [];
+  visibleMasses = [];
   if (!site.hasOwnProperty("buildings")) {
     removeFromScene();
     infoMessage(`⚠️ No buildings at ${site.name}`);
@@ -48658,7 +48736,7 @@ function setSite(site, provinceTerm, cityName) {
     unhideElementsById("osm");
     if (site.hasOwnProperty("gltfMasses")) {
       loadMasses(
-        masses,
+        visibleMasses,
         site,
         true,
         site.gltfMasses.position.x,
@@ -48667,9 +48745,11 @@ function setSite(site, provinceTerm, cityName) {
       );
     }
   } else {
-    loadMasses(masses, site, false);
+    loadMasses(invisibleMasses, site, false);
     // console.log(scene)
-    loadBldsGltf(site, scene);
+    if (isMobile) {
+      hideElementsById("style-select", "province-select", "city-select", 'site-select');
+      loadMasses(visibleMasses, site, true);}    loadBldsGltf(site, scene);
     unhideElementsById("building-select");
     createOptions(buildingSelector, site.buildings);
     selectBuilding(buildingSelector);

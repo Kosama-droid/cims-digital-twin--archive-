@@ -384,6 +384,7 @@ var canada$1 = canada = {
             },
             PB: {
               name: "Parliament Buildings",
+              id: "PB",
               coordinates: {
                 lat: 45.42521,
                 lng: -75.70011,
@@ -392,8 +393,30 @@ var canada$1 = canada = {
               },
               logo: "../assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/PB/glb/buildings-downtown.glb",
+                url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
                 position: { x: 0, y: 0, z: 0 },
+              },
+              publicIfc: false,
+              ifcPath: "../assets/ON/Ottawa/PB/buildings/PT/ifc/",
+              gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
+              buildings: {
+                CB: {
+                  name: "Centre Block",
+                },
+                EB: {
+                  name: "East Block",
+                },
+                LOP: {
+                  name: "Library of Parliament",
+                },
+                PT: {
+                  name: "Peace Tower",
+                  ifcFileName: "ON-Ottawa-PB-PT.ifc"
+                },
+                WB: {
+                  name: "West Block",
+                },
               },
             },
             HM: {
@@ -401,10 +424,24 @@ var canada$1 = canada = {
               coordinates: {
                 lat: 45.41716147946148,
                 lng: -75.71449380975366,
-                msl: 53,
+                msl: 60,
                 zoom: 16,
               },
               logo: "../assets/ON/Ottawa/HM/ncc-logo.jpg",
+              gltfMasses: {
+                url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
+                position: { x: 0, y: 0, z: 0 },
+              },
+              publicIfc: false,
+              ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
+              gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
+              buildings: {
+                HM: {
+                  name: "Holocaust Memorial",
+                  ifcFileName: "ON-Ottawa-HM.ifc"
+                },
+              },
             },
             NAC: {
               name: "National Art Centre",
@@ -627,13 +664,17 @@ async function setGeojson(items) {
 }
 
 async function setLayer(id, layerName, url, color, funct) {
-  let infoText = info(`<b>${layerName}</b> <br>click on markers to see details`);
+  let infoText = info(
+    `<b>${layerName}</b> <br>click on markers to see details`
+  );
   let layer = {
     id: id,
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
-    svg: icons$1[id] ? `${icons$1[id]}${infoText}` : `<h1>${layerName[0]}${info}</h1>`,
+    svg: icons$1[id]
+      ? `${icons$1[id]}${infoText}`
+      : `<h1>${layerName[0]}${info}</h1>`,
   };
   !funct
     ? (layer.geojson = async () => await geojsonLayer(layerName, url))
@@ -91443,7 +91484,7 @@ var IfcAPI2 = class {
   }
 };
 
-class ClippingEdges {
+class ClippingEdges$1 {
     constructor(clippingPlane) {
         this.edges = {};
         this.isVisible = true;
@@ -91463,7 +91504,7 @@ class ClippingEdges {
         allEdges.forEach((edges) => {
             edges.mesh.visible = visible;
             if (visible)
-                ClippingEdges.context.getScene().add(edges.mesh);
+                ClippingEdges$1.context.getScene().add(edges.mesh);
             else
                 edges.mesh.removeFromParent();
         });
@@ -91494,18 +91535,18 @@ class ClippingEdges {
         this.clippingPlane = null;
     }
     disposeStylesAndHelpers() {
-        if (ClippingEdges.basicEdges) {
-            ClippingEdges.basicEdges.removeFromParent();
-            ClippingEdges.basicEdges.geometry.dispose();
-            ClippingEdges.basicEdges = null;
-            ClippingEdges.basicEdges = new LineSegments();
+        if (ClippingEdges$1.basicEdges) {
+            ClippingEdges$1.basicEdges.removeFromParent();
+            ClippingEdges$1.basicEdges.geometry.dispose();
+            ClippingEdges$1.basicEdges = null;
+            ClippingEdges$1.basicEdges = new LineSegments();
         }
-        ClippingEdges.context = null;
-        ClippingEdges.ifc = null;
-        ClippingEdges.edgesParent = undefined;
-        if (!ClippingEdges.styles)
+        ClippingEdges$1.context = null;
+        ClippingEdges$1.ifc = null;
+        ClippingEdges$1.edgesParent = undefined;
+        if (!ClippingEdges$1.styles)
             return;
-        const styles = Object.values(ClippingEdges.styles);
+        const styles = Object.values(ClippingEdges$1.styles);
         styles.forEach((style) => {
             style.ids.length = 0;
             style.meshes.forEach((mesh) => {
@@ -91522,17 +91563,17 @@ class ClippingEdges {
             style.categories.length = 0;
             style.material.dispose();
         });
-        ClippingEdges.styles = null;
-        ClippingEdges.styles = {};
+        ClippingEdges$1.styles = null;
+        ClippingEdges$1.styles = {};
     }
     async updateEdges() {
-        if (ClippingEdges.createDefaultIfcStyles) {
+        if (ClippingEdges$1.createDefaultIfcStyles) {
             await this.updateIfcStyles();
         }
-        if (ClippingEdges.forceStyleUpdate) {
+        if (ClippingEdges$1.forceStyleUpdate) {
             this.updateSubsetsTranformation();
         }
-        Object.keys(ClippingEdges.styles).forEach((styleName) => {
+        Object.keys(ClippingEdges$1.styles).forEach((styleName) => {
             try {
                 // this can trow error if there is an empty mesh, we still want to update other edges so we catch ere
                 this.drawEdges(styleName);
@@ -91543,18 +91584,18 @@ class ClippingEdges {
         });
     }
     // Creates a new style that applies to all clipping edges for IFC models
-    static async newStyle(styleName, categories, material = ClippingEdges.defaultMaterial) {
+    static async newStyle(styleName, categories, material = ClippingEdges$1.defaultMaterial) {
         const subsets = [];
-        const models = ClippingEdges.context.items.ifcModels;
+        const models = ClippingEdges$1.context.items.ifcModels;
         for (let i = 0; i < models.length; i++) {
             // eslint-disable-next-line no-await-in-loop
-            const subset = await ClippingEdges.newSubset(styleName, models[i], categories);
+            const subset = await ClippingEdges$1.newSubset(styleName, models[i], categories);
             if (subset) {
                 subsets.push(subset);
             }
         }
-        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
-        ClippingEdges.styles[styleName] = {
+        material.clippingPlanes = ClippingEdges$1.context.getClippingPlanes();
+        ClippingEdges$1.styles[styleName] = {
             ids: models.map((model) => model.modelID),
             categories,
             material,
@@ -91562,14 +91603,14 @@ class ClippingEdges {
         };
     }
     // Creates a new style that applies to all clipping edges for generic models
-    static async newStyleFromMesh(styleName, meshes, material = ClippingEdges.defaultMaterial) {
+    static async newStyleFromMesh(styleName, meshes, material = ClippingEdges$1.defaultMaterial) {
         const ids = meshes.map((mesh) => mesh.modelID);
         meshes.forEach((mesh) => {
             if (!mesh.geometry.boundsTree)
                 mesh.geometry.computeBoundsTree();
         });
-        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
-        ClippingEdges.styles[styleName] = {
+        material.clippingPlanes = ClippingEdges$1.context.getClippingPlanes();
+        ClippingEdges$1.styles[styleName] = {
             ids,
             categories: [],
             material,
@@ -91577,15 +91618,15 @@ class ClippingEdges {
         };
     }
     async updateStylesIfcGeometry() {
-        const styleNames = Object.keys(ClippingEdges.styles);
+        const styleNames = Object.keys(ClippingEdges$1.styles);
         for (let i = 0; i < styleNames.length; i++) {
             const name = styleNames[i];
-            const style = ClippingEdges.styles[name];
-            const models = ClippingEdges.context.items.ifcModels;
+            const style = ClippingEdges$1.styles[name];
+            const models = ClippingEdges$1.context.items.ifcModels;
             style.meshes.length = 0;
             for (let i = 0; i < models.length; i++) {
                 // eslint-disable-next-line no-await-in-loop
-                const subset = await ClippingEdges.newSubset(name, models[i], style.categories);
+                const subset = await ClippingEdges$1.newSubset(name, models[i], style.categories);
                 if (subset) {
                     style.meshes.push(subset);
                 }
@@ -91593,12 +91634,12 @@ class ClippingEdges {
         }
     }
     updateSubsetsTranformation() {
-        const styleNames = Object.keys(ClippingEdges.styles);
+        const styleNames = Object.keys(ClippingEdges$1.styles);
         for (let i = 0; i < styleNames.length; i++) {
             const styleName = styleNames[i];
-            const style = ClippingEdges.styles[styleName];
+            const style = ClippingEdges$1.styles[styleName];
             style.meshes.forEach((mesh) => {
-                const model = ClippingEdges.context.items.ifcModels.find((model) => model.modelID === mesh.modelID);
+                const model = ClippingEdges$1.context.items.ifcModels.find((model) => model.modelID === mesh.modelID);
                 if (model) {
                     mesh.position.copy(model.position);
                     mesh.rotation.copy(model.rotation);
@@ -91606,21 +91647,21 @@ class ClippingEdges {
                 }
             });
         }
-        ClippingEdges.forceStyleUpdate = false;
+        ClippingEdges$1.forceStyleUpdate = false;
     }
     async updateIfcStyles() {
         if (!this.stylesInitialized) {
             await this.createDefaultIfcStyles();
         }
-        if (ClippingEdges.forceStyleUpdate) {
+        if (ClippingEdges$1.forceStyleUpdate) {
             await this.updateStylesIfcGeometry();
-            ClippingEdges.forceStyleUpdate = false;
+            ClippingEdges$1.forceStyleUpdate = false;
         }
     }
     // Creates some basic styles so that users don't have to create it each time
     async createDefaultIfcStyles() {
-        if (Object.keys(ClippingEdges.styles).length === 0) {
-            await ClippingEdges.newStyle('thick', [
+        if (Object.keys(ClippingEdges$1.styles).length === 0) {
+            await ClippingEdges$1.newStyle('thick', [
                 IFCWALLSTANDARDCASE,
                 IFCWALL,
                 IFCSLAB,
@@ -91631,7 +91672,7 @@ class ClippingEdges {
                 IFCBUILDINGELEMENTPROXY,
                 IFCPROXY
             ], new LineMaterial({ color: 0x000000, linewidth: 0.0015 }));
-            await ClippingEdges.newStyle('thin', [
+            await ClippingEdges$1.newStyle('thin', [
                 IFCWINDOW,
                 IFCPLATE,
                 IFCMEMBER,
@@ -91658,14 +91699,14 @@ class ClippingEdges {
                 modelID,
                 ids,
                 customID: styleName,
-                material: ClippingEdges.invisibleMaterial,
+                material: ClippingEdges$1.invisibleMaterial,
                 removePrevious: true,
-                scene: ClippingEdges.context.getScene(),
+                scene: ClippingEdges$1.context.getScene(),
                 applyBVH: true
             });
         }
         else {
-            subset = manager.getSubset(modelID, ClippingEdges.invisibleMaterial, styleName);
+            subset = manager.getSubset(modelID, ClippingEdges$1.invisibleMaterial, styleName);
         }
         subset.position.copy(model.position);
         subset.rotation.copy(model.rotation);
@@ -91697,7 +91738,7 @@ class ClippingEdges {
     }
     // Creates the geometry of the clipping edges
     newThickEdges(styleName) {
-        const material = ClippingEdges.styles[styleName].material;
+        const material = ClippingEdges$1.styles[styleName].material;
         const thickLineGeometry = new LineSegmentsGeometry();
         const thickEdges = new LineSegments2(thickLineGeometry, material);
         thickEdges.material.polygonOffset = true;
@@ -91708,11 +91749,11 @@ class ClippingEdges {
     }
     // Source: https://gkjohnson.github.io/three-mesh-bvh/example/bundle/clippedEdges.html
     drawEdges(styleName) {
-        const style = ClippingEdges.styles[styleName];
+        const style = ClippingEdges$1.styles[styleName];
         // if (!style.subsets.geometry.boundsTree) return;
         if (!this.edges[styleName]) {
             this.edges[styleName] = {
-                generatorGeometry: ClippingEdges.newGeneratorGeometry(),
+                generatorGeometry: ClippingEdges$1.newGeneratorGeometry(),
                 mesh: this.newThickEdges(styleName)
             };
         }
@@ -91775,22 +91816,22 @@ class ClippingEdges {
         posAttr.needsUpdate = true;
         // Update the edges geometry only if there is no NaN in the output (which means there's been an error)
         if (!Number.isNaN(edges.generatorGeometry.attributes.position.array[0])) {
-            ClippingEdges.basicEdges.geometry = edges.generatorGeometry;
-            edges.mesh.geometry.fromLineSegments(ClippingEdges.basicEdges);
-            const parent = ClippingEdges.edgesParent || ClippingEdges.context.getScene();
+            ClippingEdges$1.basicEdges.geometry = edges.generatorGeometry;
+            edges.mesh.geometry.fromLineSegments(ClippingEdges$1.basicEdges);
+            const parent = ClippingEdges$1.edgesParent || ClippingEdges$1.context.getScene();
             parent.add(edges.mesh);
-            ClippingEdges.context.renderer.postProduction.excludedItems.add(edges.mesh);
+            ClippingEdges$1.context.renderer.postProduction.excludedItems.add(edges.mesh);
         }
     }
 }
-ClippingEdges.styles = {};
-ClippingEdges.forceStyleUpdate = false;
-ClippingEdges.createDefaultIfcStyles = true;
-ClippingEdges.edgesParent = null;
-ClippingEdges.invisibleMaterial = new MeshBasicMaterial({ visible: false });
-ClippingEdges.defaultMaterial = new LineMaterial({ color: 0x000000, linewidth: 0.001 });
+ClippingEdges$1.styles = {};
+ClippingEdges$1.forceStyleUpdate = false;
+ClippingEdges$1.createDefaultIfcStyles = true;
+ClippingEdges$1.edgesParent = null;
+ClippingEdges$1.invisibleMaterial = new MeshBasicMaterial({ visible: false });
+ClippingEdges$1.defaultMaterial = new LineMaterial({ color: 0x000000, linewidth: 0.001 });
 // Helpers
-ClippingEdges.basicEdges = new LineSegments();
+ClippingEdges$1.basicEdges = new LineSegments();
 
 class IfcPlane extends IfcComponent {
     constructor(context, origin, normal, onStartDragging, onEndDragging, planeSize, edgesEnabled) {
@@ -91823,7 +91864,7 @@ class IfcPlane extends IfcComponent {
         this.controls = this.newTransformControls();
         this.setupEvents(onStartDragging, onEndDragging);
         this.plane.setFromNormalAndCoplanarPoint(normal, origin);
-        this.edges = new ClippingEdges(this.plane);
+        this.edges = new ClippingEdges$1(this.plane);
         this.edgesActive = edgesEnabled;
     }
     get active() {
@@ -122044,8 +122085,8 @@ class IfcViewerAPI {
         this.GLTF = new GLTFManager(this.context, this.IFC);
         this.dropbox = new DropboxAPI(this.context, this.IFC);
         this.selectionWindow = new SelectionWindow(this.context);
-        ClippingEdges.ifc = this.IFC;
-        ClippingEdges.context = this.context;
+        ClippingEdges$1.ifc = this.IFC;
+        ClippingEdges$1.context = this.context;
     }
     /**
      * @deprecated Use `this.dropbox.loadDropboxIfc()` instead.
@@ -122285,6 +122326,8 @@ function createOptions(selector, objects) {
   }
 }
 
+/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -122292,20 +122335,30 @@ highlightMaterial = new MeshBasicMaterial({
     transparent: true,
     opacity: 0.9,
     depthTest: false,
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1
   });
 
-var hoverHighlihgtMateral$1 = hoverHighlihgtMateral = new MeshBasicMaterial({
+var hoverHighlihgtMaterial = hoverHighlihgtMateral = new MeshBasicMaterial({
     transparent: true,
     opacity: 0.1,
     color: 0xffffcc,
     depthTest: false,
   });
 
-var pickHighlihgtMateral$1 = pickHighlihgtMateral = new MeshBasicMaterial({
+var pickHighlihgtMaterial = pickHighlihgtMateral = new MeshBasicMaterial({
     transparent: true,
     opacity: 0.6,
     color: 0xffff30,
     depthTest: false,
+  });
+
+massesMaterial = new MeshStandardMaterial({
+    color: 0x555555,
+    flatShading: true,
+    side: DoubleSide,
+    emissive: 0x555555,
   });
 
 // import Stats from "stats.js/src/Stats";
@@ -122324,15 +122377,6 @@ const buildingPath = `../assets/${province.term}/${city.name}/${site.id}/buildin
 const buildingFileName = `${province.term}_${city.name}_${site.id}_${building.id}`;
 const glbFilePath = `${buildingPath}/glb/${buildingFileName}`;
 let model = {};
-
-// Get user
-let currentUser = "";
-document
-  .getElementById("user")
-  .addEventListener(
-    "change",
-    () => (currentUser = document.getElementById("user").value)
-  );
 
 site = canada$1.provinces[province.term].cities[city.name].sites[site.id];
 let buildings = site.buildings;
@@ -122391,64 +122435,61 @@ let properties;
 let projectTree;
 const plansContainer = document.getElementById("plans-menu");
 
-loadIfc();
+loadIfc(building.ifcURL);
 
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loader-container");
   document.getElementById("progress-text");
 
   if (!site.publicIfc) {
-    
-let categories = [
-  "slabs",
-  "roofs",
-  "curtainwalls",
-  "windows",
-  "doors",
-  "walls",
-  "columns",
-  "furniture",
-  "stairs"];
+    let categories = [
+      "slabs",
+      "roofs",
+      "curtainwalls",
+      "windows",
+      "doors",
+      "walls",
+      "columns",
+      "furniture",
+      "stairs",
+    ];
 
-  categories.forEach( category => {
+    categories.forEach((category) => {
+      model[category] = loadGlbByCategory(category);
 
-    model[category] = loadGlbByCategory(category);
-
-    async function loadGlbByCategory(category){
-      let categoryGlb = await viewer.GLTF.loadModel(`${glbFilePath}_${category}.glb`);
-      if (categoryGlb.modelID > -1) {
+      async function loadGlbByCategory(category) {
+        let categoryGlb = await viewer.GLTF.loadModel(
+          `${glbFilePath}_${category}.glb`
+        );
+        if (categoryGlb.modelID > -1) {
           // Postproduction 💅
-        viewer.shadowDropper.renderShadow(categoryGlb.modelID);
-        return categoryGlb}
-      else { throw new Error(`${category} does not exist in this building`)}}
+          viewer.shadowDropper.renderShadow(categoryGlb.modelID);
+          ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial);
+          return categoryGlb;
+        } else {
+          throw new Error(`${category} does not exist in this building`);
+        }
+      }
+    });
+    let walls = await model.walls;
+    await viewer.context.ifcCamera.cameraControls.fitToBox(walls);
 
-  });
-  let walls = await model.walls;
-  await viewer.context.ifcCamera.cameraControls.fitToBox(walls);
-
-  // } else {
-  //   model = await viewer.IFC.loadIfcUrl(
-  //     ifcURL,
-  //     false,
-  //     (progress) => {
-  //       loadingContainer.classList.remove("hidden");
-  //       progressText.textContent = `Loading ${building.name}: ${Math.round(
-  //         (progress.loaded * 100) / progress.total
-  //       )}%`;
-  //     },
-  //     (error) => {
-  //       return;
-  //     }
-  //   );
+    // } else {
+    //   model = await viewer.IFC.loadIfcUrl(
+    //     ifcURL,
+    //     false,
+    //     (progress) => {
+    //       loadingContainer.classList.remove("hidden");
+    //       progressText.textContent = `Loading ${building.name}: ${Math.round(
+    //         (progress.loaded * 100) / progress.total
+    //       )}%`;
+    //     },
+    //     (error) => {
+    //       return;
+    //     }
+    //   );
   }
 
-  // Postproduction 💅
-  // for (let cat in model) {
-  //   let i = await model[cat];
-  //   let id = i.modelID
-  //   viewer.shadowDropper.renderShadow(id)
-  // };
-  
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.classList.add("hidden");
 
@@ -122461,11 +122502,11 @@ let categories = [
   projectTree = await constructSpatialTree();
   createTreeMenu(projectTree);
 
-  // Floor plans 👣👣👣👣👣
-  const plansButton = document.getElementById("plans");
-  toggle.plans = false;
-  const plansMenu = document.getElementById("plans-menu");
-  toggleVisibility(plansButton, toggle.plans, plansMenu);
+  //   // Floor plans 👣👣👣👣👣
+  //   const plansButton = document.getElementById("plans");
+  //   toggle.plans = false;
+  //   const plansMenu = document.getElementById("plans-menu");
+  //   toggleVisibility(plansButton, toggle.plans, plansMenu);
 
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
@@ -122481,39 +122522,39 @@ let categories = [
       : document.getElementById("left-menu").classList.add("hidden");
   };
 
-  await viewer.plans.computeAllPlanViews(model.modelID);
+  //   await viewer.plans.computeAllPlanViews(model.modelID);
 
-  const lineMaterial = new LineBasicMaterial({ color: "black" });
-  const baseMaterial = new MeshBasicMaterial({
-    polygonOffset: true,
-    polygonOffsetFactor: 1,
-    polygonOffsetUnits: 1,
-  });
+    const lineMaterial = new LineBasicMaterial({ color: "black" });
+    new MeshBasicMaterial({
+      polygonOffset: true,
+      polygonOffsetFactor: 1,
+      polygonOffsetUnits: 1,
+    });
 
-  await viewer.edges.create(
-    "plan-edges",
-    model.modelID,
-    lineMaterial,
-    baseMaterial
-  );
+  //   await viewer.edges.create(
+  //     "plan-edges",
+  //     model.modelID,
+  //     lineMaterial,
+  //     baseMaterial
+  //   );
 
-  // Floor plan viewing
-  const allPlans = viewer.plans.getAll(model.modelID);
+  //   // Floor plan viewing
+  //   const allPlans = viewer.plans.getAll(model.modelID);
 
-  for (const plan of allPlans) {
-    const currentPlan = viewer.plans.planLists[model.modelID][plan];
-    const planButton = document.createElement("button");
-    planButton.classList.add("levels");
-    plansContainer.appendChild(planButton);
-    planButton.textContent = currentPlan.name;
-    planButton.onclick = () => {
-      viewer.plans.goTo(model.modelID, plan, true);
-      viewer.edges.toggle("plan-edges", true);
-      togglePostproduction(false);
-      toggleShadow(false);
-    };
-  }
-  return await models;
+  //   for (const plan of allPlans) {
+  //     const currentPlan = viewer.plans.planLists[model.modelID][plan];
+  //     const planButton = document.createElement("button");
+  //     planButton.classList.add("levels");
+  //     plansContainer.appendChild(planButton);
+  //     planButton.textContent = currentPlan.name;
+  //     planButton.onclick = () => {
+  //       viewer.plans.goTo(model.modelID, plan, true);
+  //       viewer.edges.toggle("plan-edges", true);
+  //       togglePostproduction(false);
+  //       toggleShadow(false);
+  //     };
+  //   }
+  //   return await models;
 }
 
 const button = document.createElement("button");
@@ -122528,7 +122569,7 @@ button.onclick = () => {
 };
 
 // Hover → Highlight
-viewer.IFC.selector.preselection.material = hoverHighlihgtMateral$1;
+viewer.IFC.selector.preselection.material = hoverHighlihgtMaterial;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
 // Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
@@ -122539,12 +122580,8 @@ dimensionsButton.onclick = () => {
   toggle.dimensions = !toggle.dimensions;
   viewer.dimensions.active = toggle.dimensions;
   viewer.dimensions.previewActive = toggle.dimensions;
-  let visibility = toggle.dimensions ? "Hide" : "Show";
   let button = document.getElementById("dimensions");
-  button.setAttribute("title", `${visibility} ${button.id}`);
-  toggle.dimensions
-    ? button.classList.add("selected-button")
-    : button.classList.remove("selected-button");
+  selectedButton(button, toggle.dimensions, true);
   clicked = 0;
 };
 
@@ -122555,17 +122592,39 @@ clippingButton.onclick = () => {
   toggle.clipping = !toggle.clipping;
   viewer.IFC.selector.unHighlightIfcItems();
   viewer.clipper.active = toggle.clipping;
-  let visibility = toggle.clipping ? "Hide" : "Show";
+  ClippingEdges.createDefaultIfcStyles = false;
   let button = document.getElementById("clipping");
-  button.setAttribute("title", `${visibility} ${button.id}`);
-  selectedButton(button, toggle.clipping);
+  selectedButton(button, toggle.clipping, true);
 };
 
-// Click → Dimensions
+// Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
+const propsGUI = document.getElementById("ifc-property-menu-root");
+const propButton = document.getElementById("properties");
+toggle.proprerties = false;
+viewer.IFC.selector.selection.material = hoverHighlihgtMaterial;
+
+// Pick → propterties
+propButton.addEventListener("click", () => {
+  const propertyMenu = document.getElementById("ifc-property-menu");
+  toggle.proprerties = !toggle.proprerties;
+  selectedButton(propButton, toggle.proprerties, true);
+  if (toggle.proprerties) {
+    viewer.IFC.selector.selection.material = pickHighlihgtMaterial;
+    propertyMenu.classList.remove("hidden");
+  } else {
+    viewer.IFC.selector.unpickIfcItems();
+    viewer.IFC.selector.unHighlightIfcItems();
+    viewer.IFC.selector.selection.material = hoverHighlihgtMaterial;
+    propertyMenu.classList.add("hidden");
+  }
+});
+
+// Click → Dimensions 📏
 window.onclick = async () => {
   if (clicked > 0 && toggle.dimensions) {
     viewer.dimensions.create();
   }
+
   const result = await viewer.IFC.selector.pickIfcItem(false);
   if (result) {
     const foundProperties = properties[result.id];
@@ -122577,11 +122636,11 @@ window.onclick = async () => {
 
 // Keybord ⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️⌨️
 window.onkeydown = (event) => {
-  event.key;
-  // if (keyName === "e") {
-  //   console.log("export:", building.name);
-  //   preposcessIfc(building);
-  // }
+  const keyName = event.key;
+  if (keyName === "e") {
+    console.log("export:", building.name);
+    preproscessIfc(building);
+  }
   if (event.code === "Escape") {
     viewer.IFC.selector.unpickIfcItems();
     viewer.IFC.selector.unHighlightIfcItems();
@@ -122597,16 +122656,6 @@ window.onkeydown = (event) => {
     viewer.clipper.deletePlane();
   }
 };
-
-// Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
-const propsGUI = document.getElementById("ifc-property-menu-root");
-const propButton = document.getElementById("properties");
-toggle.proprerties = false;
-const propertyMenu = document.getElementById("ifc-property-menu");
-toggleVisibility(propButton, toggle.proprerties, propertyMenu);
-
-// Pick → propterties
-viewer.IFC.selector.selection.material = pickHighlihgtMateral$1;
 
 window.ondblclick = () => {
   // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
@@ -122818,9 +122867,30 @@ function removeAllChildren(element) {
 }
 
 // Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+// Get user
+let currentUser = "Anonymous";
+document
+  .getElementById("user")
+  .addEventListener(
+    "change",
+    () => (currentUser = document.getElementById("user").value)
+  );
+
+const messageButton = document.getElementById("message");
+toggle.message = false;
+messageButton.onclick = () => {
+  toggle.message = !toggle.message;
+  let button = document.getElementById("message");
+  selectedButton(button, toggle.message, true);
+  let user = document.getElementById("user-container");
+  toggle.message
+    ? user.classList.remove("hidden")
+    : user.classList.add("hidden");
+};
+
 window.oncontextmenu = () => {
   const collision = viewer.context.castRayIfc(model);
-  if (collision === null || currentUser === "") return;
+  if (!toggle.message || collision === null) return;
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
@@ -122834,6 +122904,51 @@ function toggleShadow(active) {
 
 function togglePostproduction(active) {
   viewer.context.renderer.postProduction.active = active;
+}
+
+async function preproscessIfc(building) {
+  const result = await viewer.GLTF.exportIfcFileAsGltf({
+    ifcFileUrl: building.ifcURL,
+    getProperties: true,
+    splitByFloors: false,
+    categories: {
+      walls: [IFCWALL, IFCWALLSTANDARDCASE],
+      doors: [IFCDOOR, IFCBUILDINGELEMENTPROXY],
+      slabs: [IFCSLAB],
+      windows: [IFCWINDOW],
+      curtainwalls: [IFCMEMBER, IFCPLATE, IFCCURTAINWALL, IFCSITE],
+      roofs: [IFCROOF],
+      furniture: [IFCFURNISHINGELEMENT],
+      columns: [IFCCOLUMN],
+      stairs: [IFCSTAIRFLIGHT, IFCSTAIR],
+      ramps: [IFCRAMP, IFCRAMPFLIGHT],
+      // mep: [],
+    },
+  });
+
+  // Download result
+  const link = document.createElement("a");
+  document.body.appendChild(link);
+
+  for (let jsonFile of result.json) {
+    link.download = `${buildingFileName}_properties.json`;
+    link.href = URL.createObjectURL(jsonFile);
+    link.click();
+  }
+
+  for (const categoryName in result.gltf) {
+    const category = result.gltf[categoryName];
+    for (const levelName in category) {
+      const file = category[levelName].file;
+      if (file) {
+        link.download = `${buildingFileName}_${categoryName}.glb`;
+        link.href = URL.createObjectURL(file);
+        link.click();
+      }
+    }
+  }
+
+  link.remove();
 }
 
 // Set up stats

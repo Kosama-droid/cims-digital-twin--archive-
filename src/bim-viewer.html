@@ -16,14 +16,14 @@
 <body class="hide-overflow">
   <nav class="nav-bar transp1-background" id="nav-bar">
     <div id="selectors" class="select-visible">
-      <select id="building-select" class="button transp1-background select">
+      <select id="building-select" class="selector transp1-background select">
         <option class="option" value="none" selected disabled hidden>-- select a Building --</option>
       </select>
     </div>
-    <a class="info button toolbar">
+    <a class="info toolbar hidden" id="user-container">
       <input id="user" type="text" name="User" autocomplete="off" placeholder="USER" value="" title="Add user name, right click on elements to leave comments">
     </a>
-    <div id="loader-container" class="hidden">
+    <div id="loader-container" class="loader-container hidden">
       <div class="loader"></div>
       <a id="progress-text"></a>
     </div>
@@ -40,10 +40,16 @@
       <a id="project-tree" class="button transp1-background circular" title="Show project tree">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 21c0 1.657-1.344 3-3 3-1.657 0-3-1.343-3-3s1.343-3 3-3c1.656 0 3 1.343 3 3zm6-3c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm0-18c-1.657 0-3 1.343-3 3s1.343 3 3 3c1.656 0 3-1.343 3-3s-1.344-3-3-3zm9 18c-1.656 0-3 1.343-3 3s1.344 3 3 3 3-1.343 3-3-1.344-3-3-3zm-1.577-1.721l-6.423-5.028v-3.352c-.323.066-.658.101-1 .101s-.677-.035-1-.101v3.352l-6.423 5.028c.694.233 1.323.602 1.844 1.093l5.579-4.372 5.579 4.373c.522-.492 1.15-.861 1.844-1.094z"/></svg>
       </a>
-      <a id="plans" class="button transp1-background circular" title="Toggle plans">
+      <a id="plans" class="button transp1-background circular hidden" title="Toggle plans">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M24 23h-20c-2.208 0-4-1.792-4-4v-15.694c.313-1.071 1.285-2.306 3-2.306 1.855 0 2.769 1.342 2.995 2.312l.005 1.688h18v18zm-2-16h-16v11s-.595-1-1.922-1c-1.104 0-2.078.896-2.078 2s.896 2 2 2h18v-14zm-2 12h-12v-10h12v10zm-8-9h-3v8h10v-4h-2v3h-1v-3h-3v3h-1v-7zm-8-6.339c-.233-.921-1.807-.917-2 0v11.997c.408-.421 1.383-.724 2-.658v-11.339zm9 6.339v3h6v-3h-6z"/>
         </svg>
+      </a>
+      <a id="message" class="button transp1-background circular info" title="Create message" name="message">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M22 3v13h-11.643l-4.357 3.105v-3.105h-4v-13h20zm2-2h-24v16.981h4v5.019l7-5.019h13v-16.981zm-5 6h-14v-1h14v1zm0 2h-14v1h14v-1zm-6 3h-8v1h8v-1z"/>
+        </svg>
+        <span class="info-text">Right-click on elements to leave your message<br>Don't forget your user name</span>
       </a>
       <a id="projection" class="button transp1-background circular" title="Toggle projection">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -51,13 +57,13 @@
             d="m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z" />
         </svg>
       </a>
-      <a id="dimensions" class="button transp1-background circular info" title="Show dimensions">
+      <a id="dimensions" class="button transp1-background circular info" title="Show dimensions" name="dimensions">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M0 18.343l5.656 5.657 18.344-18.343-5.657-5.657-18.343 18.343zm21.171-12.686l-15.514 15.514-2.829-2.829 1.04-1.008 2.122 2.122.707-.707-2.122-2.122 1.414-1.414 1.414 1.414.708-.708-1.414-1.414 1.414-1.414 1.414 1.414.707-.707-1.414-1.414 1.414-1.414 2.122 2.122.707-.708-2.121-2.122 1.414-1.414 1.414 1.414.707-.707-1.414-1.414 1.414-1.414 1.414 1.414.707-.707-1.414-1.414 1.414-1.415 2.121 2.122.707-.707-2.121-2.122 1.039-1.071 2.829 2.83z"/>
-       <span class="info-text">Click to measure <br> Delete to remove dimensions</span>
-        </svg>
+       </svg>
+          <span class="info-text">Click to measure <br> Delete to remove dimensions</span>
       </a>
-      <a id="clipping" class="button transp1-background circular info" title="Show dimensions">
+      <a id="clipping" class="button transp1-background circular info" title="Show clipping planes" name="clipping planes">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M2 17h-2v-4h2v4zm3 7v-2h-3v-3h-2v5h5zm6-2h-4v2h4v-2zm-11-11h2v-3h3v-2h-5v5zm24 .044c0 1.64-1.352 2.956-3.146 2.956-.533 0-1.083-.119-1.605-.373-1.511-.731-2.296-2.333-1.943-3.774.203-.822-.23-.934-.891-1.253l-11.036-5.341s1.322-1.812 2.76-1.117c.881.427 4.424 2.136 7.477 3.617l.766-.368c.662-.319 1.094-.43.895-1.252-.351-1.442.439-3.043 1.952-3.77.52-.251 1.067-.369 1.595-.369 1.799 0 3.147 1.32 3.147 2.956 0 1.23-.766 2.454-2.032 3.091-1.266.634-2.15.14-3.406.75l-.394.19.431.21c1.254.614 2.142.122 3.404.759 1.262.638 2.026 1.861 2.026 3.088zm-5.133-7.011c.381.795 1.459 1.072 2.406.617.945-.455 1.405-1.472 1.027-2.267-.381-.796-1.46-1.073-2.406-.618-.946.455-1.408 1.472-1.027 2.268zm-2.834 2.819c0-.322-.261-.583-.583-.583-.321 0-.583.261-.583.583s.262.583.583.583c.322.001.583-.261.583-.583zm5.272 2.499c-.945-.457-2.025-.183-2.408.611-.381.795.078 1.814 1.022 2.271.945.458 2.024.184 2.406-.611.382-.795-.075-1.814-1.02-2.271zm-6.305 12.649h-2v2h4v-5h-2v3zm.861-9h-.861v4h2v-2.51c-.471-.432-.847-.942-1.139-1.49zm-10.528-2.297s1.317 1.815 2.755 1.124l6.598-3.181-2.539-1.229-6.814 3.286z"/>
        <span class="info-text">Doubleclick to create planes on face <br> Delete to remove clipping planes</span>
@@ -73,7 +79,7 @@
       </a>
       <!-- <a id="gltf" class="button transp1-background circular" title="GLTF"></a> -->
     </div>
-    <div id="toolbar-right-button">
+    <div id="toolbar-right-button" class="permanent">
       <a class="button transp1-background circular selected-button" id="layers" title="Hide layers">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
