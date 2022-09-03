@@ -122,7 +122,6 @@ var canada$1 = canada = {
               gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               buildings: {
                 MB: {
@@ -394,10 +393,9 @@ var canada$1 = canada = {
               logo: "../assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
-              ifcPath: "../assets/ON/Ottawa/PB/buildings/PT/ifc/",
+              ifcPath: "../assets/ON/Ottawa/PB/buildings/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
               buildings: {
@@ -412,7 +410,7 @@ var canada$1 = canada = {
                 },
                 PT: {
                   name: "Peace Tower",
-                  ifcFileName: "ON-Ottawa-PB-PT.ifc"
+                  ifcFileName: "ON-Ottawa-PB-PT.ifc",
                 },
                 WB: {
                   name: "West Block",
@@ -420,18 +418,17 @@ var canada$1 = canada = {
               },
             },
             HM: {
-              name: "Holocaust Memorial", 
+              name: "Holocaust Memorial",
               id: "HM",
               coordinates: {
                 lat: 45.41681,
                 lng: -75.71448,
                 msl: 56.1,
-                zoom: 16,
+                zoom: 18,
               },
               logo: "../assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
@@ -440,7 +437,29 @@ var canada$1 = canada = {
               buildings: {
                 HM: {
                   name: "Holocaust Memorial",
-                  ifcFileName: "ON-Ottawa-HM.ifc"
+                  ifcFileName: "ON-Ottawa-HM.ifc",
+                },
+              },
+            },
+            CWM: {
+              name: "Canadian War Museum",
+              id: "CWM",
+              coordinates: {
+                lat: 45.4172408,
+                lng: -75.71729,
+                msl: 56.1,
+                zoom: 17,
+              },
+              logo: "../assets/ON/Ottawa/CWM/cwm-logo.png",
+              gltfMasses: {
+                url: "../assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
+              },
+              publicIfc: false,
+              gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
+              buildings: {
+                CWM: {
+                  name: "Canadian War Museum",
                 },
               },
             },
@@ -488,7 +507,6 @@ var canada$1 = canada = {
               logo: "../assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
@@ -48125,15 +48143,12 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
 
-hideElementsById(
-  "city-select",
-  "site-select",
-  "building-select",
-  "osm"
-);
-
+hideElementsById("city-select", "site-select", "building-select", "osm");
 
 let scene,
   map,
@@ -48158,7 +48173,6 @@ let def = carleton;
 let province = { term: "ON" };
 let city = { name: "Ottawa" };
 let site = { id: "CDC" };
-let building = { id: "VS" };
 
 // Selectors 🧲
 const buildingSelector = document.getElementById("building-select");
@@ -48353,7 +48367,9 @@ siteSelector.addEventListener("change", (event) => {
 
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
-  building.id = gltfMasses.selected.id;
+  let id = gltfMasses.selected.id;
+  let building = site.buildings[id];
+  building.id = id;
   openBimViewer(building);
 });
 closeBimViewer();
@@ -48370,7 +48386,7 @@ map.on("style.load", function () {
 document.addEventListener("keydown", (event) => {
   three = true;
   const keyName = event.key;
-  if (keyName === "Enter"){
+  if (keyName === "Enter") {
     goTo();
   }
   if (keyName === "c") {
@@ -48544,6 +48560,10 @@ function savePreviousSelectio(item) {
 }
 
 function openBimViewer(building) {
+  if (!building.ifcFileName) {
+    infoMessage(`⚠️ No ifc file available at ${building.name}`);
+    return;
+  }
   let url = `./bim-viewer.html?id=${province.term}/${city.name}/${site.id}/${building.id}`;
   let bimContainer;
   bimContainer = document.getElementById("bim-container");
@@ -48554,12 +48574,11 @@ function openBimViewer(building) {
     bimViewer.classList.add("bim-viewer");
     if (isMobile) {
       window.open(url);
-    }
-    else {
-    bimContainer.appendChild(bimViewer);
-    document.getElementById("close-bim-viewer").classList.remove("hidden");
-    hideSelectors();
-    isolateSelector(toolbar, "");
+    } else {
+      bimContainer.appendChild(bimViewer);
+      document.getElementById("close-bim-viewer").classList.remove("hidden");
+      hideSelectors();
+      isolateSelector(toolbar, "");
     }
   }
   bimViewer.setAttribute("src", url);
@@ -48623,15 +48642,12 @@ function closeBimViewer() {
       "style-select",
       "city-select",
       "site-select",
-      "building-select"
+      "building-select",
+      "osm"
     );
     document.getElementById("bim-viewer").remove();
     document.getElementById("close-bim-viewer").classList.add("hidden");
   });
-}
-
-function bimViewer(building) {
-  openBimViewer(building);
 }
 
 function flyToCanada() {
@@ -48650,7 +48666,7 @@ function flyToCanada() {
 function selectBuilding(selector) {
   selector.addEventListener("change", (event) => {
     let id = selector[selector.selectedIndex].id;
-    building.id = id;
+    let building = site.buildings[id];
     openBimViewer(building);
     closeBimViewer();
     event.target.selectedIndex = 0;
@@ -48670,13 +48686,13 @@ function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
     gltfMasses.position.x = x;
     gltfMasses.position.y = y;
     gltfMasses.position.z = z;
-      gltfMasses.traverse((object) => {
-        if (object.isMesh) {
-          object.visible = visible;
-          if(visible) object.material = massesMaterial$1;
-          masses.push(object);
-        }
-      });
+    gltfMasses.traverse((object) => {
+      if (object.isMesh) {
+        object.visible = visible;
+        if (visible) object.material = massesMaterial$1;
+        masses.push(object);
+      }
+    });
     group.add(gltfMasses);
     if (!scene.getObjectByName(`${site.id}invisible-masses`)) scene.add(group);
     if (!scene.getObjectByName(`${site.id}visible-masses`)) scene.add(group);
@@ -48722,11 +48738,7 @@ function setSite(site, provinceTerm, cityName) {
   setModelOrigin(site);
   flyToSite(site);
   hideElementsById("province-select", "lng", "lat", "go-to");
-  unhideElementsById(
-    "city-select",
-    "site-select",
-    "osm"
-  );
+  unhideElementsById("city-select", "site-select", "osm");
   invisibleMasses = [];
   visibleMasses = [];
   if (!site.hasOwnProperty("buildings")) {
@@ -48735,21 +48747,21 @@ function setSite(site, provinceTerm, cityName) {
     hideElementsById("lng", "lat", "building-select");
     unhideElementsById("osm");
     if (site.hasOwnProperty("gltfMasses")) {
-      loadMasses(
-        visibleMasses,
-        site,
-        true,
-        site.gltfMasses.position.x,
-        site.gltfMasses.position.y,
-        site.gltfMasses.position.z
-      );
+      loadMasses(visibleMasses, site, true);
     }
   } else {
     loadMasses(invisibleMasses, site, false);
     // console.log(scene)
     if (isMobile) {
-      hideElementsById("style-select", "province-select", "city-select", 'site-select');
-      loadMasses(visibleMasses, site, true);}    loadBldsGltf(site, scene);
+      hideElementsById(
+        "style-select",
+        "province-select",
+        "city-select",
+        "site-select"
+      );
+      loadMasses(visibleMasses, site, true);
+    }
+    loadBldsGltf(site, scene);
     unhideElementsById("building-select");
     createOptions(buildingSelector, site.buildings);
     selectBuilding(buildingSelector);
@@ -48882,8 +48894,10 @@ function removeMarker(markers) {
 }
 
 function goTo(location) {
-  if (document.getElementById("lng").value !== "" &&
-      !document.getElementById("lat").value !== "") {
+  if (
+    document.getElementById("lng").value !== "" &&
+    !document.getElementById("lat").value !== ""
+  ) {
     def.coordinates.lng = parseFloat(document.getElementById("lng").value);
     def.coordinates.lat = parseFloat(document.getElementById("lat").value);
     delete def.buildings;

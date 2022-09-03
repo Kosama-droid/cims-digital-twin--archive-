@@ -122,7 +122,6 @@ var canada$1 = canada = {
               gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               buildings: {
                 MB: {
@@ -394,10 +393,9 @@ var canada$1 = canada = {
               logo: "../assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
-              ifcPath: "../assets/ON/Ottawa/PB/buildings/PT/ifc/",
+              ifcPath: "../assets/ON/Ottawa/PB/buildings/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
               buildings: {
@@ -412,7 +410,7 @@ var canada$1 = canada = {
                 },
                 PT: {
                   name: "Peace Tower",
-                  ifcFileName: "ON-Ottawa-PB-PT.ifc"
+                  ifcFileName: "ON-Ottawa-PB-PT.ifc",
                 },
                 WB: {
                   name: "West Block",
@@ -421,16 +419,16 @@ var canada$1 = canada = {
             },
             HM: {
               name: "Holocaust Memorial",
+              id: "HM",
               coordinates: {
-                lat: 45.41716147946148,
-                lng: -75.71449380975366,
-                msl: 60,
-                zoom: 16,
+                lat: 45.41681,
+                lng: -75.71448,
+                msl: 56.1,
+                zoom: 18,
               },
               logo: "../assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
@@ -439,7 +437,29 @@ var canada$1 = canada = {
               buildings: {
                 HM: {
                   name: "Holocaust Memorial",
-                  ifcFileName: "ON-Ottawa-HM.ifc"
+                  ifcFileName: "ON-Ottawa-HM.ifc",
+                },
+              },
+            },
+            CWM: {
+              name: "Canadian War Museum",
+              id: "CWM",
+              coordinates: {
+                lat: 45.4172408,
+                lng: -75.71729,
+                msl: 56.1,
+                zoom: 17,
+              },
+              logo: "../assets/ON/Ottawa/CWM/cwm-logo.png",
+              gltfMasses: {
+                url: "../assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
+              },
+              publicIfc: false,
+              gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
+              jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
+              buildings: {
+                CWM: {
+                  name: "Canadian War Museum",
                 },
               },
             },
@@ -487,7 +507,6 @@ var canada$1 = canada = {
               logo: "../assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
-                position: { x: 0, y: 0, z: 0 },
               },
               publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
@@ -122371,7 +122390,7 @@ let codes = currentModelCode.split("/");
 let province = { term: codes[0] };
 let city = { name: codes[1] };
 let site = { id: codes[2] };
-let building = { id: codes[3] };
+let building = { id: codes[3], name: "" };
 const toggle = {};
 const buildingPath = `../assets/${province.term}/${city.name}/${site.id}/buildings/${building.id}`;
 const buildingFileName = `${province.term}_${city.name}_${site.id}_${building.id}`;
@@ -122423,7 +122442,7 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-building.ifcURL = `${site.ifcPath}${site.buildings[building.id].ifcFileName}`;
+building.ifcURL = `${site.ifcPath}${building.id}/ifc/${site.buildings[building.id].ifcFileName}`;
 
 // Projection
 document.getElementById("projection").onclick = () =>
@@ -122506,7 +122525,7 @@ async function loadIfc(ifcURL) {
   //   const plansButton = document.getElementById("plans");
   //   toggle.plans = false;
   //   const plansMenu = document.getElementById("plans-menu");
-  //   toggleVisibility(plansButton, toggle.plans, plansMenu);
+  //   dt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
@@ -122866,7 +122885,7 @@ function removeAllChildren(element) {
   }
 }
 
-// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+// dt.Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 // Get user
 let currentUser = "Anonymous";
 document
@@ -122907,9 +122926,10 @@ function togglePostproduction(active) {
 }
 
 async function preproscessIfc(building) {
+  console.log(building);
   const result = await viewer.GLTF.exportIfcFileAsGltf({
     ifcFileUrl: building.ifcURL,
-    getProperties: true,
+    getProperties: false,
     splitByFloors: false,
     categories: {
       walls: [IFCWALL, IFCWALLSTANDARDCASE],
