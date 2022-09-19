@@ -17,7 +17,7 @@ const latRange = 0.025;
 
 var canada$1 = canada = {
   lng: -98.74,
-  lat: 56.415,
+  lat: 56.415, 
   bbox: [-130, 65, -65, 47],
   provinces: {
     AB: {
@@ -377,7 +377,6 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
@@ -394,7 +393,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/PB/buildings/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
@@ -430,7 +428,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
               gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
@@ -454,7 +451,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
               },
-              publicIfc: false,
               gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
               buildings: {
@@ -508,7 +504,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
@@ -48045,8 +48040,8 @@ new Matrix4();
 new Vector3();
 new Vector3();
 
-function createOptions(selector, objects) {
-  while (selector.childElementCount > 1) {
+function createOptions(selector, objects, keepSelectors = 2) {
+  while (selector.childElementCount > keepSelectors) {
     selector.removeChild(selector.lastChild);
   }
   for (const object in objects) {
@@ -48336,6 +48331,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   removeChildren(document.getElementById("toolbar"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
+  document.getElementById("new-site-location").innerText = `${cityName}, ${province.term}`; 
   if (!city) city = { name: cityName };
   url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
   locGeojason = getGeojson(cityName, url, map, locGeojason);
@@ -48344,26 +48340,63 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     infoMessage(`⚠️ No sites at ${cityName}`);
   } else {
     hideElementsById("province-select", "building-select");
-    unhideElementsById("site-select");
     sites = city.sites;
     siteMarkers = siteMarker(sites);
     createOptions(siteSelector, sites);
   }
+  unhideElementsById("site-select");
   event.target.selectedIndex = 0;
+  document.getElementById("add-site").classList.remove("hidden");
 });
 
 // Site ➡️________________
 let siteSelector = document.getElementById("site-select");
-createOptions(siteSelector, sites);
+const newSiteMenu = document.getElementById("new-site-container");
+createOptions(siteSelector, sites, 2);
 siteSelector.addEventListener("change", (event) => {
+  console.log(city);
+  
   sites = city.sites;
   removeMarker(siteMarkers);
   removeGeojson(locGeojason);
   id = event.target[event.target.selectedIndex].id;
-  site = sites[id];
-  setSite(site, province.term, city.name);
+  console.log(event.target);
+  if (id === "add-site") {
+    addLocMarker();
+    newSiteMenu.classList.remove('hidden');
+  }
+  else {
+    site = sites[id];
+    setSite(site, province.term, city.name);
+  }
   event.target.selectedIndex = 0;
 });
+document.getElementById("cancel-new-site").addEventListener('click', () => {
+  newSiteMenu.classList.add("hidden");
+});
+
+function addLocMarker() {
+  // Draggable Site Marker 👇
+  let markerLoc;
+  // let popup;
+  const marker = new mapboxgl.Marker({
+    id: "location-marker",
+    draggable: true,
+  })
+    .setLngLat(map.getCenter())
+    .addTo(map);
+
+  function onDragEnd() {
+    // if (popup) popup.remove();
+    markerLoc = marker.getLngLat();
+    markerLoc.msl = map.queryTerrainElevation(marker.getLngLat());
+    document.getElementById("new-lng").value = `${markerLoc.lng}`;
+    document.getElementById("new-lat").value = `${markerLoc.lat}`;
+    document.getElementById("new-msl").value = `${markerLoc.msl}`;
+  }
+
+  marker.on("dragend", onDragEnd);
+}
 
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
@@ -48386,6 +48419,7 @@ map.on("style.load", function () {
 document.addEventListener("keydown", (event) => {
   three = true;
   const keyName = event.key;
+  if(event.altKey){
   if (keyName === "Enter") {
     goTo();
   }
@@ -48417,6 +48451,7 @@ document.addEventListener("keydown", (event) => {
     setSite(site, "ON", "Toronto");
     return;
   }
+}
 });
 
 // Go To Site 🛬__________________________________________________
@@ -48656,7 +48691,7 @@ function flyToCanada() {
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada$1.bbox);
     isolateSelector(selectors, "province-select", "style-select");
-    isolateSelector(toolbar, "go-to", "lng", "lat");
+    isolateSelector(toolbar, "go-to");
     setTimeout(function () {
       location.reload();
     }, 2000);
@@ -48737,14 +48772,14 @@ function setSite(site, provinceTerm, cityName) {
   removeGeojson(locGeojason);
   setModelOrigin(site);
   flyToSite(site);
-  hideElementsById("province-select", "lng", "lat", "go-to");
+  hideElementsById("province-select", "go-to");
   unhideElementsById("city-select", "site-select", "osm");
   invisibleMasses = [];
   visibleMasses = [];
   if (!site.hasOwnProperty("buildings")) {
     removeFromScene();
     infoMessage(`⚠️ No buildings at ${site.name}`);
-    hideElementsById("lng", "lat", "building-select");
+    hideElementsById("building-select");
     unhideElementsById("osm");
     if (site.hasOwnProperty("gltfMasses")) {
       loadMasses(visibleMasses, site, true);
@@ -48898,8 +48933,8 @@ function goTo(location) {
     document.getElementById("lng").value !== "" &&
     !document.getElementById("lat").value !== ""
   ) {
-    def.coordinates.lng = parseFloat(document.getElementById("lng").value);
-    def.coordinates.lat = parseFloat(document.getElementById("lat").value);
+    def.coordinates.lng = parseFloat(document.getElementById("new-lng").value);
+    def.coordinates.lat = parseFloat(document.getElementById("new-lat").value);
     delete def.buildings;
     delete def.gltfMasses;
     def.name = "this site";

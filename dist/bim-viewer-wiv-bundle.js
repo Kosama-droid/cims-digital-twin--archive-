@@ -17,7 +17,7 @@ const latRange = 0.025;
 
 var canada$1 = canada = {
   lng: -98.74,
-  lat: 56.415,
+  lat: 56.415, 
   bbox: [-130, 65, -65, 47],
   provinces: {
     AB: {
@@ -377,7 +377,6 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
               jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
@@ -394,7 +393,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/PB/buildings/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
@@ -430,7 +428,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
               gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
@@ -454,7 +451,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
               },
-              publicIfc: false,
               gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
               buildings: {
@@ -508,7 +504,6 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
-              publicIfc: false,
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
@@ -122331,8 +122326,8 @@ function labeling(scene, collisionLocation, user = "User") {
     container.onmouseleave = () => deleteButton.classList.add("hidden");
   }
 
-function createOptions(selector, objects) {
-  while (selector.childElementCount > 1) {
+function createOptions(selector, objects, keepSelectors = 2) {
+  while (selector.childElementCount > keepSelectors) {
     selector.removeChild(selector.lastChild);
   }
   for (const object in objects) {
@@ -122460,14 +122455,13 @@ async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loader-container");
   document.getElementById("progress-text");
 
-  if (!site.publicIfc) {
     let categories = [
+      "walls",
       "slabs",
       "roofs",
       "curtainwalls",
       "windows",
       "doors",
-      "walls",
       "columns",
       "furniture",
       "stairs",
@@ -122480,6 +122474,7 @@ async function loadIfc(ifcURL) {
         let categoryGlb = await viewer.GLTF.loadModel(
           `${glbFilePath}_${category}.glb`
         );
+        if (category === "walls") await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
         if (categoryGlb.modelID > -1) {
           // Postproduction 💅
           viewer.shadowDropper.renderShadow(categoryGlb.modelID);
@@ -122489,25 +122484,7 @@ async function loadIfc(ifcURL) {
           throw new Error(`${category} does not exist in this building`);
         }
       }
-    });
-    let walls = await model.walls;
-    await viewer.context.ifcCamera.cameraControls.fitToBox(walls);
-
-    // } else {
-    //   model = await viewer.IFC.loadIfcUrl(
-    //     ifcURL,
-    //     false,
-    //     (progress) => {
-    //       loadingContainer.classList.remove("hidden");
-    //       progressText.textContent = `Loading ${building.name}: ${Math.round(
-    //         (progress.loaded * 100) / progress.total
-    //       )}%`;
-    //     },
-    //     (error) => {
-    //       return;
-    //     }
-    //   );
-  }
+    });    
 
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.classList.add("hidden");
@@ -122601,6 +122578,7 @@ dimensionsButton.onclick = () => {
   viewer.dimensions.previewActive = toggle.dimensions;
   let button = document.getElementById("dimensions");
   selectedButton(button, toggle.dimensions, true);
+  updatePostProduction();
   clicked = 0;
 };
 
@@ -122611,7 +122589,7 @@ clippingButton.onclick = () => {
   toggle.clipping = !toggle.clipping;
   viewer.IFC.selector.unHighlightIfcItems();
   viewer.clipper.active = toggle.clipping;
-  ClippingEdges.createDefaultIfcStyles = false;
+  // ClippingEdges.createDefaultIfcStyles = false;
   let button = document.getElementById("clipping");
   selectedButton(button, toggle.clipping, true);
 };
@@ -122670,6 +122648,7 @@ window.onkeydown = (event) => {
 
   if (event.code === "Delete" && toggle.dimensions) {
     viewer.dimensions.delete();
+    updatePostProduction();
   }
   if (event.code === "Delete" && toggle.clipping) {
     viewer.clipper.deletePlane();
@@ -122969,6 +122948,10 @@ async function preproscessIfc(building) {
   }
 
   link.remove();
+}
+
+function updatePostProduction() {
+  viewer.context.renderer.postProduction.update();
 }
 
 // Set up stats
