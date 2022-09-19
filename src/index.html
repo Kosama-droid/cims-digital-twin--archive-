@@ -61,7 +61,7 @@
             class="selector transp1-background select"
           >
             <option class="option" value="none">-- select an object --</option>
-            <option class="option" id="add-place">(+) Add new object</option>
+            <option class="option" id="add-obj">(+) Add new object</option>
           </select>
         </div>
         <div id="loader-container" class="loader-container hidden">
@@ -95,48 +95,44 @@
         </a>
         <div class="bim-container" id="bim-container"></div>
       </nav>
-      <nav id="new-place-container" class="new-place-container hidden">
-          <div id="new-place-location">city, province</div>
-          <input id="place-name" class="place-name" type="name" name="Name" placeholder="Place Name"/> 
+      <nav id="new-place-container" class="add-new-container hidden">
+          <div id="new-place-location">province, city</div>
+          <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name"/> 
         <div class="item"><label for="place-id">Place ID:</label></div>
         <div class="item">
-          <input id="place-id" type="name" name="ID" />
+          <input id="place-id" type="name" name="Place ID" />
         </div>
         <div><br></div><div></div>
-        <div class="item"><label for="new-lng">Longitude:</label></div>
+        <div class="item"><label for="place-lng">Longitude:</label></div>
         <div class="item">
-          <input id="new-lng" type="number" name="Longitud" />
+          <input id="place-lng" type="number" name="Longitud" />
         </div>
-        <div class="item"><label for="new-lat">Latitude:</label></div>
+        <div class="item"><label for="place-lat">Latitude:</label></div>
         <div class="item">
-          <input id="new-lat" type="number" name="Latitude" />
-        </div>
-        <div class="item">
-          <label for="new-msl">Meters above sea level:</label>
+          <input id="place-lat" type="number" name="Latitude" />
         </div>
         <div class="item">
-          <input id="new-msl" type="number" name="Meters above sea level:" />
+          <label for="place-msl">Meters above sea level:</label>
         </div>
         <div class="item">
-          <label for="new-msl">Rotate true north:</label>
+          <input id="place-msl" type="number" name="Meters above sea level:" />
         </div>
         <div class="item">
-          <input id="true-north-angle" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
+          <label for="place-msl">Rotate true north:</label>
+        </div>
+        <div class="item">
+          <input id="place-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
         </div>
         <div><br></div><div></div>
-        <div class="item"><label for="glb-input">Load place 3d model:</label></div>
+        <div class="item"><label for="place-glb-input">Load place 3d model:</label></div>
         <div class="item load-file">
           <input
             class="load-file"
             type="file"
-            id="glb-input"
+            id="place-glb-input"
             accept=".glb, .gltf"
           />
         </div>
-        <!-- <div class="item"><label for="ifc-input">Load IFC:</label></div>
-        <div class="item load-file">
-          <input class="load-file" type="file" id="ifc-input" accept=".ifc" />
-        </div> -->
         <div class="item"><br /></div>
         <div class="item"></div>
         <div class="item">
@@ -147,6 +143,58 @@
         </div>
       </nav>
     </nav>
+    <nav id="new-obj-container" class="add-new-container hidden">
+      <div id="new-obj-location">province, ontario, place</div>
+      <input id="obj-name" class="new-item-name" type="name" name="Name" placeholder="Object Name"/> 
+    <div class="item"><label for="obj-id">Object ID:</label></div>
+    <div class="item">
+      <input id="obj-id" type="name" name="Object ID" />
+    </div>
+    <div><br></div><div></div>
+    <div class="item"><label for="obj-lng">Longitude:</label></div>
+    <div class="item">
+      <input id="obj-lng" type="number" name="Longitud" />
+    </div>
+    <div class="item"><label for="obj-lat">Latitude:</label></div>
+    <div class="item">
+      <input id="obj-lat" type="number" name="Latitude" />
+    </div>
+    <div class="item">
+      <label for="obj-msl">Meters above sea level:</label>
+    </div>
+    <div class="item">
+      <input id="obj-msl" type="number" name="Meters above sea level:" />
+    </div>
+    <div class="item">
+      <label for="obj-msl">Rotate true north:</label>
+    </div>
+    <div class="item">
+      <input id="obj-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
+    </div>
+    <div><br></div><div></div>
+    <div class="item"><label for="obj-glb-input">Load object 3d model:</label></div>
+    <div class="item load-file">
+      <input
+        class="load-file"
+        type="file"
+        id="obj-glb-input"
+        accept=".glb, .gltf"
+      />
+    </div>
+    <div class="item"><label for="obj-ifc-input">Load object IFC:</label></div>
+    <div class="item load-file">
+      <input class="load-file" type="file" id="obj-ifc-input" accept=".ifc" />
+    </div>
+    <div class="item"><br /></div>
+    <div class="item"></div>
+    <div class="item">
+      <button id="upload-obj" class="button">Upload new object</button>
+    </div>
+    <div class="item">
+      <button id="cancel-new-obj" class="button">Cancel</button>
+    </div>
+  </nav>
+</nav>
     <nav class="toolbar-container bottom">
       <div id="toolbar-left-button" class="permanent">
         <a

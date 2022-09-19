@@ -48154,7 +48154,8 @@ let scene,
   intersections,
   gltfMasses,
   places,
-  placeMarkers;
+  placeMarkers,
+  marker;
 
 let toggle = { osm: false };
 
@@ -48167,7 +48168,7 @@ let def = carleton;
 
 let province = { term: "ON" };
 let city = { name: "Ottawa" };
-let place = { id: "CDC" };
+let place = { id: "CDC", name: "Carleton University" };
 
 // Selectors 🧲
 const buildingSelector = document.getElementById("building-select");
@@ -48331,7 +48332,9 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   removeChildren(document.getElementById("toolbar"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
-  document.getElementById("new-place-location").innerText = `${cityName}, ${province.term}`; 
+  document.getElementById(
+    "new-place-location"
+  ).innerText = `${province.term}, ${cityName}`;
   if (!city) city = { name: cityName };
   url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
   locGeojason = getGeojson(cityName, url, map, locGeojason);
@@ -48345,8 +48348,8 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     createOptions(placeSelector, places);
   }
   unhideElementsById("place-select");
-  event.target.selectedIndex = 0;
   document.getElementById("add-place").classList.remove("hidden");
+  event.target.selectedIndex = 0;
 });
 
 // Place ➡️________________
@@ -48354,49 +48357,31 @@ let placeSelector = document.getElementById("place-select");
 const newPlaceMenu = document.getElementById("new-place-container");
 createOptions(placeSelector, places, 2);
 placeSelector.addEventListener("change", (event) => {
-  console.log(city);
-  
   places = city.places;
   removeMarker(placeMarkers);
   removeGeojson(locGeojason);
   id = event.target[event.target.selectedIndex].id;
   console.log(event.target);
   if (id === "add-place") {
-    addLocMarker();
-    newPlaceMenu.classList.remove('hidden');
-  }
-  else {
+    addLocMarker("place");
+    newPlaceMenu.classList.remove("hidden");
+  } else {
     place = places[id];
     setPlace(place, province.term, city.name);
   }
   event.target.selectedIndex = 0;
 });
-document.getElementById("cancel-new-place").addEventListener('click', () => {
+document.getElementById("cancel-new-place").addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
+  marker.remove();
 });
 
-function addLocMarker() {
-  // Draggable Place Marker 👇
-  let markerLoc;
-  // let popup;
-  const marker = new mapboxgl.Marker({
-    id: "location-marker",
-    draggable: true,
-  })
-    .setLngLat(map.getCenter())
-    .addTo(map);
-
-  function onDragEnd() {
-    // if (popup) popup.remove();
-    markerLoc = marker.getLngLat();
-    markerLoc.msl = map.queryTerrainElevation(marker.getLngLat());
-    document.getElementById("new-lng").value = `${markerLoc.lng}`;
-    document.getElementById("new-lat").value = `${markerLoc.lat}`;
-    document.getElementById("new-msl").value = `${markerLoc.msl}`;
-  }
-
-  marker.on("dragend", onDragEnd);
-}
+// Object ➡️________________
+const newObjMenu = document.getElementById("new-obj-container");
+document.getElementById("cancel-new-obj").addEventListener("click", () => {
+  newObjMenu.classList.add("hidden");
+  marker.remove();
+});
 
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
@@ -48419,39 +48404,39 @@ map.on("style.load", function () {
 document.addEventListener("keydown", (event) => {
   three = true;
   const keyName = event.key;
-  if(event.altKey){
-  if (keyName === "Enter") {
-    goTo();
+  if (event.altKey) {
+    if (keyName === "Enter") {
+      goTo();
+    }
+    if (keyName === "c") {
+      province = canada$1.provinces.ON;
+      city = province.cities.Ottawa;
+      place = carleton;
+      setPlace(place, "ON", "Ottawa");
+      return;
+    }
+    if (keyName === "p") {
+      province = canada$1.provinces.ON;
+      city = province.cities.Ottawa;
+      place = parliament;
+      setPlace(place, "ON", "Ottawa");
+      return;
+    }
+    if (keyName === "h") {
+      province = canada$1.provinces.ON;
+      city = province.cities.Ottawa;
+      place = hm;
+      setPlace(place, "ON", "Ottawa");
+      return;
+    }
+    if (keyName === "d") {
+      province = canada$1.provinces.ON;
+      city = province.cities.Ottawa;
+      place = downsview;
+      setPlace(place, "ON", "Toronto");
+      return;
+    }
   }
-  if (keyName === "c") {
-    province = canada$1.provinces.ON;
-    city = province.cities.Ottawa;
-    place = carleton;
-    setPlace(place, "ON", "Ottawa");
-    return;
-  }
-  if (keyName === "p") {
-    province = canada$1.provinces.ON;
-    city = province.cities.Ottawa;
-    place = parliament;
-    setPlace(place, "ON", "Ottawa");
-    return;
-  }
-  if (keyName === "h") {
-    province = canada$1.provinces.ON;
-    city = province.cities.Ottawa;
-    place = hm;
-    setPlace(place, "ON", "Ottawa");
-    return;
-  }
-  if (keyName === "d") {
-    province = canada$1.provinces.ON;
-    city = province.cities.Ottawa;
-    place = downsview;
-    setPlace(place, "ON", "Toronto");
-    return;
-  }
-}
 });
 
 // Go To Place 🛬__________________________________________________
@@ -48701,9 +48686,19 @@ function flyToCanada() {
 function selectBuilding(selector) {
   selector.addEventListener("change", (event) => {
     let id = selector[selector.selectedIndex].id;
-    let building = place.buildings[id];
-    openBimViewer(building);
+    console.log(id);
+    if (id === "add-obj") {
+      addLocMarker("obj");
+      document.getElementById(
+  "new-obj-location"
+).innerText = `${province.term}, ${city.name}, ${place.name}`;
+      document.getElementById('new-obj-container').classList.remove("hidden");
+    } else {
+      let building = place.buildings[id];
+      openBimViewer(building);
+    }
     closeBimViewer();
+
     event.target.selectedIndex = 0;
   });
 }
@@ -48798,7 +48793,7 @@ function setPlace(place, provinceTerm, cityName) {
     }
     loadBldsGltf(place, scene);
     unhideElementsById("building-select");
-    createOptions(buildingSelector, place.buildings);
+    createOptions(buildingSelector, place.buildings, 2);
     selectBuilding(buildingSelector);
   }
 }
@@ -49007,3 +49002,26 @@ map.on("mousemove", (event) => {
   getMousePosition(event);
   map.triggerRepaint();
 });
+
+function addLocMarker(at) {
+  // Draggable Marker 👇
+  let markerLoc;
+  // let popup;
+  marker = new mapboxgl.Marker({
+    id: `${at}-location-marker`,
+    draggable: true,
+  })
+    .setLngLat(map.getCenter())
+    .addTo(map);
+
+  function onDragEnd() {
+    // if (popup) popup.remove();
+    markerLoc = marker.getLngLat();
+    markerLoc.msl = map.queryTerrainElevation(marker.getLngLat());
+    document.getElementById(`${at}-lng`).value = `${markerLoc.lng}`;
+    document.getElementById(`${at}-lat`).value = `${markerLoc.lat}`;
+    document.getElementById(`${at}-msl`).value = `${markerLoc.msl}`;
+  }
+
+  marker.on("dragend", onDragEnd);
+}

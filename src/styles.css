@@ -135,7 +135,7 @@ a {
   width: 100%;
 }
 
-.new-place-container {
+.add-new-container {
   background-color: var(--primary-light-transp1);
   position: absolute;
   display: flex;
@@ -148,11 +148,11 @@ a {
   line-height: 1.5rem;
 }
 
-.new-place-container > div {
+.add-new-container > div {
   flex: 50%;
 }
 
-.new-place-container input{
+.add-new-container input{
   background-color: #0000;
   display: flex;
   flex-direction: column;
@@ -162,12 +162,12 @@ a {
   font-weight: 600;
 }
 
-#place-name{
+.new-item-name{
   font-size: 1.5rem;
   margin-bottom: 0.8rem;
 }
 
-.new-place-container button{
+.add-new-container button{
   box-shadow: var(--shadow);
 }
 
