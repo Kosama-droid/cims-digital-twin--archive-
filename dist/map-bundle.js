@@ -41,7 +41,7 @@ var canada$1 = canada = {
         lng: -127.647621,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     MB: {
@@ -54,7 +54,7 @@ var canada$1 = canada = {
         lng: -98.739075,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NB: {
@@ -67,7 +67,7 @@ var canada$1 = canada = {
         lng: -66.159668,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NL: {
@@ -80,7 +80,7 @@ var canada$1 = canada = {
         lng: -57.660435,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NS: {
@@ -93,7 +93,7 @@ var canada$1 = canada = {
         lng: -63,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     ON: {
@@ -108,7 +108,7 @@ var canada$1 = canada = {
       cities: {
         Ottawa: {
           name: "Ottawa",
-          sites: {
+          places: {
             CDC: {
               name: "Carleton University",
               id: "CDC",
@@ -489,7 +489,7 @@ var canada$1 = canada = {
         },
         Toronto: {
           name: "Toronto",
-          sites: {
+          places: {
             DA: {
               name: "Downsview Airport",
               id: "DA",
@@ -579,7 +579,7 @@ var canada$1 = canada = {
         lng: -63,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     QC: {
@@ -592,7 +592,7 @@ var canada$1 = canada = {
         lng: -73.5491,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     SK: {
@@ -605,7 +605,7 @@ var canada$1 = canada = {
         lng: -106,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NT: {
@@ -618,7 +618,7 @@ var canada$1 = canada = {
         lng: -119.18333,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NU: {
@@ -631,7 +631,7 @@ var canada$1 = canada = {
         lng: -95.5,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     YU: {
@@ -644,7 +644,7 @@ var canada$1 = canada = {
         lng: -135.76666,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
   },
@@ -715,13 +715,13 @@ async function geojsonLayer(layerName, url) {
   return geojson;
 }
 
-async function torontoTrees(site) {
+async function torontoTrees(place) {
   let json = await getJson$1(
     "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson"
   );
   let trees = {};
   let features = json.features;
-  let { lng, lat } = site.coordinates;
+  let { lng, lat } = place.coordinates;
   let geojson;
   features.forEach((feature) => {
     if (!feature.geometry) return;
@@ -749,11 +749,11 @@ async function torontoTrees(site) {
   return geojson;
 }
 
-async function ottawaTrees(site) {
+async function ottawaTrees(place) {
   let json = await getJson$1("../assets/ON/Ottawa/json/ON-Ottawa-trees.json");
   let trees = {};
   let features = json.features;
-  let { lng, lat } = site.coordinates;
+  let { lng, lat } = place.coordinates;
   features.forEach((feature) => {
     if (!feature.geometry) return;
     let fLng = feature.geometry.coordinates[0];
@@ -777,7 +777,7 @@ async function ottawaTrees(site) {
   return await setGeojson(trees);
 }
 
-async function ocTranspo(site) {
+async function ocTranspo(place) {
   let json = await getJson$1("../assets/ON/Ottawa/json/ON-Ottawa-busStops.json");
   let busStops = {};
   json.forEach((busStop) => {
@@ -48143,7 +48143,7 @@ const isMobile =
     navigator.userAgent
   );
 
-hideElementsById("city-select", "site-select", "building-select", "osm");
+hideElementsById("city-select", "place-select", "building-select", "osm");
 
 let scene,
   map,
@@ -48153,21 +48153,21 @@ let scene,
   raycaster,
   intersections,
   gltfMasses,
-  sites,
-  siteMarkers;
+  places,
+  placeMarkers;
 
 let toggle = { osm: false };
 
-// Favourite sites ⭐⭐⭐⭐⭐⭐⭐
-let carleton = canada$1.provinces.ON.cities.Ottawa.sites.CDC;
-let parliament = canada$1.provinces.ON.cities.Ottawa.sites.PB;
-let downsview = canada$1.provinces.ON.cities.Toronto.sites.DA;
-let hm = canada$1.provinces.ON.cities.Ottawa.sites.HM;
+// Favourite places ⭐⭐⭐⭐⭐⭐⭐
+let carleton = canada$1.provinces.ON.cities.Ottawa.places.CDC;
+let parliament = canada$1.provinces.ON.cities.Ottawa.places.PB;
+let downsview = canada$1.provinces.ON.cities.Toronto.places.DA;
+let hm = canada$1.provinces.ON.cities.Ottawa.places.HM;
 let def = carleton;
 
 let province = { term: "ON" };
 let city = { name: "Ottawa" };
-let site = { id: "CDC" };
+let place = { id: "CDC" };
 
 // Selectors 🧲
 const buildingSelector = document.getElementById("building-select");
@@ -48316,7 +48316,7 @@ flyToCanada();
 let provinceSelector = document.getElementById("province-select");
 createOptions(provinceSelector, canada$1.provinces);
 provinceSelector.addEventListener("change", (event) => {
-  removeMarker(siteMarkers);
+  removeMarker(placeMarkers);
   let term = event.target[event.target.selectedIndex].id;
   province = canada$1.provinces[term];
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
@@ -48327,56 +48327,56 @@ provinceSelector.addEventListener("change", (event) => {
 });
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
-  removeMarker(siteMarkers);
+  removeMarker(placeMarkers);
   removeChildren(document.getElementById("toolbar"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
-  document.getElementById("new-site-location").innerText = `${cityName}, ${province.term}`; 
+  document.getElementById("new-place-location").innerText = `${cityName}, ${province.term}`; 
   if (!city) city = { name: cityName };
   url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
   locGeojason = getGeojson(cityName, url, map, locGeojason);
-  if (!city.hasOwnProperty("sites")) {
+  if (!city.hasOwnProperty("places")) {
     unhideElementsById("province-select");
-    infoMessage(`⚠️ No sites at ${cityName}`);
+    infoMessage(`⚠️ No places at ${cityName}`);
   } else {
     hideElementsById("province-select", "building-select");
-    sites = city.sites;
-    siteMarkers = siteMarker(sites);
-    createOptions(siteSelector, sites);
+    places = city.places;
+    placeMarkers = placeMarker(places);
+    createOptions(placeSelector, places);
   }
-  unhideElementsById("site-select");
+  unhideElementsById("place-select");
   event.target.selectedIndex = 0;
-  document.getElementById("add-site").classList.remove("hidden");
+  document.getElementById("add-place").classList.remove("hidden");
 });
 
-// Site ➡️________________
-let siteSelector = document.getElementById("site-select");
-const newSiteMenu = document.getElementById("new-site-container");
-createOptions(siteSelector, sites, 2);
-siteSelector.addEventListener("change", (event) => {
+// Place ➡️________________
+let placeSelector = document.getElementById("place-select");
+const newPlaceMenu = document.getElementById("new-place-container");
+createOptions(placeSelector, places, 2);
+placeSelector.addEventListener("change", (event) => {
   console.log(city);
   
-  sites = city.sites;
-  removeMarker(siteMarkers);
+  places = city.places;
+  removeMarker(placeMarkers);
   removeGeojson(locGeojason);
   id = event.target[event.target.selectedIndex].id;
   console.log(event.target);
-  if (id === "add-site") {
+  if (id === "add-place") {
     addLocMarker();
-    newSiteMenu.classList.remove('hidden');
+    newPlaceMenu.classList.remove('hidden');
   }
   else {
-    site = sites[id];
-    setSite(site, province.term, city.name);
+    place = places[id];
+    setPlace(place, province.term, city.name);
   }
   event.target.selectedIndex = 0;
 });
-document.getElementById("cancel-new-site").addEventListener('click', () => {
-  newSiteMenu.classList.add("hidden");
+document.getElementById("cancel-new-place").addEventListener('click', () => {
+  newPlaceMenu.classList.add("hidden");
 });
 
 function addLocMarker() {
-  // Draggable Site Marker 👇
+  // Draggable Place Marker 👇
   let markerLoc;
   // let popup;
   const marker = new mapboxgl.Marker({
@@ -48401,7 +48401,7 @@ function addLocMarker() {
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
   let id = gltfMasses.selected.id;
-  let building = site.buildings[id];
+  let building = place.buildings[id];
   building.id = id;
   openBimViewer(building);
 });
@@ -48413,7 +48413,7 @@ map.on("wheel", () => {
 
 map.on("style.load", function () {
   map.addLayer(customLayer, "waterway-label");
-  if (three) setSite(site, province.term, city.name);
+  if (three) setPlace(place, province.term, city.name);
 });
 
 document.addEventListener("keydown", (event) => {
@@ -48426,35 +48426,35 @@ document.addEventListener("keydown", (event) => {
   if (keyName === "c") {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
-    site = carleton;
-    setSite(site, "ON", "Ottawa");
+    place = carleton;
+    setPlace(place, "ON", "Ottawa");
     return;
   }
   if (keyName === "p") {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
-    site = parliament;
-    setSite(site, "ON", "Ottawa");
+    place = parliament;
+    setPlace(place, "ON", "Ottawa");
     return;
   }
   if (keyName === "h") {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
-    site = hm;
-    setSite(site, "ON", "Ottawa");
+    place = hm;
+    setPlace(place, "ON", "Ottawa");
     return;
   }
   if (keyName === "d") {
     province = canada$1.provinces.ON;
     city = province.cities.Ottawa;
-    site = downsview;
-    setSite(site, "ON", "Toronto");
+    place = downsview;
+    setPlace(place, "ON", "Toronto");
     return;
   }
 }
 });
 
-// Go To Site 🛬__________________________________________________
+// Go To Place 🛬__________________________________________________
 const goToButton = document.getElementById("go-to");
 goToButton.addEventListener("click", () => {
   goTo();
@@ -48471,10 +48471,10 @@ function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   });
 }
 
-function flyToSite(site, pitch = 50) {
+function flyToPlace(place, pitch = 50) {
   map.flyTo({
-    center: [site.coordinates.lng, site.coordinates.lat],
-    zoom: site.coordinates.zoom,
+    center: [place.coordinates.lng, place.coordinates.lat],
+    zoom: place.coordinates.zoom,
     pitch: pitch,
     duration: 2000,
   });
@@ -48542,7 +48542,7 @@ function loadOSM(map, opacity = 0.9) {
   map.addLayer(
     {
       id: "OSM-buildings",
-      source: "composite",
+      source: "compoplace",
       "source-layer": "building",
       filter: ["==", "extrude", "true"],
       // filter: ["{elementId} === 671842709", "extrude", "false"],
@@ -48599,7 +48599,7 @@ function openBimViewer(building) {
     infoMessage(`⚠️ No ifc file available at ${building.name}`);
     return;
   }
-  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${site.id}/${building.id}`;
+  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${building.id}`;
   let bimContainer;
   bimContainer = document.getElementById("bim-container");
   bimViewer = document.getElementById("bim-viewer");
@@ -48676,7 +48676,7 @@ function closeBimViewer() {
     unhideElementsById(
       "style-select",
       "city-select",
-      "site-select",
+      "place-select",
       "building-select",
       "osm"
     );
@@ -48701,23 +48701,23 @@ function flyToCanada() {
 function selectBuilding(selector) {
   selector.addEventListener("change", (event) => {
     let id = selector[selector.selectedIndex].id;
-    let building = site.buildings[id];
+    let building = place.buildings[id];
     openBimViewer(building);
     closeBimViewer();
     event.target.selectedIndex = 0;
   });
 }
 
-function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
+function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
   // GLTF masses for hovering and raycasting
   const group = new Group();
-  if (!visible) group.name = `${site.id}-invisible-masses`;
-  if (visible) group.name = `${site.id}-visible-masses`;
-  let url = site.gltfMasses.url;
+  if (!visible) group.name = `${place.id}-invisible-masses`;
+  if (visible) group.name = `${place.id}-visible-masses`;
+  let url = place.gltfMasses.url;
   const gltfloader = new GLTFLoader();
   gltfloader.load(url, (gltf) => {
     gltfMasses = gltf.scene;
-    gltfMasses.name = `${site.id}-masses`;
+    gltfMasses.name = `${place.id}-masses`;
     gltfMasses.position.x = x;
     gltfMasses.position.y = y;
     gltfMasses.position.z = z;
@@ -48729,15 +48729,15 @@ function loadMasses(masses, site, visible = true, x = 0, y = 0, z = 0) {
       }
     });
     group.add(gltfMasses);
-    if (!scene.getObjectByName(`${site.id}invisible-masses`)) scene.add(group);
-    if (!scene.getObjectByName(`${site.id}visible-masses`)) scene.add(group);
+    if (!scene.getObjectByName(`${place.id}invisible-masses`)) scene.add(group);
+    if (!scene.getObjectByName(`${place.id}visible-masses`)) scene.add(group);
   });
 }
 
-function setModelOrigin(site) {
-  let lng = site.coordinates.lng;
-  let lat = site.coordinates.lat;
-  let msl = site.coordinates.msl;
+function setModelOrigin(place) {
+  let lng = place.coordinates.lng;
+  let lat = place.coordinates.lat;
+  let msl = place.coordinates.msl;
 
   modelOrigin = [lng, lat];
   modelAltitude = msl;
@@ -48760,45 +48760,45 @@ function setModelOrigin(site) {
   };
 }
 
-function setSite(site, provinceTerm, cityName) {
+function setPlace(place, provinceTerm, cityName) {
   province = canada$1.provinces[provinceTerm];
   city = province.cities[cityName];
   createLayerButtons(city);
 
   if (province.cities) getCities(province.code);
-  if (city.sites)
-    createOptions(document.getElementById("site-select"), city.sites);
+  if (city.places)
+    createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
   removeGeojson(locGeojason);
-  setModelOrigin(site);
-  flyToSite(site);
+  setModelOrigin(place);
+  flyToPlace(place);
   hideElementsById("province-select", "go-to");
-  unhideElementsById("city-select", "site-select", "osm");
+  unhideElementsById("city-select", "place-select", "osm");
   invisibleMasses = [];
   visibleMasses = [];
-  if (!site.hasOwnProperty("buildings")) {
+  if (!place.hasOwnProperty("buildings")) {
     removeFromScene();
-    infoMessage(`⚠️ No buildings at ${site.name}`);
+    infoMessage(`⚠️ No buildings at ${place.name}`);
     hideElementsById("building-select");
     unhideElementsById("osm");
-    if (site.hasOwnProperty("gltfMasses")) {
-      loadMasses(visibleMasses, site, true);
+    if (place.hasOwnProperty("gltfMasses")) {
+      loadMasses(visibleMasses, place, true);
     }
   } else {
-    loadMasses(invisibleMasses, site, false);
+    loadMasses(invisibleMasses, place, false);
     // console.log(scene)
     if (isMobile) {
       hideElementsById(
         "style-select",
         "province-select",
         "city-select",
-        "site-select"
+        "place-select"
       );
-      loadMasses(visibleMasses, site, true);
+      loadMasses(visibleMasses, place, true);
     }
-    loadBldsGltf(site, scene);
+    loadBldsGltf(place, scene);
     unhideElementsById("building-select");
-    createOptions(buildingSelector, site.buildings);
+    createOptions(buildingSelector, place.buildings);
     selectBuilding(buildingSelector);
   }
 }
@@ -48836,26 +48836,26 @@ function removeFromScene() {
   });
 }
 
-function siteMarker(sites) {
+function placeMarker(places) {
   let markers = [];
-  for (let key in sites) {
-    site = sites[key];
+  for (let key in places) {
+    place = places[key];
     const el = document.createElement("div");
     el.className = "mapbox-marker";
     el.setAttribute("id", key);
-    el.setAttribute("title", sites[key].name);
-    if (site.logo)
-      el.style.setProperty("background-image", `url(${site.logo})`);
+    el.setAttribute("title", places[key].name);
+    if (place.logo)
+      el.style.setProperty("background-image", `url(${place.logo})`);
     markers.push(el);
     el.addEventListener("click", (e) => {
       let id = e.target.id;
-      site = sites[id];
-      setSite(site, province.term, city.name);
+      place = places[id];
+      setPlace(place, province.term, city.name);
       markers.forEach((marker) => {
         marker.remove();
       });
     });
-    new mapboxgl.Marker(el).setLngLat(site.coordinates).addTo(map);
+    new mapboxgl.Marker(el).setLngLat(place.coordinates).addTo(map);
   }
   return markers;
 }
@@ -48869,7 +48869,7 @@ function toggleCustomLayer(button, toggle, layerKey) {
     if (toggle) {
       let layer = await layers[layerKey];
       layer.id = layerKey;
-      layer.geojson = await layer.geojson(site);
+      layer.geojson = await layer.geojson(place);
       addCustomLayer(layer);
       layer.geojson = await initialGeojson;
     }
@@ -48937,11 +48937,11 @@ function goTo(location) {
     def.coordinates.lat = parseFloat(document.getElementById("new-lat").value);
     delete def.buildings;
     delete def.gltfMasses;
-    def.name = "this site";
+    def.name = "this place";
     console.log(def);
   }
-  site = def;
-  setSite(site, province.term, city.name);
+  place = def;
+  setPlace(place, province.term, city.name);
 }
 
 function hideSelectors() {
@@ -48949,7 +48949,7 @@ function hideSelectors() {
     "style-select",
     "province-select",
     "city-select",
-    "site-select",
+    "place-select",
     "building-select"
   );
 }

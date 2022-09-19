@@ -41,7 +41,7 @@ var canada$1 = canada = {
         lng: -127.647621,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     MB: {
@@ -54,7 +54,7 @@ var canada$1 = canada = {
         lng: -98.739075,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NB: {
@@ -67,7 +67,7 @@ var canada$1 = canada = {
         lng: -66.159668,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NL: {
@@ -80,7 +80,7 @@ var canada$1 = canada = {
         lng: -57.660435,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NS: {
@@ -93,7 +93,7 @@ var canada$1 = canada = {
         lng: -63,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     ON: {
@@ -108,7 +108,7 @@ var canada$1 = canada = {
       cities: {
         Ottawa: {
           name: "Ottawa",
-          sites: {
+          places: {
             CDC: {
               name: "Carleton University",
               id: "CDC",
@@ -489,7 +489,7 @@ var canada$1 = canada = {
         },
         Toronto: {
           name: "Toronto",
-          sites: {
+          places: {
             DA: {
               name: "Downsview Airport",
               id: "DA",
@@ -579,7 +579,7 @@ var canada$1 = canada = {
         lng: -63,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     QC: {
@@ -592,7 +592,7 @@ var canada$1 = canada = {
         lng: -73.5491,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     SK: {
@@ -605,7 +605,7 @@ var canada$1 = canada = {
         lng: -106,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NT: {
@@ -618,7 +618,7 @@ var canada$1 = canada = {
         lng: -119.18333,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     NU: {
@@ -631,7 +631,7 @@ var canada$1 = canada = {
         lng: -95.5,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
     YU: {
@@ -644,7 +644,7 @@ var canada$1 = canada = {
         lng: -135.76666,
       },
       cities: {
-        sites: {},
+        places: {},
       },
     },
   },
@@ -715,13 +715,13 @@ async function geojsonLayer(layerName, url) {
   return geojson;
 }
 
-async function torontoTrees(site) {
+async function torontoTrees(place) {
   let json = await getJson(
     "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson"
   );
   let trees = {};
   let features = json.features;
-  let { lng, lat } = site.coordinates;
+  let { lng, lat } = place.coordinates;
   let geojson;
   features.forEach((feature) => {
     if (!feature.geometry) return;
@@ -749,11 +749,11 @@ async function torontoTrees(site) {
   return geojson;
 }
 
-async function ottawaTrees(site) {
+async function ottawaTrees(place) {
   let json = await getJson("../assets/ON/Ottawa/json/ON-Ottawa-trees.json");
   let trees = {};
   let features = json.features;
-  let { lng, lat } = site.coordinates;
+  let { lng, lat } = place.coordinates;
   features.forEach((feature) => {
     if (!feature.geometry) return;
     let fLng = feature.geometry.coordinates[0];
@@ -777,7 +777,7 @@ async function ottawaTrees(site) {
   return await setGeojson(trees);
 }
 
-async function ocTranspo(site) {
+async function ocTranspo(place) {
   let json = await getJson("../assets/ON/Ottawa/json/ON-Ottawa-busStops.json");
   let busStops = {};
   json.forEach((busStop) => {
@@ -122384,16 +122384,16 @@ const currentModelCode = url.searchParams.get("id");
 let codes = currentModelCode.split("/");
 let province = { term: codes[0] };
 let city = { name: codes[1] };
-let site = { id: codes[2] };
+let place = { id: codes[2] };
 let building = { id: codes[3], name: "" };
 const toggle = {};
-const buildingPath = `../assets/${province.term}/${city.name}/${site.id}/buildings/${building.id}`;
-const buildingFileName = `${province.term}_${city.name}_${site.id}_${building.id}`;
+const buildingPath = `../assets/${province.term}/${city.name}/${place.id}/buildings/${building.id}`;
+const buildingFileName = `${province.term}_${city.name}_${place.id}_${building.id}`;
 const glbFilePath = `${buildingPath}/glb/${buildingFileName}`;
 let model = {};
 
-site = canada$1.provinces[province.term].cities[city.name].sites[site.id];
-let buildings = site.buildings;
+place = canada$1.provinces[province.term].cities[city.name].places[place.id];
+let buildings = place.buildings;
 building.name = buildings[building.id].name;
 const buildingSelector = document.getElementById("building-select");
 createOptions(buildingSelector, buildings);
@@ -122437,7 +122437,7 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-building.ifcURL = `${site.ifcPath}${building.id}/ifc/${site.buildings[building.id].ifcFileName}`;
+building.ifcURL = `${place.ifcPath}${building.id}/ifc/${place.buildings[building.id].ifcFileName}`;
 
 // Projection
 document.getElementById("projection").onclick = () =>

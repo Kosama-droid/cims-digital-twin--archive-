@@ -135,7 +135,7 @@ a {
   width: 100%;
 }
 
-.new-site-container {
+.new-place-container {
   background-color: var(--primary-light-transp1);
   position: absolute;
   display: flex;
@@ -148,11 +148,11 @@ a {
   line-height: 1.5rem;
 }
 
-.new-site-container > div {
+.new-place-container > div {
   flex: 50%;
 }
 
-.new-site-container input{
+.new-place-container input{
   background-color: #0000;
   display: flex;
   flex-direction: column;
@@ -162,12 +162,12 @@ a {
   font-weight: 600;
 }
 
-#project-name{
+#place-name{
   font-size: 1.5rem;
   margin-bottom: 0.8rem;
 }
 
-.new-site-container button{
+.new-place-container button{
   box-shadow: var(--shadow);
 }
 

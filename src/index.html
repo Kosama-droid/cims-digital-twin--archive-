@@ -52,15 +52,16 @@
           <select id="city-select" class="selector transp1-background select">
             <option class="option" value="none">-- select a City --</option>
           </select>
-          <select id="site-select" class="selector transp1-background select">
-            <option class="option" value="none">-- select a Site --</option>
-            <option class="option" id="add-site">(+) Add new site</option>
+          <select id="place-select" class="selector transp1-background select">
+            <option class="option" value="none">-- select a place --</option>
+            <option class="option" id="add-place">(+) Add new place</option>
           </select>
           <select
             id="building-select"
             class="selector transp1-background select"
           >
-            <option class="option" value="none">-- select a Building --</option>
+            <option class="option" value="none">-- select an object --</option>
+            <option class="option" id="add-place">(+) Add new object</option>
           </select>
         </div>
         <div id="loader-container" class="loader-container hidden">
@@ -94,13 +95,12 @@
         </a>
         <div class="bim-container" id="bim-container"></div>
       </nav>
-      <nav id="new-site-container" class="new-site-container hidden">
-        <!-- <div class="item project-name"><label for="project-name">Project Name:</label></div> -->
-          <div id="new-site-location">city, province</div>
-          <input id="project-name" class="project-name" type="name" name="Name" placeholder="Project Name"/> 
-        <div class="item"><label for="project-id">Project ID:</label></div>
+      <nav id="new-place-container" class="new-place-container hidden">
+          <div id="new-place-location">city, province</div>
+          <input id="place-name" class="place-name" type="name" name="Name" placeholder="Place Name"/> 
+        <div class="item"><label for="place-id">Place ID:</label></div>
         <div class="item">
-          <input id="project-id" type="name" name="ID" />
+          <input id="place-id" type="name" name="ID" />
         </div>
         <div><br></div><div></div>
         <div class="item"><label for="new-lng">Longitude:</label></div>
@@ -124,16 +124,7 @@
           <input id="true-north-angle" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
         </div>
         <div><br></div><div></div>
-        <div class="item"><label for="logo-input">Load Logo:</label></div>
-        <div class="item load-file">
-          <input
-            class="load-file"
-            type="file"
-            id="logo-input"
-            accept=".jpg, .jpge, png, "
-          />
-        </div>
-        <div class="item"><label for="glb-input">Load Mesh:</label></div>
+        <div class="item"><label for="glb-input">Load place 3d model:</label></div>
         <div class="item load-file">
           <input
             class="load-file"
@@ -142,17 +133,17 @@
             accept=".glb, .gltf"
           />
         </div>
-        <div class="item"><label for="ifc-input">Load IFC:</label></div>
+        <!-- <div class="item"><label for="ifc-input">Load IFC:</label></div>
         <div class="item load-file">
           <input class="load-file" type="file" id="ifc-input" accept=".ifc" />
-        </div>
+        </div> -->
         <div class="item"><br /></div>
         <div class="item"></div>
         <div class="item">
-          <button id="upload-site" class="button">Upload new site</button>
+          <button id="upload-place" class="button">Upload new place</button>
         </div>
         <div class="item">
-          <button id="cancel-new-site" class="button">Cancel</button>
+          <button id="cancel-new-place" class="button">Cancel</button>
         </div>
       </nav>
     </nav>
@@ -183,7 +174,7 @@
         <a
           class="button transp1-background circular info"
           id="go-to"
-          title="Go to site"
+          title="Go to place"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
