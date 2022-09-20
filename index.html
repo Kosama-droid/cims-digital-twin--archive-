@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CIMS | Digital Twin</title>
-    <link rel="icon" type="image/x-icon" href="../static/logos/cims.ico" />
+    <link rel="icon" type="image/x-icon" href="static/logos/cims.ico" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,25 +17,25 @@
 
   <body class="hide-overflow">
     <header>
-      <a href="http://cims.carleton.ca/#/home"
+      <a id="cims" title="Go to CIMS lab"
         ><img
-          src="../static/logos/cims-logo-black.png"
+          src="static/logos/cims-logo-black.png"
           alt="CIMSlab"
-          title="Go to CIMS lab Page"
+          title="Go to CIMS lab"
           height="55px"
         />
       </a>
       <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
       <a href="https://canadasdigitaltwin.ca/"
         ><img
-          src="../static/logos/icdt-logo.png"
+          src="static/logos/icdt-logo.png"
           alt="CIMSlab"
           title="Imagine Canada's Digital Twin"
           height="55px"
         />
       </a>
     </header>
-    <nav class="top">
+    <nav class="top" id="top-bar">
       <nav class="nav-bar transp1-background" id="nav-bar">
         <div id="selectors">
           <select id="style-select" class="selector transp1-background select">
@@ -57,11 +57,11 @@
             <option class="option" id="add-place">(+) Add new place</option>
           </select>
           <select
-            id="building-select"
+            id="object-select"
             class="selector transp1-background select"
           >
             <option class="option" value="none">-- select an object --</option>
-            <option class="option" id="add-obj">(+) Add new object</option>
+            <option class="option" id="add-object">(+) Add new object</option>
           </select>
         </div>
         <div id="loader-container" class="loader-container hidden">
@@ -81,19 +81,6 @@
             />
           </svg>
         </a>
-        <a id="close-bim-viewer" title="Close BIM viewer" class="hidden">
-          <svg
-            class="icon"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-              fill-rule="nonzero"
-            />
-          </svg>
-        </a>
-        <div class="bim-container" id="bim-container"></div>
       </nav>
       <nav id="new-place-container" class="add-new-container hidden">
           <div id="new-place-location">province, city</div>
@@ -143,55 +130,55 @@
         </div>
       </nav>
     </nav>
-    <nav id="new-obj-container" class="add-new-container hidden">
-      <div id="new-obj-location">province, ontario, place</div>
-      <input id="obj-name" class="new-item-name" type="name" name="Name" placeholder="Object Name"/> 
-    <div class="item"><label for="obj-id">Object ID:</label></div>
+    <nav id="new-object-container" class="add-new-container hidden">
+      <div id="new-object-location">province, ontario, place</div>
+      <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name"/> 
+    <div class="item"><label for="object-id">Object ID:</label></div>
     <div class="item">
-      <input id="obj-id" type="name" name="Object ID" />
+      <input id="object-id" type="name" name="Object ID" />
     </div>
     <div><br></div><div></div>
-    <div class="item"><label for="obj-lng">Longitude:</label></div>
+    <div class="item"><label for="object-lng">Longitude:</label></div>
     <div class="item">
-      <input id="obj-lng" type="number" name="Longitud" />
+      <input id="object-lng" type="number" name="Longitud" />
     </div>
-    <div class="item"><label for="obj-lat">Latitude:</label></div>
+    <div class="item"><label for="object-lat">Latitude:</label></div>
     <div class="item">
-      <input id="obj-lat" type="number" name="Latitude" />
-    </div>
-    <div class="item">
-      <label for="obj-msl">Meters above sea level:</label>
+      <input id="object-lat" type="number" name="Latitude" />
     </div>
     <div class="item">
-      <input id="obj-msl" type="number" name="Meters above sea level:" />
+      <label for="object-msl">Meters above sea level:</label>
     </div>
     <div class="item">
-      <label for="obj-msl">Rotate true north:</label>
+      <input id="object-msl" type="number" name="Meters above sea level:" />
     </div>
     <div class="item">
-      <input id="obj-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
+      <label for="object-msl">Rotate true north:</label>
+    </div>
+    <div class="item">
+      <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
     </div>
     <div><br></div><div></div>
-    <div class="item"><label for="obj-glb-input">Load object 3d model:</label></div>
+    <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
     <div class="item load-file">
       <input
         class="load-file"
         type="file"
-        id="obj-glb-input"
+        id="object-glb-input"
         accept=".glb, .gltf"
       />
     </div>
-    <div class="item"><label for="obj-ifc-input">Load object IFC:</label></div>
+    <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
     <div class="item load-file">
-      <input class="load-file" type="file" id="obj-ifc-input" accept=".ifc" />
+      <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
     </div>
     <div class="item"><br /></div>
     <div class="item"></div>
     <div class="item">
-      <button id="upload-obj" class="button">Upload new object</button>
+      <button id="upload-object" class="button">Upload new object</button>
     </div>
     <div class="item">
-      <button id="cancel-new-obj" class="button">Cancel</button>
+      <button id="cancel-new-object" class="button">Cancel</button>
     </div>
   </nav>
 </nav>
@@ -219,7 +206,7 @@
         </a>
       </div>
       <div class="toolbar" id="toolbar">
-        <a
+        <!-- <a
           class="button transp1-background circular info"
           id="go-to"
           title="Go to place"
@@ -234,12 +221,12 @@
             >Specify destination's Londitude and Latitude <br />
             Default: Go to <b>CIMS lab</b> in Carleton University</span
           >
-        </a>
+        </a> -->
         <a
           class="button transp1-background circular info"
           id="osm"
-          name="OSM buildings"
-          title="Show OSM buildings"
+          name="OSM objects"
+          title="Show OSM objects"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -270,6 +257,20 @@
       <div id="map" style="width: 100vw; height: 100vh"></div>
     </div>
 
+    <a id="close-bim-viewer" title="Close BIM viewer" class="hidden">
+      <svg
+        class="icon"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+          fill-rule="nonzero"
+        />
+      </svg>
+    </a>
+    <div class="bim-container hidden" id="bim-container"></div>
+
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
@@ -277,6 +278,6 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
-    <script src="../dist/map-bundle.js"></script>
+    <script src="dist/map-bundle.js"></script>
   </body>
 </html>

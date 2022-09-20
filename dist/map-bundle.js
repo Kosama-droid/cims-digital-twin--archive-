@@ -123,7 +123,7 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
               },
-              buildings: {
+              objects: {
                 MB: {
                   name: "Maintenance and Grounds Building",
                   ifcFileName:
@@ -393,10 +393,10 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/PB/buildings/",
+              ifcPath: "../assets/ON/Ottawa/PB/objects/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
-              buildings: {
+              objects: {
                 CB: {
                   name: "Centre Block",
                 },
@@ -428,10 +428,10 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
+              ifcPath: "../assets/ON/Ottawa/HM/objects/HM/ifc/",
               gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
-              buildings: {
+              objects: {
                 HM: {
                   name: "Holocaust Memorial",
                   ifcFileName: "ON-Ottawa-HM.ifc",
@@ -453,7 +453,7 @@ var canada$1 = canada = {
               },
               gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
-              buildings: {
+              objects: {
                 CWM: {
                   name: "Canadian War Museum",
                 },
@@ -507,7 +507,7 @@ var canada$1 = canada = {
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
-              buildings: {
+              objects: {
                 admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
                   ifcFileName: "ON_Toronto_DA_admin.ifc",
@@ -48062,14 +48062,14 @@ function removeChildren(parent, childrenToKeep = 0) {
 
 const isMobile$1 = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-function loadBldsGltf(site, currentScene) {
+function loadObjectsGltf(site, currentScene) {
   site.id = site.id;
   const group = new Group();
-  group.name = `${site.id}-buildings`;
+  group.name = `${site.id}-objects`;
   const gltfloader = new GLTFLoader();
   let categories = [];
-  let buildings = site.buildings;
-  let buildingGltf;
+  let objects = site.objects;
+  let objectGltf;
   let loadingContainer = document.getElementById("loader-container");
   let progressText = document.getElementById("progress-text");
   if (isMobile$1) {
@@ -48079,19 +48079,19 @@ function loadBldsGltf(site, currentScene) {
     categories = ["roofs", "walls", "slabs", "curtainwalls", "windows"]; 
   }
   categories.forEach((category) => {
-    for (const id in buildings) {
+    for (const id in objects) {
       let gltfPath = `${site.gltfPath}${id}_${category}_allFloors.gltf`;
       gltfloader.load(
         gltfPath,
         (gltf) => {
-          buildingGltf = gltf.scene;
-          buildingGltf.name = `${id}-${category}`;
-          currentScene.getObjectByName(`${site.id}-buildings`).add(buildingGltf);
+          objectGltf = gltf.scene;
+          objectGltf.name = `${id}-${category}`;
+          currentScene.getObjectByName(`${site.id}-objects`).add(objectGltf);
           loadingContainer.classList.add("hidden");
         },
         () => {
           loadingContainer.classList.remove("hidden");
-          progressText.textContent = `Loading ${site.name}'s buildings`;
+          progressText.textContent = `Loading ${site.name}'s objects`;
         },
         (error) => {
           return;
@@ -48099,7 +48099,7 @@ function loadBldsGltf(site, currentScene) {
       );
     }
   });
-  if (!currentScene.getObjectByName(`${site.id}-buildings`)) currentScene.add(group);
+  if (!currentScene.getObjectByName(`${site.id}-objects`)) currentScene.add(group);
 }
 
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
@@ -48137,13 +48137,13 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
-const toolbar = Array.from(document.getElementById("toolbar").children);
+Array.from(document.getElementById("toolbar").children);
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   );
 
-hideElementsById("city-select", "place-select", "building-select", "osm");
+hideElementsById("city-select", "place-select", "object-select", "osm");
 
 let scene,
   map,
@@ -48171,7 +48171,7 @@ let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
 // Selectors 🧲
-const buildingSelector = document.getElementById("building-select");
+const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
 const layerButton = document.getElementById("layers");
@@ -48342,7 +48342,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     unhideElementsById("province-select");
     infoMessage(`⚠️ No places at ${cityName}`);
   } else {
-    hideElementsById("province-select", "building-select");
+    hideElementsById("province-select", "object-select");
     places = city.places;
     placeMarkers = placeMarker(places);
     createOptions(placeSelector, places);
@@ -48355,14 +48355,15 @@ document.getElementById("city-select").addEventListener("change", (event) => {
 // Place ➡️________________
 let placeSelector = document.getElementById("place-select");
 const newPlaceMenu = document.getElementById("new-place-container");
+const cancelPlace = document.getElementById("cancel-new-place");
 createOptions(placeSelector, places, 2);
 placeSelector.addEventListener("change", (event) => {
   places = city.places;
   removeMarker(placeMarkers);
   removeGeojson(locGeojason);
   id = event.target[event.target.selectedIndex].id;
-  console.log(event.target);
   if (id === "add-place") {
+    cancelObj.click();
     addLocMarker("place");
     newPlaceMenu.classList.remove("hidden");
   } else {
@@ -48371,14 +48372,15 @@ placeSelector.addEventListener("change", (event) => {
   }
   event.target.selectedIndex = 0;
 });
-document.getElementById("cancel-new-place").addEventListener("click", () => {
+cancelPlace.addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
   marker.remove();
 });
 
 // Object ➡️________________
-const newObjMenu = document.getElementById("new-obj-container");
-document.getElementById("cancel-new-obj").addEventListener("click", () => {
+const cancelObj = document.getElementById("cancel-new-object");
+const newObjMenu = document.getElementById("new-object-container");
+cancelObj.addEventListener("click", () => {
   newObjMenu.classList.add("hidden");
   marker.remove();
 });
@@ -48386,9 +48388,9 @@ document.getElementById("cancel-new-obj").addEventListener("click", () => {
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
   let id = gltfMasses.selected.id;
-  let building = place.buildings[id];
-  building.id = id;
-  openBimViewer(building);
+  let object = place.objects[id];
+  object.id = id;
+  openBimViewer(object);
 });
 closeBimViewer();
 
@@ -48406,7 +48408,8 @@ document.addEventListener("keydown", (event) => {
   const keyName = event.key;
   if (event.altKey) {
     if (keyName === "Enter") {
-      goTo();
+      place = carleton;
+      setPlace(place, province.term, city.name);
     }
     if (keyName === "c") {
       province = canada$1.provinces.ON;
@@ -48440,9 +48443,10 @@ document.addEventListener("keydown", (event) => {
 });
 
 // Go To Place 🛬__________________________________________________
-const goToButton = document.getElementById("go-to");
-goToButton.addEventListener("click", () => {
-  goTo();
+const cimsButton = document.getElementById("cims");
+cimsButton.addEventListener("click", () => {
+  place = carleton;
+  setPlace(place, province.term, city.name);
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -48579,16 +48583,17 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function openBimViewer(building) {
-  if (!building.ifcFileName) {
-    infoMessage(`⚠️ No ifc file available at ${building.name}`);
+function openBimViewer(object) {
+  if (!object.ifcFileName) {
+    infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
-  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${building.id}`;
+  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   let bimContainer;
   bimContainer = document.getElementById("bim-container");
   bimViewer = document.getElementById("bim-viewer");
   if (!bimViewer) {
+    bimContainer.classList.remove('hidden');
     bimViewer = document.createElement("iframe");
     bimViewer.setAttribute("id", "bim-viewer");
     bimViewer.classList.add("bim-viewer");
@@ -48597,8 +48602,7 @@ function openBimViewer(building) {
     } else {
       bimContainer.appendChild(bimViewer);
       document.getElementById("close-bim-viewer").classList.remove("hidden");
-      hideSelectors();
-      isolateSelector(toolbar, "");
+      hideElementsById("top-bar");
     }
   }
   bimViewer.setAttribute("src", url);
@@ -48644,14 +48648,14 @@ function getGeojson(id, url, map, locGeojason) {
   return locGeojason;
 }
 
-// Show OSM buildings 🏢
+// Show OSM objects 🏢
 function osmVisibility(map, toggle) {
   const osmButton = document.getElementById("osm");
   osmButton.onclick = () => {
     toggle = !toggle;
     selectedButton(osmButton, toggle, true);
-    map.getLayer("OSM-buildings");
-    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
+    map.getLayer("OSM-objects");
+    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-objects");
     toggle.osm = toggle;
   };
 }
@@ -48659,11 +48663,7 @@ function osmVisibility(map, toggle) {
 function closeBimViewer() {
   document.getElementById("close-bim-viewer").addEventListener("click", () => {
     unhideElementsById(
-      "style-select",
-      "city-select",
-      "place-select",
-      "building-select",
-      "osm"
+      "top-bar",
     );
     document.getElementById("bim-viewer").remove();
     document.getElementById("close-bim-viewer").classList.add("hidden");
@@ -48676,26 +48676,25 @@ function flyToCanada() {
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada$1.bbox);
     isolateSelector(selectors, "province-select", "style-select");
-    isolateSelector(toolbar, "go-to");
     setTimeout(function () {
       location.reload();
     }, 2000);
   });
 }
 
-function selectBuilding(selector) {
+function selectObj(selector) {
   selector.addEventListener("change", (event) => {
     let id = selector[selector.selectedIndex].id;
-    console.log(id);
-    if (id === "add-obj") {
-      addLocMarker("obj");
+    if (id === "add-object") {
+      cancelPlace.click();
+      addLocMarker("object");
       document.getElementById(
-  "new-obj-location"
+  "new-object-location"
 ).innerText = `${province.term}, ${city.name}, ${place.name}`;
-      document.getElementById('new-obj-container').classList.remove("hidden");
+      document.getElementById('new-object-container').classList.remove("hidden");
     } else {
-      let building = place.buildings[id];
-      openBimViewer(building);
+      let object = place.objects[id];
+      openBimViewer(object);
     }
     closeBimViewer();
 
@@ -48767,21 +48766,20 @@ function setPlace(place, provinceTerm, cityName) {
   removeGeojson(locGeojason);
   setModelOrigin(place);
   flyToPlace(place);
-  hideElementsById("province-select", "go-to");
+  hideElementsById("province-select");
   unhideElementsById("city-select", "place-select", "osm");
   invisibleMasses = [];
   visibleMasses = [];
-  if (!place.hasOwnProperty("buildings")) {
+  if (!place.hasOwnProperty("objects")) {
     removeFromScene();
-    infoMessage(`⚠️ No buildings at ${place.name}`);
-    hideElementsById("building-select");
+    infoMessage(`⚠️ No objects at ${place.name}`);
+    hideElementsById("object-select");
     unhideElementsById("osm");
     if (place.hasOwnProperty("gltfMasses")) {
       loadMasses(visibleMasses, place, true);
     }
   } else {
     loadMasses(invisibleMasses, place, false);
-    // console.log(scene)
     if (isMobile) {
       hideElementsById(
         "style-select",
@@ -48791,10 +48789,10 @@ function setPlace(place, provinceTerm, cityName) {
       );
       loadMasses(visibleMasses, place, true);
     }
-    loadBldsGltf(place, scene);
-    unhideElementsById("building-select");
-    createOptions(buildingSelector, place.buildings, 2);
-    selectBuilding(buildingSelector);
+    loadObjectsGltf(place, scene);
+    unhideElementsById("object-select");
+    createOptions(objectSelector, place.objects, 2);
+    selectObj(objectSelector);
   }
 }
 
@@ -48921,32 +48919,6 @@ function removeMarker(markers) {
     markers.forEach((marker) => {
       marker.remove();
     });
-}
-
-function goTo(location) {
-  if (
-    document.getElementById("lng").value !== "" &&
-    !document.getElementById("lat").value !== ""
-  ) {
-    def.coordinates.lng = parseFloat(document.getElementById("new-lng").value);
-    def.coordinates.lat = parseFloat(document.getElementById("new-lat").value);
-    delete def.buildings;
-    delete def.gltfMasses;
-    def.name = "this place";
-    console.log(def);
-  }
-  place = def;
-  setPlace(place, province.term, city.name);
-}
-
-function hideSelectors() {
-  hideElementsById(
-    "style-select",
-    "province-select",
-    "city-select",
-    "place-select",
-    "building-select"
-  );
 }
 
 // MAPBOX 🗺️📦

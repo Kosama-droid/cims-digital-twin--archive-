@@ -123,7 +123,7 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
               },
-              buildings: {
+              objects: {
                 MB: {
                   name: "Maintenance and Grounds Building",
                   ifcFileName:
@@ -393,10 +393,10 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/PB/buildings/",
+              ifcPath: "../assets/ON/Ottawa/PB/objects/",
               gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
               jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
-              buildings: {
+              objects: {
                 CB: {
                   name: "Centre Block",
                 },
@@ -428,10 +428,10 @@ var canada$1 = canada = {
               gltfMasses: {
                 url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/HM/buildings/HM/ifc/",
+              ifcPath: "../assets/ON/Ottawa/HM/objects/HM/ifc/",
               gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
-              buildings: {
+              objects: {
                 HM: {
                   name: "Holocaust Memorial",
                   ifcFileName: "ON-Ottawa-HM.ifc",
@@ -453,7 +453,7 @@ var canada$1 = canada = {
               },
               gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
               jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
-              buildings: {
+              objects: {
                 CWM: {
                   name: "Canadian War Museum",
                 },
@@ -507,7 +507,7 @@ var canada$1 = canada = {
               ifcPath: "../assets/ON/Toronto/DA/ifc/",
               gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
               jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
-              buildings: {
+              objects: {
                 admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
                   ifcFileName: "ON_Toronto_DA_admin.ifc",
@@ -122385,25 +122385,25 @@ let codes = currentModelCode.split("/");
 let province = { term: codes[0] };
 let city = { name: codes[1] };
 let place = { id: codes[2] };
-let building = { id: codes[3], name: "" };
+let object = { id: codes[3], name: "" };
 const toggle = {};
-const buildingPath = `../assets/${province.term}/${city.name}/${place.id}/buildings/${building.id}`;
-const buildingFileName = `${province.term}_${city.name}_${place.id}_${building.id}`;
-const glbFilePath = `${buildingPath}/glb/${buildingFileName}`;
+const objectPath = `../assets/${province.term}/${city.name}/${place.id}/objects/${object.id}`;
+const objectFileName = `${province.term}_${city.name}_${place.id}_${object.id}`;
+const glbFilePath = `${objectPath}/glb/${objectFileName}`;
 let model = {};
 
 place = canada$1.provinces[province.term].cities[city.name].places[place.id];
-let buildings = place.buildings;
-building.name = buildings[building.id].name;
-const buildingSelector = document.getElementById("building-select");
-createOptions(buildingSelector, buildings);
+let objects = place.objects;
+object.name = objects[object.id].name;
+const objectSelector = document.getElementById("object-select");
+createOptions(objectSelector, objects);
 
 document
-  .getElementById("building-select")
+  .getElementById("object-select")
   .addEventListener("change", function () {
     let selectedOption = this[this.selectedIndex].id;
-    let previosBuildingId = currentURL.split("/").slice(-1)[0];
-    let len = -previosBuildingId.length;
+    let previosObjectId = currentURL.split("/").slice(-1)[0];
+    let len = -previosObjectId.length;
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
   });
@@ -122437,19 +122437,19 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-building.ifcURL = `${place.ifcPath}${building.id}/ifc/${place.buildings[building.id].ifcFileName}`;
+object.ifcURL = `${place.ifcPath}${object.id}/ifc/${place.objects[object.id].ifcFileName}`;
 
 // Projection
 document.getElementById("projection").onclick = () =>
   viewer.context.ifcCamera.toggleProjection();
 
-// Load buildings 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
+// Load objects 🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️🏗️
 
 let properties;
 let projectTree;
 const plansContainer = document.getElementById("plans-menu");
 
-loadIfc(building.ifcURL);
+loadIfc(object.ifcURL);
 
 async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loader-container");
@@ -122481,7 +122481,7 @@ async function loadIfc(ifcURL) {
           ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial);
           return categoryGlb;
         } else {
-          throw new Error(`${category} does not exist in this building`);
+          throw new Error(`${category} does not exist in this object`);
         }
       }
     });    
@@ -122490,7 +122490,7 @@ async function loadIfc(ifcURL) {
   loadingContainer.classList.add("hidden");
 
   const rawProperties = await fetch(
-    `${buildingPath}/json/${buildingFileName}_properties.json`
+    `${objectPath}/json/${objectFileName}_properties.json`
   );
   properties = await rawProperties.json();
 
@@ -122635,8 +122635,8 @@ window.onclick = async () => {
 window.onkeydown = (event) => {
   const keyName = event.key;
   if (keyName === "e") {
-    console.log("export:", building.name);
-    preproscessIfc(building);
+    console.log("export:", object.name);
+    preproscessIfc(object);
   }
   if (event.code === "Escape") {
     viewer.IFC.selector.unpickIfcItems();
@@ -122904,10 +122904,10 @@ function togglePostproduction(active) {
   viewer.context.renderer.postProduction.active = active;
 }
 
-async function preproscessIfc(building) {
-  console.log(building);
+async function preproscessIfc(object) {
+  console.log(object);
   const result = await viewer.GLTF.exportIfcFileAsGltf({
-    ifcFileUrl: building.ifcURL,
+    ifcFileUrl: object.ifcURL,
     getProperties: false,
     splitByFloors: false,
     categories: {
@@ -122930,7 +122930,7 @@ async function preproscessIfc(building) {
   document.body.appendChild(link);
 
   for (let jsonFile of result.json) {
-    link.download = `${buildingFileName}_properties.json`;
+    link.download = `${objectFileName}_properties.json`;
     link.href = URL.createObjectURL(jsonFile);
     link.click();
   }
@@ -122940,7 +122940,7 @@ async function preproscessIfc(building) {
     for (const levelName in category) {
       const file = category[levelName].file;
       if (file) {
-        link.download = `${buildingFileName}_${categoryName}.glb`;
+        link.download = `${objectFileName}_${categoryName}.glb`;
         link.href = URL.createObjectURL(file);
         link.click();
       }
