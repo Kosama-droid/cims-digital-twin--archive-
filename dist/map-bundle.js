@@ -118,10 +118,10 @@ var canada$1 = canada = {
                 msl: 80,
                 zoom: 15,
               },
-              logo: "../assets/ON/Ottawa/CDC/cu_logo.jfif",
-              gltfPath: "../assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
+              logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
+              gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
+                url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
               },
               objects: {
                 MB: {
@@ -377,8 +377,8 @@ var canada$1 = canada = {
                     "CDC-CIMS-FEDERATED_BLDGS-SUST-CIMS-DOC-TUNNELS-AS_FOUND.ifc",
                 },
               },
-              ifcPath: "../assets/ON/Ottawa/CDC/ifc/",
-              jsonPropertiesPath: "../assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
+              ifcPath: "assets/ON/Ottawa/CDC/ifc/",
+              jsonPropertiesPath: "assets/ON/Ottawa/CDC/json/ON_Ottawa_CDC_",
             },
             PB: {
               name: "Parliament Buildings",
@@ -389,13 +389,13 @@ var canada$1 = canada = {
                 msl: 85,
                 zoom: 16,
               },
-              logo: "../assets/ON/Ottawa/PB/canda-gov.png",
+              logo: "assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
+                url: "assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/PB/objects/",
-              gltfPath: "../assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
-              jsonPropertiesPath: "../assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
+              ifcPath: "assets/ON/Ottawa/PB/objects/",
+              gltfPath: "assets/ON/Ottawa/PB/glb/ON_Ottawa_PB_",
+              jsonPropertiesPath: "assets/ON/Ottawa/PB/json/ON_Ottawa_PB_",
               objects: {
                 CB: {
                   name: "Centre Block",
@@ -424,13 +424,13 @@ var canada$1 = canada = {
                 msl: 56.1,
                 zoom: 18,
               },
-              logo: "../assets/ON/Ottawa/HM/ncc-logo.jpg",
+              logo: "assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
+                url: "assets/ON/Ottawa/HM/glb/ON-Ottawa-HM.glb",
               },
-              ifcPath: "../assets/ON/Ottawa/HM/objects/HM/ifc/",
-              gltfPath: "../assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
-              jsonPropertiesPath: "../assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
+              ifcPath: "assets/ON/Ottawa/HM/objects/HM/ifc/",
+              gltfPath: "assets/ON/Ottawa/HM/glb/ON_Ottawa_HM_",
+              jsonPropertiesPath: "assets/ON/Ottawa/HM/json/ON_Ottawa_HM_",
               objects: {
                 HM: {
                   name: "Holocaust Memorial",
@@ -447,12 +447,12 @@ var canada$1 = canada = {
                 msl: 56.1,
                 zoom: 17,
               },
-              logo: "../assets/ON/Ottawa/CWM/cwm-logo.png",
+              logo: "assets/ON/Ottawa/CWM/cwm-logo.png",
               gltfMasses: {
-                url: "../assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
+                url: "assets/ON/Ottawa/CWM/glb/ON-Ottawa-CWM.glb",
               },
-              gltfPath: "../assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
-              jsonPropertiesPath: "../assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
+              gltfPath: "assets/ON/Ottawa/CWM/glb/ON_Ottawa_CWM_",
+              jsonPropertiesPath: "assets/ON/Ottawa/CWM/json/ON_Ottawa_CWM_",
               objects: {
                 CWM: {
                   name: "Canadian War Museum",
@@ -467,21 +467,21 @@ var canada$1 = canada = {
                 msl: 53,
                 zoom: 16,
               },
-              logo: "../assets/ON/Ottawa/NAC/nac-logo.jpg",
+              logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
             },
           },
           layers: {
             busStops: setLayer(
               "busStops",
               "OCTranspo bus stops",
-              "../assets/ON/Ottawa/json/ON-Ottawa-busStops.json",
+              "assets/ON/Ottawa/json/ON-Ottawa-busStops.json",
               "#CE343B",
               ocTranspo
             ),
             trees: setLayer(
               "trees",
               "Ottawa trees",
-              "../assets/ON/Ottawa/json/ON-Ottawa-trees.json",
+              "assets/ON/Ottawa/json/ON-Ottawa-trees.json",
               "green",
               ottawaTrees
             ),
@@ -500,13 +500,13 @@ var canada$1 = canada = {
                 msl: 188,
                 zoom: 16,
               },
-              logo: "../assets/ON/Toronto/DA/northcrest_logo.jfif",
+              logo: "assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
-                url: "../assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
+                url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
-              ifcPath: "../assets/ON/Toronto/DA/ifc/",
-              gltfPath: "../assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
-              jsonPropertiesPath: "../assets/ON/Toronto/DA/json/ON_Toronto_da_",
+              ifcPath: "assets/ON/Toronto/DA/ifc/",
+              gltfPath: "assets/ON/Toronto/DA/glb/ON_Toronto_DA_",
+              jsonPropertiesPath: "assets/ON/Toronto/DA/json/ON_Toronto_da_",
               objects: {
                 admin: {
                   name: "Admin, Data, Cafe, Superstore, Bays 1-6",
@@ -531,38 +531,38 @@ var canada$1 = canada = {
             trees: setLayer(
               "trees",
               "Toronto trees",
-              "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-trees.geojson",
               "green",
               torontoTrees
             ),
             bikes: setLayer(
               "bikes",
               "Bicycle parking",
-              "../assets/ON/Toronto/geojson/ON-Toronto-bike_parking.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-bike_parking.geojson",
               "orange"
             ),
             busStops: setLayer(
               "busStops",
               "Transit shelter",
-              "../assets/ON/Toronto/geojson/ON-Toronto-transit_shelter.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-transit_shelter.geojson",
               "yellow"
             ),
             litter: setLayer(
               "litter",
               "Litter Receptacles",
-              "../assets/ON/Toronto/geojson/ON-Toronto-litter_receptacle.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-litter_receptacle.geojson",
               "blue"
             ),
             wc: setLayer(
               "wc",
               "Public Washrooms",
-              "../assets/ON/Toronto/geojson/ON-Toronto-public_washroom.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-public_washroom.geojson",
               "#eeeeee"
             ),
             bench: setLayer(
               "bench",
               "Benches",
-              "../assets/ON/Toronto/geojson/ON-Toronto-bench.geojson",
+              "assets/ON/Toronto/geojson/ON-Toronto-bench.geojson",
               "#a17c4c"
             ),
           },
@@ -717,7 +717,7 @@ async function geojsonLayer(layerName, url) {
 
 async function torontoTrees(place) {
   let json = await getJson$1(
-    "../assets/ON/Toronto/geojson/ON-Toronto-trees.geojson"
+    "assets/ON/Toronto/geojson/ON-Toronto-trees.geojson"
   );
   let trees = {};
   let features = json.features;
@@ -750,7 +750,7 @@ async function torontoTrees(place) {
 }
 
 async function ottawaTrees(place) {
-  let json = await getJson$1("../assets/ON/Ottawa/json/ON-Ottawa-trees.json");
+  let json = await getJson$1("assets/ON/Ottawa/json/ON-Ottawa-trees.json");
   let trees = {};
   let features = json.features;
   let { lng, lat } = place.coordinates;
@@ -778,7 +778,7 @@ async function ottawaTrees(place) {
 }
 
 async function ocTranspo(place) {
-  let json = await getJson$1("../assets/ON/Ottawa/json/ON-Ottawa-busStops.json");
+  let json = await getJson$1("assets/ON/Ottawa/json/ON-Ottawa-busStops.json");
   let busStops = {};
   json.forEach((busStop) => {
     busStops[busStop.stop_code] = {
@@ -48588,7 +48588,7 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
-  let url = `./bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
+  let url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   let bimContainer;
   bimContainer = document.getElementById("bim-container");
   bimViewer = document.getElementById("bim-viewer");
@@ -48602,7 +48602,7 @@ function openBimViewer(object) {
     } else {
       bimContainer.appendChild(bimViewer);
       document.getElementById("close-bim-viewer").classList.remove("hidden");
-      hideElementsById("top-bar");
+      hideElementsById("top-bar", 'toolbar');
     }
   }
   bimViewer.setAttribute("src", url);
@@ -48663,7 +48663,7 @@ function osmVisibility(map, toggle) {
 function closeBimViewer() {
   document.getElementById("close-bim-viewer").addEventListener("click", () => {
     unhideElementsById(
-      "top-bar",
+      "top-bar", 'toolbar',
     );
     document.getElementById("bim-viewer").remove();
     document.getElementById("close-bim-viewer").classList.add("hidden");

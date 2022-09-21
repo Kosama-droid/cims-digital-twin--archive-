@@ -6,7 +6,7 @@ export default [
   output: [
     {
     format: "esm",
-    file: "./dist/map-bundle.js"
+    file: "dist/map-bundle.js"
     }
   ],
   plugins: [
@@ -18,7 +18,7 @@ export default [
   output: [
     {
     format: "esm",
-    file: "./dist/bim-viewer-wiv-bundle.js"
+    file: "dist/bim-viewer-wiv-bundle.js"
     }
   ],
   plugins: [
