@@ -48135,9 +48135,6 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
     emissive: 0x555555,
   });
 
-console.log("Kolene");
-console.log("New Line");
-
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 Array.from(document.getElementById("toolbar").children);
