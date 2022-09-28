@@ -1,2 +1,2 @@
 # CIMS - Digital Twin 
-https://cimsprojects.ca/CDC/cims-digital-twin/src/index.html
+https://cimsprojects.ca/CDT/index.html
