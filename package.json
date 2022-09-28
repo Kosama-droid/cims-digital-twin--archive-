@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "rollup": "^2.75.7"
+    "rollup": "^2.79.1"
   },
   "dependencies": {
     "camera-controls": "^1.35.0",
@@ -11,7 +11,7 @@
     "three": "^0.135.0",
     "three-mesh-bvh": "^0.5.14",
     "web-ifc-three": "^0.0.117",
-    "web-ifc-viewer": "^1.0.208"
+    "web-ifc-viewer": "^1.0.213"
   },
   "name": "ifc-js-crash-course",
   "description": "https://nicoarellano.github.io/ifc-js-crash-course/src",

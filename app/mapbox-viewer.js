@@ -16,6 +16,9 @@ import {
 
 import * as cdt from "../modules/cdt-api";
 
+console.log("Kolene");
+console.log("New Line");
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const toolbar = Array.from(document.getElementById("toolbar").children);
