@@ -796,90 +796,6 @@ function info(info) {
   return `<span class="info-text">${info}</span>`;
 }
 
-const mapStyles = {
-    //Styles with labels
-    map: {name: "Map", url:"mapbox://styles/mapbox/streets-v11"},
-    satellite_labels: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
-    outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
-    light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
-    dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
-    traffic: {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
-    // Styles without labels (The models don't show) -------------------
-    // satellite: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
-    // google: {name: "Google satellite", url: {
-    //     'version': 8,
-    //     'sources': {
-    //     'raster-tiles': {
-    //     'type': 'raster',
-    //     'tiles': [
-    //         'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-    //     ],
-    //     'tileSize': 256,
-    //     'attribution':
-    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-    //     }
-    //     },
-    //     'layers': [
-    //     {
-    //     'id': 'simple-tiles',
-    //     'type': 'raster',
-    //     'source': 'raster-tiles',
-    //     'minzoom': 0,
-    //     'maxzoom': 24
-    //     }
-    //     ]
-    //     }
-    // },
-    // goggle_labels: {name: "Google hybrid", url: {
-    //     'version': 8,
-    //     'sources': {
-    //     'raster-tiles': {
-    //     'type': 'raster',
-    //     'tiles': [
-    //         'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'
-    //     ],
-    //     'tileSize': 256,
-    //     'attribution':
-    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-    //     }
-    //     },
-    //     'layers': [
-    //     {
-    //     'id': 'simple-tiles',
-    //     'type': 'raster',
-    //     'source': 'raster-tiles',
-    //     'minzoom': 0,
-    //     'maxzoom': 24
-    //     }
-    //     ]
-    //     }
-    // },
-    // watercolor: {name: "Watercolor", url: {
-    //     'version': 8,
-    //     'sources': {
-    //     'raster-tiles': {
-    //     'type': 'raster',
-    //     'tiles': [
-    //         'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg'
-    //     ],
-    //     'tileSize': 256,
-    //     'attribution':
-    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-    //     }
-    //     },
-    //     'layers': [
-    //     {
-    //     'id': 'simple-tiles',
-    //     'type': 'raster',
-    //     'source': 'raster-tiles',
-    //     'minzoom': 0,
-    //     'maxzoom': 24
-    //     }
-    //     ]
-    //     }
-    // },
-};
-
 /**
  * @license
  * Copyright 2010-2021 Three.js Authors
@@ -48102,6 +48018,90 @@ function loadObjectsGltf(site, currentScene) {
   if (!currentScene.getObjectByName(`${site.id}-objects`)) currentScene.add(group);
 }
 
+var mapStyles$1 = mapStyles = {
+    //Styles with labels
+    map: {name: "Map", url:"mapbox://styles/mapbox/streets-v11"},
+    satellite_labels: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
+    light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
+    dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
+    traffic: {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
+    // Styles without labels (The models don't show) -------------------
+    // satellite: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
+    // google: {name: "Google satellite", url: {
+    //     'version': 8,
+    //     'sources': {
+    //     'raster-tiles': {
+    //     'type': 'raster',
+    //     'tiles': [
+    //         'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
+    //     ],
+    //     'tileSize': 256,
+    //     'attribution':
+    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+    //     }
+    //     },
+    //     'layers': [
+    //     {
+    //     'id': 'simple-tiles',
+    //     'type': 'raster',
+    //     'source': 'raster-tiles',
+    //     'minzoom': 0,
+    //     'maxzoom': 24
+    //     }
+    //     ]
+    //     }
+    // },
+    // goggle_labels: {name: "Google hybrid", url: {
+    //     'version': 8,
+    //     'sources': {
+    //     'raster-tiles': {
+    //     'type': 'raster',
+    //     'tiles': [
+    //         'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'
+    //     ],
+    //     'tileSize': 256,
+    //     'attribution':
+    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+    //     }
+    //     },
+    //     'layers': [
+    //     {
+    //     'id': 'simple-tiles',
+    //     'type': 'raster',
+    //     'source': 'raster-tiles',
+    //     'minzoom': 0,
+    //     'maxzoom': 24
+    //     }
+    //     ]
+    //     }
+    // },
+    // watercolor: {name: "Watercolor", url: {
+    //     'version': 8,
+    //     'sources': {
+    //     'raster-tiles': {
+    //     'type': 'raster',
+    //     'tiles': [
+    //         'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg'
+    //     ],
+    //     'tileSize': 256,
+    //     'attribution':
+    //     'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+    //     }
+    //     },
+    //     'layers': [
+    //     {
+    //     'id': 'simple-tiles',
+    //     'type': 'raster',
+    //     'source': 'raster-tiles',
+    //     'minzoom': 0,
+    //     'maxzoom': 24
+    //     }
+    //     ]
+    //     }
+    // },
+};
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -48211,10 +48211,10 @@ mapbox();
 
 // Select map style 🗺️🎨
 const styleSelect = document.getElementById("style-select");
-createOptions(styleSelect, mapStyles);
+createOptions(styleSelect, mapStyles$1);
 styleSelect.addEventListener("change", function (event) {
   let style = event.target[event.target.selectedIndex].id;
-  const url = mapStyles[style].url;
+  const url = mapStyles$1[style].url;
   map.setStyle(url);
   event.target.selectedIndex = 0;
 });
@@ -48531,7 +48531,7 @@ function loadOSM(map, opacity = 0.9) {
   map.addLayer(
     {
       id: "OSM-buildings",
-      source: "compoplace",
+      source: "composite",
       "source-layer": "building",
       filter: ["==", "extrude", "true"],
       // filter: ["{elementId} === 671842709", "extrude", "false"],
@@ -48654,8 +48654,8 @@ function osmVisibility(map, toggle) {
   osmButton.onclick = () => {
     toggle = !toggle;
     selectedButton(osmButton, toggle, true);
-    map.getLayer("OSM-objects");
-    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-objects");
+    map.getLayer("OSM-buildings");
+    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
     toggle.osm = toggle;
   };
 }
@@ -48799,7 +48799,7 @@ function setPlace(place, provinceTerm, cityName) {
 async function createLayerButtons(city) {
   let layers = city.layers;
   const toolbar = document.getElementById("toolbar");
-  removeChildren(toolbar, 4);
+  removeChildren(toolbar, 1);
   for (key in layers) {
     const osm = document.getElementById("osm");
     const newButton = osm.cloneNode(true);
@@ -48927,7 +48927,7 @@ function mapbox() {
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   map = new mapboxgl.Map({
     container: "map", // container ID
-    style: mapStyles.satellite_labels.url,
+    style: mapStyles$1.satellite_labels.url,
     center: [lng.canada, lat.canada], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
