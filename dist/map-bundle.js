@@ -48376,6 +48376,7 @@ cancelPlace.addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
   marker.remove();
 });
+document.getElementById("upload-place").onclick = () => addNewPlace();
 
 // Object ➡️________________
 const cancelObj = document.getElementById("cancel-new-object");
@@ -48997,4 +48998,22 @@ function addLocMarker(at) {
   }
 
   marker.on("dragend", onDragEnd);
+}
+
+function addNewPlace() {
+  const newPlace = {};
+  let newPlaceId = document.getElementById("place-id").value.toUpperCase();
+  newPlace.name = document.getElementById("place-name").value;
+  newPlace.coordinates = {};
+  newPlace.coordinates.lng = document.getElementById("place-lng").value;
+  newPlace.coordinates.lat = document.getElementById("place-lat").value;
+  newPlace.coordinates.msl = document.getElementById("place-msl").value;
+  newPlace.coordinates.trueNorth = document.getElementById("place-true-north").value;
+  // newPlace.glbFile = document.getElementById("place-glb-input");
+  canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}};
+  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
+  console.log(canada$1.provinces[province.term].cities[city.name].places);
+  createOptions(placeSelector, canada$1.provinces[province.term].cities[city.name].places, 2);
+  // console.log(canada.provinces[province.term].cities)
+  
 }
