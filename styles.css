@@ -575,7 +575,7 @@ ul, #myUL {
 .bim-viewer{
   z-index: 5;
   justify-content: center;
-  height: 90%;
+  height: 86%;
   width: 100%;
   margin: 1rem;
   box-shadow: var(--shadow);

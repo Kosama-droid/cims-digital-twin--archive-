@@ -2,7 +2,7 @@ import canada from "./canada";
 import { Color, LineBasicMaterial, MeshBasicMaterial } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
 
-import * as dt from "../modules/cims-dt-api";
+import * as cdt from "../modules/cdt-api";
 
 import {
   IFCWALL,
@@ -43,10 +43,12 @@ const ifcFilePath = `assets/${currentModelCode}/ifc/${objectFileName}`;
 let model = {};
 
 place = canada.provinces[province.term].cities[city.name].places[place.id];
+
 let objects = place.objects;
+
 object.name = objects[object.id].name;
 const objectSelector = document.getElementById("object-select");
-dt.createOptions(objectSelector, objects);
+cdt.createOptions(objectSelector, objects);
 
 document
   .getElementById("object-select")
@@ -57,7 +59,7 @@ document
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
   });
-dt.closeNavBar();
+cdt.closeNavBar();
 
 const container = document.getElementById("viewer-container");
 
@@ -66,7 +68,7 @@ const layerButton = document.getElementById("layers");
 let layersToggle = true;
 layerButton.onclick = () => {
   layersToggle = !layersToggle;
-  dt.selectedButton(layerButton, layersToggle);
+  cdt.selectedButton(layerButton, layersToggle);
   layersToggle
     ? document.getElementById("toolbar").classList.remove("hidden")
     : document.getElementById("toolbar").classList.add("hidden");
@@ -152,7 +154,7 @@ async function loadIfc(ifcURL) {
   //   const plansButton = document.getElementById("plans");
   //   toggle.plans = false;
   //   const plansMenu = document.getElementById("plans-menu");
-  //   dt.toggleVisibility(plansButton, toggle.plans, plansMenu);
+  //   cdt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
@@ -215,7 +217,7 @@ button.onclick = () => {
 };
 
 // Hover → Highlight
-viewer.IFC.selector.preselection.material = dt.hoverHighlihgtMaterial;
+viewer.IFC.selector.preselection.material = cdt.hoverHighlihgtMaterial;
 window.onmousemove = () => viewer.IFC.selector.prePickIfcItem();
 
 // Dimensions 📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏📏
@@ -227,7 +229,7 @@ dimensionsButton.onclick = () => {
   viewer.dimensions.active = toggle.dimensions;
   viewer.dimensions.previewActive = toggle.dimensions;
   let button = document.getElementById("dimensions");
-  dt.selectedButton(button, toggle.dimensions, true);
+  cdt.selectedButton(button, toggle.dimensions, true);
   updatePostProduction();
   clicked = 0;
 };
@@ -241,27 +243,27 @@ clippingButton.onclick = () => {
   viewer.clipper.active = toggle.clipping;
   // ClippingEdges.createDefaultIfcStyles = false;
   let button = document.getElementById("clipping");
-  dt.selectedButton(button, toggle.clipping, true);
+  cdt.selectedButton(button, toggle.clipping, true);
 };
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
 const propButton = document.getElementById("properties");
 toggle.proprerties = false;
-viewer.IFC.selector.selection.material = dt.hoverHighlihgtMaterial;
+viewer.IFC.selector.selection.material = cdt.hoverHighlihgtMaterial;
 
 // Pick → propterties
 propButton.addEventListener("click", () => {
   const propertyMenu = document.getElementById("ifc-property-menu");
   toggle.proprerties = !toggle.proprerties;
-  dt.selectedButton(propButton, toggle.proprerties, true);
+  cdt.selectedButton(propButton, toggle.proprerties, true);
   if (toggle.proprerties) {
-    viewer.IFC.selector.selection.material = dt.pickHighlihgtMaterial;
+    viewer.IFC.selector.selection.material = cdt.pickHighlihgtMaterial;
     propertyMenu.classList.remove("hidden");
   } else {
     viewer.IFC.selector.unpickIfcItems();
     viewer.IFC.selector.unHighlightIfcItems();
-    viewer.IFC.selector.selection.material = dt.hoverHighlihgtMaterial;
+    viewer.IFC.selector.selection.material = cdt.hoverHighlihgtMaterial;
     propertyMenu.classList.add("hidden");
   }
 });
@@ -446,7 +448,7 @@ for (i = 0; i < toggler.length; i++) {
 const treeButton = document.getElementById("project-tree");
 toggle.tree = false;
 const treeMenu = document.getElementById("ifc-tree-menu");
-dt.toggleVisibility(treeButton, toggle.tree, treeMenu);
+cdt.toggleVisibility(treeButton, toggle.tree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");
@@ -514,7 +516,7 @@ function removeAllChildren(element) {
   }
 }
 
-// dt.Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 // Get user
 let currentUser = "Anonymous";
 document
@@ -529,7 +531,7 @@ toggle.message = false;
 messageButton.onclick = () => {
   toggle.message = !toggle.message;
   let button = document.getElementById("message");
-  dt.selectedButton(button, toggle.message, true);
+  cdt.selectedButton(button, toggle.message, true);
   let user = document.getElementById("user-container");
   toggle.message
     ? user.classList.remove("hidden")
@@ -540,7 +542,7 @@ window.oncontextmenu = () => {
   const collision = viewer.context.castRayIfc(model);
   if (!toggle.message || collision === null) return;
   const collisionLocation = collision.point;
-  dt.labeling(scene, collisionLocation, currentUser);
+  cdt.labeling(scene, collisionLocation, currentUser);
 };
 
 function toggleShadow(active) {
@@ -555,7 +557,6 @@ function togglePostproduction(active) {
 }
 
 async function preproscessIfc(object) {
-  console.log(object)
   const result = await viewer.GLTF.exportIfcFileAsGltf({
     ifcFileUrl: object.ifcURL,
     getProperties: false,

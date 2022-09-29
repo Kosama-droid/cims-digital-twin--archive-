@@ -48694,6 +48694,7 @@ function selectObj(selector) {
       document.getElementById('new-object-container').classList.remove("hidden");
     } else {
       let object = place.objects[id];
+      if (!object.id) object.id = id;
       openBimViewer(object);
     }
     closeBimViewer();

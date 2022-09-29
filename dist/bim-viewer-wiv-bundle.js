@@ -122477,7 +122477,9 @@ const glbFilePath = `${objectPath}/glb/${objectFileName}`;
 let model = {};
 
 place = canada$1.provinces[province.term].cities[city.name].places[place.id];
+
 let objects = place.objects;
+
 object.name = objects[object.id].name;
 const objectSelector = document.getElementById("object-select");
 createOptions(objectSelector, objects);
@@ -122586,7 +122588,7 @@ async function loadIfc(ifcURL) {
   //   const plansButton = document.getElementById("plans");
   //   toggle.plans = false;
   //   const plansMenu = document.getElementById("plans-menu");
-  //   dt.toggleVisibility(plansButton, toggle.plans, plansMenu);
+  //   cdt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
@@ -122948,7 +122950,7 @@ function removeAllChildren(element) {
   }
 }
 
-// dt.Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 // Get user
 let currentUser = "Anonymous";
 document
@@ -122989,7 +122991,6 @@ function togglePostproduction(active) {
 }
 
 async function preproscessIfc(object) {
-  console.log(object);
   const result = await viewer.GLTF.exportIfcFileAsGltf({
     ifcFileUrl: object.ifcURL,
     getProperties: false,
