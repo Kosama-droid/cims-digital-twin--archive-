@@ -112,13 +112,102 @@ var canada$1 = canada = {
             CDC: {
               name: "Carleton University",
               id: "CDC",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "a4d079c1df6e5ce05fd3d75be9d676ae",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.70189958027106,
+                                        45.37875309615271
+                                    ],
+                                    [
+                                        -75.69992633911373,
+                                        45.37877541395392
+                                    ],
+                                    [
+                                        -75.69727770186257,
+                                        45.3810993922589
+                                    ],
+                                    [
+                                        -75.69450838802734,
+                                        45.38203887637181
+                                    ],
+                                    [
+                                        -75.6906275671839,
+                                        45.38296872321675
+                                    ],
+                                    [
+                                        -75.68887142022419,
+                                        45.38344187913356
+                                    ],
+                                    [
+                                        -75.69420899585182,
+                                        45.38994283121664
+                                    ],
+                                    [
+                                        -75.69580769941382,
+                                        45.39239497776015
+                                    ],
+                                    [
+                                        -75.69619561876573,
+                                        45.393984263463864
+                                    ],
+                                    [
+                                        -75.70083876374682,
+                                        45.39148859721473
+                                    ],
+                                    [
+                                        -75.70064587777159,
+                                        45.38857217046163
+                                    ],
+                                    [
+                                        -75.69982059948957,
+                                        45.38563910454812
+                                    ],
+                                    [
+                                        -75.69986507131132,
+                                        45.38409834943889
+                                    ],
+                                    [
+                                        -75.70049060514884,
+                                        45.38291684823247
+                                    ],
+                                    [
+                                        -75.70129181634604,
+                                        45.38188566509319
+                                    ],
+                                    [
+                                        -75.70191088185265,
+                                        45.38094553432035
+                                    ],
+                                    [
+                                        -75.70185552977473,
+                                        45.37957470361749
+                                    ],
+                                    [
+                                        -75.70189958027106,
+                                        45.37875309615271
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.38435,
                 lng: -75.69435,
                 msl: 80,
                 zoom: 15,
               },
-              logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
+              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -383,6 +472,51 @@ var canada$1 = canada = {
             PB: {
               name: "Parliament Buildings",
               id: "PB",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "831f9f555ad3d8115f769ca78c465561",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.70058467451888,
+                                        45.42260036234234
+                                    ],
+                                    [
+                                        -75.69618595051583,
+                                        45.424634511219125
+                                    ],
+                                    [
+                                        -75.69764315462844,
+                                        45.425839176485795
+                                    ],
+                                    [
+                                        -75.69941009882106,
+                                        45.42670848160412
+                                    ],
+                                    [
+                                        -75.70203058545846,
+                                        45.425548388065494
+                                    ],
+                                    [
+                                        -75.70184052996606,
+                                        45.42347511350695
+                                    ],
+                                    [
+                                        -75.70058467451888,
+                                        45.42260036234234
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.42521,
                 lng: -75.70011,
@@ -48199,7 +48333,7 @@ let previousSelection = {
 
 const mouse = new Vector4(-1000, -1000, 1, 1);
 
-let locGeojason = { source: { id: false } };
+let locGeojson = { source: { id: false } };
 let invisibleMasses = [];
 let lng = { canada: canada$1.lng, current: def.coordinates.lng },
   lat = { canada: canada$1.lat, current: def.coordinates.lat };
@@ -48321,7 +48455,7 @@ provinceSelector.addEventListener("change", (event) => {
   let term = event.target[event.target.selectedIndex].id;
   province = canada$1.provinces[term];
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
-  locGeojason = getGeojson(province, url, map, locGeojason);
+  locGeojson = getGeojson(province, url, map, locGeojson);
   getCities(province.code);
   unhideElementsById("city-select");
   event.target.selectedIndex = 0;
@@ -48337,7 +48471,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   ).innerText = `${province.term}, ${cityName}`;
   if (!city) city = { name: cityName };
   url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
-  locGeojason = getGeojson(cityName, url, map, locGeojason);
+  locGeojson = getGeojson(cityName, url, map, locGeojson);
   if (!city.hasOwnProperty("places")) {
     unhideElementsById("province-select");
     infoMessage(`⚠️ No places at ${cityName}`);
@@ -48360,11 +48494,11 @@ createOptions(placeSelector, places, 2);
 placeSelector.addEventListener("change", (event) => {
   places = city.places;
   removeMarker(placeMarkers);
-  removeGeojson(locGeojason);
+  removeGeojson(locGeojson);
   id = event.target[event.target.selectedIndex].id;
   if (id === "add-place") {
     cancelObj.click();
-    addLocMarker("place");
+    createPolygon();
     newPlaceMenu.classList.remove("hidden");
   } else {
     place = places[id];
@@ -48377,6 +48511,7 @@ cancelPlace.addEventListener("click", () => {
   marker.remove();
 });
 document.getElementById("upload-place").onclick = () => addNewPlace();
+document.getElementById("upload-object").onclick = () => addNewObject();
 
 // Object ➡️________________
 const cancelObj = document.getElementById("cancel-new-object");
@@ -48396,7 +48531,7 @@ map.on("dblclick", () => {
 closeBimViewer();
 
 map.on("wheel", () => {
-  removeGeojson(locGeojason);
+  removeGeojson(locGeojson);
 });
 
 map.on("style.load", function () {
@@ -48495,17 +48630,17 @@ async function loadGeojson(map, geojson, id) {
       "line-width": 2,
     },
   });
-  locGeojason.bbox = turf.bbox(geojson);
-  map.fitBounds(locGeojason.bbox);
+  locGeojson.bbox = turf.bbox(geojson);
+  map.fitBounds(locGeojson.bbox);
 }
 
-function removeGeojson(locGeojason) {
-  if (map.getSource(locGeojason.source.id)) {
-    map.removeLayer(locGeojason.fill.id);
-    map.removeLayer(locGeojason.outline.id);
-    map.removeSource(locGeojason.source.id);
+function removeGeojson(locGeojson) {
+  if (map.getSource(locGeojson.source.id)) {
+    map.removeLayer(locGeojson.fill.id);
+    map.removeLayer(locGeojson.outline.id);
+    map.removeSource(locGeojson.source.id);
   }
-  locGeojason = { source: { id: false } };
+  locGeojson = { source: { id: false } };
 }
 
 // ADD DEM TERRAIN 🏔️
@@ -48636,17 +48771,17 @@ function infoMessage(message, seconds = 6) {
   setTimeout(() => container.classList.add("hidden"), seconds * 1000);
 }
 
-function getGeojson(id, url, map, locGeojason) {
-  removeGeojson(locGeojason);
-  locGeojason = { fill: "", outline: "" };
+function getGeojson(id, url, map, locGeojson) {
+  removeGeojson(locGeojson);
+  locGeojson = { fill: "", outline: "" };
   getJson(url).then((geojson) => {
-    locGeojason.current = geojson;
-    loadGeojson(map, locGeojason.current, `${id}-locGeojason`);
-    locGeojason.source = map.getSource(`${id}-locGeojason`);
-    locGeojason.fill = map.getLayer(`${id}-locGeojason-fill`);
-    locGeojason.outline = map.getLayer(`${id}-locGeojason-outline`);
+    locGeojson.current = geojson;
+    loadGeojson(map, locGeojson.current, `${id}-locGeojson`);
+    locGeojson.source = map.getSource(`${id}-locGeojson`);
+    locGeojson.fill = map.getLayer(`${id}-locGeojson-fill`);
+    locGeojson.outline = map.getLayer(`${id}-locGeojson-outline`);
   });
-  return locGeojason;
+  return locGeojson;
 }
 
 // Show OSM objects 🏢
@@ -48663,11 +48798,12 @@ function osmVisibility(map, toggle) {
 
 function closeBimViewer() {
   document.getElementById("close-bim-viewer").addEventListener("click", () => {
+    document.getElementById("bim-container").classList.add("hidden");
+    document.getElementById("close-bim-viewer").classList.add("hidden");
+    document.getElementById("bim-viewer").remove();
     unhideElementsById(
       "top-bar", 'toolbar',
     );
-    document.getElementById("bim-viewer").remove();
-    document.getElementById("close-bim-viewer").classList.add("hidden");
   });
 }
 
@@ -48765,7 +48901,7 @@ function setPlace(place, provinceTerm, cityName) {
   if (city.places)
     createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
-  removeGeojson(locGeojason);
+  removeGeojson(locGeojson);
   setModelOrigin(place);
   flyToPlace(place);
   hideElementsById("province-select");
@@ -49000,20 +49136,66 @@ function addLocMarker(at) {
   marker.on("dragend", onDragEnd);
 }
 
+const draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+  polygon: false,
+  trash: false,
+  },
+  defaultMode: 'draw_polygon'
+  });
+
+  map.on('draw.create', updateArea);
+  map.on('draw.delete', updateArea);
+  map.on('draw.update', updateArea);
+
+function createPolygon() {
+  console.log("create polygon here");
+  map.addControl(draw);
+  map.on('draw.create', updateArea);
+}
+
+function updateArea(e) {
+  const data = draw.getAll();
+  const answer = document.getElementById('calculated-area');
+  if (data.features.length > 0) {
+  const area = turf.area(data);
+  // Restrict the area to 2 decimal points.
+  const rounded_area = Math.round(area * 100) / 100;
+  answer.innerHTML = `<p><strong>${rounded_area}</strong> mt²</p>`;
+  } else {
+  answer.innerHTML = '';
+  if (e.type !== 'draw.delete')
+  alert('Click the map to draw a polygon.');
+  }
+  }
+
 function addNewPlace() {
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   newPlace.name = document.getElementById("place-name").value;
-  newPlace.coordinates = {};
-  newPlace.coordinates.lng = document.getElementById("place-lng").value;
-  newPlace.coordinates.lat = document.getElementById("place-lat").value;
-  newPlace.coordinates.msl = document.getElementById("place-msl").value;
-  newPlace.coordinates.trueNorth = document.getElementById("place-true-north").value;
-  // newPlace.glbFile = document.getElementById("place-glb-input");
-  canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}};
+  newPlace.placeGeojson = draw.getAll();
+  let cityName = canada$1.provinces[province.term].cities[city.name];
+  if (!cityName) canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}};
   canada$1.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
-  console.log(canada$1.provinces[province.term].cities[city.name].places);
   createOptions(placeSelector, canada$1.provinces[province.term].cities[city.name].places, 2);
-  // console.log(canada.provinces[province.term].cities)
-  
+  console.log(canada$1.provinces[province.term].cities[city.name]);
+  unhideElementsById("object-select");
+}
+
+function addNewObject() {
+  const newObject = {};
+  let newObjectId = document.getElementById("object-id").value.toUpperCase();
+  newObject.name = document.getElementById("object-name").value;
+  newObject.coordinates = {};
+  newObject.coordinates.lng = document.getElementById("object-lng").value;
+  newObject.coordinates.lat = document.getElementById("object-lat").value;
+  newObject.coordinates.msl = document.getElementById("object-msl").value;
+  newObject.coordinates.trueNorth = document.getElementById("object-true-north").value;
+  // newObject.glbFile = document.getElementById("object-glb-input");
+  canada$1.provinces[province.term].cities[city.name] = {name: city.name, objects:{}};
+  console.log(canada$1.provinces[province.term].cities[city.name].objects);
+  canada$1.provinces[province.term].cities[city.name].objects[newObjectId] = newObject;
+  createOptions(objectSelector, canada$1.provinces[province.term].cities[city.name].objects, 2);
+  console.log(canada$1.provinces[province.term]);
 }

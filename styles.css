@@ -614,19 +614,6 @@ ul, #myUL {
   margin: 0.3rem 0.6rem;
 }
 
-/* .marker-contextmenu label{
-  color: #888;
-  border-radius: 3px;
-  padding: 0.3rem;
-  margin: 0.4rem;
-}
-
-.marker-contextmenu label:hover{
-  color: var(--primary-dark);
-  cursor: pointer;
-} */
-
-
 #close-bim-viewer{
   z-index: 6;
   position: absolute;
