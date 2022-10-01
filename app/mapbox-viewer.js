@@ -386,13 +386,13 @@ async function loadGeojson(map, geojson, id) {
   map.fitBounds(locGeojson.bbox);
 }
 
-function removeGeojson(locGeojson) {
-  if (map.getSource(locGeojson.source.id)) {
-    map.removeLayer(locGeojson.fill.id);
-    map.removeLayer(locGeojson.outline.id);
-    map.removeSource(locGeojson.source.id);
+function removeGeojson(geojson) {
+  if (map.getSource(geojson.source.id)) {
+    map.removeLayer(geojson.fill.id);
+    map.removeLayer(geojson.outline.id);
+    map.removeSource(geojson.source.id);
   }
-  locGeojson = { source: { id: false } };
+  geojson = { source: { id: false } };
 }
 
 // ADD DEM TERRAIN 🏔️
@@ -536,9 +536,7 @@ function getGeojson(id, url, map, locGeojson) {
   return locGeojson;
 }
 
-
-
-// Show OSM objects 🏢
+// Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
   const osmButton = document.getElementById("osm");
   osmButton.onclick = () => {
@@ -742,30 +740,6 @@ function addPlaceGeojson(places) {
   return geojsons;
 }
 
-function placeMarker(places) {
-  const markers = [];
-  for (let key in places) {
-    place = places[key];
-    const el = document.createElement("div");
-    el.className = "mapbox-marker";
-    el.setAttribute("id", key);
-    el.setAttribute("title", places[key].name);
-    if (place.logo)
-      el.style.setProperty("background-image", `url(${place.logo})`);
-    markers.push(el);
-    el.addEventListener("click", (e) => {
-      let id = e.target.id;
-      place = places[id];
-      setPlace(place, province.term, city.name);
-      markers.forEach((marker) => {
-        marker.remove();
-      });
-    });
-    new mapboxgl.Marker(el).setLngLat(place.coordinates).addTo(map);
-  }
-  return markers;
-}
-
 function toggleCustomLayer(button, toggle, layerKey) {
   button.onclick = async () => {
     toggle = !toggle;
@@ -832,31 +806,6 @@ function removeMarker(markers) {
     markers.forEach((marker) => {
       marker.remove();
     });
-}
-
-function goTo(location) {
-  if (
-    document.getElementById("lng").value !== "" &&
-    !document.getElementById("lat").value !== ""
-  ) {
-    def.coordinates.lng = parseFloat(document.getElementById("new-lng").value);
-    def.coordinates.lat = parseFloat(document.getElementById("new-lat").value);
-    delete def.objects;
-    delete def.gltfMasses;
-    def.name = "this place";
-  }
-  place = carleton;
-  setPlace(place, province.term, city.name);
-}
-
-function hideSelectors() {
-  cdt.hideElementsById(
-    "style-select",
-    "province-select",
-    "city-select",
-    "place-select",
-    "object-select"
-  );
 }
 
 // MAPBOX 🗺️📦
@@ -945,9 +894,10 @@ const draw = new MapboxDraw({
   defaultMode: 'draw_polygon'
   });
 
-  map.on('draw.create', updateArea);
-  map.on('draw.delete', updateArea);
-  map.on('draw.update', updateArea);
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
 
 function createPolygon() {
   map.addControl(draw);

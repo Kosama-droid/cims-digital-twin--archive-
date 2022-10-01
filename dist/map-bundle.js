@@ -49014,13 +49014,13 @@ async function loadGeojson(map, geojson, id) {
   map.fitBounds(locGeojson.bbox);
 }
 
-function removeGeojson(locGeojson) {
-  if (map.getSource(locGeojson.source.id)) {
-    map.removeLayer(locGeojson.fill.id);
-    map.removeLayer(locGeojson.outline.id);
-    map.removeSource(locGeojson.source.id);
+function removeGeojson(geojson) {
+  if (map.getSource(geojson.source.id)) {
+    map.removeLayer(geojson.fill.id);
+    map.removeLayer(geojson.outline.id);
+    map.removeSource(geojson.source.id);
   }
-  locGeojson = { source: { id: false } };
+  geojson = { source: { id: false } };
 }
 
 // ADD DEM TERRAIN 🏔️
@@ -49164,9 +49164,7 @@ function getGeojson(id, url, map, locGeojson) {
   return locGeojson;
 }
 
-
-
-// Show OSM objects 🏢
+// Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
   const osmButton = document.getElementById("osm");
   osmButton.onclick = () => {
@@ -49524,9 +49522,10 @@ const draw = new MapboxDraw({
   defaultMode: 'draw_polygon'
   });
 
-  map.on('draw.create', updateArea);
-  map.on('draw.delete', updateArea);
-  map.on('draw.update', updateArea);
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
 
 function createPolygon() {
   map.addControl(draw);
