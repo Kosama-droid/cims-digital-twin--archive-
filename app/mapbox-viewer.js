@@ -36,6 +36,7 @@ let scene,
   gltfMasses,
   places,
   placeMarkers,
+  placeGeojsons,
   marker;
 
 let toggle = { osm: false };
@@ -198,7 +199,7 @@ flyToCanada();
 let provinceSelector = document.getElementById("province-select");
 cdt.createOptions(provinceSelector, canada.provinces);
 provinceSelector.addEventListener("change", (event) => {
-  removeMarker(placeMarkers);
+  // removeMarker(placeMarkers);
   let term = event.target[event.target.selectedIndex].id;
   province = canada.provinces[term];
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
@@ -225,7 +226,8 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   } else {
     cdt.hideElementsById("province-select", "object-select");
     places = city.places;
-    placeMarkers = placeMarker(places);
+    placeGeojsons = addPlaceGeojson(places)
+    // placeMarkers = placeMarker(places);
     cdt.createOptions(placeSelector, places);
   }
   cdt.unhideElementsById("place-select");
@@ -257,7 +259,10 @@ cancelPlace.addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
   marker.remove()
 });
-document.getElementById("upload-place").onclick = () => addNewPlace();
+document.getElementById("upload-place").onclick = () => {
+  addNewPlace()
+  cancelPlace.click();
+};
 document.getElementById("upload-object").onclick = () => addNewObject();
 
 // Object ➡️________________
@@ -511,7 +516,7 @@ function getCities(provinceCode) {
   });
 }
 
-function infoMessage(message, seconds = 6) {
+function infoMessage(message, seconds = 4) {
   let container = document.getElementById("message");
   container.innerHTML = message;
   container.classList.remove("hidden");
@@ -530,6 +535,8 @@ function getGeojson(id, url, map, locGeojson) {
   });
   return locGeojson;
 }
+
+
 
 // Show OSM objects 🏢
 function osmVisibility(map, toggle) {
@@ -714,8 +721,26 @@ function removeFromScene() {
   });
 }
 
+function addPlaceGeojson(places) {
+  const geojsons = [];
+  for (let key in places) {
+    place = places[key];
+    let geojson = loadGeojson(map, place.placeGeojson, key)
+    geojsons.push(geojson)
+    // geojson.onclick((e) => {
+    //   let id = e.target.id;
+    //   place = places[id];
+    //   setPlace(place, province.term, city.name);
+    //   geojsons.forEach((geojson) => {
+    //     geojson.remove();
+    //   });
+    // });
+  }
+  return geojsons;
+}
+
 function placeMarker(places) {
-  let markers = [];
+  const markers = [];
   for (let key in places) {
     place = places[key];
     const el = document.createElement("div");
@@ -922,7 +947,6 @@ const draw = new MapboxDraw({
   map.on('draw.update', updateArea);
 
 function createPolygon() {
-  console.log("create polygon here")
   map.addControl(draw);
   map.on('draw.create', updateArea);
 }
@@ -937,8 +961,6 @@ function updateArea(e) {
   answer.innerHTML = `<p><strong>${rounded_area}</strong> mt²</p>`;
   } else {
   answer.innerHTML = '';
-  if (e.type !== 'draw.delete')
-  alert('Click the map to draw a polygon.');
   }
   }
 
@@ -947,6 +969,8 @@ function addNewPlace() {
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   newPlace.name = document.getElementById("place-name").value;
   newPlace.placeGeojson = draw.getAll();
+  loadGeojson(map, newPlace.placeGeojson, newPlaceId);
+  draw.deleteAll();
   let cityName = canada.provinces[province.term].cities[city.name];
   if (!cityName) canada.provinces[province.term].cities[city.name] = {name: city.name, places:{}}
   canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;

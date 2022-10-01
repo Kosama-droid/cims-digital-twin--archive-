@@ -552,6 +552,55 @@ var canada$1 = canada = {
             HM: {
               name: "Holocaust Memorial",
               id: "HM",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "307f55f714e878dde104d8973136b51e",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.71491590178672,
+                                        45.41698002845348
+                                    ],
+                                    [
+                                        -75.71464766918312,
+                                        45.41655393854717
+                                    ],
+                                    [
+                                        -75.71457406851601,
+                                        45.41654557912591
+                                    ],
+                                    [
+                                        -75.71422363992023,
+                                        45.416755971268
+                                    ],
+                                    [
+                                        -75.71401412213122,
+                                        45.41693605252604
+                                    ],
+                                    [
+                                        -75.71382226553547,
+                                        45.41719511432956
+                                    ],
+                                    [
+                                        -75.71390492394325,
+                                        45.41724690869236
+                                    ],
+                                    [
+                                        -75.71491590178672,
+                                        45.41698002845348
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.41681,
                 lng: -75.71448,
@@ -575,6 +624,87 @@ var canada$1 = canada = {
             CWM: {
               name: "Canadian War Museum",
               id: "CWM",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "a81013213db16dc5e252535b2ee7df8a",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.71910117684025,
+                                        45.416158814682234
+                                    ],
+                                    [
+                                        -75.71822407078501,
+                                        45.41637611122215
+                                    ],
+                                    [
+                                        -75.71697521859993,
+                                        45.41671799004075
+                                    ],
+                                    [
+                                        -75.71600229860272,
+                                        45.416865959431846
+                                    ],
+                                    [
+                                        -75.71537721815065,
+                                        45.41710286391398
+                                    ],
+                                    [
+                                        -75.71570115269357,
+                                        45.41782001356884
+                                    ],
+                                    [
+                                        -75.7161059042506,
+                                        45.41803090054583
+                                    ],
+                                    [
+                                        -75.7168524387219,
+                                        45.417922629637985
+                                    ],
+                                    [
+                                        -75.71788721990461,
+                                        45.417721374052945
+                                    ],
+                                    [
+                                        -75.71805674475873,
+                                        45.4176064565508
+                                    ],
+                                    [
+                                        -75.71817954477861,
+                                        45.41734370567136
+                                    ],
+                                    [
+                                        -75.71887019951822,
+                                        45.41696137889409
+                                    ],
+                                    [
+                                        -75.71908112282426,
+                                        45.41689135611921
+                                    ],
+                                    [
+                                        -75.71906940222242,
+                                        45.416722871131554
+                                    ],
+                                    [
+                                        -75.71898736670684,
+                                        45.41659145861519
+                                    ],
+                                    [
+                                        -75.71910117684025,
+                                        45.416158814682234
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.4172408,
                 lng: -75.71729,
@@ -595,6 +725,71 @@ var canada$1 = canada = {
             },
             NAC: {
               name: "National Art Centre",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "6a8c00c7e3209902e7d0dd4e287de0c8",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.6939802337543,
+                                        45.42263014482796
+                                    ],
+                                    [
+                                        -75.69338335245256,
+                                        45.4226637110942
+                                    ],
+                                    [
+                                        -75.69335299051819,
+                                        45.42275357648472
+                                    ],
+                                    [
+                                        -75.69220265027006,
+                                        45.423269568441754
+                                    ],
+                                    [
+                                        -75.69219645104698,
+                                        45.42334290407973
+                                    ],
+                                    [
+                                        -75.69292826762099,
+                                        45.423640855725694
+                                    ],
+                                    [
+                                        -75.69312806070646,
+                                        45.423585059598196
+                                    ],
+                                    [
+                                        -75.6937298398983,
+                                        45.42387628403725
+                                    ],
+                                    [
+                                        -75.69463521824039,
+                                        45.423890345663665
+                                    ],
+                                    [
+                                        -75.69459973192858,
+                                        45.42346243444695
+                                    ],
+                                    [
+                                        -75.69467928403964,
+                                        45.42342430176964
+                                    ],
+                                    [
+                                        -75.6939802337543,
+                                        45.42263014482796
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.42391168154506,
                 lng: -75.69351075230375,
@@ -627,6 +822,187 @@ var canada$1 = canada = {
             DA: {
               name: "Downsview Airport",
               id: "DA",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "bbff1e2cf048645e60439b4c522a1dc6",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -79.47408358730912,
+                                        43.73290037722845
+                                    ],
+                                    [
+                                        -79.46970150684537,
+                                        43.73390466994161
+                                    ],
+                                    [
+                                        -79.4701534911874,
+                                        43.735496883169276
+                                    ],
+                                    [
+                                        -79.46958897417998,
+                                        43.73567038633507
+                                    ],
+                                    [
+                                        -79.46951846547161,
+                                        43.735894778860086
+                                    ],
+                                    [
+                                        -79.46965975560144,
+                                        43.73666970695797
+                                    ],
+                                    [
+                                        -79.46877095067724,
+                                        43.73681241293863
+                                    ],
+                                    [
+                                        -79.46823501854546,
+                                        43.737107980275226
+                                    ],
+                                    [
+                                        -79.46793881811665,
+                                        43.73717931573913
+                                    ],
+                                    [
+                                        -79.4682637757364,
+                                        43.73793323433421
+                                    ],
+                                    [
+                                        -79.46560792517863,
+                                        43.73864738217961
+                                    ],
+                                    [
+                                        -79.4644747283333,
+                                        43.73873584817542
+                                    ],
+                                    [
+                                        -79.46379427430642,
+                                        43.73849702481175
+                                    ],
+                                    [
+                                        -79.45929207894135,
+                                        43.73444535186508
+                                    ],
+                                    [
+                                        -79.4589478013873,
+                                        43.73378646640822
+                                    ],
+                                    [
+                                        -79.45832818127322,
+                                        43.733786371608886
+                                    ],
+                                    [
+                                        -79.45739245024491,
+                                        43.73307312087917
+                                    ],
+                                    [
+                                        -79.45669128255089,
+                                        43.73271401769787
+                                    ],
+                                    [
+                                        -79.45298755501138,
+                                        43.73346787471823
+                                    ],
+                                    [
+                                        -79.45302531649084,
+                                        43.73401357354095
+                                    ],
+                                    [
+                                        -79.45283650909269,
+                                        43.73423185167766
+                                    ],
+                                    [
+                                        -79.45717991812592,
+                                        43.73825027066556
+                                    ],
+                                    [
+                                        -79.46293954778936,
+                                        43.743472742484414
+                                    ],
+                                    [
+                                        -79.46098603220916,
+                                        43.74491058627413
+                                    ],
+                                    [
+                                        -79.46493884095794,
+                                        43.748776361639415
+                                    ],
+                                    [
+                                        -79.46541479228455,
+                                        43.74926119113471
+                                    ],
+                                    [
+                                        -79.46567494908615,
+                                        43.74955984024078
+                                    ],
+                                    [
+                                        -79.46802538083102,
+                                        43.749099421300286
+                                    ],
+                                    [
+                                        -79.4694411446012,
+                                        43.74887312336904
+                                    ],
+                                    [
+                                        -79.47435655650091,
+                                        43.753543793783734
+                                    ],
+                                    [
+                                        -79.47438383602703,
+                                        43.755497891711826
+                                    ],
+                                    [
+                                        -79.47530408201027,
+                                        43.75538089582011
+                                    ],
+                                    [
+                                        -79.48114363026924,
+                                        43.754012625974866
+                                    ],
+                                    [
+                                        -79.4826029630279,
+                                        43.753035415638095
+                                    ],
+                                    [
+                                        -79.48282265621481,
+                                        43.750532316327565
+                                    ],
+                                    [
+                                        -79.48260688690695,
+                                        43.748487576655606
+                                    ],
+                                    [
+                                        -79.48216660024431,
+                                        43.746474509797196
+                                    ],
+                                    [
+                                        -79.47989970117017,
+                                        43.746792233139786
+                                    ],
+                                    [
+                                        -79.47914598483447,
+                                        43.7451743975941
+                                    ],
+                                    [
+                                        -79.47692816640144,
+                                        43.74562062370174
+                                    ],
+                                    [
+                                        -79.47408358730912,
+                                        43.73290037722845
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            } ,
               location: "ON-TO-DA",
               coordinates: {
                 lat: 43.73519,
@@ -48451,7 +48827,7 @@ flyToCanada();
 let provinceSelector = document.getElementById("province-select");
 createOptions(provinceSelector, canada$1.provinces);
 provinceSelector.addEventListener("change", (event) => {
-  removeMarker(placeMarkers);
+  // removeMarker(placeMarkers);
   let term = event.target[event.target.selectedIndex].id;
   province = canada$1.provinces[term];
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
@@ -48478,7 +48854,8 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   } else {
     hideElementsById("province-select", "object-select");
     places = city.places;
-    placeMarkers = placeMarker(places);
+    addPlaceGeojson(places);
+    // placeMarkers = placeMarker(places);
     createOptions(placeSelector, places);
   }
   unhideElementsById("place-select");
@@ -48510,7 +48887,10 @@ cancelPlace.addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
   marker.remove();
 });
-document.getElementById("upload-place").onclick = () => addNewPlace();
+document.getElementById("upload-place").onclick = () => {
+  addNewPlace();
+  cancelPlace.click();
+};
 document.getElementById("upload-object").onclick = () => addNewObject();
 
 // Object ➡️________________
@@ -48764,7 +49144,7 @@ function getCities(provinceCode) {
   });
 }
 
-function infoMessage(message, seconds = 6) {
+function infoMessage(message, seconds = 4) {
   let container = document.getElementById("message");
   container.innerHTML = message;
   container.classList.remove("hidden");
@@ -48783,6 +49163,8 @@ function getGeojson(id, url, map, locGeojson) {
   });
   return locGeojson;
 }
+
+
 
 // Show OSM objects 🏢
 function osmVisibility(map, toggle) {
@@ -48967,28 +49349,22 @@ function removeFromScene() {
   });
 }
 
-function placeMarker(places) {
-  let markers = [];
+function addPlaceGeojson(places) {
+  const geojsons = [];
   for (let key in places) {
     place = places[key];
-    const el = document.createElement("div");
-    el.className = "mapbox-marker";
-    el.setAttribute("id", key);
-    el.setAttribute("title", places[key].name);
-    if (place.logo)
-      el.style.setProperty("background-image", `url(${place.logo})`);
-    markers.push(el);
-    el.addEventListener("click", (e) => {
-      let id = e.target.id;
-      place = places[id];
-      setPlace(place, province.term, city.name);
-      markers.forEach((marker) => {
-        marker.remove();
-      });
-    });
-    new mapboxgl.Marker(el).setLngLat(place.coordinates).addTo(map);
+    let geojson = loadGeojson(map, place.placeGeojson, key);
+    geojsons.push(geojson);
+    // geojson.onclick((e) => {
+    //   let id = e.target.id;
+    //   place = places[id];
+    //   setPlace(place, province.term, city.name);
+    //   geojsons.forEach((geojson) => {
+    //     geojson.remove();
+    //   });
+    // });
   }
-  return markers;
+  return geojsons;
 }
 
 function toggleCustomLayer(button, toggle, layerKey) {
@@ -49150,7 +49526,6 @@ const draw = new MapboxDraw({
   map.on('draw.update', updateArea);
 
 function createPolygon() {
-  console.log("create polygon here");
   map.addControl(draw);
   map.on('draw.create', updateArea);
 }
@@ -49165,8 +49540,6 @@ function updateArea(e) {
   answer.innerHTML = `<p><strong>${rounded_area}</strong> mt²</p>`;
   } else {
   answer.innerHTML = '';
-  if (e.type !== 'draw.delete')
-  alert('Click the map to draw a polygon.');
   }
   }
 
@@ -49175,6 +49548,8 @@ function addNewPlace() {
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   newPlace.name = document.getElementById("place-name").value;
   newPlace.placeGeojson = draw.getAll();
+  loadGeojson(map, newPlace.placeGeojson, newPlaceId);
+  draw.deleteAll();
   let cityName = canada$1.provinces[province.term].cities[city.name];
   if (!cityName) canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}};
   canada$1.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
