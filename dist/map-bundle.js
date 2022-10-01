@@ -49355,6 +49355,9 @@ function addPlaceGeojson(places) {
     place = places[key];
     let geojson = loadGeojson(map, place.placeGeojson, key);
     geojsons.push(geojson);
+    let center = turf.center(place.placeGeojson);
+    let centerCoordinates = center.geometry.coordinates;
+    new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
     // geojson.onclick((e) => {
     //   let id = e.target.id;
     //   place = places[id];
