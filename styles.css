@@ -20,6 +20,7 @@
 html,
 body {
   overflow: hidden;
+  pointer-events: none;
 }
 
 hide-overflow {
@@ -29,6 +30,7 @@ hide-overflow {
 
 header {
   z-index: 1;
+  height: var(--header-height);
   background-color: var(--primary-dark);
   color: var(--primary-light);
   padding: 0.5rem 0.3rem;
@@ -36,7 +38,6 @@ header {
   align-items: center;
   flex-direction: row;
   justify-content: end;
-  border-bottom: 1px solid gray;
 }
 
 header *:first-child {
@@ -72,6 +73,14 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.map{
+  top: var(--header-height); 
+  width: 100vw; 
+  height: calc(100vh - 72px);
+  pointer-events:all;
+
 }
 
 .column {
@@ -121,14 +130,13 @@ a {
 }
 
 .bottom {
-  z-index: 1;
+  z-index: 0;
   bottom: 1rem;
 }
 
 .top {
   z-index: 1;
   top: var(--header-height);
-  pointer-events: none;
 }
 
 .item{
@@ -178,7 +186,7 @@ a {
 
 .toolbar-container {
   display: flex;
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 1rem;
   justify-content: space-between;
   position: absolute;
   width: 100%;
@@ -250,10 +258,12 @@ a {
 
 .selector {
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 0.7rem;
   margin: 0.3rem;
   font-weight: 500;
   border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
   align-items: center;
   width: fit-content;

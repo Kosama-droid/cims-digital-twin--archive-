@@ -48382,24 +48382,8 @@ function hideElementsById(...ids) {
     });
   }
 
-const navigationBar = document.getElementById("selectors");
-const navigationButton = document.getElementById("close-nav-bar");
-
-function closeNavBar() {
-    let togglenavigationBar = false;
-    navigationButton.onclick = function () {
-      navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
-      navigationButton.style.transform = togglenavigationBar
-        ? ""
-        : "rotate(180deg)";
-      const navBarBackground = document.getElementById("nav-bar");
-      navBarBackground.style.backgroundColor = togglenavigationBar
-        ? ""
-        : "#FFFFFF00";
-      navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
-      togglenavigationBar = !togglenavigationBar;
-    };
-    }
+document.getElementById("selectors");
+document.getElementById("close-nav-bar");
 
 function selectedButton(button, toggle, changeTitle = false) {
   toggle
@@ -48714,7 +48698,7 @@ let invisibleMasses = [];
 let lng = { canada: canada$1.lng, current: def.coordinates.lng },
   lat = { canada: canada$1.lat, current: def.coordinates.lat };
 
-closeNavBar();
+// cdt.closeNavBar();
 
 // Setting Mapbox 🗺️📦
 mapbox();
@@ -49453,7 +49437,7 @@ function mapbox() {
   });
   map.fitBounds(canada$1.bbox);
   // Add north and zoom controls 🔺➕
-  map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+  map.addControl(new mapboxgl.NavigationControl());
   // Activate geolocation 🌎🔍
   map.addControl(new mapboxgl.GeolocateControl({
     positionOptions: {
@@ -49462,7 +49446,7 @@ function mapbox() {
     trackUserLocation: true,
     showUserHeading: true, 
     showAccuracyCircle: false,
-    }),'bottom-left');
+    }),'top-right');
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style

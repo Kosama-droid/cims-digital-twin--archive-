@@ -86,7 +86,7 @@ let invisibleMasses = [];
 let lng = { canada: canada.lng, current: def.coordinates.lng },
   lat = { canada: canada.lat, current: def.coordinates.lat };
 
-cdt.closeNavBar();
+// cdt.closeNavBar();
 
 // Setting Mapbox 🗺️📦
 mapbox();
@@ -825,7 +825,7 @@ function mapbox() {
   });
   map.fitBounds(canada.bbox);
   // Add north and zoom controls 🔺➕
-  map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+  map.addControl(new mapboxgl.NavigationControl());
   // Activate geolocation 🌎🔍
   map.addControl(new mapboxgl.GeolocateControl({
     positionOptions: {
@@ -834,7 +834,7 @@ function mapbox() {
     trackUserLocation: true,
     showUserHeading: true, 
     showAccuracyCircle: false,
-    }),'bottom-left');
+    }),'top-right');
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style
