@@ -178,7 +178,7 @@ a {
 
 .toolbar-container {
   display: flex;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 3rem;
   justify-content: space-between;
   position: absolute;
   width: 100%;

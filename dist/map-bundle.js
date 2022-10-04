@@ -48719,7 +48719,7 @@ closeNavBar();
 // Setting Mapbox 🗺️📦
 mapbox();
 
-// Select map style 🗺️🎨
+// Select map style 🗺️🎨 there is a plugin to change style: https://github.com/el/style-switcher
 const styleSelect = document.getElementById("style-select");
 createOptions(styleSelect, mapStyles$1);
 styleSelect.addEventListener("change", function (event) {
@@ -48728,6 +48728,7 @@ styleSelect.addEventListener("change", function (event) {
   map.setStyle(url);
   event.target.selectedIndex = 0;
 });
+
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
@@ -49451,6 +49452,17 @@ function mapbox() {
     projection: "globe", // display the map as a 3D globe
   });
   map.fitBounds(canada$1.bbox);
+  // Add north and zoom controls 🔺➕
+  map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+  // Activate geolocation 🌎🔍
+  map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+    enableHighAccuracy: true
+    },
+    trackUserLocation: true,
+    showUserHeading: true, 
+    showAccuracyCircle: false,
+    }),'bottom-left');
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style
@@ -49575,4 +49587,9 @@ function addNewObject() {
   canada$1.provinces[province.term].cities[city.name].objects[newObjectId] = newObject;
   createOptions(objectSelector, canada$1.provinces[province.term].cities[city.name].objects, 2);
   console.log(canada$1.provinces[province.term]);
+
+// 🔍find out if new object is inside place: 
+// let isInPlace = turf.booleanPointInPolygon(pt, polygon);
+// if (!isInPlace) message("Object outside place")
+
 }
