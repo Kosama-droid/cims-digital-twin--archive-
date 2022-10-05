@@ -19,7 +19,7 @@
 
 html,
 body {
-  overflow: hidden;
+  pointer-events: none;
 }
 
 hide-overflow {
@@ -27,17 +27,13 @@ hide-overflow {
 }
 
 header {
-  z-index: 1;
-  height: var(--header-height);
   color: var(--primary-light);
   padding: 0.5rem 0.3rem;
   display: flex;
   align-items: center;
   flex-direction: row;
-}
-
-header *:first-child {
-  margin-right: auto;
+  justify-content: flex-start;
+  pointer-events: none;
 }
 
 header img {
