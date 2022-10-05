@@ -224,7 +224,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     cdt.unhideElementsById("province-select");
     infoMessage(`⚠️ No places at ${cityName}`);
   } else {
-    cdt.hideElementsById("province-select", "object-select");
+    cdt.hideElementsById("object-select");
     places = city.places;
     addPlaceGeojson(places)
     // placeMarkers = placeMarker(places);

@@ -48836,7 +48836,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     unhideElementsById("province-select");
     infoMessage(`⚠️ No places at ${cityName}`);
   } else {
-    hideElementsById("province-select", "object-select");
+    hideElementsById("object-select");
     places = city.places;
     addPlaceGeojson(places);
     // placeMarkers = placeMarker(places);
