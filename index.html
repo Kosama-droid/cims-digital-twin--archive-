@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CIMS | Digital Twin</title>
   <link rel="icon" type="image/x-icon" href="static/logos/cims.ico" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=1.1">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet" />
@@ -15,15 +15,11 @@
 
 <body class="hide-overflow">
   <header>
-    <a id="cims" title="Go to CIMS lab"><img src="static/logos/cims-logo-black.png" alt="CIMSlab" title="Go to CIMS lab"
-        height="55px" />
-    </a>
     <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
     <a href="https://canadasdigitaltwin.ca/"><img src="static/logos/icdt-logo.png" alt="CIMSlab"
         title="Imagine Canada's Digital Twin" height="55px" />
-    </a>
-  </header>
-  <nav class="top " id="top-bar">
+    </a>  
+    <nav class="top " id="top-bar">
     <nav class="nav-bar" id="nav-bar">
       <div id="selectors" class="all-pointer-events">
         <select id="style-select" class="selector hidden">
@@ -52,6 +48,8 @@
       </div>
     </nav>
   </nav>
+  </header>
+
   <nav id="new-place-container" class="add-new-container hidden">
     <div id="new-place-location">province, city</div>
     <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />

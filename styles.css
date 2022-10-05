@@ -20,7 +20,6 @@
 html,
 body {
   overflow: hidden;
-  pointer-events: none;
 }
 
 hide-overflow {
@@ -30,13 +29,11 @@ hide-overflow {
 header {
   z-index: 1;
   height: var(--header-height);
-  background-color: var(--primary-dark);
   color: var(--primary-light);
   padding: 0.5rem 0.3rem;
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: end;
 }
 
 header *:first-child {
@@ -75,9 +72,8 @@ a {
 }
 
 .map{
-  top: var(--header-height); 
   width: 100vw; 
-  height: calc(100vh - 72px);
+  height: 100vh;
 }
 
 .column {

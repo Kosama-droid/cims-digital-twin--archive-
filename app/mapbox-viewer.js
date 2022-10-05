@@ -36,6 +36,7 @@ let scene,
   gltfMasses,
   places,
   placeMarkers,
+  placeGeojson,
   placeGeojsons,
   marker;
 
@@ -98,7 +99,6 @@ styleSelect.addEventListener("change", function (event) {
   let style = event.target[event.target.selectedIndex].id;
   const url = cdt.mapStyles[style].url;
   map.setStyle(url);
-  event.target.selectedIndex = 0;
 });
 
 
@@ -207,7 +207,6 @@ provinceSelector.addEventListener("change", (event) => {
   locGeojson = getGeojson(province, url, map, locGeojson);
   getCities(province.code);
   cdt.unhideElementsById("city-select");
-  event.target.selectedIndex = 0;
 });
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
@@ -227,13 +226,12 @@ document.getElementById("city-select").addEventListener("change", (event) => {
   } else {
     cdt.hideElementsById("province-select", "object-select");
     places = city.places;
-    placeGeojsons = addPlaceGeojson(places)
+    addPlaceGeojson(places)
     // placeMarkers = placeMarker(places);
     cdt.createOptions(placeSelector, places);
   }
   cdt.unhideElementsById("place-select");
   document.getElementById("add-place").classList.remove("hidden");
-  event.target.selectedIndex = 0;
 });
 
 // Place ➡️________________
@@ -244,7 +242,6 @@ cdt.createOptions(placeSelector, places, 2);
 placeSelector.addEventListener("change", (event) => {
   places = city.places;
   removeMarker(placeMarkers);
-  removeGeojson(locGeojson);
   id = event.target[event.target.selectedIndex].id;
   if (id === "add-place") {
     cancelObj.click();
@@ -254,7 +251,6 @@ placeSelector.addEventListener("change", (event) => {
     place = places[id];
     setPlace(place, province.term, city.name);
   }
-  event.target.selectedIndex = 0;
 });
 cancelPlace.addEventListener("click", () => {
   newPlaceMenu.classList.add("hidden");
@@ -369,7 +365,7 @@ async function loadGeojson(map, geojson, id) {
     layout: {},
     paint: {
       "fill-color": "#0080ff", // blue color fill
-      "fill-opacity": 0.1,
+      "fill-opacity": 0.05,
     },
   });
   // Add a black outline around the polygon.
@@ -589,7 +585,7 @@ function selectObj(selector) {
     }
     closeBimViewer();
 
-    event.target.selectedIndex = 0;
+
   });
 }
 
@@ -724,11 +720,12 @@ function addPlaceGeojson(places) {
   const geojsons = [];
   for (let key in places) {
     place = places[key];
-    let geojson = loadGeojson(map, place.placeGeojson, key)
-    geojsons.push(geojson)
+    placeGeojson = loadGeojson(map, place.placeGeojson, key)
+    geojsons.push(placeGeojson)
     let center = turf.center(place.placeGeojson)
     let centerCoordinates = center.geometry.coordinates;
-    new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
+    // let placeMarker = new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
+
     // geojson.onclick((e) => {
     //   let id = e.target.id;
     //   place = places[id];
