@@ -116,83 +116,199 @@ var canada$1 = canada = {
                 "type": "FeatureCollection",
                 "features": [
                     {
-                        "id": "a4d079c1df6e5ce05fd3d75be9d676ae",
+                        "id": "19dc5ef9a24233ad4afb7d1302c22fdd",
                         "type": "Feature",
                         "properties": {},
                         "geometry": {
                             "coordinates": [
                                 [
                                     [
-                                        -75.70189958027106,
-                                        45.37875309615271
+                                        -75.70130847450181,
+                                        45.37885250495145
                                     ],
                                     [
-                                        -75.69992633911373,
-                                        45.37877541395392
+                                        -75.70137939763889,
+                                        45.37980901336084
                                     ],
                                     [
-                                        -75.69727770186257,
-                                        45.3810993922589
+                                        -75.70135583631776,
+                                        45.38030630124288
                                     ],
                                     [
-                                        -75.69450838802734,
-                                        45.38203887637181
+                                        -75.70121704393954,
+                                        45.38090837256641
                                     ],
                                     [
-                                        -75.6906275671839,
-                                        45.38296872321675
+                                        -75.70099854247466,
+                                        45.381450056900064
                                     ],
                                     [
-                                        -75.68887142022419,
-                                        45.38344187913356
+                                        -75.70060484922253,
+                                        45.38211641055423
                                     ],
                                     [
-                                        -75.69420899585182,
-                                        45.38994283121664
+                                        -75.70008737069259,
+                                        45.382740714944276
                                     ],
                                     [
-                                        -75.69580769941382,
-                                        45.39239497776015
+                                        -75.69969929631793,
+                                        45.383175040095466
                                     ],
                                     [
-                                        -75.69619561876573,
-                                        45.393984263463864
+                                        -75.69929194863562,
+                                        45.38371277931921
                                     ],
                                     [
-                                        -75.70083876374682,
-                                        45.39148859721473
+                                        -75.69907805981924,
+                                        45.38429189332331
                                     ],
                                     [
-                                        -75.70064587777159,
-                                        45.38857217046163
+                                        -75.69904478398492,
+                                        45.38497602583672
                                     ],
                                     [
-                                        -75.69982059948957,
-                                        45.38563910454812
+                                        -75.69909336044309,
+                                        45.38548029251106
                                     ],
                                     [
-                                        -75.69986507131132,
-                                        45.38409834943889
+                                        -75.6994998225633,
+                                        45.38680240419842
                                     ],
                                     [
-                                        -75.70049060514884,
-                                        45.38291684823247
+                                        -75.70011820026312,
+                                        45.38878531622905
                                     ],
                                     [
-                                        -75.70129181634604,
-                                        45.38188566509319
+                                        -75.7002494447103,
+                                        45.38930514072814
                                     ],
                                     [
-                                        -75.70191088185265,
-                                        45.38094553432035
+                                        -75.70027488697272,
+                                        45.389913266598825
                                     ],
                                     [
-                                        -75.70185552977473,
-                                        45.37957470361749
+                                        -75.70020978237254,
+                                        45.390320257103326
                                     ],
                                     [
-                                        -75.70189958027106,
-                                        45.37875309615271
+                                        -75.69991595080752,
+                                        45.39103030132526
+                                    ],
+                                    [
+                                        -75.69928511310589,
+                                        45.39176861547989
+                                    ],
+                                    [
+                                        -75.69745214270708,
+                                        45.39302028113309
+                                    ],
+                                    [
+                                        -75.69715753292641,
+                                        45.3928071905959
+                                    ],
+                                    [
+                                        -75.69697423870397,
+                                        45.392731520039945
+                                    ],
+                                    [
+                                        -75.69666199972447,
+                                        45.39271181280864
+                                    ],
+                                    [
+                                        -75.69610568392059,
+                                        45.39269918139857
+                                    ],
+                                    [
+                                        -75.69594219066164,
+                                        45.39261117859749
+                                    ],
+                                    [
+                                        -75.69585120968469,
+                                        45.3924036810036
+                                    ],
+                                    [
+                                        -75.69461507875333,
+                                        45.39066590208398
+                                    ],
+                                    [
+                                        -75.6945059837744,
+                                        45.390383927163384
+                                    ],
+                                    [
+                                        -75.6941746011501,
+                                        45.39000217643874
+                                    ],
+                                    [
+                                        -75.69394714656697,
+                                        45.38970033356594
+                                    ],
+                                    [
+                                        -75.6938289521502,
+                                        45.38966713194219
+                                    ],
+                                    [
+                                        -75.69341664964327,
+                                        45.389191421075566
+                                    ],
+                                    [
+                                        -75.69146908788343,
+                                        45.38660483584843
+                                    ],
+                                    [
+                                        -75.69078456297177,
+                                        45.385769988059224
+                                    ],
+                                    [
+                                        -75.68970345999874,
+                                        45.384380532804244
+                                    ],
+                                    [
+                                        -75.68921669174163,
+                                        45.38364185916316
+                                    ],
+                                    [
+                                        -75.69052848069794,
+                                        45.38338634467138
+                                    ],
+                                    [
+                                        -75.69168681496268,
+                                        45.38313720286405
+                                    ],
+                                    [
+                                        -75.69237930149794,
+                                        45.383126369212846
+                                    ],
+                                    [
+                                        -75.69314049029308,
+                                        45.38278895973005
+                                    ],
+                                    [
+                                        -75.69426419539025,
+                                        45.38240829319673
+                                    ],
+                                    [
+                                        -75.69534383363259,
+                                        45.382040244235895
+                                    ],
+                                    [
+                                        -75.69707765965103,
+                                        45.38146712807199
+                                    ],
+                                    [
+                                        -75.69828190237799,
+                                        45.38057272292363
+                                    ],
+                                    [
+                                        -75.69984594718966,
+                                        45.37931447009083
+                                    ],
+                                    [
+                                        -75.70028173459652,
+                                        45.37886926361392
+                                    ],
+                                    [
+                                        -75.70130847450181,
+                                        45.37885250495145
                                     ]
                                 ]
                             ],
@@ -48639,6 +48755,15 @@ const isMobile =
 
 hideElementsById("city-select", "place-select", "object-select", "osm");
 
+const draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    polygon: false,
+    trash: false,
+  },
+  defaultMode: "draw_polygon",
+});
+
 let scene,
   map,
   three,
@@ -48712,7 +48837,6 @@ styleSelect.addEventListener("change", function (event) {
   const url = mapStyles$1[style].url;
   map.setStyle(url);
 });
-
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
@@ -48900,6 +49024,10 @@ map.on("style.load", function () {
   if (three) setPlace(place, province.term, city.name);
 });
 
+map.on("draw.create", updateArea);
+map.on("draw.delete", updateArea);
+map.on("draw.update", updateArea);
+
 document.addEventListener("keydown", (event) => {
   three = true;
   const keyName = event.key;
@@ -48937,13 +49065,6 @@ document.addEventListener("keydown", (event) => {
       return;
     }
   }
-});
-
-// Go To Place 🛬__________________________________________________
-const cimsButton = document.getElementById("cims");
-cimsButton.addEventListener("click", () => {
-  place = carleton;
-  setPlace(place, province.term, city.name);
 });
 
 // FUNCTIONS _____________________________________________________________________________________________________
@@ -49090,7 +49211,7 @@ function openBimViewer(object) {
   bimContainer = document.getElementById("bim-container");
   bimViewer = document.getElementById("bim-viewer");
   if (!bimViewer) {
-    bimContainer.classList.remove('hidden');
+    bimContainer.classList.remove("hidden");
     bimViewer = document.createElement("iframe");
     bimViewer.setAttribute("id", "bim-viewer");
     bimViewer.classList.add("bim-viewer");
@@ -49099,7 +49220,7 @@ function openBimViewer(object) {
     } else {
       bimContainer.appendChild(bimViewer);
       document.getElementById("close-bim-viewer").classList.remove("hidden");
-      hideElementsById("top-bar", 'toolbar');
+      hideElementsById("top-bar", "toolbar");
     }
   }
   bimViewer.setAttribute("src", url);
@@ -49108,21 +49229,22 @@ function openBimViewer(object) {
 function getCities(provinceCode) {
   citySelect = document.getElementById("city-select");
   getJson(
-    `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
-  ).then((jsonCity) => {
-    const cityItems = jsonCity.items;
-    while (citySelect.childElementCount > 1) {
-      citySelect.removeChild(citySelect.lastChild);
-    }
-    cityItems.forEach((cityItem) => {
-      let cityName = cityItem.name;
-      let option = document.createElement("option");
-      option.innerHTML = cityName;
-      option.setAttribute("id", cityName);
-      citySelect.appendChild(option);
-      sortChildren(citySelect);
+      `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
+    )
+    .then((jsonCity) => {
+      const cityItems = jsonCity.items;
+      while (citySelect.childElementCount > 1) {
+        citySelect.removeChild(citySelect.lastChild);
+      }
+      cityItems.forEach((cityItem) => {
+        let cityName = cityItem.name;
+        let option = document.createElement("option");
+        option.innerHTML = cityName;
+        option.setAttribute("id", cityName);
+        citySelect.appendChild(option);
+        sortChildren(citySelect);
+      });
     });
-  });
 }
 
 function infoMessage(message, seconds = 4) {
@@ -49162,9 +49284,7 @@ function closeBimViewer() {
     document.getElementById("bim-container").classList.add("hidden");
     document.getElementById("close-bim-viewer").classList.add("hidden");
     document.getElementById("bim-viewer").remove();
-    unhideElementsById(
-      "top-bar", 'toolbar',
-    );
+    unhideElementsById("top-bar", "toolbar");
   });
 }
 
@@ -49187,17 +49307,17 @@ function selectObj(selector) {
       cancelPlace.click();
       addLocMarker("object");
       document.getElementById(
-  "new-object-location"
-).innerText = `${province.term}, ${city.name}, ${place.name}`;
-      document.getElementById('new-object-container').classList.remove("hidden");
+        "new-object-location"
+      ).innerText = `${province.term}, ${city.name}, ${place.name}`;
+      document
+        .getElementById("new-object-container")
+        .classList.remove("hidden");
     } else {
       let object = place.objects[id];
       if (!object.id) object.id = id;
       openBimViewer(object);
     }
     closeBimViewer();
-
-
   });
 }
 
@@ -49336,7 +49456,9 @@ function addPlaceGeojson(places) {
     geojsons.push(placeGeojson);
     let center = turf.center(place.placeGeojson);
     let centerCoordinates = center.geometry.coordinates;
-    new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
+    new mapboxgl.Marker()
+      .setLngLat(centerCoordinates)
+      .addTo(map);
 
     // geojson.onclick((e) => {
     //   let id = e.target.id;
@@ -49424,7 +49546,7 @@ function mapbox() {
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   map = new mapboxgl.Map({
     container: "map", // container ID
-    style: mapStyles$1.satellite_labels.url,
+    style: mapStyles$1.dark.url,
     center: [lng.canada, lat.canada], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
@@ -49435,18 +49557,18 @@ function mapbox() {
   map.fitBounds(canada$1.bbox);
   // Add north and zoom controls 🔺➕
   map.addControl(new mapboxgl.NavigationControl());
-
-
-
   // Activate geolocation 🌎🔍
-  map.addControl(new mapboxgl.GeolocateControl({
-    positionOptions: {
-    enableHighAccuracy: true
-    },
-    trackUserLocation: true,
-    showUserHeading: true, 
-    showAccuracyCircle: false,
-    }),'top-right');
+  map.addControl(
+    new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+      showUserHeading: true,
+      showAccuracyCircle: false,
+    }),
+    "top-right"
+  );
 
   // Day sky
   map.on("style.load", () => {
@@ -49510,37 +49632,23 @@ function addLocMarker(at) {
   marker.on("dragend", onDragEnd);
 }
 
-const draw = new MapboxDraw({
-  displayControlsDefault: false,
-  controls: {
-  polygon: false,
-  trash: false,
-  },
-  defaultMode: 'draw_polygon'
-  });
-
-map.on('draw.create', updateArea);
-map.on('draw.delete', updateArea);
-map.on('draw.update', updateArea);
-
-
 function createPolygon() {
   map.addControl(draw);
-  map.on('draw.create', updateArea);
+  map.on("draw.create", updateArea);
 }
 
 function updateArea(e) {
   const data = draw.getAll();
-  const answer = document.getElementById('calculated-area');
+  const answer = document.getElementById("calculated-area");
   if (data.features.length > 0) {
-  const area = turf.area(data);
-  // Restrict the area to 2 decimal points.
-  const rounded_area = Math.round(area * 100) / 100;
-  answer.innerHTML = `<p><strong>${rounded_area}</strong> mt²</p>`;
+    const area = turf.area(data);
+    // Restrict the area to 2 decimal points.
+    const rounded_area = Math.round(area * 100) / 100;
+    answer.innerHTML = `<p><strong>${rounded_area}</strong> mt²</p>`;
   } else {
-  answer.innerHTML = '';
+    answer.innerHTML = "";
   }
-  }
+}
 
 function addNewPlace() {
   const newPlace = {};
@@ -49550,9 +49658,18 @@ function addNewPlace() {
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
   let cityName = canada$1.provinces[province.term].cities[city.name];
-  if (!cityName) canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}};
-  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
-  createOptions(placeSelector, canada$1.provinces[province.term].cities[city.name].places, 2);
+  if (!cityName)
+    canada$1.provinces[province.term].cities[city.name] = {
+      name: city.name,
+      places: {},
+    };
+  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] =
+    newPlace;
+  createOptions(
+    placeSelector,
+    canada$1.provinces[province.term].cities[city.name].places,
+    2
+  );
   console.log(canada$1.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select");
 }
@@ -49565,16 +49682,24 @@ function addNewObject() {
   newObject.coordinates.lng = document.getElementById("object-lng").value;
   newObject.coordinates.lat = document.getElementById("object-lat").value;
   newObject.coordinates.msl = document.getElementById("object-msl").value;
-  newObject.coordinates.trueNorth = document.getElementById("object-true-north").value;
+  newObject.coordinates.trueNorth =
+    document.getElementById("object-true-north").value;
   // newObject.glbFile = document.getElementById("object-glb-input");
-  canada$1.provinces[province.term].cities[city.name] = {name: city.name, objects:{}};
+  canada$1.provinces[province.term].cities[city.name] = {
+    name: city.name,
+    objects: {},
+  };
   console.log(canada$1.provinces[province.term].cities[city.name].objects);
-  canada$1.provinces[province.term].cities[city.name].objects[newObjectId] = newObject;
-  createOptions(objectSelector, canada$1.provinces[province.term].cities[city.name].objects, 2);
+  canada$1.provinces[province.term].cities[city.name].objects[newObjectId] =
+    newObject;
+  createOptions(
+    objectSelector,
+    canada$1.provinces[province.term].cities[city.name].objects,
+    2
+  );
   console.log(canada$1.provinces[province.term]);
 
-// 🔍find out if new object is inside place: 
-// let isInPlace = turf.booleanPointInPolygon(pt, polygon);
-// if (!isInPlace) message("Object outside place")
-
+  // 🔍find out if new object is inside place:
+  // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
+  // if (!isInPlace) message("Object outside place")
 }
