@@ -49438,6 +49438,9 @@ function mapbox() {
   map.fitBounds(canada$1.bbox);
   // Add north and zoom controls 🔺➕
   map.addControl(new mapboxgl.NavigationControl());
+
+
+
   // Activate geolocation 🌎🔍
   map.addControl(new mapboxgl.GeolocateControl({
     positionOptions: {
@@ -49447,6 +49450,7 @@ function mapbox() {
     showUserHeading: true, 
     showAccuracyCircle: false,
     }),'top-right');
+
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style

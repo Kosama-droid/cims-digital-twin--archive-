@@ -7,6 +7,7 @@
     "camera-controls": "^1.35.0",
     "cpy-cli": "^4.1.0",
     "mapbox": "^1.0.0-beta10",
+    "mapbox-gl-style-switcher": "^1.0.11",
     "stats.js": "^0.17.0",
     "three": "^0.135.0",
     "three-mesh-bvh": "^0.5.14",

@@ -93274,7 +93274,6 @@ class IfcDimensionLine {
         this.textLabel = this.newText();
         this.root.renderOrder = 2;
         this.context.getScene().add(this.root);
-        this.camera = this.context.getCamera();
         this.context.ifcCamera.onChange.on(() => this.rescaleObjectsToCameraPosition());
         this.rescaleObjectsToCameraPosition();
     }
@@ -93360,7 +93359,11 @@ class IfcDimensionLine {
         }
     }
     rescaleMesh(mesh, scalefactor = 1, x = true, y = true, z = true) {
-        let scale = new Vector3().subVectors(mesh.position, this.camera.position).length();
+        const camera = this.context.ifcCamera.activeCamera;
+        let scale = new Vector3().subVectors(mesh.position, camera.position).length();
+        if (this.context.ifcCamera.projection === CameraProjections.Orthographic) {
+            scale *= 0.1;
+        }
         scale *= scalefactor;
         const scaleX = x ? scale : 1;
         const scaleY = y ? scale : 1;
@@ -93477,6 +93480,7 @@ class IfcDimensions extends IfcComponent {
             }
         }
     }
+    // TODO: This causes a memory leak, and it's a bit confusing
     setArrow(height, radius) {
         this.endpoint = IfcDimensions.getDefaultEndpointGeometry(height, radius);
     }
@@ -93623,7 +93627,7 @@ class IfcDimensions extends IfcComponent {
             .map((dim) => dim.boundingBox)
             .filter((box) => box !== undefined);
     }
-    static getDefaultEndpointGeometry(height = 0.02, radius = 0.05) {
+    static getDefaultEndpointGeometry(height = 0.1, radius = 0.03) {
         const coneGeometry = new ConeGeometry(radius, height);
         coneGeometry.translate(0, -height / 2, 0);
         coneGeometry.rotateX(-Math.PI / 2);
@@ -101740,6 +101744,7 @@ class IfcSelection extends IfcComponent {
             }
             this.modelIDs.add(modelID);
             const selected = this.newSelection(modelID, ids, removePrevious);
+            selected.visible = true;
             selected.position.copy(mesh.position);
             selected.rotation.copy(mesh.rotation);
             selected.scale.copy(mesh.scale);
@@ -102138,13 +102143,14 @@ class IfcManager extends IfcComponent {
             const firstModel = Boolean(this.context.items.ifcModels.length === 0);
             const settings = this.loader.ifcManager.state.webIfcSettings;
             const fastBools = (settings === null || settings === void 0 ? void 0 : settings.USE_FAST_BOOLS) || true;
+            const coordsToOrigin = (settings === null || settings === void 0 ? void 0 : settings.COORDINATE_TO_ORIGIN) || false;
             await this.loader.ifcManager.applyWebIfcConfig({
-                COORDINATE_TO_ORIGIN: firstModel,
+                COORDINATE_TO_ORIGIN: firstModel && coordsToOrigin,
                 USE_FAST_BOOLS: fastBools
             });
             const ifcModel = await this.loader.loadAsync(url, onProgress);
             this.addIfcModel(ifcModel);
-            if (firstModel) {
+            if (firstModel && coordsToOrigin) {
                 const matrixArr = await this.loader.ifcManager.ifcAPI.GetCoordinationMatrix(ifcModel.modelID);
                 const matrix = new Matrix4().fromArray(matrixArr);
                 this.loader.ifcManager.setupCoordinationMatrix(matrix);
@@ -104685,6 +104691,7 @@ class IfcCamera extends IfcComponent {
     }
     set projection(projection) {
         this.projectionManager.projection = projection;
+        this.onChangeProjection.trigger(this.activeCamera);
     }
     /**
      * @deprecated Use cameraControls instead.
@@ -104768,7 +104775,6 @@ class IfcCamera extends IfcComponent {
     // }
     setupCameras() {
         this.setCameraPositionAndTarget(this.perspectiveCamera);
-        this.setCameraPositionAndTarget(this.perspectiveCamera);
     }
     setCameraPositionAndTarget(camera) {
         camera.position.z = 10;
@@ -104781,6 +104787,8 @@ class IfcCamera extends IfcComponent {
         this.cameraControls.dollyToCursor = true;
         this.cameraControls.infinityDolly = true;
         this.cameraControls.setTarget(0, 0, 0);
+        this.cameraControls.addEventListener('controlend', () => this.onChange.trigger(this));
+        this.cameraControls.addEventListener('rest', () => this.onChange.trigger(this));
     }
 }
 
@@ -107758,7 +107766,7 @@ class IfcRenderer extends IfcComponent {
         this.blocked = false;
         this.context = context;
         this.container = context.options.container;
-        this.renderer = new WebGLRenderer({ alpha: true });
+        this.renderer = new WebGLRenderer({ alpha: true, antialias: true });
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.setupRenderers();
         this.postProduction = new Postproduction(this.context, this.renderer);
@@ -113459,10 +113467,22 @@ class IfcContext {
                 return;
             if (this.stats)
                 this.stats.begin();
-            requestAnimationFrame(this.render);
+            const isWebXR = this.options.webXR || false;
+            if (isWebXR) {
+                this.renderForWebXR();
+            }
+            else {
+                requestAnimationFrame(this.render);
+            }
             this.updateAllComponents();
             if (this.stats)
                 this.stats.end();
+        };
+        this.renderForWebXR = () => {
+            const newAnimationLoop = () => {
+                this.getRenderer().render(this.getScene(), this.getCamera());
+            };
+            this.getRenderer().setAnimationLoop(newAnimationLoop);
         };
         this.resize = () => {
             this.updateAspect();

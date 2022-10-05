@@ -580,13 +580,14 @@ ul, #myUL {
 .bim-viewer{
   z-index: 5;
   justify-content: center;
-  height: 86%;
+  height: 90%;
   width: 100%;
-  margin: 1rem;
+  margin: 0.4rem;
   box-shadow: var(--shadow);
   border: none;
   border-radius: var(--border-radius);
   transition: all 0.5s ease 0s;
+  pointer-events: all;
 }
 
 .all-pointer-events{
