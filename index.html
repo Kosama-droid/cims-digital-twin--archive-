@@ -1,143 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CIMS | Digital Twin</title>
-    <link rel="icon" type="image/x-icon" href="static/logos/cims.ico" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body class="hide-overflow">
-    <header>
-      <a id="cims" title="Go to CIMS lab"
-        ><img
-          src="static/logos/cims-logo-black.png"
-          alt="CIMSlab"
-          title="Go to CIMS lab"
-          height="55px"
-        />
-      </a>
-      <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
-      <a href="https://canadasdigitaltwin.ca/"
-        ><img
-          src="static/logos/icdt-logo.png"
-          alt="CIMSlab"
-          title="Imagine Canada's Digital Twin"
-          height="55px"
-        />
-      </a>
-    </header>
-    <nav class="top" id="top-bar">
-      <nav class="nav-bar transp1-background" id="nav-bar">
-        <div id="selectors">
-          <select id="style-select" class="selector transp1-background select">
-            <option class="option" value="none">-- select map style --</option>
-          </select>
-          <select
-            id="province-select"
-            class="selector transp1-background select"
-          >
-            <option class="option" value="none">
-              -- select a Province or Territory --
-            </option>
-          </select>
-          <select id="city-select" class="selector transp1-background select">
-            <option class="option" value="none">-- select a City --</option>
-          </select>
-          <select id="place-select" class="selector transp1-background select">
-            <option class="option" value="none">-- select a place --</option>
-            <option class="option" id="add-place">(+) Add new place</option>
-          </select>
-          <select
-            id="object-select"
-            class="selector transp1-background select"
-          >
-            <option class="option" value="none">-- select an object --</option>
-            <option class="option" id="add-object">(+) Add new object</option>
-          </select>
-        </div>
-        <div id="loader-container" class="loader-container hidden">
-          <div class="loader"></div>
-          <a id="progress-text"></a>
-        </div>
-        <a id="close-nav-bar" title="Close navigation bar">
-          <svg
-            class="icon"
-            clip-rule="evenodd"
-            fill-rule="evenodd"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z"
-            />
-          </svg>
-        </a>
-      </nav>
-      <nav id="new-place-container" class="add-new-container hidden">
-          <div id="new-place-location">province, city</div>
-          <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name"/> 
-        <div class="item"><label for="place-id">Place ID:</label></div>
-        <div class="item">
-          <input id="place-id" type="name" name="Place ID" />
-        </div>
-        <div><br></div><div></div>
-        <div class="item"><label for="place-lng">Longitude:</label></div>
-        <div class="item">
-          <input id="place-lng" type="number" name="Longitud" />
-        </div>
-        <div class="item"><label for="place-lat">Latitude:</label></div>
-        <div class="item">
-          <input id="place-lat" type="number" name="Latitude" />
-        </div>
-        <div class="item">
-          <label for="place-msl">Meters above sea level:</label>
-        </div>
-        <div class="item">
-          <input id="place-msl" type="number" name="Meters above sea level:" />
-        </div>
-        <div class="item">
-          <label for="place-msl">Rotate true north:</label>
-        </div>
-        <div class="item">
-          <input id="place-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
-        </div>
-        <div><br></div><div></div>
-        <div class="item"><label for="place-glb-input">Load place 3d model:</label></div>
-        <div class="item load-file">
-          <input
-            class="load-file"
-            type="file"
-            id="place-glb-input"
-            accept=".glb, .gltf"
-          />
-        </div>
-        <div class="item"><br /></div>
-        <div class="item"></div>
-        <div class="item">
-          <button id="upload-place" class="button">Upload new place</button>
-        </div>
-        <div class="item">
-          <button id="cancel-new-place" class="button">Cancel</button>
-        </div>
-      </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CIMS | Digital Twin</title>
+  <link rel="icon" type="image/x-icon" href="static/logos/cims.ico" />
+  <link rel="stylesheet" href="styles.css?v=1.1">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="hide-overflow">
+  <header>
+    <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
+    <a href="https://canadasdigitaltwin.ca/"><img src="static/logos/icdt-logo.png" alt="CIMSlab"
+        title="Imagine Canada's Digital Twin" height="55px" />
+    </a>  
+    <nav class="top " id="top-bar">
+    <nav class="nav-bar" id="nav-bar">
+      <div id="selectors" class="all-pointer-events">
+        <select id="style-select" class="selector hidden">
+          <option class="option" value="none">-- select map style --</option>
+        </select>
+        <select id="province-select" class="selector">
+          <option class="option" value="none">
+            -- select a Province or Territory --
+          </option>
+        </select>
+        <select id="city-select" class="selector">
+          <option class="option" value="none">-- select a City --</option>
+        </select>
+        <select id="place-select" class="selector">
+          <option class="option" value="none">-- select a place --</option>
+          <option class="option" id="add-place">(+) Add new place</option>
+        </select>
+        <select id="object-select" class="selector">
+          <option class="option" value="none">-- select an object --</option>
+          <option class="option" id="add-object">(+) Add new object</option>
+        </select>
+      </div>
+      <div id="loader-container" class="loader-container hidden">
+        <div class="loader"></div>
+        <a id="progress-text"></a>
+      </div>
     </nav>
-    <nav id="new-object-container" class="add-new-container hidden">
-      <div id="new-object-location">province, ontario, place</div>
-      <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name"/> 
+  </nav>
+  </header>
+
+  <nav id="new-place-container" class="add-new-container hidden">
+    <div id="new-place-location">province, city</div>
+    <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
+    <div class="item"><label for="place-id">Place ID:</label></div>
+    <div class="item">
+      <input id="place-id" type="name" name="Place ID" />
+    </div>
+    <div><br></div>
+    <div></div>
+    
+      <button id="create-place" class="button">Redo place polygon</button>
+      <div></div>
+      <div>Place area:</div>
+      <div id="calculated-area"></div>
+    
+    <!-- <div class="item"><label for="place-lng">Longitude:</label></div>
+    <div class="item">
+      <input id="place-lng" type="number" name="Longitud" />
+    </div>
+    <div class="item"><label for="place-lat">Latitude:</label></div>
+    <div class="item">
+      <input id="place-lat" type="number" name="Latitude" />
+    </div>
+    <div class="item">
+      <label for="place-msl">Meters above sea level:</label>
+    </div>
+    <div class="item">
+      <input id="place-msl" type="number" name="Meters above sea level:" />
+    </div>
+    <div class="item">
+      <label for="place-msl">Rotate true north:</label>
+    </div>
+    <div class="item">
+      <input id="place-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+        oninput="this.nextElementSibling.value = this.value" /><output>0</output>
+    </div> -->
+
+   <div><br></div>
+   <div><br></div>
+      <button id="upload-place" class="button">Upload new place</button>
+      <button id="cancel-new-place" class="button">Cancel</button>
+  </nav>
+  <nav id="new-object-container" class="add-new-container hidden">
+    <div id="new-object-location">province, ontario, place</div>
+    <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
     <div class="item"><label for="object-id">Object ID:</label></div>
     <div class="item">
       <input id="object-id" type="name" name="Object ID" />
     </div>
-    <div><br></div><div></div>
+    <div><br></div>
+    <div></div>
     <div class="item"><label for="object-lng">Longitude:</label></div>
     <div class="item">
       <input id="object-lng" type="number" name="Longitud" />
@@ -156,17 +119,14 @@
       <label for="object-msl">Rotate true north:</label>
     </div>
     <div class="item">
-      <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north" oninput="this.nextElementSibling.value = this.value"/><output>0</output>
+      <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+        oninput="this.nextElementSibling.value = this.value" /><output>0</output>
     </div>
-    <div><br></div><div></div>
+    <div><br></div>
+    <div></div>
     <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
     <div class="item load-file">
-      <input
-        class="load-file"
-        type="file"
-        id="object-glb-input"
-        accept=".glb, .gltf"
-      />
+      <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
     </div>
     <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
     <div class="item load-file">
@@ -181,103 +141,61 @@
       <button id="cancel-new-object" class="button">Cancel</button>
     </div>
   </nav>
-</nav>
-    <nav class="toolbar-container bottom">
-      <div id="toolbar-left-button" class="permanent">
-        <a
-          class="button transp1-background circular"
-          id="canada"
-          title="Go to Canada"
-        >
-          <svg
-            version="1.0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 201.000000 180.000000"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <g
-              transform="translate(0.000000,180.000000) scale(0.100000,-0.100000)"
-            >
-              <path
-                d="M911 1615 c-52 -91 -98 -165 -103 -165 -5 0 -40 16 -78 35 -38 19 -72 35 -75 35 -10 0 -5 -39 35 -249 22 -117 40 -227 40 -245 0 -35 -20 -60 -42 -54 -8 2 -65 58 -127 126 -63 67 -116 122 -120 122 -3 0 -15 -29 -25 -65 -10 -36 -22 -67 -25 -69 -4 -3 -68 7 -144 22 -75 14 -139 23 -143 20 -5 -5 30 -154 72 -303 4 -17 -5 -26 -55 -50 -34 -16 -61 -32 -61 -36 0 -5 102 -90 227 -190 126 -100 232 -193 238 -206 6 -17 4 -42 -8 -87 -9 -36 -17 -67 -17 -70 0 -3 91 -6 203 -6 l202 -1 50 -74 c27 -41 52 -75 55 -75 3 0 30 34 59 76 l53 76 205 -7 c197 -7 205 -7 199 11 -38 124 -47 156 -44 159 2 2 111 89 243 195 132 105 241 195 242 198 1 4 -25 20 -57 37 -35 17 -60 36 -60 45 0 8 18 82 40 164 22 83 38 151 36 153 -1 2 -62 -9 -135 -23 -73 -14 -140 -24 -148 -22 -9 2 -24 30 -35 68 -11 36 -22 67 -24 69 -2 2 -56 -43 -120 -99 -157 -139 -174 -153 -179 -148 -3 2 18 123 45 268 28 145 48 266 45 269 -3 2 -42 -13 -86 -34 -67 -33 -82 -37 -89 -25 -6 8 -49 84 -97 168 -48 83 -89 152 -92 152 -3 0 -48 -74 -100 -165z"
-              />
-            </g>
-          </svg>
-        </a>
-      </div>
-      <div class="toolbar" id="toolbar">
-        <!-- <a
-          class="button transp1-background circular info"
-          id="go-to"
-          title="Go to place"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  </nav>
+  <nav class="toolbar-container bottom">
+    <div id="toolbar-left-button" class="permanent">
+      <a class="button transp1-background circular" id="canada" title="Go to Canada">
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.000000 180.000000"
+          preserveAspectRatio="xMidYMid meet">
+          <g transform="translate(0.000000,180.000000) scale(0.100000,-0.100000)">
             <path
-              id="go-to-icon"
-              d="M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z"
-            />
-          </svg>
-          <span class="info-text"
-            >Specify destination's Londitude and Latitude <br />
-            Default: Go to <b>CIMS lab</b> in Carleton University</span
-          >
-        </a> -->
-        <a
-          class="button transp1-background circular info"
-          id="osm"
-          name="OSM objects"
-          title="Show OSM objects"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path
-              d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"
-            />
-          </svg>
-        </a>
-      </div>
-      <div id="toolbar-right-button" class="permanent">
-        <a
-          class="button transp1-background circular selected-button"
-          name="layers"
-          id="layers"
-          title="Hide layers"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path
-              d="M21.698 10.658l2.302 1.342-12.002 7-11.998-7 2.301-1.342 9.697 5.658 9.7-5.658zm-9.7 10.657l-9.697-5.658-2.301 1.343 11.998 7 12.002-7-2.302-1.342-9.7 5.657zm0-19l8.032 4.685-8.032 4.685-8.029-4.685 8.029-4.685zm0-2.315l-11.998 7 11.998 7 12.002-7-12.002-7z"
-            />
-          </svg>
-        </a>
-      </div>
-    </nav>
-    <div id="full-screen-flex-container">
-      <a id="message" class="centre transp1-background circular hidden"></a>
+              d="M911 1615 c-52 -91 -98 -165 -103 -165 -5 0 -40 16 -78 35 -38 19 -72 35 -75 35 -10 0 -5 -39 35 -249 22 -117 40 -227 40 -245 0 -35 -20 -60 -42 -54 -8 2 -65 58 -127 126 -63 67 -116 122 -120 122 -3 0 -15 -29 -25 -65 -10 -36 -22 -67 -25 -69 -4 -3 -68 7 -144 22 -75 14 -139 23 -143 20 -5 -5 30 -154 72 -303 4 -17 -5 -26 -55 -50 -34 -16 -61 -32 -61 -36 0 -5 102 -90 227 -190 126 -100 232 -193 238 -206 6 -17 4 -42 -8 -87 -9 -36 -17 -67 -17 -70 0 -3 91 -6 203 -6 l202 -1 50 -74 c27 -41 52 -75 55 -75 3 0 30 34 59 76 l53 76 205 -7 c197 -7 205 -7 199 11 -38 124 -47 156 -44 159 2 2 111 89 243 195 132 105 241 195 242 198 1 4 -25 20 -57 37 -35 17 -60 36 -60 45 0 8 18 82 40 164 22 83 38 151 36 153 -1 2 -62 -9 -135 -23 -73 -14 -140 -24 -148 -22 -9 2 -24 30 -35 68 -11 36 -22 67 -24 69 -2 2 -56 -43 -120 -99 -157 -139 -174 -153 -179 -148 -3 2 18 123 45 268 28 145 48 266 45 269 -3 2 -42 -13 -86 -34 -67 -33 -82 -37 -89 -25 -6 8 -49 84 -97 168 -48 83 -89 152 -92 152 -3 0 -48 -74 -100 -165z" />
+          </g>
+        </svg>
+      </a>
     </div>
-    <div class="hide-overflow canvas">
-      <div id="map" style="width: 100vw; height: 100vh"></div>
+    <div class="toolbar" id="toolbar">
+      <a class="button transp1-background circular info" id="osm" name="OSM objects" title="Show OSM objects">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+        </svg>
+      </a>
     </div>
+    <div id="toolbar-right-button" class="permanent">
+      <a class="button transp1-background circular selected-button" name="layers" id="layers" title="Hide layers">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M21.698 10.658l2.302 1.342-12.002 7-11.998-7 2.301-1.342 9.697 5.658 9.7-5.658zm-9.7 10.657l-9.697-5.658-2.301 1.343 11.998 7 12.002-7-2.302-1.342-9.7 5.657zm0-19l8.032 4.685-8.032 4.685-8.029-4.685 8.029-4.685zm0-2.315l-11.998 7 11.998 7 12.002-7-12.002-7z" />
+        </svg>
+      </a>
+    </div>
+  </nav>
+  <div id="full-screen-flex-container">
+    <a id="message" class="centre transp1-background circular hidden"></a>
+  </div>
+  <div class="hide-overflow canvas all-pointer-events">
+    <div id="map" class="map" ></div>
+  </div>
 
-    <a id="close-bim-viewer" title="Close BIM viewer" class="hidden">
-      <svg
-        class="icon"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-          fill-rule="nonzero"
-        />
-      </svg>
-    </a>
-    <div class="bim-container hidden" id="bim-container"></div>
+  <a id="close-bim-viewer" title="Close BIM viewer" class="hidden all-pointer-events">
+    <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
+        fill-rule="nonzero" />
+    </svg>
+  </a>
+  <div class="bim-container hidden" id="bim-container"></div>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+  <link
+    href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+  
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
 
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-
-    <script src="dist/map-bundle.js"></script>
+  <script src="dist/map-bundle.js"></script>
   </body>
 </html>

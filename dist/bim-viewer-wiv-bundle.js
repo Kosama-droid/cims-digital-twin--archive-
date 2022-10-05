@@ -112,13 +112,102 @@ var canada$1 = canada = {
             CDC: {
               name: "Carleton University",
               id: "CDC",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "a4d079c1df6e5ce05fd3d75be9d676ae",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.70189958027106,
+                                        45.37875309615271
+                                    ],
+                                    [
+                                        -75.69992633911373,
+                                        45.37877541395392
+                                    ],
+                                    [
+                                        -75.69727770186257,
+                                        45.3810993922589
+                                    ],
+                                    [
+                                        -75.69450838802734,
+                                        45.38203887637181
+                                    ],
+                                    [
+                                        -75.6906275671839,
+                                        45.38296872321675
+                                    ],
+                                    [
+                                        -75.68887142022419,
+                                        45.38344187913356
+                                    ],
+                                    [
+                                        -75.69420899585182,
+                                        45.38994283121664
+                                    ],
+                                    [
+                                        -75.69580769941382,
+                                        45.39239497776015
+                                    ],
+                                    [
+                                        -75.69619561876573,
+                                        45.393984263463864
+                                    ],
+                                    [
+                                        -75.70083876374682,
+                                        45.39148859721473
+                                    ],
+                                    [
+                                        -75.70064587777159,
+                                        45.38857217046163
+                                    ],
+                                    [
+                                        -75.69982059948957,
+                                        45.38563910454812
+                                    ],
+                                    [
+                                        -75.69986507131132,
+                                        45.38409834943889
+                                    ],
+                                    [
+                                        -75.70049060514884,
+                                        45.38291684823247
+                                    ],
+                                    [
+                                        -75.70129181634604,
+                                        45.38188566509319
+                                    ],
+                                    [
+                                        -75.70191088185265,
+                                        45.38094553432035
+                                    ],
+                                    [
+                                        -75.70185552977473,
+                                        45.37957470361749
+                                    ],
+                                    [
+                                        -75.70189958027106,
+                                        45.37875309615271
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.38435,
                 lng: -75.69435,
                 msl: 80,
                 zoom: 15,
               },
-              logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
+              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -383,6 +472,51 @@ var canada$1 = canada = {
             PB: {
               name: "Parliament Buildings",
               id: "PB",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "831f9f555ad3d8115f769ca78c465561",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.70058467451888,
+                                        45.42260036234234
+                                    ],
+                                    [
+                                        -75.69618595051583,
+                                        45.424634511219125
+                                    ],
+                                    [
+                                        -75.69764315462844,
+                                        45.425839176485795
+                                    ],
+                                    [
+                                        -75.69941009882106,
+                                        45.42670848160412
+                                    ],
+                                    [
+                                        -75.70203058545846,
+                                        45.425548388065494
+                                    ],
+                                    [
+                                        -75.70184052996606,
+                                        45.42347511350695
+                                    ],
+                                    [
+                                        -75.70058467451888,
+                                        45.42260036234234
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.42521,
                 lng: -75.70011,
@@ -418,6 +552,55 @@ var canada$1 = canada = {
             HM: {
               name: "Holocaust Memorial",
               id: "HM",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "307f55f714e878dde104d8973136b51e",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.71491590178672,
+                                        45.41698002845348
+                                    ],
+                                    [
+                                        -75.71464766918312,
+                                        45.41655393854717
+                                    ],
+                                    [
+                                        -75.71457406851601,
+                                        45.41654557912591
+                                    ],
+                                    [
+                                        -75.71422363992023,
+                                        45.416755971268
+                                    ],
+                                    [
+                                        -75.71401412213122,
+                                        45.41693605252604
+                                    ],
+                                    [
+                                        -75.71382226553547,
+                                        45.41719511432956
+                                    ],
+                                    [
+                                        -75.71390492394325,
+                                        45.41724690869236
+                                    ],
+                                    [
+                                        -75.71491590178672,
+                                        45.41698002845348
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.41681,
                 lng: -75.71448,
@@ -441,6 +624,87 @@ var canada$1 = canada = {
             CWM: {
               name: "Canadian War Museum",
               id: "CWM",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "a81013213db16dc5e252535b2ee7df8a",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.71910117684025,
+                                        45.416158814682234
+                                    ],
+                                    [
+                                        -75.71822407078501,
+                                        45.41637611122215
+                                    ],
+                                    [
+                                        -75.71697521859993,
+                                        45.41671799004075
+                                    ],
+                                    [
+                                        -75.71600229860272,
+                                        45.416865959431846
+                                    ],
+                                    [
+                                        -75.71537721815065,
+                                        45.41710286391398
+                                    ],
+                                    [
+                                        -75.71570115269357,
+                                        45.41782001356884
+                                    ],
+                                    [
+                                        -75.7161059042506,
+                                        45.41803090054583
+                                    ],
+                                    [
+                                        -75.7168524387219,
+                                        45.417922629637985
+                                    ],
+                                    [
+                                        -75.71788721990461,
+                                        45.417721374052945
+                                    ],
+                                    [
+                                        -75.71805674475873,
+                                        45.4176064565508
+                                    ],
+                                    [
+                                        -75.71817954477861,
+                                        45.41734370567136
+                                    ],
+                                    [
+                                        -75.71887019951822,
+                                        45.41696137889409
+                                    ],
+                                    [
+                                        -75.71908112282426,
+                                        45.41689135611921
+                                    ],
+                                    [
+                                        -75.71906940222242,
+                                        45.416722871131554
+                                    ],
+                                    [
+                                        -75.71898736670684,
+                                        45.41659145861519
+                                    ],
+                                    [
+                                        -75.71910117684025,
+                                        45.416158814682234
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.4172408,
                 lng: -75.71729,
@@ -461,6 +725,71 @@ var canada$1 = canada = {
             },
             NAC: {
               name: "National Art Centre",
+              placeGeojson:{
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "6a8c00c7e3209902e7d0dd4e287de0c8",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -75.6939802337543,
+                                        45.42263014482796
+                                    ],
+                                    [
+                                        -75.69338335245256,
+                                        45.4226637110942
+                                    ],
+                                    [
+                                        -75.69335299051819,
+                                        45.42275357648472
+                                    ],
+                                    [
+                                        -75.69220265027006,
+                                        45.423269568441754
+                                    ],
+                                    [
+                                        -75.69219645104698,
+                                        45.42334290407973
+                                    ],
+                                    [
+                                        -75.69292826762099,
+                                        45.423640855725694
+                                    ],
+                                    [
+                                        -75.69312806070646,
+                                        45.423585059598196
+                                    ],
+                                    [
+                                        -75.6937298398983,
+                                        45.42387628403725
+                                    ],
+                                    [
+                                        -75.69463521824039,
+                                        45.423890345663665
+                                    ],
+                                    [
+                                        -75.69459973192858,
+                                        45.42346243444695
+                                    ],
+                                    [
+                                        -75.69467928403964,
+                                        45.42342430176964
+                                    ],
+                                    [
+                                        -75.6939802337543,
+                                        45.42263014482796
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            },
               coordinates: {
                 lat: 45.42391168154506,
                 lng: -75.69351075230375,
@@ -493,6 +822,187 @@ var canada$1 = canada = {
             DA: {
               name: "Downsview Airport",
               id: "DA",
+              placeGeojson: {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "id": "bbff1e2cf048645e60439b4c522a1dc6",
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "coordinates": [
+                                [
+                                    [
+                                        -79.47408358730912,
+                                        43.73290037722845
+                                    ],
+                                    [
+                                        -79.46970150684537,
+                                        43.73390466994161
+                                    ],
+                                    [
+                                        -79.4701534911874,
+                                        43.735496883169276
+                                    ],
+                                    [
+                                        -79.46958897417998,
+                                        43.73567038633507
+                                    ],
+                                    [
+                                        -79.46951846547161,
+                                        43.735894778860086
+                                    ],
+                                    [
+                                        -79.46965975560144,
+                                        43.73666970695797
+                                    ],
+                                    [
+                                        -79.46877095067724,
+                                        43.73681241293863
+                                    ],
+                                    [
+                                        -79.46823501854546,
+                                        43.737107980275226
+                                    ],
+                                    [
+                                        -79.46793881811665,
+                                        43.73717931573913
+                                    ],
+                                    [
+                                        -79.4682637757364,
+                                        43.73793323433421
+                                    ],
+                                    [
+                                        -79.46560792517863,
+                                        43.73864738217961
+                                    ],
+                                    [
+                                        -79.4644747283333,
+                                        43.73873584817542
+                                    ],
+                                    [
+                                        -79.46379427430642,
+                                        43.73849702481175
+                                    ],
+                                    [
+                                        -79.45929207894135,
+                                        43.73444535186508
+                                    ],
+                                    [
+                                        -79.4589478013873,
+                                        43.73378646640822
+                                    ],
+                                    [
+                                        -79.45832818127322,
+                                        43.733786371608886
+                                    ],
+                                    [
+                                        -79.45739245024491,
+                                        43.73307312087917
+                                    ],
+                                    [
+                                        -79.45669128255089,
+                                        43.73271401769787
+                                    ],
+                                    [
+                                        -79.45298755501138,
+                                        43.73346787471823
+                                    ],
+                                    [
+                                        -79.45302531649084,
+                                        43.73401357354095
+                                    ],
+                                    [
+                                        -79.45283650909269,
+                                        43.73423185167766
+                                    ],
+                                    [
+                                        -79.45717991812592,
+                                        43.73825027066556
+                                    ],
+                                    [
+                                        -79.46293954778936,
+                                        43.743472742484414
+                                    ],
+                                    [
+                                        -79.46098603220916,
+                                        43.74491058627413
+                                    ],
+                                    [
+                                        -79.46493884095794,
+                                        43.748776361639415
+                                    ],
+                                    [
+                                        -79.46541479228455,
+                                        43.74926119113471
+                                    ],
+                                    [
+                                        -79.46567494908615,
+                                        43.74955984024078
+                                    ],
+                                    [
+                                        -79.46802538083102,
+                                        43.749099421300286
+                                    ],
+                                    [
+                                        -79.4694411446012,
+                                        43.74887312336904
+                                    ],
+                                    [
+                                        -79.47435655650091,
+                                        43.753543793783734
+                                    ],
+                                    [
+                                        -79.47438383602703,
+                                        43.755497891711826
+                                    ],
+                                    [
+                                        -79.47530408201027,
+                                        43.75538089582011
+                                    ],
+                                    [
+                                        -79.48114363026924,
+                                        43.754012625974866
+                                    ],
+                                    [
+                                        -79.4826029630279,
+                                        43.753035415638095
+                                    ],
+                                    [
+                                        -79.48282265621481,
+                                        43.750532316327565
+                                    ],
+                                    [
+                                        -79.48260688690695,
+                                        43.748487576655606
+                                    ],
+                                    [
+                                        -79.48216660024431,
+                                        43.746474509797196
+                                    ],
+                                    [
+                                        -79.47989970117017,
+                                        43.746792233139786
+                                    ],
+                                    [
+                                        -79.47914598483447,
+                                        43.7451743975941
+                                    ],
+                                    [
+                                        -79.47692816640144,
+                                        43.74562062370174
+                                    ],
+                                    [
+                                        -79.47408358730912,
+                                        43.73290037722845
+                                    ]
+                                ]
+                            ],
+                            "type": "Polygon"
+                        }
+                    }
+                ]
+            } ,
               location: "ON-TO-DA",
               coordinates: {
                 lat: 43.73519,
@@ -92764,7 +93274,6 @@ class IfcDimensionLine {
         this.textLabel = this.newText();
         this.root.renderOrder = 2;
         this.context.getScene().add(this.root);
-        this.camera = this.context.getCamera();
         this.context.ifcCamera.onChange.on(() => this.rescaleObjectsToCameraPosition());
         this.rescaleObjectsToCameraPosition();
     }
@@ -92850,7 +93359,11 @@ class IfcDimensionLine {
         }
     }
     rescaleMesh(mesh, scalefactor = 1, x = true, y = true, z = true) {
-        let scale = new Vector3().subVectors(mesh.position, this.camera.position).length();
+        const camera = this.context.ifcCamera.activeCamera;
+        let scale = new Vector3().subVectors(mesh.position, camera.position).length();
+        if (this.context.ifcCamera.projection === CameraProjections.Orthographic) {
+            scale *= 0.1;
+        }
         scale *= scalefactor;
         const scaleX = x ? scale : 1;
         const scaleY = y ? scale : 1;
@@ -92967,6 +93480,7 @@ class IfcDimensions extends IfcComponent {
             }
         }
     }
+    // TODO: This causes a memory leak, and it's a bit confusing
     setArrow(height, radius) {
         this.endpoint = IfcDimensions.getDefaultEndpointGeometry(height, radius);
     }
@@ -93113,7 +93627,7 @@ class IfcDimensions extends IfcComponent {
             .map((dim) => dim.boundingBox)
             .filter((box) => box !== undefined);
     }
-    static getDefaultEndpointGeometry(height = 0.02, radius = 0.05) {
+    static getDefaultEndpointGeometry(height = 0.1, radius = 0.03) {
         const coneGeometry = new ConeGeometry(radius, height);
         coneGeometry.translate(0, -height / 2, 0);
         coneGeometry.rotateX(-Math.PI / 2);
@@ -101230,6 +101744,7 @@ class IfcSelection extends IfcComponent {
             }
             this.modelIDs.add(modelID);
             const selected = this.newSelection(modelID, ids, removePrevious);
+            selected.visible = true;
             selected.position.copy(mesh.position);
             selected.rotation.copy(mesh.rotation);
             selected.scale.copy(mesh.scale);
@@ -101628,13 +102143,14 @@ class IfcManager extends IfcComponent {
             const firstModel = Boolean(this.context.items.ifcModels.length === 0);
             const settings = this.loader.ifcManager.state.webIfcSettings;
             const fastBools = (settings === null || settings === void 0 ? void 0 : settings.USE_FAST_BOOLS) || true;
+            const coordsToOrigin = (settings === null || settings === void 0 ? void 0 : settings.COORDINATE_TO_ORIGIN) || false;
             await this.loader.ifcManager.applyWebIfcConfig({
-                COORDINATE_TO_ORIGIN: firstModel,
+                COORDINATE_TO_ORIGIN: firstModel && coordsToOrigin,
                 USE_FAST_BOOLS: fastBools
             });
             const ifcModel = await this.loader.loadAsync(url, onProgress);
             this.addIfcModel(ifcModel);
-            if (firstModel) {
+            if (firstModel && coordsToOrigin) {
                 const matrixArr = await this.loader.ifcManager.ifcAPI.GetCoordinationMatrix(ifcModel.modelID);
                 const matrix = new Matrix4().fromArray(matrixArr);
                 this.loader.ifcManager.setupCoordinationMatrix(matrix);
@@ -104175,6 +104691,7 @@ class IfcCamera extends IfcComponent {
     }
     set projection(projection) {
         this.projectionManager.projection = projection;
+        this.onChangeProjection.trigger(this.activeCamera);
     }
     /**
      * @deprecated Use cameraControls instead.
@@ -104258,7 +104775,6 @@ class IfcCamera extends IfcComponent {
     // }
     setupCameras() {
         this.setCameraPositionAndTarget(this.perspectiveCamera);
-        this.setCameraPositionAndTarget(this.perspectiveCamera);
     }
     setCameraPositionAndTarget(camera) {
         camera.position.z = 10;
@@ -104271,6 +104787,8 @@ class IfcCamera extends IfcComponent {
         this.cameraControls.dollyToCursor = true;
         this.cameraControls.infinityDolly = true;
         this.cameraControls.setTarget(0, 0, 0);
+        this.cameraControls.addEventListener('controlend', () => this.onChange.trigger(this));
+        this.cameraControls.addEventListener('rest', () => this.onChange.trigger(this));
     }
 }
 
@@ -107248,7 +107766,7 @@ class IfcRenderer extends IfcComponent {
         this.blocked = false;
         this.context = context;
         this.container = context.options.container;
-        this.renderer = new WebGLRenderer({ alpha: true });
+        this.renderer = new WebGLRenderer({ alpha: true, antialias: true });
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.setupRenderers();
         this.postProduction = new Postproduction(this.context, this.renderer);
@@ -112949,10 +113467,22 @@ class IfcContext {
                 return;
             if (this.stats)
                 this.stats.begin();
-            requestAnimationFrame(this.render);
+            const isWebXR = this.options.webXR || false;
+            if (isWebXR) {
+                this.renderForWebXR();
+            }
+            else {
+                requestAnimationFrame(this.render);
+            }
             this.updateAllComponents();
             if (this.stats)
                 this.stats.end();
+        };
+        this.renderForWebXR = () => {
+            const newAnimationLoop = () => {
+                this.getRenderer().render(this.getScene(), this.getCamera());
+            };
+            this.getRenderer().setAnimationLoop(newAnimationLoop);
         };
         this.resize = () => {
             this.updateAspect();
@@ -122477,7 +123007,9 @@ const glbFilePath = `${objectPath}/glb/${objectFileName}`;
 let model = {};
 
 place = canada$1.provinces[province.term].cities[city.name].places[place.id];
+
 let objects = place.objects;
+
 object.name = objects[object.id].name;
 const objectSelector = document.getElementById("object-select");
 createOptions(objectSelector, objects);
@@ -122586,7 +123118,7 @@ async function loadIfc(ifcURL) {
   //   const plansButton = document.getElementById("plans");
   //   toggle.plans = false;
   //   const plansMenu = document.getElementById("plans-menu");
-  //   dt.toggleVisibility(plansButton, toggle.plans, plansMenu);
+  //   cdt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
   // Toggle left menu ⬅️
   document.getElementById("toolbar").onclick = () => {
@@ -122948,7 +123480,7 @@ function removeAllChildren(element) {
   }
 }
 
-// dt.Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
+// Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 // Get user
 let currentUser = "Anonymous";
 document
@@ -122989,7 +123521,6 @@ function togglePostproduction(active) {
 }
 
 async function preproscessIfc(object) {
-  console.log(object);
   const result = await viewer.GLTF.exportIfcFileAsGltf({
     ifcFileUrl: object.ifcURL,
     getProperties: false,

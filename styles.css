@@ -19,28 +19,21 @@
 
 html,
 body {
-  overflow: hidden;
+  pointer-events: none;
 }
 
 hide-overflow {
   overflow: hidden;
-
 }
 
 header {
-  z-index: 1;
-  background-color: var(--primary-dark);
   color: var(--primary-light);
   padding: 0.5rem 0.3rem;
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: end;
-  border-bottom: 1px solid gray;
-}
-
-header *:first-child {
-  margin-right: auto;
+  justify-content: flex-start;
+  pointer-events: none;
 }
 
 header img {
@@ -72,6 +65,12 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
+}
+
+.map{
+  width: 100vw; 
+  height: 100vh;
 }
 
 .column {
@@ -113,7 +112,6 @@ a {
   width: 1.8rem;
   height: 1.8rem;
   fill: var(--secondary-color);
-
 }
 
 .header-button:hover>svg {
@@ -121,14 +119,13 @@ a {
 }
 
 .bottom {
-  z-index: 1;
+  z-index: 0;
   bottom: 1rem;
 }
 
 .top {
   z-index: 1;
   top: var(--header-height);
-  pointer-events: none;
 }
 
 .item{
@@ -141,7 +138,6 @@ a {
   display: flex;
   flex-wrap: wrap;
   width: 380px;
-  pointer-events: all;
   padding: 1rem;
   margin: 1rem;
   border-radius: var(--border-radius);
@@ -250,10 +246,12 @@ a {
 
 .selector {
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 0.7rem;
   margin: 0.3rem;
   font-weight: 500;
   border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
   align-items: center;
   width: fit-content;
@@ -577,15 +575,20 @@ ul, #myUL {
   justify-content: center;
   height: 90%;
   width: 100%;
-  margin: 1rem;
+  margin: 0.4rem;
   box-shadow: var(--shadow);
   border: none;
   border-radius: var(--border-radius);
   transition: all 0.5s ease 0s;
+  pointer-events: all;
 }
 
-.pointer-events{
+.all-pointer-events{
   pointer-events: all;
+}
+
+.non-pointer-events{
+  pointer-events: none;
 }
 
 .mapbox-marker {
@@ -613,19 +616,6 @@ ul, #myUL {
 .mapboxgl-popup-close-button{
   margin: 0.3rem 0.6rem;
 }
-
-/* .marker-contextmenu label{
-  color: #888;
-  border-radius: 3px;
-  padding: 0.3rem;
-  margin: 0.4rem;
-}
-
-.marker-contextmenu label:hover{
-  color: var(--primary-dark);
-  cursor: pointer;
-} */
-
 
 #close-bim-viewer{
   z-index: 6;
