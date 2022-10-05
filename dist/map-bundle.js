@@ -48977,7 +48977,7 @@ async function loadGeojson(map, geojson, id) {
     layout: {},
     paint: {
       "fill-color": "#0080ff", // blue color fill
-      "fill-opacity": 0.05,
+      "fill-opacity": 0.1,
     },
   });
   // Add a black outline around the polygon.
@@ -49335,8 +49335,8 @@ function addPlaceGeojson(places) {
     placeGeojson = loadGeojson(map, place.placeGeojson, key);
     geojsons.push(placeGeojson);
     let center = turf.center(place.placeGeojson);
-    center.geometry.coordinates;
-    // let placeMarker = new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
+    let centerCoordinates = center.geometry.coordinates;
+    new mapboxgl.Marker().setLngLat(centerCoordinates).addTo(map);
 
     // geojson.onclick((e) => {
     //   let id = e.target.id;
