@@ -321,7 +321,6 @@ a {
   z-index: 1;
   overflow: auto;
   top: var(--header-heigt);
-  padding: 0.8rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
