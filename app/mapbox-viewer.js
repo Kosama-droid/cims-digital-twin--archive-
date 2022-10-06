@@ -562,7 +562,8 @@ function closeBimViewer() {
 }
 
 function flyToCanada() {
-  document.getElementById("canada").addEventListener("click", () => {
+  let icdt = document.getElementById("icdt")
+  icdt.addEventListener("click", () => {
     cdt.removeChildren(document.getElementById("toolbar"), 4);
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
@@ -570,7 +571,11 @@ function flyToCanada() {
     setTimeout(function () {
       location.reload();
     }, 2000);
-  });
+  })
+  icdt.onclick = (e) => {
+    console.log(e)
+  // window.open("https://canadasdigitaltwin.ca/");
+};
 }
 
 function selectObj(selector) {

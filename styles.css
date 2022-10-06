@@ -123,11 +123,6 @@ a {
   bottom: 1rem;
 }
 
-.top {
-  z-index: 1;
-  top: var(--header-height);
-}
-
 .item{
   width: 100%;
 }
