@@ -627,7 +627,6 @@ export default canada = {
                 msl: 85,
                 zoom: 16,
               },
-              logo: "assets/ON/Ottawa/PB/canda-gov.png",
               gltfMasses: {
                 url: "assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
               },

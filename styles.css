@@ -137,6 +137,7 @@ a {
   margin: 1rem;
   border-radius: var(--border-radius);
   line-height: 1.5rem;
+  pointer-events: all;
 }
 
 .add-new-container > div {
