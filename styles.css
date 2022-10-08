@@ -32,6 +32,7 @@ header {
   flex-direction: row;
   justify-content: flex-start;
   pointer-events: none;
+  flex-wrap: wrap;
 }
 
 header img {
@@ -105,6 +106,7 @@ h3 {
 .row{
   display:flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .column{
