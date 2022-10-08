@@ -659,10 +659,6 @@ ul, #myUL {
   pointer-events: none;
 }
 
-#selectors{
-  max-width: 60vw;
-}
-
 .hidden {
   display: none;
 }
