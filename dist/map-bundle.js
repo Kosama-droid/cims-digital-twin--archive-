@@ -49305,8 +49305,8 @@ function osmVisibility(map, toggle) {
 // }
 
 function flyToCanada() {
-  let icdt = document.getElementById("icdt");
-  icdt.addEventListener("click", () => {
+  let home = document.getElementById("home");
+  home.addEventListener("click", () => {
     removeChildren(document.getElementById("toolbar"), 4);
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada$1.bbox);
@@ -49315,7 +49315,7 @@ function flyToCanada() {
       location.reload();
     }, 2000);
   });
-  icdt.onclick = (e) => {
+  home.onclick = (e) => {
     console.log(e);
   // window.open("https://canadasdigitaltwin.ca/");
 };
