@@ -285,7 +285,6 @@ map.on("dblclick", () => {
   object.id = id;
   openBimViewer(object);
 });
-closeBimViewer();
 
 map.on("wheel", () => {
   removeGeojson(locGeojson);
@@ -369,7 +368,7 @@ async function loadGeojson(map, geojson, id) {
     source: id, // reference the data source
     layout: {},
     paint: {
-      "fill-color": "#0080ff", // blue color fill
+      "fill-color": "#73CEE2", // blue color fill
       "fill-opacity": 0.1,
     },
   });
@@ -491,8 +490,7 @@ function openBimViewer(object) {
       window.open(url);
     } else {
       bimContainer.appendChild(bimViewer);
-      document.getElementById("close-bim-viewer").classList.remove("hidden");
-      cdt.hideElementsById("top-bar", "toolbar");
+      cdt.hideElementsById("toolbar");
     }
   }
   bimViewer.setAttribute("src", url);
@@ -552,14 +550,14 @@ function osmVisibility(map, toggle) {
   };
 }
 
-function closeBimViewer() {
-  document.getElementById("close-bim-viewer").addEventListener("click", () => {
-    document.getElementById("bim-container").classList.add("hidden");
-    document.getElementById("close-bim-viewer").classList.add("hidden");
-    document.getElementById("bim-viewer").remove();
-    cdt.unhideElementsById("top-bar", "toolbar");
-  });
-}
+// function closeBimViewer() {
+//   document.getElementById("close-bim-viewer").addEventListener("click", () => {
+//     document.getElementById("bim-container").classList.add("hidden");
+//     document.getElementById("close-bim-viewer").classList.add("hidden");
+//     document.getElementById("bim-viewer").remove();
+//     cdt.unhideElementsById("top-bar", "toolbar");
+//   });
+// }
 
 function flyToCanada() {
   let icdt = document.getElementById("icdt")
@@ -579,7 +577,7 @@ function flyToCanada() {
 }
 
 function selectObj(selector) {
-  selector.addEventListener("change", (event) => {
+  selector.addEventListener("change", () => {
     let id = selector[selector.selectedIndex].id;
     if (id === "add-object") {
       cancelPlace.click();
@@ -595,7 +593,6 @@ function selectObj(selector) {
       if (!object.id) object.id = id;
       openBimViewer(object);
     }
-    closeBimViewer();
   });
 }
 
@@ -834,7 +831,7 @@ function mapbox() {
   });
   map.fitBounds(canada.bbox);
   // Add north and zoom controls 🔺➕
-  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
   // Activate geolocation 🌎🔍
   map.addControl(
     new mapboxgl.GeolocateControl({
@@ -845,7 +842,7 @@ function mapbox() {
       showUserHeading: true,
       showAccuracyCircle: false,
     }),
-    "top-right"
+    "bottom-left"
   );
 
   // Day sky

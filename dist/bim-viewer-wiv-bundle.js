@@ -11,7 +11,7 @@ var icons$1 = icons = {
   bench: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 123.38 109.77" xml:space="preserve"><g><path class="st0" d="M115.74,73.47v35.2c0,0.47-0.39,0.85-0.85,0.85h-6.62c-0.47,0-0.86-0.39-0.86-0.86v-25.3H16.93v25.31 c0,0.47-0.38,0.85-0.85,0.85H9.46c-0.47,0-0.86-0.39-0.86-0.86V73.47H5.72c-1.51,0-2.88-0.61-3.87-1.6 c-0.99-0.99-1.6-2.36-1.6-3.87v-5.5c0-1.51,0.61-2.88,1.6-3.87c0.99-0.99,2.36-1.6,3.87-1.6h6.7V36.19H6 c-1.51,0-2.88-0.61-3.87-1.6c-0.99-0.99-1.6-2.36-1.6-3.87V9.79c0-1.51,0.61-2.88,1.6-3.87C3.12,4.94,4.49,4.32,6,4.32h6.42V1.17 c0-0.5,0.41-0.92,0.92-0.92h6.06c0.5,0,0.92,0.41,0.92,0.92v3.15h82.48V1.17c0-0.5,0.41-0.92,0.92-0.92h6.06 c0.5,0,0.92,0.41,0.92,0.92v3.15h6.97c1.51,0,2.88,0.61,3.87,1.6c0.99,0.99,1.6,2.36,1.6,3.87v20.92c0,1.51-0.61,2.88-1.6,3.87 c-0.99,0.99-2.36,1.6-3.87,1.6h-6.97v20.84h6.7c1.51,0,2.88,0.61,3.87,1.6c0.99,0.99,1.6,2.36,1.6,3.87V68 c0,1.51-0.61,2.88-1.6,3.87c-0.99,0.99-2.36,1.6-3.87,1.6H115.74L115.74,73.47z M5.03,62.02h113.75v6.9H5.03V62.02L5.03,62.02z M5.32,9.55h112.6v20.7H5.32V9.55L5.32,9.55z M107.41,79.54v-6.06H16.93v6.06H107.41L107.41,79.54z M102.79,57.03V36.19H20.31 v20.84H102.79L102.79,57.03z"/></g></svg>`,
   wc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 109.91"><path d="M30.39,35.84v66.43a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.86-4.86V63.21H18.77v39.06a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.86-4.86V35.84H7.37V60.25a3.7,3.7,0,0,1-3.69,3.68h0A3.7,3.7,0,0,1,0,60.25V34c0-4.27,1.44-7.27,4.05-9.24,4.5-3.39,26.72-3.39,31.22,0,2.62,2,4.07,5,4.06,9.24V60.25a3.7,3.7,0,0,1-3.68,3.68h0A3.7,3.7,0,0,1,32,60.25V35.84ZM53.51,2.78a2.81,2.81,0,0,1,5.62,0V107.13a2.81,2.81,0,0,1-5.62,0V2.78ZM115,33c.06.15.11.3.16.46l7.59,27a3.77,3.77,0,1,1-7.27,2L108,35.81l-.11,0H106.3v1.69l10,39.74h-10v25a4.87,4.87,0,0,1-4.85,4.86h0a4.88,4.88,0,0,1-4.85-4.86v-25H94.68v25a4.88,4.88,0,0,1-4.86,4.86h0A4.87,4.87,0,0,1,85,102.27v-25H74.38L85,36.48v-.64h-1.7l-.14,0L75.64,62.46a3.77,3.77,0,1,1-7.27-2L75.8,34l-.08,0c1.14-4.25,2.09-7.27,4.71-9.24,4.5-3.39,26.24-3.39,30.75,0C113.6,26.56,114,29,115,33ZM95.57,2.78a8.78,8.78,0,1,1-8.78,8.78,8.78,8.78,0,0,1,8.78-8.78Zm-75.91,0a8.78,8.78,0,1,1-8.78,8.78,8.78,8.78,0,0,1,8.78-8.78Z"/></svg>`,
   user: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z"/></svg>',
-  home: '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" " viewBox="0 0 144.000000 144.000000"  preserveAspectRatio="xMidYMid meet">  <g transform="translate(0.000000,144.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"> <path d="M650 1425 c0 -8 -5 -15 -10 -15 -6 0 -152 -142 -325 -315 l-315 -314 0 -65 c0 -58 3 -67 30 -92 16 -16 46 -33 67 -39 l38 -11 5 -234 5 -235 29 -41 c43 -59 60 -64 231 -64 140 0 151 1 163 20 9 15 12 70 12 196 -2 231 -6 224 135 224 l104 0 16 -30 c12 -22 15 -66 15 -197 0 -92 3 -178 6 -190 6 -23 9 -23 166 -23 146 0 162 2 189 21 59 42 64 61 69 319 l5 235 41 10 c22 6 57 24 77 42 35 31 37 36 37 93 0 33 -4 60 -8 60 -11 0 -652 640 -652 651 0 5 -29 9 -65 9 -51 0 -65 -3 -65 -15z m387 -387 c245 -245 303 -308 303 -329 0 -21 -7 -29 -29 -37 -16 -6 -38 -8 -49 -5 -11 2 -32 -3 -46 -12 l-26 -17 0 -257 c0 -257 0 -258 -24 -280 -21 -20 -32 -22 -122 -19 l-99 3 -6 160 c-6 172 -10 197 -43 233 -39 44 -68 52 -185 52 -121 0 -149 -9 -193 -65 -21 -28 -23 -41 -28 -205 l-5 -175 -104 -3 c-96 -3 -106 -1 -127 19 l-24 22 0 263 0 262 -30 12 c-16 7 -37 10 -45 6 -26 -9 -75 21 -75 47 0 34 596 627 630 627 19 0 92 -67 327 -302z"/> </g> </svg>',
+  home: '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" " viewBox="0 0 144.000000 144.000000">  <g transform="translate(0.000000,144.000000) scale(0.100000,-0.100000)"> <path d="M650 1425 c0 -8 -5 -15 -10 -15 -6 0 -152 -142 -325 -315 l-315 -314 0 -65 c0 -58 3 -67 30 -92 16 -16 46 -33 67 -39 l38 -11 5 -234 5 -235 29 -41 c43 -59 60 -64 231 -64 140 0 151 1 163 20 9 15 12 70 12 196 -2 231 -6 224 135 224 l104 0 16 -30 c12 -22 15 -66 15 -197 0 -92 3 -178 6 -190 6 -23 9 -23 166 -23 146 0 162 2 189 21 59 42 64 61 69 319 l5 235 41 10 c22 6 57 24 77 42 35 31 37 36 37 93 0 33 -4 60 -8 60 -11 0 -652 640 -652 651 0 5 -29 9 -65 9 -51 0 -65 -3 -65 -15z m387 -387 c245 -245 303 -308 303 -329 0 -21 -7 -29 -29 -37 -16 -6 -38 -8 -49 -5 -11 2 -32 -3 -46 -12 l-26 -17 0 -257 c0 -257 0 -258 -24 -280 -21 -20 -32 -22 -122 -19 l-99 3 -6 160 c-6 172 -10 197 -43 233 -39 44 -68 52 -185 52 -121 0 -149 -9 -193 -65 -21 -28 -23 -41 -28 -205 l-5 -175 -104 -3 c-96 -3 -106 -1 -127 19 l-24 22 0 263 0 262 -30 12 c-16 7 -37 10 -45 6 -26 -9 -75 21 -75 47 0 34 596 627 630 627 19 0 92 -67 327 -302z"/> </g> </svg>',
   tools: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.715 24c-.864 0-1.711-.351-2.322-.962l-10.953-10.952c-.275-.274-.655-.432-1.044-.432l-.111.004c-1.681.129-3.373-.481-4.584-1.692-1.097-1.099-1.701-2.561-1.701-4.117 0-1.046.237-2.225.715-3.279l3.809 3.811c.436-.073.968-.393 1.405-.935.283-.35.427-.675.466-.91l-3.826-3.826c1.056-.476 2.219-.71 3.255-.71 1.533 0 3.043.601 4.143 1.702 1.208 1.209 1.823 2.88 1.69 4.584-.031.428.125.851.43 1.156l10.951 10.951c.62.621.962 1.446.962 2.322 0 1.811-1.474 3.285-3.285 3.285zm-14.319-14.343c.915 0 1.81.371 2.456 1.018l10.953 10.951c.239.24.571.377.909.377.71 0 1.288-.577 1.288-1.287 0-.344-.134-.667-.378-.911l-10.949-10.951c-.715-.716-1.083-1.707-1.009-2.718.088-1.127-.317-2.227-1.111-3.022-.493-.492-1.098-.833-1.758-1l1.49 1.491c.218 1.001.125 1.947-.804 3.097-1.002 1.243-2.292 1.932-3.88 1.586l-1.489-1.49c.167.66.508 1.266 1 1.759.796.794 1.893 1.2 3.017 1.11l.265-.01zm1.664 5.877l-4.665 4.627c-.229.229-.504.407-.79.558l-.579.302-1.026 2.145.833.834 2.101-1.07.301-.58c.15-.286.347-.545.574-.774l4.665-4.627-1.414-1.415zm7.15-7.798l4.507-4.499c.168-.17.442-.168.611 0 .168.17.169.442 0 .611l-4.507 4.5.89.89 4.507-4.5c.169-.169.441-.168.61.001.168.168.17.441.001.609l-4.508 4.5 1.039 1.039 4.767-4.759c.582-.583.873-1.346.873-2.11 0-.768-.293-1.537-.881-2.125-.584-.585-1.35-.877-2.113-.877-.766 0-1.529.293-2.113.877l-4.767 4.759 1.084 1.084zm5.49 12.464c-.276 0-.5.224-.5.5s.224.5.5.5.5-.224.5-.5-.223-.5-.5-.5z"/></svg>',
   settings: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z"/></svg>',
   info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 6.5c-.414 0-.75.336-.75.75v5.5c0 .414.336.75.75.75s.75-.336.75-.75v-5.5c0-.414-.336-.75-.75-.75zm-.002-3c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1z"></svg>',
@@ -92142,7 +92142,7 @@ var IfcAPI2 = class {
   }
 };
 
-class ClippingEdges$1 {
+class ClippingEdges {
     constructor(clippingPlane) {
         this.edges = {};
         this.isVisible = true;
@@ -92162,7 +92162,7 @@ class ClippingEdges$1 {
         allEdges.forEach((edges) => {
             edges.mesh.visible = visible;
             if (visible)
-                ClippingEdges$1.context.getScene().add(edges.mesh);
+                ClippingEdges.context.getScene().add(edges.mesh);
             else
                 edges.mesh.removeFromParent();
         });
@@ -92193,18 +92193,18 @@ class ClippingEdges$1 {
         this.clippingPlane = null;
     }
     disposeStylesAndHelpers() {
-        if (ClippingEdges$1.basicEdges) {
-            ClippingEdges$1.basicEdges.removeFromParent();
-            ClippingEdges$1.basicEdges.geometry.dispose();
-            ClippingEdges$1.basicEdges = null;
-            ClippingEdges$1.basicEdges = new LineSegments();
+        if (ClippingEdges.basicEdges) {
+            ClippingEdges.basicEdges.removeFromParent();
+            ClippingEdges.basicEdges.geometry.dispose();
+            ClippingEdges.basicEdges = null;
+            ClippingEdges.basicEdges = new LineSegments();
         }
-        ClippingEdges$1.context = null;
-        ClippingEdges$1.ifc = null;
-        ClippingEdges$1.edgesParent = undefined;
-        if (!ClippingEdges$1.styles)
+        ClippingEdges.context = null;
+        ClippingEdges.ifc = null;
+        ClippingEdges.edgesParent = undefined;
+        if (!ClippingEdges.styles)
             return;
-        const styles = Object.values(ClippingEdges$1.styles);
+        const styles = Object.values(ClippingEdges.styles);
         styles.forEach((style) => {
             style.ids.length = 0;
             style.meshes.forEach((mesh) => {
@@ -92221,17 +92221,17 @@ class ClippingEdges$1 {
             style.categories.length = 0;
             style.material.dispose();
         });
-        ClippingEdges$1.styles = null;
-        ClippingEdges$1.styles = {};
+        ClippingEdges.styles = null;
+        ClippingEdges.styles = {};
     }
     async updateEdges() {
-        if (ClippingEdges$1.createDefaultIfcStyles) {
+        if (ClippingEdges.createDefaultIfcStyles) {
             await this.updateIfcStyles();
         }
-        if (ClippingEdges$1.forceStyleUpdate) {
+        if (ClippingEdges.forceStyleUpdate) {
             this.updateSubsetsTranformation();
         }
-        Object.keys(ClippingEdges$1.styles).forEach((styleName) => {
+        Object.keys(ClippingEdges.styles).forEach((styleName) => {
             try {
                 // this can trow error if there is an empty mesh, we still want to update other edges so we catch ere
                 this.drawEdges(styleName);
@@ -92242,18 +92242,18 @@ class ClippingEdges$1 {
         });
     }
     // Creates a new style that applies to all clipping edges for IFC models
-    static async newStyle(styleName, categories, material = ClippingEdges$1.defaultMaterial) {
+    static async newStyle(styleName, categories, material = ClippingEdges.defaultMaterial) {
         const subsets = [];
-        const models = ClippingEdges$1.context.items.ifcModels;
+        const models = ClippingEdges.context.items.ifcModels;
         for (let i = 0; i < models.length; i++) {
             // eslint-disable-next-line no-await-in-loop
-            const subset = await ClippingEdges$1.newSubset(styleName, models[i], categories);
+            const subset = await ClippingEdges.newSubset(styleName, models[i], categories);
             if (subset) {
                 subsets.push(subset);
             }
         }
-        material.clippingPlanes = ClippingEdges$1.context.getClippingPlanes();
-        ClippingEdges$1.styles[styleName] = {
+        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
+        ClippingEdges.styles[styleName] = {
             ids: models.map((model) => model.modelID),
             categories,
             material,
@@ -92261,14 +92261,14 @@ class ClippingEdges$1 {
         };
     }
     // Creates a new style that applies to all clipping edges for generic models
-    static async newStyleFromMesh(styleName, meshes, material = ClippingEdges$1.defaultMaterial) {
+    static async newStyleFromMesh(styleName, meshes, material = ClippingEdges.defaultMaterial) {
         const ids = meshes.map((mesh) => mesh.modelID);
         meshes.forEach((mesh) => {
             if (!mesh.geometry.boundsTree)
                 mesh.geometry.computeBoundsTree();
         });
-        material.clippingPlanes = ClippingEdges$1.context.getClippingPlanes();
-        ClippingEdges$1.styles[styleName] = {
+        material.clippingPlanes = ClippingEdges.context.getClippingPlanes();
+        ClippingEdges.styles[styleName] = {
             ids,
             categories: [],
             material,
@@ -92276,15 +92276,15 @@ class ClippingEdges$1 {
         };
     }
     async updateStylesIfcGeometry() {
-        const styleNames = Object.keys(ClippingEdges$1.styles);
+        const styleNames = Object.keys(ClippingEdges.styles);
         for (let i = 0; i < styleNames.length; i++) {
             const name = styleNames[i];
-            const style = ClippingEdges$1.styles[name];
-            const models = ClippingEdges$1.context.items.ifcModels;
+            const style = ClippingEdges.styles[name];
+            const models = ClippingEdges.context.items.ifcModels;
             style.meshes.length = 0;
             for (let i = 0; i < models.length; i++) {
                 // eslint-disable-next-line no-await-in-loop
-                const subset = await ClippingEdges$1.newSubset(name, models[i], style.categories);
+                const subset = await ClippingEdges.newSubset(name, models[i], style.categories);
                 if (subset) {
                     style.meshes.push(subset);
                 }
@@ -92292,12 +92292,12 @@ class ClippingEdges$1 {
         }
     }
     updateSubsetsTranformation() {
-        const styleNames = Object.keys(ClippingEdges$1.styles);
+        const styleNames = Object.keys(ClippingEdges.styles);
         for (let i = 0; i < styleNames.length; i++) {
             const styleName = styleNames[i];
-            const style = ClippingEdges$1.styles[styleName];
+            const style = ClippingEdges.styles[styleName];
             style.meshes.forEach((mesh) => {
-                const model = ClippingEdges$1.context.items.ifcModels.find((model) => model.modelID === mesh.modelID);
+                const model = ClippingEdges.context.items.ifcModels.find((model) => model.modelID === mesh.modelID);
                 if (model) {
                     mesh.position.copy(model.position);
                     mesh.rotation.copy(model.rotation);
@@ -92305,21 +92305,21 @@ class ClippingEdges$1 {
                 }
             });
         }
-        ClippingEdges$1.forceStyleUpdate = false;
+        ClippingEdges.forceStyleUpdate = false;
     }
     async updateIfcStyles() {
         if (!this.stylesInitialized) {
             await this.createDefaultIfcStyles();
         }
-        if (ClippingEdges$1.forceStyleUpdate) {
+        if (ClippingEdges.forceStyleUpdate) {
             await this.updateStylesIfcGeometry();
-            ClippingEdges$1.forceStyleUpdate = false;
+            ClippingEdges.forceStyleUpdate = false;
         }
     }
     // Creates some basic styles so that users don't have to create it each time
     async createDefaultIfcStyles() {
-        if (Object.keys(ClippingEdges$1.styles).length === 0) {
-            await ClippingEdges$1.newStyle('thick', [
+        if (Object.keys(ClippingEdges.styles).length === 0) {
+            await ClippingEdges.newStyle('thick', [
                 IFCWALLSTANDARDCASE,
                 IFCWALL,
                 IFCSLAB,
@@ -92330,7 +92330,7 @@ class ClippingEdges$1 {
                 IFCBUILDINGELEMENTPROXY,
                 IFCPROXY
             ], new LineMaterial({ color: 0x000000, linewidth: 0.0015 }));
-            await ClippingEdges$1.newStyle('thin', [
+            await ClippingEdges.newStyle('thin', [
                 IFCWINDOW,
                 IFCPLATE,
                 IFCMEMBER,
@@ -92357,14 +92357,14 @@ class ClippingEdges$1 {
                 modelID,
                 ids,
                 customID: styleName,
-                material: ClippingEdges$1.invisibleMaterial,
+                material: ClippingEdges.invisibleMaterial,
                 removePrevious: true,
-                scene: ClippingEdges$1.context.getScene(),
+                scene: ClippingEdges.context.getScene(),
                 applyBVH: true
             });
         }
         else {
-            subset = manager.getSubset(modelID, ClippingEdges$1.invisibleMaterial, styleName);
+            subset = manager.getSubset(modelID, ClippingEdges.invisibleMaterial, styleName);
         }
         subset.position.copy(model.position);
         subset.rotation.copy(model.rotation);
@@ -92396,7 +92396,7 @@ class ClippingEdges$1 {
     }
     // Creates the geometry of the clipping edges
     newThickEdges(styleName) {
-        const material = ClippingEdges$1.styles[styleName].material;
+        const material = ClippingEdges.styles[styleName].material;
         const thickLineGeometry = new LineSegmentsGeometry();
         const thickEdges = new LineSegments2(thickLineGeometry, material);
         thickEdges.material.polygonOffset = true;
@@ -92407,11 +92407,11 @@ class ClippingEdges$1 {
     }
     // Source: https://gkjohnson.github.io/three-mesh-bvh/example/bundle/clippedEdges.html
     drawEdges(styleName) {
-        const style = ClippingEdges$1.styles[styleName];
+        const style = ClippingEdges.styles[styleName];
         // if (!style.subsets.geometry.boundsTree) return;
         if (!this.edges[styleName]) {
             this.edges[styleName] = {
-                generatorGeometry: ClippingEdges$1.newGeneratorGeometry(),
+                generatorGeometry: ClippingEdges.newGeneratorGeometry(),
                 mesh: this.newThickEdges(styleName)
             };
         }
@@ -92474,22 +92474,22 @@ class ClippingEdges$1 {
         posAttr.needsUpdate = true;
         // Update the edges geometry only if there is no NaN in the output (which means there's been an error)
         if (!Number.isNaN(edges.generatorGeometry.attributes.position.array[0])) {
-            ClippingEdges$1.basicEdges.geometry = edges.generatorGeometry;
-            edges.mesh.geometry.fromLineSegments(ClippingEdges$1.basicEdges);
-            const parent = ClippingEdges$1.edgesParent || ClippingEdges$1.context.getScene();
+            ClippingEdges.basicEdges.geometry = edges.generatorGeometry;
+            edges.mesh.geometry.fromLineSegments(ClippingEdges.basicEdges);
+            const parent = ClippingEdges.edgesParent || ClippingEdges.context.getScene();
             parent.add(edges.mesh);
-            ClippingEdges$1.context.renderer.postProduction.excludedItems.add(edges.mesh);
+            ClippingEdges.context.renderer.postProduction.excludedItems.add(edges.mesh);
         }
     }
 }
-ClippingEdges$1.styles = {};
-ClippingEdges$1.forceStyleUpdate = false;
-ClippingEdges$1.createDefaultIfcStyles = true;
-ClippingEdges$1.edgesParent = null;
-ClippingEdges$1.invisibleMaterial = new MeshBasicMaterial({ visible: false });
-ClippingEdges$1.defaultMaterial = new LineMaterial({ color: 0x000000, linewidth: 0.001 });
+ClippingEdges.styles = {};
+ClippingEdges.forceStyleUpdate = false;
+ClippingEdges.createDefaultIfcStyles = true;
+ClippingEdges.edgesParent = null;
+ClippingEdges.invisibleMaterial = new MeshBasicMaterial({ visible: false });
+ClippingEdges.defaultMaterial = new LineMaterial({ color: 0x000000, linewidth: 0.001 });
 // Helpers
-ClippingEdges$1.basicEdges = new LineSegments();
+ClippingEdges.basicEdges = new LineSegments();
 
 class IfcPlane extends IfcComponent {
     constructor(context, origin, normal, onStartDragging, onEndDragging, planeSize, edgesEnabled) {
@@ -92522,7 +92522,7 @@ class IfcPlane extends IfcComponent {
         this.controls = this.newTransformControls();
         this.setupEvents(onStartDragging, onEndDragging);
         this.plane.setFromNormalAndCoplanarPoint(normal, origin);
-        this.edges = new ClippingEdges$1(this.plane);
+        this.edges = new ClippingEdges(this.plane);
         this.edgesActive = edgesEnabled;
     }
     get active() {
@@ -122763,8 +122763,8 @@ class IfcViewerAPI {
         this.GLTF = new GLTFManager(this.context, this.IFC);
         this.dropbox = new DropboxAPI(this.context, this.IFC);
         this.selectionWindow = new SelectionWindow(this.context);
-        ClippingEdges$1.ifc = this.IFC;
-        ClippingEdges$1.context = this.context;
+        ClippingEdges.ifc = this.IFC;
+        ClippingEdges.context = this.context;
     }
     /**
      * @deprecated Use `this.dropbox.loadDropboxIfc()` instead.
@@ -122916,24 +122916,8 @@ function sortChildren(parent) {
     });
   }
 
-const navigationBar = document.getElementById("selectors");
-const navigationButton = document.getElementById("close-nav-bar");
-
-function closeNavBar() {
-    let togglenavigationBar = false;
-    navigationButton.onclick = function () {
-      navigationBar.style.visibility = togglenavigationBar ? "visible" : "collapse";
-      navigationButton.style.transform = togglenavigationBar
-        ? ""
-        : "rotate(180deg)";
-      const navBarBackground = document.getElementById("nav-bar");
-      navBarBackground.style.backgroundColor = togglenavigationBar
-        ? ""
-        : "#FFFFFF00";
-      navBarBackground.style.boxShadow = togglenavigationBar ? "" : "none";
-      togglenavigationBar = !togglenavigationBar;
-    };
-    }
+document.getElementById("selectors");
+document.getElementById("close-nav-bar");
 
 function selectedButton(button, toggle, changeTitle = false) {
   toggle
@@ -123138,6 +123122,7 @@ const toggle = {};
 const objectPath = `assets/${province.term}/${city.name}/${place.id}/objects/${object.id}`;
 const objectFileName = `${province.term}_${city.name}_${place.id}_${object.id}`;
 const glbFilePath = `${objectPath}/glb/${objectFileName}`;
+// const ifcFilePath = `assets/${currentModelCode}/ifc/${objectFileName}`;
 let model = {};
 
 place = canada$1.provinces[province.term].cities[city.name].places[place.id];
@@ -123157,7 +123142,11 @@ document
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
   });
-closeNavBar();
+// cdt.closeNavBar();
+
+document.getElementById('close-bim-viewer').addEventListener('click', () => {
+  frameElement.parentNode.removeChild(frameElement);
+});
 
 const container = document.getElementById("viewer-container");
 
@@ -123175,7 +123164,7 @@ layerButton.onclick = () => {
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
   container,
-  backgroundColor: new Color(0xdddddd),
+  backgroundColor: new Color(0x8c8c8c),
 });
 viewer.IFC.setWasmPath("wasm/");
 const scene = viewer.context.getScene();
@@ -123228,7 +123217,7 @@ async function loadIfc(ifcURL) {
         if (categoryGlb.modelID > -1) {
           // Postproduction 💅
           viewer.shadowDropper.renderShadow(categoryGlb.modelID);
-          ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial);
+          // ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial)
           return categoryGlb;
         } else {
           throw new Error(`${category} does not exist in this object`);
@@ -123270,7 +123259,7 @@ async function loadIfc(ifcURL) {
 
   //   await viewer.plans.computeAllPlanViews(model.modelID);
 
-    const lineMaterial = new LineBasicMaterial({ color: "black" });
+    new LineBasicMaterial({ color: "black" });
     new MeshBasicMaterial({
       polygonOffset: true,
       polygonOffsetFactor: 1,
@@ -123702,6 +123691,7 @@ async function preproscessIfc(object) {
 function updatePostProduction() {
   viewer.context.renderer.postProduction.update();
 }
+
 
 // Set up stats
 // const stats = new Stats();

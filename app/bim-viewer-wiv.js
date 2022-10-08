@@ -39,7 +39,7 @@ const toggle = {};
 const objectPath = `assets/${province.term}/${city.name}/${place.id}/objects/${object.id}`;
 const objectFileName = `${province.term}_${city.name}_${place.id}_${object.id}`;
 const glbFilePath = `${objectPath}/glb/${objectFileName}`;
-const ifcFilePath = `assets/${currentModelCode}/ifc/${objectFileName}`;
+// const ifcFilePath = `assets/${currentModelCode}/ifc/${objectFileName}`;
 let model = {};
 
 place = canada.provinces[province.term].cities[city.name].places[place.id];
@@ -59,7 +59,11 @@ document
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
   });
-cdt.closeNavBar();
+// cdt.closeNavBar();
+
+document.getElementById('close-bim-viewer').addEventListener('click', () => {
+  frameElement.parentNode.removeChild(frameElement)
+})
 
 const container = document.getElementById("viewer-container");
 
@@ -77,7 +81,7 @@ layerButton.onclick = () => {
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
   container,
-  backgroundColor: new Color(0xdddddd),
+  backgroundColor: new Color(0x8c8c8c),
 });
 viewer.IFC.setWasmPath("wasm/");
 const scene = viewer.context.getScene();
@@ -130,7 +134,7 @@ async function loadIfc(ifcURL) {
         if (categoryGlb.modelID > -1) {
           // Postproduction 💅
           viewer.shadowDropper.renderShadow(categoryGlb.modelID);
-          ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial)
+          // ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial)
           return categoryGlb;
         } else {
           throw new Error(`${category} does not exist in this object`);
@@ -604,6 +608,7 @@ async function preproscessIfc(object) {
 function updatePostProduction() {
   viewer.context.renderer.postProduction.update();
 }
+
 
 // Set up stats
 // const stats = new Stats();
