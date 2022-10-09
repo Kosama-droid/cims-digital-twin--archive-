@@ -48593,6 +48593,7 @@ function createOptions(selector, objects, keepSelectors = 2) {
     let option = document.createElement("option");
     option.innerHTML = name;
     option.setAttribute("id", object);
+    option.classList.add('option');
     selector.appendChild(option);
     sortChildren(selector);
   }
@@ -49224,20 +49225,16 @@ function openBimViewer(object) {
     return;
   }
   let url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  let bimContainer;
-  bimContainer = document.getElementById("bim-container");
+  let bimContainer = document.getElementById("iframe-container");
   bimViewer = document.getElementById("bim-viewer");
   if (!bimViewer) {
     bimContainer.classList.remove("hidden");
     bimViewer = document.createElement("iframe");
     bimViewer.setAttribute("id", "bim-viewer");
     bimViewer.classList.add("bim-viewer");
-    if (isMobile) {
-      window.open(url);
-    } else {
+    bimViewer.classList.add("iframe-mobile");
       bimContainer.appendChild(bimViewer);
       hideElementsById("toolbar");
-    }
   }
   bimViewer.setAttribute("src", url);
 }

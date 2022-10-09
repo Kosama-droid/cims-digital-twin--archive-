@@ -84,21 +84,6 @@ h3 {
   outline: none;
 }
 
-.header-button svg {
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  width: 1.8rem;
-  height: 1.8rem;
-  fill: var(--secondary-color);
-}
-
-.header-button:hover>svg {
-  fill: var(--primary-light);
-}
-
 .flex-container {
   display: flex;
 }
@@ -137,6 +122,11 @@ a {
 
 .white-icon:hover>svg {
   fill: var(--icdt-color);
+  scale: 1.05;
+}
+
+.selected-button svg {
+  fill: #93B9E2;
   scale: 1.05;
 }
 
@@ -243,30 +233,11 @@ a {
   align-items: flex-end;
 }
 
-.button {
-  z-index: 1;
-  padding: 0.7rem;
-  margin: 0.3rem;
-  font-weight: 500;
-  border: none;
-  backdrop-filter: blur(0px);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  align-items: center;
-  width: fit-content;
-  height: fit-content;
-  max-width: 315px;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  pointer-events: all;
-}
-
 .selector {
   z-index: 1;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 0.7rem;
-  margin: 0.3rem;
+  margin: 0.5rem;
   font-weight: 500;
   border: none;
   border-radius: 0.5rem;
@@ -274,10 +245,14 @@ a {
   align-items: center;
   width: fit-content;
   height: fit-content;
-  max-width: 300px;
+  max-width: 250px;
   font-size: 0.8rem;
   text-transform: uppercase;
   pointer-events: all;
+}
+
+.option{
+  padding: 5px;
 }
 
 .button:hover{
@@ -295,43 +270,6 @@ a {
   box-shadow: var(--shadow);
 }
 
-.selected-button {
-  fill: #93B9E2;
-}
-
-.circular {
-  color: var(--primary-dark);
-  backdrop-filter: var(--blur);
-  border-radius: 45px;
-  transition: all 0.3s ease 0s;
-}
-
-.circular input:active {
-  transform: translateY(-1px);
-}
-
-.circular svg {
-  width: 1.8rem;
-  height: 1.8rem;
-  fill: var(--secondary-color);
-}
-
-.circular:hover svg {
-  fill: var(--primary-dark);
-}
-
-.circular h1{
-  text-align: center;
-  font-size: 1.5rem;
-  width: 1.8rem;
-  height: 1.8rem;
-  color: var(--secondary-color);
-}
-
-.circular:hover h1 {
-  color: var(--primary-dark);
-}
-
 .nav-bar {
   z-index: 1;
   overflow: auto;
@@ -344,10 +282,6 @@ a {
   align-items: center;
   font-size: 0.8rem;
   text-transform: uppercase;
-}
-
-.unloaded>option {
-  color: var(--secondary-color);
 }
 
 .side-menu {
@@ -577,26 +511,35 @@ ul, #myUL {
   border-radius: 4px;
 }
 
-.bim-container{
+.iframe{
+  z-index: 5;
   position: absolute;
-  top: 1rem;
+  top: 0;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
 .bim-viewer{
   z-index: 5;
   justify-content: center;
-  height: 90%;
-  width: 100%;
-  margin: 0.4rem;
+  margin: 1rem;
+  height: calc(100% - 2rem);
+  width: calc(100% - 2rem);
   box-shadow: var(--shadow);
   border: none;
   border-radius: var(--border-radius);
   transition: all 0.5s ease 0s;
   pointer-events: all;
+}
+
+.iframe-mobile{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .all-pointer-events{
@@ -674,4 +617,9 @@ ul, #myUL {
   flex-direction: column;
   justify-content:space-between;
   pointer-events: none;
+}
+
+#selectors{
+  display: flex;
+  align-items: center;
 }

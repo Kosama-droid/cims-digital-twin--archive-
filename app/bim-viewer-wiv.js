@@ -61,7 +61,7 @@ document
   });
 // cdt.closeNavBar();
 
-document.getElementById('close-bim-viewer').addEventListener('click', () => {
+document.getElementById('icdt').addEventListener('click', () => {
   frameElement.parentNode.removeChild(frameElement)
 })
 

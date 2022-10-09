@@ -122983,6 +122983,7 @@ function createOptions(selector, objects, keepSelectors = 2) {
     let option = document.createElement("option");
     option.innerHTML = name;
     option.setAttribute("id", object);
+    option.classList.add('option');
     selector.appendChild(option);
     sortChildren(selector);
   }
@@ -123144,7 +123145,7 @@ document
   });
 // cdt.closeNavBar();
 
-document.getElementById('close-bim-viewer').addEventListener('click', () => {
+document.getElementById('icdt').addEventListener('click', () => {
   frameElement.parentNode.removeChild(frameElement);
 });
 
