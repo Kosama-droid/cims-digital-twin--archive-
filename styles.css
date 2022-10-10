@@ -26,8 +26,6 @@ body {
   overflow: hidden;
 }
 
-
-
 hide-overflow {
   overflow: hidden;
 }
@@ -221,12 +219,6 @@ a {
   outline: none;
   border-color: var(--icdt-color);
   box-shadow: 0 0 10px var(--icdt-color);
-}
-
-@media (max-width: 500px) {
-  .button:hover{
-    transform: translateY(0);
-  }
 }
 
 .transp1-background {
@@ -497,14 +489,6 @@ ul, #myUL {
   pointer-events: all;
 }
 
-.iframe-mobile{
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  box-shadow: none;
-  border-radius: 0;
-}
-
 .iframe-content{
   width: 50%;
   height: 98vh;
@@ -513,6 +497,17 @@ ul, #myUL {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
 }
+
+@media (max-width: 500px) {
+  .iframe-content{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  box-shadow: none;
+  border-radius: 0;
+}
+}
+
 
 .all-pointer-events{
   pointer-events: all;
