@@ -499,6 +499,11 @@ ul, #myUL {
 }
 
 @media (max-width: 500px) {
+.iframe{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+
   .iframe-content{
   margin: 0;
   height: 100%;
