@@ -67,7 +67,7 @@ let place = { id: "CDC", name: "Carleton University" };
 // GUI  👌
 // ICDT 🍁
 document.getElementById("icdt").addEventListener("click", () => {
-  openIframe("canadasdigitaltwin.ca);
+  openIframe("canadasdigitaltwin.ca");
 });
 
 
