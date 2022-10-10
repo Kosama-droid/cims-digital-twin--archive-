@@ -503,16 +503,14 @@ ul, #myUL {
   margin: 5px;
   height: 100vh;
   width: 100vw;
- box-shadow: none;
-  border-radius: 0;
 }
 
   .iframe-content{
   margin: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  box-shadow: none;
-  border-radius: 0;
+overflow: auto
+;
 }
 }
 
