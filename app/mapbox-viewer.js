@@ -65,10 +65,19 @@ let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
 // GUI  👌
-
 // User Login 👤
 document.getElementById("login").addEventListener("click", () => {
-  userLogin()
+  openIframe("login")
+});
+
+// User settings 🔩
+document.getElementById("settings").addEventListener("click", () => {
+  openIframe("settings")
+});
+
+// User info ℹ️
+document.getElementById("info").addEventListener("click", () => {
+  openIframe("info")
 });
 
 // Selectors 🧲
@@ -481,14 +490,14 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function userLogin() {
-  const url = `login.html`;
+function openIframe(name) {
+  const url = `${name}.html`;
   const container = document.getElementById("iframe-container");
-  const userLogin = document.createElement("iframe");
-  userLogin.setAttribute("id", "user-login");
-  userLogin.classList.add("iframe");
-  userLogin.setAttribute("src", url);
-  container.appendChild(userLogin);
+  const iframeContent = document.createElement("iframe");
+  iframeContent.setAttribute("id", name);
+  iframeContent.classList.add("iframe");
+  iframeContent.setAttribute("src", url);
+  container.appendChild(iframeContent);
   container.classList.remove("hidden");
 }
 

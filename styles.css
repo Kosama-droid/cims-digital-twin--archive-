@@ -505,6 +505,15 @@ ul, #myUL {
   border-radius: 0;
 }
 
+.iframe-content{
+  width: 50%;
+  height: 98vh;
+  background-color: var(--secondary-color);
+  margin: 0 4rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
 .all-pointer-events{
   pointer-events: all;
 }
