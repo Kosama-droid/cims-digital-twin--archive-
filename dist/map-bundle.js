@@ -48766,8 +48766,6 @@ const isMobile =
     navigator.userAgent
   );
 
-hideElementsById("city-select", "place-select", "object-select", "osm");
-
 const draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
@@ -48804,19 +48802,25 @@ let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
 // GUI  👌
+// ICDT 🍁
+document.getElementById("icdt").addEventListener("click", () => {
+  openIframe("https://canadasdigitaltwin.ca", "icdt");
+});
+
+
 // User Login 👤
 document.getElementById("login").addEventListener("click", () => {
-  openIframe("login");
+  openIframe("login.html");
 });
 
 // User settings 🔩
 document.getElementById("settings").addEventListener("click", () => {
-  openIframe("settings");
+  openIframe("settings.html");
 });
 
 // User info ℹ️
 document.getElementById("info").addEventListener("click", () => {
-  openIframe("info");
+  openIframe("info.html");
 });
 
 // Selectors 🧲
@@ -48971,6 +48975,7 @@ provinceSelector.addEventListener("change", (event) => {
   let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
   locGeojson = getGeojson(province, url, map, locGeojson);
   getCities(province.code);
+  hideElementsById("province-select");
   unhideElementsById("city-select");
 });
 // City ➡️________________
@@ -48995,6 +49000,7 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     // placeMarkers = placeMarker(places);
     createOptions(placeSelector, places);
   }
+  hideElementsById("city-select");
   unhideElementsById("place-select");
   document.getElementById("add-place").classList.remove("hidden");
 });
@@ -49229,12 +49235,15 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function openIframe(name) {
-  const url = `${name}.html`;
+function openIframe(iframeName, className = "iframe") {
+  const url = iframeName;
   const container = document.getElementById("iframe-container");
+  console.log(container.children);
+  console.log(container.childElementCount);
+  while (container.childElementCount > 1) container.lastChild.remove();
   const iframeContent = document.createElement("iframe");
-  iframeContent.setAttribute("id", name);
-  iframeContent.classList.add("iframe");
+  iframeContent.setAttribute("id", '');
+  iframeContent.classList.add(className);
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
@@ -49411,7 +49420,7 @@ function setPlace(place, provinceTerm, cityName) {
   setModelOrigin(place);
   flyToPlace(place);
   hideElementsById("province-select");
-  unhideElementsById("city-select", "place-select", "osm");
+  unhideElementsById("place-select");
   invisibleMasses = [];
   visibleMasses = [];
   if (!place.hasOwnProperty("objects")) {
