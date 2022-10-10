@@ -497,26 +497,8 @@ ul,
   height: 88vh;
   margin: 5rem;
   background-color: var(--secondary-color);
-  max-width: calc(100% - 8rem);
-	max-height: 90vh;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-}
-
-@media (max-width: 500px) {
-	.iframe {
-		margin: 0.5rem;
-		max-width: calc(100% - 1rem);
-		max-height: calc(100% - 1rem);
-	}
-
-  .iframe-content {
-    position: absolute;
-width: 100%;
-height: 100%;
-    margin: 0;
-    overflow: auto;
-  }
 }
 
 .icdt {
@@ -641,6 +623,28 @@ height: 100%;
   flex-wrap: wrap;
 }
 
+@media (max-width: 500px) {
+	.iframe {
+		margin: 0.5rem;
+		max-width: calc(100% - 1rem);
+		max-height: calc(100% - 1rem);
+	}
+
+  .iframe-content {
+    position: absolute;
+width: 100%;
+height: 100%;
+    margin: 0;
+    overflow: auto;
+  }
+
+
+#right-container {
+height: 88vh;
+}
+}
+
 .hidden {
   display: none;
+pointer-events: none;
 }
