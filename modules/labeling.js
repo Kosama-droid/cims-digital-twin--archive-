@@ -6,7 +6,7 @@ export default function labeling(scene, collisionLocation, user = "User") {
     if (!message) return;
   
     const container = document.createElement("div");
-    container.className = "label-container canvas";
+    container.className = "comment-label-container canvas";
   
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
@@ -15,7 +15,7 @@ export default function labeling(scene, collisionLocation, user = "User") {
   
     const label = document.createElement("p");
     label.textContent = `${user}: ${message}`;
-    label.classList.add("label");
+    label.classList.add("comment-label");
     container.appendChild(label);
   
     const labelObject = new CSS2DObject(container);

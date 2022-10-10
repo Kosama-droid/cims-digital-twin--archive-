@@ -1,6 +1,7 @@
 var icons$1 = icons = {
   cims: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450.000000 452.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,452.000000) scale(0.050000,-0.050000)"><path d="M35 9008 c-8 -8 -15 -2034 -15 -4501 l0 -4487 4490 0 4490 0 0 4490 -1 4490 -4417 0 c-2429 0 -4443 5 -4475 12 -31 6 -64 4 -72 -4z m2826 -1433 c1 -1429 4 -1293 -20 -1255 -11 17 -573 584 -1250 1262 -677 677 -1231 1235 -1231 1240 0 4 563 6 1250 3 l1251 -5 0 -1245z m5822 1255 c9 -9 -4144 -4170 -4163 -4170 -5 0 -332 323 -726 717 l-716 717 -4 1363 -4 1363 2780 5 c1529 3 2790 7 2802 10 12 3 26 1 31 -5z m-7142 -1480 l1329 -1331 -5 -1054 -4 -1053 -56 -53 c-30 -29 -624 -603 -1319 -1276 -695 -673 -1266 -1223 -1270 -1223 -3 0 -6 1647 -6 3660 0 2013 1 3660 1 3660 1 0 600 -599 1330 -1330z m7301 1305 c-1 -8 -2 -1914 -2 -4235 l0 -4220 -976 0 -975 0 -1134 1105 -1134 1105 -1 1030 0 1030 2095 2101 c1894 1900 2132 2133 2127 2084z m-4418 -5120 c3 -514 4 -935 2 -935 -2 0 -97 93 -210 206 -113 113 -415 411 -670 661 l-465 455 -5 954 -6 954 674 -680 674 -679 6 -936z m-919 -310 c289 -283 613 -600 720 -705 l195 -190 1 -1060 1 -1060 -2086 -5 c-1147 -3 -2095 -2 -2106 2 -13 5 -17 165 -12 445 l7 438 633 609 c999 963 1862 1800 1982 1923 61 62 117 113 125 115 8 2 251 -229 540 -512z m1785 -1747 c264 -257 668 -651 897 -874 230 -224 414 -408 410 -410 -4 -2 -450 -1 -992 2 l-984 5 -6 955 c-3 525 -1 962 4 973 4 10 49 -27 100 -82 50 -55 307 -311 571 -569z"/></g></svg>`,
   goToIcon: `M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z`,
+  back: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z"/></svg>',
   ortho: `m3.514 6.61c-.317.179-.514.519-.514.887v8.95c0 .37.197.708.514.887 1.597.901 6.456 3.639 8.005 4.512.152.085.319.128.487.128.164 0 .328-.041.477-.123 1.549-.855 6.39-3.523 7.994-4.408.323-.177.523-.519.523-.891v-9.055c0-.368-.197-.708-.515-.887-1.595-.899-6.444-3.632-7.999-4.508-.151-.085-.319-.128-.486-.128-.168 0-.335.043-.486.128-1.555.876-6.405 3.609-8 4.508m15.986 2.115v7.525l-6.75 3.722v-7.578zm-15 7.425v-7.458l6.75 3.75v7.511zm.736-8.769 6.764-3.813 6.801 3.834-6.801 3.716z`,
   mapbox: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet"> <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"> <path d="M1390 2994 c-335 -38 -577 -133 -814 -318 -691 -539 -768 -1564 -165 -2201 291 -307 666 -468 1089 -468 349 0 650 104 925 318 457 356 667 959 530 1524 -141 583 -610 1022 -1202 1126 -89 15 -299 26 -363 19z m465 -604 c518 -164 732 -768 422 -1187 -151 -203 -461 -365 -808 -422 -171 -28 -541 -31 -661 -6 -33 8 -35 15 -48 200 -26 379 49 764 199 1014 145 241 301 365 526 417 90 21 281 12 370 -16z" /><path d="M1601 1967 l-72 -147 -144 -73 c-80 -39 -145 -74 -144 -77 0 -3 65 -36 144 -74 l143 -69 72 -148 72 -148 74 150 74 150 148 71 147 70 -150 72 -149 72 -72 149 -72 150 -71 -148z" /> </g></svg>`,
   ifc: `<g xmlns="http://www.w3.org/2000/svg" transform="translate(0.000000,298.000000) scale(0.100000,-0.100000)"><path d="M1863 2886 c-67 -22 -101 -48 -233 -181 l-125 -125 118 -117 117 -118 98 98 97 97 300 -300 300 -300 -358 -358 c-196 -196 -357 -362 -357 -369 0 -16 79 -80 123 -98 57 -24 162 -20 222 9 69 33 674 639 704 706 28 61 28 159 0 220 -28 63 -742 780 -813 817 -59 30 -136 38 -193 19z"/><path d="M971 2841 c-49 -17 -88 -53 -442 -407 -427 -426 -425 -424 -423 -539 1 -93 27 -133 179 -285 l135 -135 117 118 118 117 -97 97 -97 96 297 299 297 298 362 -362 363 -362 36 34 c58 56 88 124 88 201 0 116 -13 134 -366 485 -199 198 -328 320 -355 333 -62 31 -146 36 -212 12z"/><path d="M1173 2248 c-56 -59 -78 -114 -78 -198 0 -59 5 -84 24 -120 14 -26 101 -123 209 -233 l186 -187 118 117 118 118 -267 267 c-147 148 -270 268 -273 268 -4 0 -20 -15 -37 -32z"/><path d="M1990 1893 c-36 -12 -86 -57 -245 -214 l-200 -199 118 -117 117 -118 273 273 272 273 -40 36 c-22 19 -58 44 -80 55 -53 28 -155 33 -215 11z"/><path d="M890 1853 c-38 -13 -98 -68 -368 -337 -361 -358 -375 -376 -375 -486 -1 -119 3 -124 411 -533 202 -203 387 -380 412 -395 39 -24 56 -27 130 -27 64 0 94 5 120 19 19 10 97 80 173 154 l137 136 -117 118 -118 118 -97 -97 -98 -98 -300 300 -300 300 362 362 362 362 -29 32 c-17 17 -57 44 -90 60 -69 33 -141 37 -215 12z"/><path d="M985 1449 l-270 -270 51 -48 c58 -53 105 -71 190 -71 100 0 136 25 347 237 l187 188 -118 118 -117 117 -270 -271z"/><path d="M2500 1375 l-115 -115 93 -93 c50 -51 92 -97 92 -102 0 -6 -133 -143 -295 -305 l-295 -295 -364 364 -363 363 -46 -51 c-80 -90 -99 -209 -47 -312 15 -29 126 -149 334 -356 356 -357 372 -369 494 -361 37 2 85 12 107 23 26 12 168 146 412 389 423 422 429 429 421 554 -2 38 -12 84 -23 107 -16 33 -270 305 -285 305 -3 0 -57 -52 -120 -115z"/><path d="M1400 1335 l-115 -115 270 -270 269 -270 34 33 c54 51 82 120 82 202 -1 111 -16 135 -228 348 -102 103 -189 187 -192 187 -3 0 -57 -52 -120 -115z"/></g>`,
@@ -28,7 +29,7 @@ var icons$1 = icons = {
   map: '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M6.57 13.41c-.373 0-.741-.066-1.093-.195l.407-1.105c.221.081.451.122.686.122.26 0 .514-.05.754-.148l.447 1.09c-.382.157-.786.236-1.201.236zm8.67-.783l-1.659-.945.583-1.024 1.66.945-.584 1.024zm-6.455-.02l-.605-1.011 1.639-.981.605 1.011-1.639.981zm3.918-1.408c-.243-.101-.5-.153-.764-.153-.23 0-.457.04-.674.119l-.401-1.108c.346-.125.708-.188 1.075-.189.42 0 .83.082 1.217.244l-.453 1.087zm-8.734-.163c-.535 0-.969.433-.969.968 0 .535.434.968.969.968.535 0 .969-.434.969-.968-.001-.535-.434-.968-.969-.968zm13.576-7.036l-5.545-4-5.545 4-6.455-4v20l6.455 4 5.545-4 5.545 4 6.455-4v-20l-6.455 4zm4.455 14.887l-4 2.479v-4.366h-1v4.141l-4-2.885v-4.256h-2v4.255l-4 2.885v-5.14h-1v5.365l-4-2.479v-15.294l4 2.479v2.929h1v-2.927l4-2.886v3.813h2v-3.813l4 2.886v1.927h1v-1.929l4-2.479v15.295zm-1.328-4.871l-1.296-1.274 1.273-1.293-.708-.702-1.272 1.295-1.294-1.272-.703.702 1.296 1.276-1.273 1.296.703.703 1.277-1.298 1.295 1.275.702-.708z"/></svg>',
   measure: '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M0 0v24h6v-24h-6zm4 22h-2v-2h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-2h2v20zm9-4.697l1.131 1.697h-1.131v-1.697zm-1-3.303v6h4l-4-6zm-4-14v24h16l-16-24zm2 20h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-2h1v-1h-1v-3.026l10.392 15.026h-10.392v-2z"/></svg>',
   sun: '<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path d="M4.069 13h-4.069v-2h4.069c-.041.328-.069.661-.069 1s.028.672.069 1zm3.034-7.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm11.209 1.414l2.881-2.881-1.414-1.414-2.881 2.881c.528.411 1.002.886 1.414 1.414zm-6.312-3.102c.339 0 .672.028 1 .069v-4.069h-2v4.069c.328-.041.661-.069 1-.069zm0 16c-.339 0-.672-.028-1-.069v4.069h2v-4.069c-.328.041-.661.069-1 .069zm7.931-9c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-3.033 7.312l2.88 2.88 1.415-1.414-2.88-2.88c-.412.528-.886 1.002-1.415 1.414zm-11.21-1.415l-2.88 2.88 1.414 1.414 2.88-2.88c-.528-.411-1.003-.885-1.414-1.414zm2.312-4.897c0 2.206 1.794 4 4 4s4-1.794 4-4-1.794-4-4-4-4 1.794-4 4zm10 0c0 3.314-2.686 6-6 6s-6-2.686-6-6 2.686-6 6-6 6 2.686 6 6z"/></svg>',
-
+  style: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.997 13.985c.01 1.104-.88 2.008-1.986 2.015-1.105.009-2.005-.88-2.011-1.984-.01-1.105.879-2.005 1.982-2.016 1.106-.007 2.009.883 2.015 1.985zm-.978-3.986c-1.104.008-2.008-.88-2.015-1.987-.009-1.103.877-2.004 1.984-2.011 1.102-.01 2.008.877 2.012 1.982.012 1.107-.88 2.006-1.981 2.016zm7.981-4.014c.004 1.102-.881 2.008-1.985 2.015-1.106.01-2.008-.879-2.015-1.983-.011-1.106.878-2.006 1.985-2.015 1.101-.006 2.005.881 2.015 1.983zm-12 15.847c4.587.38 2.944-4.492 7.188-4.537l1.838 1.534c.458 5.537-6.315 6.772-9.026 3.003zm14.065-7.115c1.427-2.239 5.846-9.748 5.846-9.748.353-.623-.429-1.273-.975-.813 0 0-6.572 5.714-8.511 7.525-1.532 1.432-1.539 2.086-2.035 4.447l1.68 1.4c2.227-.915 2.868-1.04 3.995-2.811zm-12.622 4.806c-2.084-1.82-3.42-4.479-3.443-7.447-.044-5.51 4.406-10.03 9.92-10.075 3.838-.021 6.479 1.905 6.496 3.447l1.663-1.456c-1.01-2.223-4.182-4.045-8.176-3.992-6.623.055-11.955 5.466-11.903 12.092.023 2.912 1.083 5.57 2.823 7.635.958.492 2.123.329 2.62-.204zm12.797-1.906c1.059 1.97-1.351 3.37-3.545 3.992-.304.912-.803 1.721-1.374 2.311 5.255-.591 9.061-4.304 6.266-7.889-.459.685-.897 1.197-1.347 1.586z"/></svg>',
 };
 
 const lngRange = 0.025;
@@ -48500,16 +48501,6 @@ function sortChildren(parent) {
     });
   }
 
-function isolateSelector(selectors, ...keys) {
-    selectors.forEach((selector) => {
-      if (keys.includes(selector.id)) {
-        selector.classList.remove('hidden');
-      } else {
-        selector.classList.add('hidden');
-      }
-    });
-  }
-
 function hideElementsById(...ids) {
     ids.forEach(id => {
        document.getElementById(id).classList.add('hidden');
@@ -48765,8 +48756,10 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
   });
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
-const selectors = Array.from(document.getElementById("selectors").children);
-Array.from(document.getElementById("toolbar").children);
+Array.from(document.getElementById("selectors").children);
+Array.from(
+  document.getElementById("layer-container").children
+);
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
@@ -48809,6 +48802,13 @@ let province = { term: "ON" };
 let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
+// GUI  👌
+
+// User Login 👤
+document.getElementById("login").addEventListener("click", () => {
+  userLogin();
+});
+
 // Selectors 🧲
 const objectSelector = document.getElementById("object-select");
 
@@ -48819,8 +48819,8 @@ layerButton.onclick = () => {
   layersToggle = !layersToggle;
   selectedButton(layerButton, layersToggle);
   layersToggle
-    ? document.getElementById("toolbar").classList.remove("hidden")
-    : document.getElementById("toolbar").classList.add("hidden");
+    ? document.getElementById("layer-container").classList.remove("hidden")
+    : document.getElementById("layer-container").classList.add("hidden");
 };
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
@@ -48966,7 +48966,7 @@ provinceSelector.addEventListener("change", (event) => {
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(placeMarkers);
-  removeChildren(document.getElementById("toolbar"), 4);
+  removeChildren(document.getElementById("layer-container"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
   document.getElementById(
@@ -49219,24 +49219,33 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
+function userLogin() {
+  const url = `login.html`;
+  const container = document.getElementById("iframe-container");
+  const userLogin = document.createElement("iframe");
+  userLogin.setAttribute("id", "user-login");
+  userLogin.classList.add("iframe");
+  userLogin.setAttribute("src", url);
+  container.appendChild(userLogin);
+  container.classList.remove("hidden");
+}
+
 function openBimViewer(object) {
   if (!object.ifcFileName) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
-  let url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  let bimContainer = document.getElementById("iframe-container");
-  bimViewer = document.getElementById("bim-viewer");
-  if (!bimViewer) {
-    bimContainer.classList.remove("hidden");
-    bimViewer = document.createElement("iframe");
-    bimViewer.setAttribute("id", "bim-viewer");
-    bimViewer.classList.add("bim-viewer");
-    bimViewer.classList.add("iframe-mobile");
-      bimContainer.appendChild(bimViewer);
-      hideElementsById("toolbar");
-  }
+  const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
+  const bimContainer = document.getElementById("iframe-container");
+
+  bimViewer = document.createElement("iframe");
+  bimViewer.setAttribute("id", "bim-viewer");
+  bimViewer.classList.add("iframe");
+  if (isMobile) bimViewer.classList.add("iframe-mobile");
   bimViewer.setAttribute("src", url);
+
+  bimContainer.appendChild(bimViewer);
+  bimContainer.classList.remove("hidden");
 }
 
 function getCities(provinceCode) {
@@ -49292,30 +49301,19 @@ function osmVisibility(map, toggle) {
   };
 }
 
-// function closeBimViewer() {
-//   document.getElementById("close-bim-viewer").addEventListener("click", () => {
-//     document.getElementById("bim-container").classList.add("hidden");
-//     document.getElementById("close-bim-viewer").classList.add("hidden");
-//     document.getElementById("bim-viewer").remove();
-//     cdt.unhideElementsById("top-bar", "toolbar");
-//   });
-// }
-
 function flyToCanada() {
   let home = document.getElementById("home");
   home.addEventListener("click", () => {
-    removeChildren(document.getElementById("toolbar"), 4);
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada$1.bbox);
-    isolateSelector(selectors, "province-select", "style-select");
     setTimeout(function () {
       location.reload();
     }, 2000);
   });
   home.onclick = (e) => {
     console.log(e);
-  // window.open("https://canadasdigitaltwin.ca/");
-};
+    // window.open("https://canadasdigitaltwin.ca/");
+  };
 }
 
 function selectObj(selector) {
@@ -49434,8 +49432,8 @@ function setPlace(place, provinceTerm, cityName) {
 
 async function createLayerButtons(city) {
   let layers = city.layers;
-  const toolbar = document.getElementById("toolbar");
-  removeChildren(toolbar, 1);
+  const layerContainer = document.getElementById("layer-container");
+  removeChildren(layerContainer, 1);
   for (key in layers) {
     const osm = document.getElementById("osm");
     const newButton = osm.cloneNode(true);
@@ -49447,7 +49445,7 @@ async function createLayerButtons(city) {
     newButton.innerHTML = `${layer.svg}`;
     toggle[key] = false;
     toggleCustomLayer(newButton, toggle[key], key);
-    toolbar.appendChild(newButton);
+    layerContainer.appendChild(newButton);
   }
 }
 

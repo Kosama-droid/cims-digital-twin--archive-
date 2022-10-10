@@ -18,7 +18,9 @@ import * as cdt from "../modules/cdt-api";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
-const toolbar = Array.from(document.getElementById("toolbar").children);
+const layerContainer = Array.from(
+  document.getElementById("layer-container").children
+);
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
@@ -62,6 +64,13 @@ let province = { term: "ON" };
 let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
+// GUI  👌
+
+// User Login 👤
+document.getElementById("login").addEventListener("click", () => {
+  userLogin()
+});
+
 // Selectors 🧲
 const objectSelector = document.getElementById("object-select");
 
@@ -72,8 +81,8 @@ layerButton.onclick = () => {
   layersToggle = !layersToggle;
   cdt.selectedButton(layerButton, layersToggle);
   layersToggle
-    ? document.getElementById("toolbar").classList.remove("hidden")
-    : document.getElementById("toolbar").classList.add("hidden");
+    ? document.getElementById("layer-container").classList.remove("hidden")
+    : document.getElementById("layer-container").classList.add("hidden");
 };
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
@@ -219,7 +228,7 @@ provinceSelector.addEventListener("change", (event) => {
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(placeMarkers);
-  cdt.removeChildren(document.getElementById("toolbar"), 4);
+  cdt.removeChildren(document.getElementById("layer-container"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada.provinces[province.term].cities[cityName];
   document.getElementById(
@@ -472,24 +481,33 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
+function userLogin() {
+  const url = `login.html`;
+  const container = document.getElementById("iframe-container");
+  const userLogin = document.createElement("iframe");
+  userLogin.setAttribute("id", "user-login");
+  userLogin.classList.add("iframe");
+  userLogin.setAttribute("src", url);
+  container.appendChild(userLogin);
+  container.classList.remove("hidden");
+}
+
 function openBimViewer(object) {
   if (!object.ifcFileName) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
-  let url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  let bimContainer = document.getElementById("iframe-container");
-  bimViewer = document.getElementById("bim-viewer");
-  if (!bimViewer) {
-    bimContainer.classList.remove("hidden");
-    bimViewer = document.createElement("iframe");
-    bimViewer.setAttribute("id", "bim-viewer");
-    bimViewer.classList.add("bim-viewer");
-    bimViewer.classList.add("iframe-mobile");
-      bimContainer.appendChild(bimViewer);
-      cdt.hideElementsById("toolbar");
-  }
+  const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
+  const bimContainer = document.getElementById("iframe-container");
+
+  bimViewer = document.createElement("iframe");
+  bimViewer.setAttribute("id", "bim-viewer");
+  bimViewer.classList.add("iframe");
+  if (isMobile) bimViewer.classList.add("iframe-mobile");
   bimViewer.setAttribute("src", url);
+
+  bimContainer.appendChild(bimViewer);
+  bimContainer.classList.remove("hidden");
 }
 
 function getCities(provinceCode) {
@@ -546,30 +564,19 @@ function osmVisibility(map, toggle) {
   };
 }
 
-// function closeBimViewer() {
-//   document.getElementById("close-bim-viewer").addEventListener("click", () => {
-//     document.getElementById("bim-container").classList.add("hidden");
-//     document.getElementById("close-bim-viewer").classList.add("hidden");
-//     document.getElementById("bim-viewer").remove();
-//     cdt.unhideElementsById("top-bar", "toolbar");
-//   });
-// }
-
 function flyToCanada() {
-  let home = document.getElementById("home")
+  let home = document.getElementById("home");
   home.addEventListener("click", () => {
-    cdt.removeChildren(document.getElementById("toolbar"), 4);
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
-    cdt.isolateSelector(selectors, "province-select", "style-select");
     setTimeout(function () {
       location.reload();
     }, 2000);
-  })
+  });
   home.onclick = (e) => {
-    console.log(e)
-  // window.open("https://canadasdigitaltwin.ca/");
-};
+    console.log(e);
+    // window.open("https://canadasdigitaltwin.ca/");
+  };
 }
 
 function selectObj(selector) {
@@ -688,8 +695,8 @@ function setPlace(place, provinceTerm, cityName) {
 
 async function createLayerButtons(city) {
   let layers = city.layers;
-  const toolbar = document.getElementById("toolbar");
-  cdt.removeChildren(toolbar, 1);
+  const layerContainer = document.getElementById("layer-container");
+  cdt.removeChildren(layerContainer, 1);
   for (key in layers) {
     const osm = document.getElementById("osm");
     const newButton = osm.cloneNode(true);
@@ -701,7 +708,7 @@ async function createLayerButtons(city) {
     newButton.innerHTML = `${layer.svg}`;
     toggle[key] = false;
     toggleCustomLayer(newButton, toggle[key], key);
-    toolbar.appendChild(newButton);
+    layerContainer.appendChild(newButton);
   }
 }
 

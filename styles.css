@@ -8,8 +8,8 @@
   --primary-light-transp1: rgba(255, 255, 255, 0.6);
   --primary-light-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
-  --secondary-color: #555;
-  --secondary-transp1:  rgba(85, 85, 85, 0.9);
+  --secondary-color: #8c8c8c;
+  --secondary-transp1:  #8c8c8cee;
   --icdt-color: #73CEE2;
   --shadow: 0.4rem 0.4rem 0.6rem #00000040;
   --darker-shadow: 0.3rem 0.3rem 0.3rem #000000aa;
@@ -17,11 +17,16 @@
   --header-height: 72px
 }
 
+.hidden {
+  display: none;
+}
 html,
 body {
   pointer-events: none;
   overflow: hidden;
 }
+
+
 
 hide-overflow {
   overflow: hidden;
@@ -208,8 +213,14 @@ a {
   padding: 5px;
 }
 
-.button:hover{
-  transform: translateY(-7px);
+.glowing-border:hover {
+  border: 2px solid var(--primary-light);
+}
+
+.glowing-border:hover { 
+  outline: none;
+  border-color: var(--icdt-color);
+  box-shadow: 0 0 10px var(--icdt-color);
 }
 
 @media (max-width: 500px) {
@@ -288,13 +299,13 @@ a {
   animation: spin89345 1s linear infinite;
 }
 
-.label-container {
+.comment-container {
   pointer-events: all;
   display: flex;
   align-items: center;
 }
 
-.label {
+.comment-label {
 background-color: var(--primary-light-transp2);
 padding: 8px;
 backdrop-filter: var(--blur);
@@ -464,8 +475,8 @@ ul, #myUL {
   border-radius: 4px;
 }
 
-.iframe{
-  z-index: 5;
+.iframe-container{
+  z-index: 1;
   position: absolute;
   top: 0;
   display: flex;
@@ -474,13 +485,12 @@ ul, #myUL {
   width: 100%;
 }
 
-.bim-viewer{
+.iframe{
   z-index: 5;
   justify-content: center;
   margin: 1rem;
   height: calc(100% - 2rem);
   width: calc(100% - 2rem);
-  box-shadow: var(--shadow);
   border: none;
   border-radius: var(--border-radius);
   transition: all 0.5s ease 0s;
