@@ -123145,7 +123145,6 @@ document
     let newURL = currentURL.slice(0, len) + selectedOption;
     location.href = newURL;
   });
-// cdt.closeNavBar();
 
 document.getElementById('icdt').addEventListener('click', () => {
   frameElement.parentNode.removeChild(frameElement);

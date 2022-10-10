@@ -17,19 +17,20 @@ body html{
 
 .login-wrap{
 	width:100%;
+    height: 100%;
     z-index: 1;
 	margin: 0 4rem;
 	max-width:525px;
 	min-height:670px;
     background-color: var(--secondary-color);
-	position:relative;
+	position:absolute;
     border-radius: var(--border-radius);
     pointer-events: all;
 }
 
 .login-html{
 	width:100%;
-	height:100%;
+	height: 92.5%;
 	position:absolute;
 	padding:90px 70px 50px 70px;
 	background-color: var(--secondary-color);
