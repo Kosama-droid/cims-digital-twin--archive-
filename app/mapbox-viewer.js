@@ -65,19 +65,25 @@ let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
 // GUI  👌
+// ICDT 🍁
+document.getElementById("icdt").addEventListener("click", () => {
+  openIframe("canadasdigitaltwin.ca);
+});
+
+
 // User Login 👤
 document.getElementById("login").addEventListener("click", () => {
-  openIframe("login")
+  openIframe("login.html");
 });
 
 // User settings 🔩
 document.getElementById("settings").addEventListener("click", () => {
-  openIframe("settings")
+  openIframe("settings.html");
 });
 
 // User info ℹ️
 document.getElementById("info").addEventListener("click", () => {
-  openIframe("info")
+  openIframe("info.html");
 });
 
 // Selectors 🧲
@@ -490,12 +496,12 @@ function savePreviousSelectio(item) {
   previousSelection.material = item.object.material;
 }
 
-function openIframe(name) {
-  const url = `${name}.html`;
+function openIframe(name, class= "iframe") {
+  const url = name;
   const container = document.getElementById("iframe-container");
   const iframeContent = document.createElement("iframe");
   iframeContent.setAttribute("id", name);
-  iframeContent.classList.add("iframe");
+  iframeContent.classList.add(class);
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
