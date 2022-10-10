@@ -501,8 +501,10 @@ ul, #myUL {
 @media (max-width: 500px) {
 .iframe{
   margin: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+ box-shadow: none;
+  border-radius: 0;
 }
 
   .iframe-content{
