@@ -608,10 +608,11 @@ ul,
 }
 
 
-#selectors {
+.selectors {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  pointer-events: all;
 }
 
 #top-container{

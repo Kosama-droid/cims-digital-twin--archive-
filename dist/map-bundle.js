@@ -49254,6 +49254,7 @@ function openIframe(iframeName, className = "iframe") {
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
+  hideElementsById('selectors');
 }
 
 function openBimViewer(object) {
@@ -49336,10 +49337,6 @@ function flyToCanada() {
       location.reload();
     }, 2000);
   });
-  home.onclick = (e) => {
-    console.log(e);
-    // window.open("https://canadasdigitaltwin.ca/");
-  };
 }
 
 function selectObj(selector) {
