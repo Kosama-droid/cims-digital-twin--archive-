@@ -118,8 +118,6 @@ let invisibleMasses = [];
 let lng = { canada: canada.lng, current: def.coordinates.lng },
   lat = { canada: canada.lat, current: def.coordinates.lat };
 
-// cdt.closeNavBar();
-
 // Setting Mapbox 🗺️📦
 mapbox();
 
@@ -499,8 +497,6 @@ function savePreviousSelectio(item) {
 function openIframe(iframeName, className = "iframe") {
   const url = iframeName;
   const container = document.getElementById("iframe-container");
-  console.log(container.children)
-  console.log(container.childElementCount)
   while (container.childElementCount > 1) container.lastChild.remove();
   const iframeContent = document.createElement("iframe");
   iframeContent.setAttribute("id", '');
@@ -516,7 +512,8 @@ function openBimViewer(object) {
     return;
   }
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  const bimContainer = document.getElementById("iframe-container");
+  const container = document.getElementById("iframe-container");
+  while (container.childElementCount > 1) container.lastChild.remove();
 
   bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
@@ -524,8 +521,8 @@ function openBimViewer(object) {
   if (isMobile) bimViewer.classList.add("iframe-mobile");
   bimViewer.setAttribute("src", url);
 
-  bimContainer.appendChild(bimViewer);
-  bimContainer.classList.remove("hidden");
+  container.appendChild(bimViewer);
+  container.classList.remove("hidden");
 }
 
 function getCities(provinceCode) {
