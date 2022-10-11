@@ -60,10 +60,6 @@ document
     location.href = newURL;
   });
 
-document.getElementById('icdt').addEventListener('click', () => {
-  frameElement.parentNode.removeChild(frameElement)
-})
-
 const container = document.getElementById("viewer-container");
 
 // Layers 🍰

@@ -88,14 +88,25 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-const layerButton = document.getElementById("layers");
-let layersToggle = true;
+const layerButton = document.getElementById("layer-button");
+let layersToggle = false;
 layerButton.onclick = () => {
   layersToggle = !layersToggle;
   cdt.selectedButton(layerButton, layersToggle);
   layersToggle
     ? document.getElementById("layer-container").classList.remove("hidden")
     : document.getElementById("layer-container").classList.add("hidden");
+};
+
+// Tools ⚒️
+const toolsButton = document.getElementById("tools-button");
+let toolsToggle = false;
+toolsButton.onclick = () => {
+  toolsToggle = !toolsToggle;
+  cdt.selectedButton(toolsButton, toolsToggle);
+  toolsToggle
+    ? document.getElementById("tools-container").classList.remove("hidden")
+    : document.getElementById("tools-container").classList.add("hidden");
 };
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
@@ -256,12 +267,12 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     cdt.hideElementsById("object-select");
     places = city.places;
     addPlaceGeojson(places);
-    // placeMarkers = placeMarker(places);
     cdt.createOptions(placeSelector, places);
   }
   cdt.hideElementsById("city-select");
   cdt.unhideElementsById("place-select");
   document.getElementById("add-place").classList.remove("hidden");
+  createLayerButtons(city);
 });
 
 // Place ➡️________________
@@ -518,7 +529,6 @@ function openBimViewer(object) {
   bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
   bimViewer.classList.add("iframe");
-  if (isMobile) bimViewer.classList.add("iframe-mobile");
   bimViewer.setAttribute("src", url);
 
   container.appendChild(bimViewer);
@@ -669,7 +679,6 @@ function setModelOrigin(place) {
 function setPlace(place, provinceTerm, cityName) {
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
-  createLayerButtons(city);
 
   if (province.cities) getCities(province.code);
   if (city.places)

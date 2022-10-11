@@ -48827,14 +48827,25 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-const layerButton = document.getElementById("layers");
-let layersToggle = true;
+const layerButton = document.getElementById("layer-button");
+let layersToggle = false;
 layerButton.onclick = () => {
   layersToggle = !layersToggle;
   selectedButton(layerButton, layersToggle);
   layersToggle
     ? document.getElementById("layer-container").classList.remove("hidden")
     : document.getElementById("layer-container").classList.add("hidden");
+};
+
+// Tools ⚒️
+const toolsButton = document.getElementById("tools-button");
+let toolsToggle = false;
+toolsButton.onclick = () => {
+  toolsToggle = !toolsToggle;
+  selectedButton(toolsButton, toolsToggle);
+  toolsToggle
+    ? document.getElementById("tools-container").classList.remove("hidden")
+    : document.getElementById("tools-container").classList.add("hidden");
 };
 
 // Set model oringin from WGS coordinates to Three (0,0,0)
@@ -48856,8 +48867,6 @@ let locGeojson = { source: { id: false } };
 let invisibleMasses = [];
 let lng = { canada: canada$1.lng, current: def.coordinates.lng },
   lat = { canada: canada$1.lat, current: def.coordinates.lat };
-
-// cdt.closeNavBar();
 
 // Setting Mapbox 🗺️📦
 mapbox();
@@ -48997,12 +49006,12 @@ document.getElementById("city-select").addEventListener("change", (event) => {
     hideElementsById("object-select");
     places = city.places;
     addPlaceGeojson(places);
-    // placeMarkers = placeMarker(places);
     createOptions(placeSelector, places);
   }
   hideElementsById("city-select");
   unhideElementsById("place-select");
   document.getElementById("add-place").classList.remove("hidden");
+  createLayerButtons(city);
 });
 
 // Place ➡️________________
@@ -49238,8 +49247,6 @@ function savePreviousSelectio(item) {
 function openIframe(iframeName, className = "iframe") {
   const url = iframeName;
   const container = document.getElementById("iframe-container");
-  console.log(container.children);
-  console.log(container.childElementCount);
   while (container.childElementCount > 1) container.lastChild.remove();
   const iframeContent = document.createElement("iframe");
   iframeContent.setAttribute("id", '');
@@ -49255,16 +49262,16 @@ function openBimViewer(object) {
     return;
   }
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  const bimContainer = document.getElementById("iframe-container");
+  const container = document.getElementById("iframe-container");
+  while (container.childElementCount > 1) container.lastChild.remove();
 
   bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
   bimViewer.classList.add("iframe");
-  if (isMobile) bimViewer.classList.add("iframe-mobile");
   bimViewer.setAttribute("src", url);
 
-  bimContainer.appendChild(bimViewer);
-  bimContainer.classList.remove("hidden");
+  container.appendChild(bimViewer);
+  container.classList.remove("hidden");
 }
 
 function getCities(provinceCode) {
@@ -49410,7 +49417,6 @@ function setModelOrigin(place) {
 function setPlace(place, provinceTerm, cityName) {
   province = canada$1.provinces[provinceTerm];
   city = province.cities[cityName];
-  createLayerButtons(city);
 
   if (province.cities) getCities(province.code);
   if (city.places)

@@ -116,6 +116,7 @@ a {
 }
 
 .white-icon svg {
+  z-index: 7;
   transition: all 0.3s ease 0s;
   cursor: pointer;
   display: flex;
@@ -274,7 +275,7 @@ a {
   flex-direction: row;
   width: 100%;
   padding: 0.5rem;
-  border-bottom: solid 1px gray;
+  border-bottom: solid 1px var(--secondary-color);
 }
 
 .ifc-property-value {
@@ -347,13 +348,6 @@ a {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-#close-nav-bar {
-  top: var(--header-heigt);
-  right: 0;
-  position: absolute;
-
 }
 
 #viewer-container {
@@ -495,7 +489,7 @@ ul,
   padding: 3rem 1rem;
   width: 50%;
   height: 88vh;
-  margin: 5rem;
+  margin: 5rem 4rem;
   background-color: var(--secondary-color);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
@@ -512,15 +506,17 @@ ul,
   pointer-events: all;
 }
 
-.close-window{
+.close-window {
   z-index: 2;
-  top: 50%;
+  top: 5rem;
   left: 0;
   position: absolute;
   margin-left: 1rem;
   pointer-events: all;
 }
 
+/* .close-window svg{
+} */
 
 .all-pointer-events {
   pointer-events: all;
@@ -556,15 +552,22 @@ ul,
   margin: 0.3rem 0.6rem;
 }
 
-#close-bim-viewer {
-  z-index: 6;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: all;
+  justify-content: center;
 }
 
-#progress-text {
-  animation: opacity-change 2s infinite;
+.start {
+  display: flex;
+  align-self: flex-start;
+}
+
+.end {
+  display: flex;
+  align-self: flex-end;
 }
 
 @keyframes opacity-change {
@@ -589,6 +592,16 @@ ul,
   }
 }
 
+#bim-viewer {
+  margin: 0.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+#progress-text {
+  animation: opacity-change 2s infinite;
+}
+
 #full-screen-flex-container {
   display: flex;
   width: 100%;
@@ -609,13 +622,6 @@ ul,
   pointer-events: none;
 }
 
-.toolbar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: all;
-  justify-content: center;
-}
 
 #selectors {
   display: flex;
@@ -624,27 +630,27 @@ ul,
 }
 
 @media (max-width: 500px) {
-	.iframe {
-		margin: 0.5rem;
-		max-width: calc(100% - 1rem);
-		max-height: calc(100% - 1rem);
-	}
+  .iframe {
+    margin: 0.5rem;
+    max-width: calc(100% - 1rem);
+    max-height: calc(100% - 1rem);
+  }
 
   .iframe-content {
     position: absolute;
-width: 100%;
-height: 100%;
+    width: 100%;
+    height: 100%;
     margin: 0;
     overflow: auto;
   }
 
 
-#right-container {
-height: 96vh;
-}
+  #right-container {
+    height: 96vh;
+  }
 }
 
 .hidden {
   display: none;
-pointer-events: none;
+  pointer-events: none;
 }
