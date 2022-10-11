@@ -70,6 +70,12 @@
           <option class="option" id="add-object">(+) Add new object</option>
         </select>
       </div>
+      <a id="close-window" name="Close window" class="white-icon hidden" title="Close window">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
+        </svg>
+      </a>
       <div id="loader-container" class="loader-container hidden">
         <div class="loader"></div>
         <a id="progress-text"></a>
@@ -193,14 +199,7 @@
     <div id="map" class="map"></div>
   </div>
 
-  <div class="iframe-container hidden" id="iframe-container">
-    <a name="Close window" class="white-icon close-window" title="Close window">
-      <svg id="close-window" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path
-          d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
-      </svg>
-    </a>
-  </div>
+  <div class="iframe-container hidden" id="iframe-container"></div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
@@ -213,6 +212,7 @@
   <script>
     document.getElementById('close-window').addEventListener('click', (e) => {
       document.getElementById('selectors').classList.remove('hidden');
+      document.getElementById('close-window').classList.add('hidden');
       document.getElementById('iframe-container').classList.add('hidden');
       document.getElementById('iframe').remove;
     })

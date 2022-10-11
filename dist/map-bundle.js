@@ -48801,7 +48801,9 @@ let province = { term: "ON" };
 let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
-// GUI  👌
+// GUI  👌 _________________________________________________________________________________________
+
+const closeWindow = document.getElementById("close-window");
 // ICDT 🍁
 document.getElementById("icdt").addEventListener("click", () => {
   openIframe("https://canadasdigitaltwin.ca", "icdt");
@@ -48848,7 +48850,7 @@ toolsButton.onclick = () => {
     : document.getElementById("tools-container").classList.add("hidden");
 };
 
-// Set model oringin from WGS coordinates to Three (0,0,0)
+// Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin,
   modelAltitude,
   modelRotate,
@@ -49247,13 +49249,14 @@ function savePreviousSelectio(item) {
 function openIframe(iframeName, className = "iframe") {
   const url = iframeName;
   const container = document.getElementById("iframe-container");
-  while (container.childElementCount > 1) container.lastChild.remove();
+  while (container.childElementCount > 0) container.lastChild.remove();
   const iframeContent = document.createElement("iframe");
   iframeContent.setAttribute("id", '');
   iframeContent.classList.add(className);
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
+  closeWindow.classList.remove("hidden");
   hideElementsById('selectors');
 }
 
@@ -49273,6 +49276,7 @@ function openBimViewer(object) {
 
   container.appendChild(bimViewer);
   container.classList.remove("hidden");
+  hideElementsById('place-select');
 }
 
 function getCities(provinceCode) {
