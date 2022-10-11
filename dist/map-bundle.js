@@ -48723,6 +48723,20 @@ var mapStyles$1 = mapStyles = {
     // },
 };
 
+function toggleButton(buttonId, toggle, ...targets) {
+    const button = document.getElementById(buttonId);
+    button.onclick = () => {
+      toggle = !toggle;
+      selectedButton(button, toggle);
+      targets.forEach(target => {
+             toggle
+        ? document.getElementById(target).classList.remove("hidden")
+        : document.getElementById(target).classList.add("hidden"); 
+      });
+    };
+    return toggle
+  }
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -48759,7 +48773,7 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 Array.from(document.getElementById("selectors").children);
 Array.from(
-  document.getElementById("layer-container").children
+  document.getElementById("layers-container").children
 );
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -48829,26 +48843,10 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-const layerButton = document.getElementById("layer-button");
-let layersToggle = false;
-layerButton.onclick = () => {
-  layersToggle = !layersToggle;
-  selectedButton(layerButton, layersToggle);
-  layersToggle
-    ? document.getElementById("layer-container").classList.remove("hidden")
-    : document.getElementById("layer-container").classList.add("hidden");
-};
+toggleButton("layers-button", false, "layers-container");
 
 // Tools ⚒️
-const toolsButton = document.getElementById("tools-button");
-let toolsToggle = false;
-toolsButton.onclick = () => {
-  toolsToggle = !toolsToggle;
-  selectedButton(toolsButton, toolsToggle);
-  toolsToggle
-    ? document.getElementById("tools-container").classList.remove("hidden")
-    : document.getElementById("tools-container").classList.add("hidden");
-};
+toggleButton("tools-button", false, "tools-container");
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin,
@@ -48989,10 +48987,11 @@ provinceSelector.addEventListener("change", (event) => {
   hideElementsById("province-select");
   unhideElementsById("city-select");
 });
+
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(placeMarkers);
-  removeChildren(document.getElementById("layer-container"), 4);
+  removeChildren(document.getElementById("layers-container"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada$1.provinces[province.term].cities[cityName];
   document.getElementById(
@@ -49458,7 +49457,7 @@ function setPlace(place, provinceTerm, cityName) {
 
 async function createLayerButtons(city) {
   let layers = city.layers;
-  const layerContainer = document.getElementById("layer-container");
+  const layerContainer = document.getElementById("layers-container");
   removeChildren(layerContainer, 1);
   for (key in layers) {
     const osm = document.getElementById("osm");

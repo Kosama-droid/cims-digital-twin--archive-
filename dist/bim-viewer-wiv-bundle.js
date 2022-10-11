@@ -123113,6 +123113,9 @@ const container = document.getElementById("viewer-container");
 // tools ⚒️
 toggleButton("tools-button", false, "tools-container");
 
+// layers ⚒️
+toggleButton("layers-button", false, "layers-container");
+
 // project tree 🌳
 toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu");
 

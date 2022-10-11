@@ -19,7 +19,7 @@ import * as cdt from "../modules/cdt-api";
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 const selectors = Array.from(document.getElementById("selectors").children);
 const layerContainer = Array.from(
-  document.getElementById("layer-container").children
+  document.getElementById("layers-container").children
 );
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -90,7 +90,7 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-cdt.toggleButton("layer-button", false, "layer-container")
+cdt.toggleButton("layers-button", false, "layers-container")
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container")
@@ -234,10 +234,11 @@ provinceSelector.addEventListener("change", (event) => {
   cdt.hideElementsById("province-select")
   cdt.unhideElementsById("city-select");
 });
+
 // City ➡️________________
 document.getElementById("city-select").addEventListener("change", (event) => {
   removeMarker(placeMarkers);
-  cdt.removeChildren(document.getElementById("layer-container"), 4);
+  cdt.removeChildren(document.getElementById("layers-container"), 4);
   let cityName = event.target[event.target.selectedIndex].id;
   city = canada.provinces[province.term].cities[cityName];
   document.getElementById(
@@ -704,7 +705,7 @@ function setPlace(place, provinceTerm, cityName) {
 
 async function createLayerButtons(city) {
   let layers = city.layers;
-  const layerContainer = document.getElementById("layer-container");
+  const layerContainer = document.getElementById("layers-container");
   cdt.removeChildren(layerContainer, 1);
   for (key in layers) {
     const osm = document.getElementById("osm");

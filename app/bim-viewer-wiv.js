@@ -55,6 +55,9 @@ const container = document.getElementById("viewer-container");
 // tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container")
 
+// layers ⚒️
+cdt.toggleButton("layers-button", false, "layers-container")
+
 // project tree 🌳
 cdt.toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu")
 
