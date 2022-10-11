@@ -8,6 +8,7 @@
   --primary-light-transp1: rgba(255, 255, 255, 0.6);
   --primary-light-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
+  --dark-transparent:  rgba(0, 0, 0, 0.5);
   --secondary-color: #8c8c8c;
   --secondary-transp1: #8c8c8cee;
   --icdt-color: #73CEE2;
@@ -605,6 +606,11 @@ ul,
   flex-direction: column;
   justify-content: space-between;
   pointer-events: none;
+  background-color: var(--dark-transparent);
+  font-weight: 300;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--primary-light);
 }
 
 
