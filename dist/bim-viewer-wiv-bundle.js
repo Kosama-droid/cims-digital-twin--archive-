@@ -122906,18 +122906,6 @@ class IfcViewerAPI {
     }
 }
 
-function sortChildren(parent) {
-    const items = Array.prototype.slice.call(parent.children);
-    items.sort(function (a, b) {
-      return a.textContent.localeCompare(b.textContent);
-    });
-    items.forEach((item) => {
-      const itemParent = item.parentNode;
-      let detatchedItem = itemParent.removeChild(item);
-      itemParent.appendChild(detatchedItem);
-    });
-  }
-
 document.getElementById("selectors");
 document.getElementById("close-nav-bar");
 
@@ -122975,21 +122963,6 @@ function labeling(scene, collisionLocation, user = "User") {
     container.onmouseenter = () => deleteButton.classList.remove("hidden");
     container.onmouseleave = () => deleteButton.classList.add("hidden");
   }
-
-function createOptions(selector, objects, keepSelectors = 2) {
-  while (selector.childElementCount > keepSelectors) {
-    selector.removeChild(selector.lastChild);
-  }
-  for (const object in objects) {
-    const name = objects[object].name;
-    let option = document.createElement("option");
-    option.innerHTML = name;
-    option.setAttribute("id", object);
-    option.classList.add('option');
-    selector.appendChild(option);
-    sortChildren(selector);
-  }
-}
 
 /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -123133,30 +123106,18 @@ place = canada$1.provinces[province.term].cities[city.name].places[place.id];
 let objects = place.objects;
 
 object.name = objects[object.id].name;
-const objectSelector = document.getElementById("object-select");
-createOptions(objectSelector, objects);
-
-document
-  .getElementById("object-select")
-  .addEventListener("change", function () {
-    let selectedOption = this[this.selectedIndex].id;
-    let previosObjectId = currentURL.split("/").slice(-1)[0];
-    let len = -previosObjectId.length;
-    let newURL = currentURL.slice(0, len) + selectedOption;
-    location.href = newURL;
-  });
 
 const container = document.getElementById("viewer-container");
 
-// Layers 🍰
-const layerButton = document.getElementById("layers");
-let layersToggle = true;
-layerButton.onclick = () => {
-  layersToggle = !layersToggle;
-  selectedButton(layerButton, layersToggle);
-  layersToggle
-    ? document.getElementById("toolbar").classList.remove("hidden")
-    : document.getElementById("toolbar").classList.add("hidden");
+// tools ⚒️
+const toolsButton = document.getElementById("tools-button");
+let toolsToggle = false;
+toolsButton.onclick = () => {
+  toolsToggle = !toolsToggle;
+  selectedButton(toolsButton, toolsToggle);
+  toolsToggle
+    ? document.getElementById("tools-container").classList.remove("hidden")
+    : document.getElementById("tools-container").classList.add("hidden");
 };
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️

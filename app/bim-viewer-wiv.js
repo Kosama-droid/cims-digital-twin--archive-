@@ -47,30 +47,18 @@ place = canada.provinces[province.term].cities[city.name].places[place.id];
 let objects = place.objects;
 
 object.name = objects[object.id].name;
-const objectSelector = document.getElementById("object-select");
-cdt.createOptions(objectSelector, objects);
-
-document
-  .getElementById("object-select")
-  .addEventListener("change", function () {
-    let selectedOption = this[this.selectedIndex].id;
-    let previosObjectId = currentURL.split("/").slice(-1)[0];
-    let len = -previosObjectId.length;
-    let newURL = currentURL.slice(0, len) + selectedOption;
-    location.href = newURL;
-  });
 
 const container = document.getElementById("viewer-container");
 
-// Layers 🍰
-const layerButton = document.getElementById("layers");
-let layersToggle = true;
-layerButton.onclick = () => {
-  layersToggle = !layersToggle;
-  cdt.selectedButton(layerButton, layersToggle);
-  layersToggle
-    ? document.getElementById("toolbar").classList.remove("hidden")
-    : document.getElementById("toolbar").classList.add("hidden");
+// tools ⚒️
+const toolsButton = document.getElementById("tools-button");
+let toolsToggle = false;
+toolsButton.onclick = () => {
+  toolsToggle = !toolsToggle;
+  cdt.selectedButton(toolsButton, toolsToggle);
+  toolsToggle
+    ? document.getElementById("tools-container").classList.remove("hidden")
+    : document.getElementById("tools-container").classList.add("hidden");
 };
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️

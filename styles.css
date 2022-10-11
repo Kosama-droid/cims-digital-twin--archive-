@@ -116,7 +116,6 @@ a {
 }
 
 .white-icon svg {
-  z-index: 7;
   transition: all 0.3s ease 0s;
   cursor: pointer;
   display: flex;
@@ -146,7 +145,7 @@ a {
   width: 100%;
 }
 
-.add-new-container {
+.double-list-container {
   background-color: var(--primary-light-transp1);
   position: absolute;
   display: flex;
@@ -159,11 +158,11 @@ a {
   pointer-events: all;
 }
 
-.add-new-container>div {
+.double-list-container>div {
   flex: 50%;
 }
 
-.add-new-container input {
+.double-list-container input {
   background-color: #0000;
   display: flex;
   flex-direction: column;
@@ -178,7 +177,7 @@ a {
   margin-bottom: 0.8rem;
 }
 
-.add-new-container button {
+.double-list-container button {
   box-shadow: var(--shadow);
 }
 
@@ -226,36 +225,19 @@ a {
 
 .transp1-background {
   background-color: var(--primary-light-transp1);
-  box-shadow: var(--shadow);
-}
-
-.nav-bar {
-  z-index: 1;
-  overflow: auto;
-  top: var(--header-heigt);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  transition: all 0.15s ease-in;
-  justify-content: left;
-  align-items: center;
-  font-size: 0.8rem;
-  text-transform: uppercase;
 }
 
 .side-menu {
-  margin: 1rem;
+  margin: 2rem;
   max-height: 70%;
   font-size: 0.8rem;
   text-transform: uppercase;
   position: absolute;
-  box-shadow: var(--shadow);
-  backdrop-filter: var(--blur);
   overflow: auto;
 }
 
 .right {
-  right: 0;
+  right: 2.5rem;
   width: 20rem;
 }
 
@@ -476,16 +458,18 @@ ul,
 }
 
 .iframe {
+  z-index: 3;
   justify-content: center;
   position: absolute;
-  height: calc(100% - 2rem);
-  width: calc(100% - 2rem);
+  height: calc(100% - 1rem);
+  width: calc(100% - 1rem);
   border: none;
   transition: all 0.5s ease 0s;
   pointer-events: all;
 }
 
 .iframe-content {
+  z-index: 3;
   padding: 3rem 1rem;
   width: 50%;
   height: 88vh;
@@ -496,6 +480,7 @@ ul,
 }
 
 .icdt {
+  z-index: 3;
   justify-content: center;
   width: 90%;
   height: 83vh;
@@ -507,7 +492,7 @@ ul,
 }
 
 .close-window {
-  z-index: 2;
+  z-index: 4;
   top: 5rem;
   left: 0;
   position: absolute;
@@ -629,6 +614,10 @@ ul,
   flex-wrap: wrap;
 }
 
+#top-container{
+  z-index: 3;
+}
+
 @media (max-width: 500px) {
   .iframe {
     margin: 0.5rem;
@@ -643,7 +632,6 @@ ul,
     margin: 0;
     overflow: auto;
   }
-
 
   #right-container {
     height: 96vh;

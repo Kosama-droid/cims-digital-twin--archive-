@@ -47,11 +47,8 @@
         </svg>
       </a>
       <div id="selectors" class="all-pointer-events">
-        <a id="back" name="Back one level" class="white-icon" title="Back one level">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z" />
-          </svg>
+        <a id="back" name="Back one level" class="white-icon" title="Back one level" >
+          <svg style="padding-left: 1rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z"/></svg>
         </a>
         <select id="style-select" class="selector hidden">
           <option class="option" value="none">-- select map style --</option>
@@ -118,7 +115,7 @@
 
   </nav>
 
-  <nav id="new-place-container" class="add-new-container hidden">
+  <nav id="new-place-container" class="double-list-container hidden">
     <div id="new-place-location">province, city</div>
     <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
     <div class="item"><label for="place-id">Place ID:</label></div>
@@ -138,7 +135,7 @@
     <button id="upload-place" class="button">Upload new place</button>
     <button id="cancel-new-place" class="button">Cancel</button>
   </nav>
-  <nav id="new-object-container" class="add-new-container hidden">
+  <nav id="new-object-container" class="double-list-container hidden">
     <div id="new-object-location">province, ontario, place</div>
     <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
     <div class="item"><label for="object-id">Object ID:</label></div>
