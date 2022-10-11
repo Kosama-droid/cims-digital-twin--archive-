@@ -122917,21 +122917,6 @@ function selectedButton(button, toggle, changeTitle = false) {
     changeTitle && toggle ? button.title = `Hide ${button.name}` : button.title = `Show ${button.name}`;
   }
 
-function toggleVisibility(button, toggle, object = null) {
-    button.onclick = function () {
-      if (toggle) {
-        this.setAttribute("title", `Show ${this.id.replace("-", " ")}`);
-        this.classList.remove("selected-button");
-        if (object) {object.classList.add("hidden");}        toggle = false;
-      } else {
-        this.setAttribute("title", `Hide ${this.id.replace("-", " ")}`);
-        if (object) {object.classList.remove("hidden");}        this.classList.add("selected-button");
-        toggle = true;
-      }
-    };
-    return toggle;
-  }
-
 function labeling(scene, collisionLocation, user = "User") {
     const message = window.prompt("Message:");
   
@@ -123050,6 +123035,20 @@ mapStyles = {
     // },
 };
 
+function toggleButton(buttonId, toggle, ...targets) {
+    const button = document.getElementById(buttonId);
+    button.onclick = () => {
+      toggle = !toggle;
+      selectedButton(button, toggle);
+      targets.forEach(target => {
+             toggle
+        ? document.getElementById(target).classList.remove("hidden")
+        : document.getElementById(target).classList.add("hidden"); 
+      });
+    };
+    return toggle
+  }
+
 highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -123109,16 +123108,14 @@ object.name = objects[object.id].name;
 
 const container = document.getElementById("viewer-container");
 
+// GUI  👌 _________________________________________________________________________________________
+
 // tools ⚒️
-const toolsButton = document.getElementById("tools-button");
-let toolsToggle = false;
-toolsButton.onclick = () => {
-  toolsToggle = !toolsToggle;
-  selectedButton(toolsButton, toolsToggle);
-  toolsToggle
-    ? document.getElementById("tools-container").classList.remove("hidden")
-    : document.getElementById("tools-container").classList.add("hidden");
-};
+toggleButton("tools-button", false, "tools-container");
+
+// project tree 🌳
+toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu");
+
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
@@ -123145,7 +123142,7 @@ document.getElementById("projection").onclick = () =>
 
 let properties;
 let projectTree;
-const plansContainer = document.getElementById("plans-menu");
+// const plansContainer = document.getElementById("plans-menu");
 
 loadIfc(object.ifcURL);
 
@@ -123202,20 +123199,6 @@ async function loadIfc(ifcURL) {
   //   const plansMenu = document.getElementById("plans-menu");
   //   cdt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
-  // Toggle left menu ⬅️
-  document.getElementById("toolbar").onclick = () => {
-    let plans = !document
-      .getElementById("plans-menu")
-      .classList.contains("hidden");
-    let ifc = !document
-      .getElementById("ifc-tree-menu")
-      .classList.contains("hidden");
-    toggle.left = plans || ifc;
-    toggle.left
-      ? document.getElementById("left-menu").classList.remove("hidden")
-      : document.getElementById("left-menu").classList.add("hidden");
-  };
-
   //   await viewer.plans.computeAllPlanViews(model.modelID);
 
     new LineBasicMaterial({ color: "black" });
@@ -123251,16 +123234,16 @@ async function loadIfc(ifcURL) {
   //   return await models;
 }
 
-const button = document.createElement("button");
-plansContainer.appendChild(button);
-button.classList.add("button");
-button.textContent = "Exit Level View";
-button.onclick = () => {
-  viewer.plans.exitPlanView();
-  viewer.edges.toggle("plan-edges", false);
-  togglePostproduction(true);
-  toggleShadow(true);
-};
+// const button = document.createElement("button");
+// plansContainer.appendChild(button);
+// button.classList.add("button");
+// button.textContent = "Exit Level View";
+// button.onclick = () => {
+//   viewer.plans.exitPlanView();
+//   viewer.edges.toggle("plan-edges", false);
+//   togglePostproduction(true);
+//   toggleShadow(true);
+// };
 
 // Hover → Highlight
 viewer.IFC.selector.preselection.material = hoverHighlihgtMaterial;
@@ -123294,7 +123277,7 @@ clippingButton.onclick = () => {
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
-const propButton = document.getElementById("properties");
+const propButton = document.getElementById("properties-button");
 toggle.proprerties = false;
 viewer.IFC.selector.selection.material = hoverHighlihgtMaterial;
 
@@ -123479,6 +123462,9 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
+// properties 📒
+toggleButton("properties-button", false, "ifc-property-menu", "side-menu");
+
 // Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
 const toggler = document.getElementsByClassName("caret");
@@ -123490,11 +123476,6 @@ for (i = 0; i < toggler.length; i++) {
     this.classList.toggle("caret-down");
   });
 }
-
-const treeButton = document.getElementById("project-tree");
-toggle.tree = false;
-const treeMenu = document.getElementById("ifc-tree-menu");
-toggleVisibility(treeButton, toggle.tree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");
@@ -123590,17 +123571,6 @@ window.oncontextmenu = () => {
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
-
-function toggleShadow(active) {
-  const shadows = Object.values(viewer.shadowDropper.shadows);
-  for (shadow of shadows) {
-    shadow.root.visible = active;
-  }
-}
-
-function togglePostproduction(active) {
-  viewer.context.renderer.postProduction.active = active;
-}
 
 async function preproscessIfc(object) {
   const result = await viewer.GLTF.exportIfcFileAsGltf({

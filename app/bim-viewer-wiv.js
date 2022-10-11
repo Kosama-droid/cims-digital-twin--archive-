@@ -50,16 +50,14 @@ object.name = objects[object.id].name;
 
 const container = document.getElementById("viewer-container");
 
+// GUI  👌 _________________________________________________________________________________________
+
 // tools ⚒️
-const toolsButton = document.getElementById("tools-button");
-let toolsToggle = false;
-toolsButton.onclick = () => {
-  toolsToggle = !toolsToggle;
-  cdt.selectedButton(toolsButton, toolsToggle);
-  toolsToggle
-    ? document.getElementById("tools-container").classList.remove("hidden")
-    : document.getElementById("tools-container").classList.add("hidden");
-};
+cdt.toggleButton("tools-button", false, "tools-container")
+
+// project tree 🌳
+cdt.toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu")
+
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
@@ -86,7 +84,7 @@ document.getElementById("projection").onclick = () =>
 
 let properties;
 let projectTree;
-const plansContainer = document.getElementById("plans-menu");
+// const plansContainer = document.getElementById("plans-menu");
 
 loadIfc(object.ifcURL);
 
@@ -143,20 +141,6 @@ async function loadIfc(ifcURL) {
   //   const plansMenu = document.getElementById("plans-menu");
   //   cdt.toggleVisibility(plansButton, toggle.plans, plansMenu);
 
-  // Toggle left menu ⬅️
-  document.getElementById("toolbar").onclick = () => {
-    let plans = !document
-      .getElementById("plans-menu")
-      .classList.contains("hidden");
-    let ifc = !document
-      .getElementById("ifc-tree-menu")
-      .classList.contains("hidden");
-    toggle.left = plans || ifc;
-    toggle.left
-      ? document.getElementById("left-menu").classList.remove("hidden")
-      : document.getElementById("left-menu").classList.add("hidden");
-  };
-
   //   await viewer.plans.computeAllPlanViews(model.modelID);
 
     const lineMaterial = new LineBasicMaterial({ color: "black" });
@@ -192,16 +176,16 @@ async function loadIfc(ifcURL) {
   //   return await models;
 }
 
-const button = document.createElement("button");
-plansContainer.appendChild(button);
-button.classList.add("button");
-button.textContent = "Exit Level View";
-button.onclick = () => {
-  viewer.plans.exitPlanView();
-  viewer.edges.toggle("plan-edges", false);
-  togglePostproduction(true);
-  toggleShadow(true);
-};
+// const button = document.createElement("button");
+// plansContainer.appendChild(button);
+// button.classList.add("button");
+// button.textContent = "Exit Level View";
+// button.onclick = () => {
+//   viewer.plans.exitPlanView();
+//   viewer.edges.toggle("plan-edges", false);
+//   togglePostproduction(true);
+//   toggleShadow(true);
+// };
 
 // Hover → Highlight
 viewer.IFC.selector.preselection.material = cdt.hoverHighlihgtMaterial;
@@ -235,7 +219,7 @@ clippingButton.onclick = () => {
 
 // Properties 📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃📃
 const propsGUI = document.getElementById("ifc-property-menu-root");
-const propButton = document.getElementById("properties");
+const propButton = document.getElementById("properties-button");
 toggle.proprerties = false;
 viewer.IFC.selector.selection.material = cdt.hoverHighlihgtMaterial;
 
@@ -420,6 +404,9 @@ function createPropertyEntry(key, value) {
   propsGUI.appendChild(propContainer);
 }
 
+// properties 📒
+cdt.toggleButton("properties-button", false, "ifc-property-menu", "side-menu")
+
 // Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
 const toggler = document.getElementsByClassName("caret");
@@ -431,11 +418,6 @@ for (i = 0; i < toggler.length; i++) {
     this.classList.toggle("caret-down");
   });
 }
-
-const treeButton = document.getElementById("project-tree");
-toggle.tree = false;
-const treeMenu = document.getElementById("ifc-tree-menu");
-cdt.toggleVisibility(treeButton, toggle.tree, treeMenu);
 
 function createTreeMenu(ifcProject) {
   const root = document.getElementById("tree-root");

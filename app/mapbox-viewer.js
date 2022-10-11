@@ -90,26 +90,10 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-const layerButton = document.getElementById("layer-button");
-let layersToggle = false;
-layerButton.onclick = () => {
-  layersToggle = !layersToggle;
-  cdt.selectedButton(layerButton, layersToggle);
-  layersToggle
-    ? document.getElementById("layer-container").classList.remove("hidden")
-    : document.getElementById("layer-container").classList.add("hidden");
-};
+cdt.toggleButton("layer-button", false, "layer-container")
 
 // Tools ⚒️
-const toolsButton = document.getElementById("tools-button");
-let toolsToggle = false;
-toolsButton.onclick = () => {
-  toolsToggle = !toolsToggle;
-  cdt.selectedButton(toolsButton, toolsToggle);
-  toolsToggle
-    ? document.getElementById("tools-container").classList.remove("hidden")
-    : document.getElementById("tools-container").classList.add("hidden");
-};
+cdt.toggleButton("tools-button", false, "tools-container")
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin,

@@ -13,6 +13,8 @@ export { default as removeChildren } from "../modules/removeChildren.js"
 export { default as loadObjectsGltf } from "./loadObjectsGltf.js"
 export { default as loadObjectGltf } from "./loadObjectGltf.js"
 export { default as mapStyles } from "./mapStyles.js"
+export { default as toggleButton } from "./toggleButton.js"
+
 
 // Materials 🎨
 export { default as highlightMaterial } from "../modules/materials/highlightMaterial.js"
