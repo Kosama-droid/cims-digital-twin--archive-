@@ -34,7 +34,7 @@ hide-overflow {
 
 header {
   display: flex;
-  align-items:flex-start
+  align-items:flex-start;
   flex-direction: row;
   justify-content: flex-start;
   pointer-events: none;
