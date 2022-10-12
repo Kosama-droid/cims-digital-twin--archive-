@@ -217,9 +217,6 @@ const customLayer = {
   },
 };
 
-// back on main
-
-
 // Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
 
