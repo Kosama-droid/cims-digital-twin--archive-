@@ -49608,6 +49608,16 @@ function mapbox() {
     "bottom-left"
   );
 
+  // Add the control to the map 🔍
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+  });
+   
+  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+    
+
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style
