@@ -8,7 +8,7 @@
   --primary-light-transp1: rgba(255, 255, 255, 0.6);
   --primary-light-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
-  --dark-transparent:  rgba(0, 0, 0, 0.5);
+  --dark-transparent: rgba(0, 0, 0, 0.5);
   --secondary-color: #8c8c8c;
   --secondary-transp1: #8c8c8cee;
   --icdt-color: #73CEE2;
@@ -621,7 +621,7 @@ ul,
   pointer-events: all;
 }
 
-#top-container{
+#top-container {
   z-index: 3;
 }
 
@@ -642,7 +642,7 @@ ul,
 
   #right-container {
     height: 96vh;
-color: transparent;
+    background-color: transparent;
   }
 }
 
