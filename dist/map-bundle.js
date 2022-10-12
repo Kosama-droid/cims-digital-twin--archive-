@@ -48972,6 +48972,8 @@ const customLayer = {
 
 // Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
+
+// start new navigation method
 // Province ➡️________________
 let provinceSelector = document.getElementById("province-select");
 createOptions(provinceSelector, canada$1.provinces);
