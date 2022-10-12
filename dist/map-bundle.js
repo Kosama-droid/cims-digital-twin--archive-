@@ -48815,39 +48815,6 @@ let province = { term: "ON" };
 let city = { name: "Ottawa" };
 let place = { id: "CDC", name: "Carleton University" };
 
-// GUI  👌 _________________________________________________________________________________________
-
-const closeWindow = document.getElementById("close-window");
-// ICDT 🍁
-document.getElementById("icdt").addEventListener("click", () => {
-  openIframe("https://canadasdigitaltwin.ca", "icdt");
-});
-
-
-// User Login 👤
-document.getElementById("login").addEventListener("click", () => {
-  openIframe("login.html");
-});
-
-// User settings 🔩
-document.getElementById("settings").addEventListener("click", () => {
-  openIframe("settings.html");
-});
-
-// User info ℹ️
-document.getElementById("info").addEventListener("click", () => {
-  openIframe("info.html");
-});
-
-// Selectors 🧲
-const objectSelector = document.getElementById("object-select");
-
-// Layers 🍰
-toggleButton("layers-button", false, "layers-container");
-
-// Tools ⚒️
-toggleButton("tools-button", false, "tools-container");
-
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin,
   modelAltitude,
@@ -48871,7 +48838,38 @@ let lng = { canada: canada$1.lng, current: def.coordinates.lng },
 // Setting Mapbox 🗺️📦
 mapbox();
 
-// Select map style 🗺️🎨 there is a plugin to change style: https://github.com/el/style-switcher
+// GUI  👌 _________________________________________________________________________________________
+
+const closeWindow = document.getElementById("close-window");
+// ICDT 🍁
+document.getElementById("icdt").addEventListener("click", () => {
+  openIframe("https://canadasdigitaltwin.ca", "icdt");
+});
+
+// User Login 👤
+document.getElementById("login").addEventListener("click", () => {
+  openIframe("login.html");
+});
+
+// User settings ⚙️
+document.getElementById("settings").addEventListener("click", () => {
+  openIframe("settings.html");
+});
+
+// User info ℹ️
+document.getElementById("info").addEventListener("click", () => {
+  openIframe("info.html");
+});
+
+// Selectors 🧲
+const objectSelector = document.getElementById("object-select");
+
+// Layers 🍰
+toggleButton("layers-button", false, "layers-container");
+
+// Tools ⚒️
+toggleButton("tools-button", false, "tools-container");
+  // Map Style 🎨 → there is a plugin to change style: https://github.com/el/style-switcher
 const styleSelect = document.getElementById("style-select");
 createOptions(styleSelect, mapStyles$1);
 styleSelect.addEventListener("change", function (event) {
