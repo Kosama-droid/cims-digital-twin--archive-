@@ -220,7 +220,6 @@ const customLayer = {
 // Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
 
-// start new navigation method
 // Province ➡️________________
 let provinceSelector = document.getElementById("province-select");
 cdt.createOptions(provinceSelector, canada.provinces);
@@ -861,12 +860,14 @@ function mapbox() {
   // Add the control to the map 🔍
 const geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
+  marker: {
+    color: '#73CEE2'
+    },
+  country: "CA",
   mapboxgl: mapboxgl
   });
    
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-
-    
 
   // Day sky
   map.on("style.load", () => {
