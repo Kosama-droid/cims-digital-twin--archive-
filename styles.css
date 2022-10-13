@@ -5,7 +5,7 @@
   font-family: 'Roboto', sans-serif;
   --border-radius: 1rem;
   --primary-light: white;
-  --primary-light-transp1: rgba(255, 255, 255, 0.6);
+  --primary-light-transp1: rgba(255, 255, 255, 0.7);
   --primary-light-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
   --dark-transparent: rgba(0, 0, 0, 0.5);
@@ -195,7 +195,7 @@ a {
 
 .selector {
   z-index: 1;
-  /* background-color: rgba(255, 255, 255, 0.8); */
+  /* background-color: var(--primary-light-transp1); */
   padding: 0.7rem;
   margin: 0.5rem;
   font-weight: 500;
@@ -203,9 +203,8 @@ a {
   border-radius: 0.5rem;
   cursor: pointer;
   align-items: center;
-  width: fit-content;
-  height: fit-content;
-  width: 260px;
+  height: 36.8px;
+  width: 262px;
   font-size: 0.8rem;
   text-transform: uppercase;
   pointer-events: all;
@@ -653,8 +652,11 @@ ul,
   margin-top: 1.4rem;
   height: 2.3rem;
   }
+
   .mapboxgl-ctrl-geocoder {
   min-width: 100%;
+  /* background-color: var(--primary-light-transp1); */
+  border-radius: 0.5rem;
   }
 
 .hidden {
