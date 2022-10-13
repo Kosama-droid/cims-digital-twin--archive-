@@ -869,6 +869,10 @@ const geocoder = new MapboxGeocoder({
    
   document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
+  geocoder.on('results', function(results) {
+    console.log(results);
+ })
+
   // Day sky
   map.on("style.load", () => {
     // Set the default atmosphere style
