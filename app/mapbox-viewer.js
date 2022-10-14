@@ -227,7 +227,7 @@ cdt.createOptions(placeSelector, places, 2);
 let newPlaceToggle = cdt.toggleButton('add-place-button', false, "new-place-container")
 const addPlaceButton = document.getElementById('add-place-button')
 addPlaceButton.addEventListener("click", () => {
-  cancelObj.click();
+  cancelObject.click();
   newPlaceToggle = !newPlaceToggle
   if (newPlaceToggle) {
   createPolygon();
@@ -242,6 +242,8 @@ cancelPlace.addEventListener("click", () => {
   newPlaceToggle = false;
   document.getElementById("new-place-container").classList.add('hidden');
   map.getCanvas().style.cursor = "" 
+  addPlaceButton.classList.remove('selected-button')
+  draw.deleteAll();
 });
 document.getElementById("upload-place").onclick = () => {
   addNewPlace();
@@ -268,11 +270,10 @@ cdt.createOptions(objectSelector, places, 2);
 let newObjectToggle = cdt.toggleButton('add-object-button', false, "new-object-container")
 const addObjectButton = document.getElementById('add-object-button')
 addObjectButton.addEventListener("click", () => {
-  cancelObject.click();
+  cancelPlace.click();
   newObjectToggle = !newObjectToggle
-  console.log(newObjectToggle)
   if (newObjectToggle) {
-    addNewObject()
+  addNewObject()
   document.getElementById("new-object-container").classList.remove('hidden');
   }
   else{
@@ -283,6 +284,7 @@ addObjectButton.addEventListener("click", () => {
 cancelObject.addEventListener("click", () => {
   newObjectToggle = false;
   document.getElementById("new-object-container").classList.add('hidden');
+  addObjectButton.classList.remove('selected-button')
 });
 document.getElementById("upload-object").onclick = () => {
   addNewObject();
@@ -710,7 +712,6 @@ async function createLayerButtons(city) {
 }
 
 function removeFromScene() {
-  console.log(scene)
   let toRemove = scene.children.slice(3);
   if (toRemove.lenght === 0) return;
   toRemove.forEach((group) => {
