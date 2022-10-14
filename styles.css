@@ -127,6 +127,9 @@ a {
   width: 1.8rem;
   height: 1.8rem;
   fill: var(--primary-light);
+  stroke: rgba(0, 0, 0, 0.3);
+  stroke-width: 1px;
+  stroke-linejoin: round;
 }
 
 .white-icon:hover>svg {
