@@ -123550,25 +123550,16 @@ function removeAllChildren(element) {
 
 // Labeling 💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬💬
 // Get user
-let currentUser = "Anonymous";
-document
-  .getElementById("user")
-  .addEventListener(
-    "change",
-    () => (currentUser = document.getElementById("user").value)
-  );
+let currentUser = "Nico";
+// document
+//   .getElementById("user")
+//   .addEventListener(
+//     "change",
+//     () => (currentUser = document.getElementById("user").value)
+//   );
 
-const messageButton = document.getElementById("message");
-toggle.message = false;
-messageButton.onclick = () => {
-  toggle.message = !toggle.message;
-  let button = document.getElementById("message");
-  selectedButton(button, toggle.message, true);
-  let user = document.getElementById("user-container");
-  toggle.message
-    ? user.classList.remove("hidden")
-    : user.classList.add("hidden");
-};
+// 🗣️ write a message
+toggleButton("message-button", false, "message-container");
 
 window.oncontextmenu = () => {
   const collision = viewer.context.castRayIfc(model);

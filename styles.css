@@ -39,7 +39,7 @@ header {
   justify-content: flex-start;
   pointer-events: none;
   flex-wrap: wrap;
-  height: 200px;
+  height: 400px;
 }
 
 header img {

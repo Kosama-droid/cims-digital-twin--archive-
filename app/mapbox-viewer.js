@@ -37,6 +37,7 @@ const draw = new MapboxDraw({
 
 let scene,
   map,
+  geocoder,
   three,
   camera,
   renderer,
@@ -56,11 +57,10 @@ let carleton = canada.provinces.ON.cities.Ottawa.places.CDC;
 let parliament = canada.provinces.ON.cities.Ottawa.places.PB;
 let downsview = canada.provinces.ON.cities.Toronto.places.DA;
 let hm = canada.provinces.ON.cities.Ottawa.places.HM;
-let def = carleton;
 
-let province = { term: "ON" };
-let city = { name: "Ottawa" };
-let place = { id: "CDC", name: "Carleton University" };
+let province = { term: "" };
+let city = { name: "" };
+let place = { id: "", name: "" };
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin,
@@ -68,7 +68,7 @@ let modelOrigin,
   modelRotate,
   modelAsMercatorCoordinate,
   modelTransform;
-setModelOrigin(def);
+setModelOrigin(carleton);
 
 let previousSelection = {
   mesh: null,
@@ -79,8 +79,8 @@ const mouse = new Vector4(-1000, -1000, 1, 1);
 
 let locGeojson = { source: { id: false } };
 let invisibleMasses = [];
-let lng = { canada: canada.lng, current: def.coordinates.lng },
-  lat = { canada: canada.lat, current: def.coordinates.lat };
+let lng = { canada: canada.lng },
+  lat = { canada: canada.lat };
 
 // Setting Mapbox 🗺️📦
 mapbox();
@@ -112,11 +112,11 @@ document.getElementById("info").addEventListener("click", () => {
 const objectSelector = document.getElementById("object-select");
 
 // Layers 🍰
-cdt.toggleButton("layers-button", false, "layers-container")
+cdt.toggleButton("layers-button", false, "layers-container");
 
 // Tools ⚒️
-cdt.toggleButton("tools-button", false, "tools-container")
-  // Map Style 🎨 → there is a plugin to change style: https://github.com/el/style-switcher
+cdt.toggleButton("tools-button", false, "tools-container");
+// Map Style 🎨 → there is a plugin to change style: https://github.com/el/style-switcher
 const styleSelect = document.getElementById("style-select");
 cdt.createOptions(styleSelect, cdt.mapStyles);
 styleSelect.addEventListener("change", function (event) {
@@ -219,47 +219,6 @@ const customLayer = {
 
 // Navigate Canada 🛬🍁 _________________________________________________________
 flyToCanada();
-
-// Province ➡️________________
-let provinceSelector = document.getElementById("province-select");
-cdt.createOptions(provinceSelector, canada.provinces);
-provinceSelector.addEventListener("change", (event) => {
-  // removeMarker(placeMarkers);
-  let term = event.target[event.target.selectedIndex].id;
-  province = canada.provinces[term];
-  let url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?concise=${province.concise}&province=${province.code}`;
-  locGeojson = getGeojson(province, url, map, locGeojson);
-  getCities(province.code);
-  cdt.hideElementsById("province-select")
-  cdt.unhideElementsById("city-select");
-});
-
-// City ➡️________________
-document.getElementById("city-select").addEventListener("change", (event) => {
-  removeMarker(placeMarkers);
-  cdt.removeChildren(document.getElementById("layers-container"), 4);
-  let cityName = event.target[event.target.selectedIndex].id;
-  city = canada.provinces[province.term].cities[cityName];
-  document.getElementById(
-    "new-place-location"
-  ).innerText = `${province.term}, ${cityName}`;
-  if (!city) city = { name: cityName };
-  url = `https://geogratis.gc.ca/services/geoname/en/geonames.geojson?q=${cityName}&concise=CITY&province=${province.code}`;
-  locGeojson = getGeojson(cityName, url, map, locGeojson);
-  if (!city.hasOwnProperty("places")) {
-    cdt.unhideElementsById("province-select");
-    infoMessage(`⚠️ No places at ${cityName}`);
-  } else {
-    cdt.hideElementsById("object-select");
-    places = city.places;
-    addPlaceGeojson(places);
-    cdt.createOptions(placeSelector, places);
-  }
-  cdt.hideElementsById("city-select");
-  cdt.unhideElementsById("place-select");
-  document.getElementById("add-place").classList.remove("hidden");
-  createLayerButtons(city);
-});
 
 // Place ➡️________________
 let placeSelector = document.getElementById("place-select");
@@ -496,13 +455,13 @@ function openIframe(iframeName, className = "iframe") {
   const container = document.getElementById("iframe-container");
   while (container.childElementCount > 0) container.lastChild.remove();
   const iframeContent = document.createElement("iframe");
-  iframeContent.setAttribute("id", '');
+  iframeContent.setAttribute("id", "");
   iframeContent.classList.add(className);
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
   closeWindow.classList.remove("hidden");
-  cdt.hideElementsById('selectors')
+  cdt.hideElementsById("selectors");
 }
 
 function openBimViewer(object) {
@@ -521,7 +480,7 @@ function openBimViewer(object) {
 
   container.appendChild(bimViewer);
   container.classList.remove("hidden");
-  cdt.hideElementsById('place-select');
+  cdt.hideElementsById("place-select");
 }
 
 function getCities(provinceCode) {
@@ -741,11 +700,11 @@ function addPlaceGeojson(places) {
     place = places[key];
     placeGeojson = loadGeojson(map, place.placeGeojson, key);
     geojsons.push(placeGeojson);
-    let center = turf.center(place.placeGeojson);
-    let centerCoordinates = center.geometry.coordinates;
-    let placeMarker = new mapboxgl.Marker()
-      .setLngLat(centerCoordinates)
-      .addTo(map);
+    // let center = turf.center(place.placeGeojson);
+    // let centerCoordinates = center.geometry.coordinates;
+    // let placeMarker = new mapboxgl.Marker()
+    //   .setLngLat(centerCoordinates)
+    //   .addTo(map);
 
     // geojson.onclick((e) => {
     //   let id = e.target.id;
@@ -858,20 +817,18 @@ function mapbox() {
   );
 
   // Add the control to the map 🔍
-const geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  marker: {
-    color: '#73CEE2'
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    marker: {
+      color: "#73CEE2",
     },
-  country: "CA",
-  mapboxgl: mapboxgl
+    country: "ca",
+    bbox: [-144, 40, -50, 78],
+    limit: 3,
+    mapboxgl: mapboxgl,
   });
-   
-  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-  geocoder.on('results', function(results) {
-    console.log(results);
- })
+  document.getElementById("geocoder").appendChild(geocoder.onAdd(map));
 
   // Day sky
   map.on("style.load", () => {
@@ -887,6 +844,25 @@ const geocoder = new MapboxGeocoder({
     addTerrain(map);
     osmVisibility(map, toggle.osm);
     map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+  });
+
+  geocoder.on("result", (e) => {
+    let text = e.result.context.text;
+    let i = 0;
+
+    e.result.context.forEach((element) => {
+      if (i == 1 && element.text == "Canada") city.name = e.result.text;
+      if (element.id.match(/region.*/)) province.term = element.short_code.substring(3);
+      if (element.id.match(/place.*/)) city.name = element.text;
+        i++;
+    });
+    console.log(province.term, city.name);
+    city = canada.provinces[province.term].cities[city.name];
+    places = city.places;
+    cdt.createOptions(placeSelector, places);
+    cdt.unhideElementsById("place-select");
+    addPlaceGeojson(places);
+    createLayerButtons(city);
   });
 }
 
