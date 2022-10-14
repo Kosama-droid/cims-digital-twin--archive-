@@ -83,19 +83,83 @@
             d="M20.715 24c-.864 0-1.711-.351-2.322-.962l-10.953-10.952c-.275-.274-.655-.432-1.044-.432l-.111.004c-1.681.129-3.373-.481-4.584-1.692-1.097-1.099-1.701-2.561-1.701-4.117 0-1.046.237-2.225.715-3.279l3.809 3.811c.436-.073.968-.393 1.405-.935.283-.35.427-.675.466-.91l-3.826-3.826c1.056-.476 2.219-.71 3.255-.71 1.533 0 3.043.601 4.143 1.702 1.208 1.209 1.823 2.88 1.69 4.584-.031.428.125.851.43 1.156l10.951 10.951c.62.621.962 1.446.962 2.322 0 1.811-1.474 3.285-3.285 3.285zm-14.319-14.343c.915 0 1.81.371 2.456 1.018l10.953 10.951c.239.24.571.377.909.377.71 0 1.288-.577 1.288-1.287 0-.344-.134-.667-.378-.911l-10.949-10.951c-.715-.716-1.083-1.707-1.009-2.718.088-1.127-.317-2.227-1.111-3.022-.493-.492-1.098-.833-1.758-1l1.49 1.491c.218 1.001.125 1.947-.804 3.097-1.002 1.243-2.292 1.932-3.88 1.586l-1.489-1.49c.167.66.508 1.266 1 1.759.796.794 1.893 1.2 3.017 1.11l.265-.01zm1.664 5.877l-4.665 4.627c-.229.229-.504.407-.79.558l-.579.302-1.026 2.145.833.834 2.101-1.07.301-.58c.15-.286.347-.545.574-.774l4.665-4.627-1.414-1.415zm7.15-7.798l4.507-4.499c.168-.17.442-.168.611 0 .168.17.169.442 0 .611l-4.507 4.5.89.89 4.507-4.5c.169-.169.441-.168.61.001.168.168.17.441.001.609l-4.508 4.5 1.039 1.039 4.767-4.759c.582-.583.873-1.346.873-2.11 0-.768-.293-1.537-.881-2.125-.584-.585-1.35-.877-2.113-.877-.766 0-1.529.293-2.113.877l-4.767 4.759 1.084 1.084zm5.49 12.464c-.276 0-.5.224-.5.5s.224.5.5.5.5-.224.5-.5-.223-.5-.5-.5z" />
         </svg>
       </a>
-      <div id="tools-container" class="start column hidden">
+      <div id="tools-container" class="end column hidden">
       <a class="white-icon" id="styles" name="Map styles" title="Select map style">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
             d="M8.997 13.985c.01 1.104-.88 2.008-1.986 2.015-1.105.009-2.005-.88-2.011-1.984-.01-1.105.879-2.005 1.982-2.016 1.106-.007 2.009.883 2.015 1.985zm-.978-3.986c-1.104.008-2.008-.88-2.015-1.987-.009-1.103.877-2.004 1.984-2.011 1.102-.01 2.008.877 2.012 1.982.012 1.107-.88 2.006-1.981 2.016zm7.981-4.014c.004 1.102-.881 2.008-1.985 2.015-1.106.01-2.008-.879-2.015-1.983-.011-1.106.878-2.006 1.985-2.015 1.101-.006 2.005.881 2.015 1.983zm-12 15.847c4.587.38 2.944-4.492 7.188-4.537l1.838 1.534c.458 5.537-6.315 6.772-9.026 3.003zm14.065-7.115c1.427-2.239 5.846-9.748 5.846-9.748.353-.623-.429-1.273-.975-.813 0 0-6.572 5.714-8.511 7.525-1.532 1.432-1.539 2.086-2.035 4.447l1.68 1.4c2.227-.915 2.868-1.04 3.995-2.811zm-12.622 4.806c-2.084-1.82-3.42-4.479-3.443-7.447-.044-5.51 4.406-10.03 9.92-10.075 3.838-.021 6.479 1.905 6.496 3.447l1.663-1.456c-1.01-2.223-4.182-4.045-8.176-3.992-6.623.055-11.955 5.466-11.903 12.092.023 2.912 1.083 5.57 2.823 7.635.958.492 2.123.329 2.62-.204zm12.797-1.906c1.059 1.97-1.351 3.37-3.545 3.992-.304.912-.803 1.721-1.374 2.311 5.255-.591 9.061-4.304 6.266-7.889-.459.685-.897 1.197-1.347 1.586z" />
         </svg>
       </a>
-      <a class="white-icon" id="add-place" name="Add new place" title="Add new place">
+      <a  id="add-place-button" name="Add new place" title="Add new place" class="white-icon hidden">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3c2.131 0 4 1.73 4 3.702 0 2.05-1.714 4.941-4 8.561-2.286-3.62-4-6.511-4-8.561 0-1.972 1.869-3.702 4-3.702zm0-2c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm8 6h-3.135c-.385.641-.798 1.309-1.232 2h3.131l.5 1h-4.264l-.344.544-.289.456h.558l.858 2h-7.488l.858-2h.479l-.289-.456-.343-.544h-2.042l-1.011-1h2.42c-.435-.691-.848-1.359-1.232-2h-3.135l-4 8h24l-4-8zm-12.794 6h-3.97l1.764-3.528 1.516 1.528h1.549l-.859 2zm8.808-2h3.75l1 2h-3.892l-.858-2z"/></svg>
       </a>
-      <a class="white-icon" id="add-object" name="Add new object" title="Add new object">
+      <nav id="new-place-container" class="double-list-container hidden">
+        <div id="new-place-location">province, city</div>
+        <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
+        <div class="item"><label for="place-id">Place ID:</label></div>
+        <div class="item">
+          <input id="place-id" type="name" name="Place ID" />
+        </div>
+        <div><br></div>
+        <div></div>
+        <div></div>
+        <div>Place area:</div>
+        <div id="calculated-area"></div>
+        <button id="upload-place" class="button">Upload new place</button>
+        <button id="cancel-new-place" class="button">Cancel</button>
+      </nav>
+      <a  id="add-object-button" name="Add new object" title="Add new object" class="white-icon hidden">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-5.522 0-10 4.395-10 9.815 0 5.505 4.375 9.268 10 14.185 5.625-4.917 10-8.68 10-14.185 0-5.42-4.478-9.815-10-9.815zm0 18c-4.419 0-8-3.582-8-8s3.581-8 8-8 8 3.582 8 8-3.581 8-8 8zm4-7h-3v3h-2v-3h-3v-2h3v-3h2v3h3v2z"/></svg>
       </a>
+      <nav id="new-object-container" class="double-list-container hidden">
+        <div id="new-object-location">province, city, place</div>
+        <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
+        <div class="item"><label for="object-id">Object ID:</label></div>
+        <div class="item">
+          <input id="object-id" type="name" name="Object ID" />
+        </div>
+        <div><br></div>
+        <div></div>
+        <div class="item"><label for="object-lng">Longitude:</label></div>
+        <div class="item">
+          <input id="object-lng" type="number" name="Longitud" />
+        </div>
+        <div class="item"><label for="object-lat">Latitude:</label></div>
+        <div class="item">
+          <input id="object-lat" type="number" name="Latitude" />
+        </div>
+        <div class="item">
+          <label for="object-msl">Meters above sea level:</label>
+        </div>
+        <div class="item">
+          <input id="object-msl" type="number" name="Meters above sea level:" />
+        </div>
+        <div class="item">
+          <label for="object-msl">Rotate true north:</label>
+        </div>
+        <div class="item">
+          <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+            oninput="this.nextElementSibling.value = this.value" /><output>0</output>
+        </div>
+        <div><br></div>
+        <div></div>
+        <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
+        <div class="item load-file">
+          <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
+        </div>
+        <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
+        <div class="item load-file">
+          <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
+        </div>
+        <div class="item"><br /></div>
+        <div class="item"></div>
+        <div class="item">
+          <button id="upload-object" class="button">Upload new object</button>
+        </div>
+        <div class="item">
+          <button id="cancel-new-object" class="button">Cancel</button>
+        </div>
+      </nav>
       </div>
     </nav>
 
@@ -116,77 +180,6 @@
       </a>
     </nav>
 
-  </nav>
-
-  <nav id="new-place-container" class="double-list-container hidden">
-    <div id="new-place-location">province, city</div>
-    <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
-    <div class="item"><label for="place-id">Place ID:</label></div>
-    <div class="item">
-      <input id="place-id" type="name" name="Place ID" />
-    </div>
-    <div><br></div>
-    <div></div>
-
-    <button id="create-place" class="button">Redo place polygon</button>
-    <div></div>
-    <div>Place area:</div>
-    <div id="calculated-area"></div>
-
-    <div><br></div>
-    <div><br></div>
-    <button id="upload-place" class="button">Upload new place</button>
-    <button id="cancel-new-place" class="button">Cancel</button>
-  </nav>
-  <nav id="new-object-container" class="double-list-container hidden">
-    <div id="new-object-location">province, ontario, place</div>
-    <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
-    <div class="item"><label for="object-id">Object ID:</label></div>
-    <div class="item">
-      <input id="object-id" type="name" name="Object ID" />
-    </div>
-    <div><br></div>
-    <div></div>
-    <div class="item"><label for="object-lng">Longitude:</label></div>
-    <div class="item">
-      <input id="object-lng" type="number" name="Longitud" />
-    </div>
-    <div class="item"><label for="object-lat">Latitude:</label></div>
-    <div class="item">
-      <input id="object-lat" type="number" name="Latitude" />
-    </div>
-    <div class="item">
-      <label for="object-msl">Meters above sea level:</label>
-    </div>
-    <div class="item">
-      <input id="object-msl" type="number" name="Meters above sea level:" />
-    </div>
-    <div class="item">
-      <label for="object-msl">Rotate true north:</label>
-    </div>
-    <div class="item">
-      <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
-        oninput="this.nextElementSibling.value = this.value" /><output>0</output>
-    </div>
-    <div><br></div>
-    <div></div>
-    <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
-    <div class="item load-file">
-      <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
-    </div>
-    <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
-    <div class="item load-file">
-      <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
-    </div>
-    <div class="item"><br /></div>
-    <div class="item"></div>
-    <div class="item">
-      <button id="upload-object" class="button">Upload new object</button>
-    </div>
-    <div class="item">
-      <button id="cancel-new-object" class="button">Cancel</button>
-    </div>
-  </nav>
   </nav>
 
   <div id="full-screen-flex-container">

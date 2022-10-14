@@ -63,6 +63,15 @@ h3 {
   align-items: center;
 }
 
+a {
+  padding: 0.8rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: auto;
+}
+
 .map {
   width: 100vw;
   height: 100vh;
@@ -107,15 +116,7 @@ h3 {
   flex-direction: column;
 }
 
-a {
-  padding: 0.8rem;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-}
+
 
 .white-icon svg {
   transition: all 0.3s ease 0s;
@@ -148,11 +149,9 @@ a {
 }
 
 .double-list-container {
-  background-color: var(--primary-light-transp1);
-  position: absolute;
   display: flex;
   flex-wrap: wrap;
-  width: 380px;
+  width: 300px;
   padding: 1rem;
   margin: 1rem;
   border-radius: var(--border-radius);
@@ -166,6 +165,7 @@ a {
 
 .double-list-container input {
   background-color: #0000;
+  color: var(--primary-light);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -195,7 +195,6 @@ a {
 
 .selector {
   z-index: 1;
-  /* background-color: var(--primary-light-transp1); */
   padding: 0.7rem;
   margin: 0.5rem;
   font-weight: 500;
@@ -288,6 +287,24 @@ a {
   padding: 8px;
   backdrop-filter: var(--blur);
   border-radius: 1rem;
+  pointer-events: all;
+}
+
+.button {
+  z-index: 1;
+  padding: 0.7rem;
+  margin: 0.3rem;
+  font-weight: 300;
+  border: none;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  max-width: 250px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
   pointer-events: all;
 }
 
@@ -541,7 +558,8 @@ ul,
 .toolbar {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  align-content: flex-end;
   pointer-events: all;
   justify-content: center;
 }
@@ -553,7 +571,7 @@ ul,
 
 .end {
   display: flex;
-  align-self: flex-end;
+  align-items: flex-end;
 }
 
 @keyframes opacity-change {
@@ -602,7 +620,7 @@ ul,
   right: 0px;
   height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: column;
   justify-content: space-between;
   pointer-events: none;
@@ -612,7 +630,6 @@ ul,
   text-transform: uppercase;
   color: var(--primary-light);
 }
-
 
 .selectors {
   display: flex;
@@ -651,6 +668,7 @@ ul,
   z-index: 1;
   margin-top: 1.4rem;
   height: 2.3rem;
+  margin-right: 0.5rem;
   }
 
   .mapboxgl-ctrl-geocoder {
