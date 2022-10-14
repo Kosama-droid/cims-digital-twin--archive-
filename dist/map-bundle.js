@@ -48886,28 +48886,6 @@ styles.forEach(style => {
 });
 });
 
-// changeStyle('dark-style')
-// changeStyle('map-style')
-// changeStyle('satellite-style')
-// changeStyle('traffic-style')
-
-// function changeStyle(style){
-// document.getElementById(style).addEventListener('click', (e) => {
-//   console.log(e.path[2].id)
-//   // currentStyle = e;
-// //   console.log(currentStyle)
-// //   const url = cdt.mapStyles[style].url;
-// //   map.setStyle(url);
-// // })
-// })
-// }
-
-
-// styleSelect.addEventListener("change", function (event) {
-//   let style = event.target[event.target.selectedIndex].id;
-//   const url = cdt.mapStyles[style].url;
-//   map.setStyle(url);
-// });
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
