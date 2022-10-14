@@ -48644,13 +48644,13 @@ function loadObjectsGltf(site, currentScene) {
 var mapStyles$1 = mapStyles = {
     //Styles with labels
     map: {name: "Map", url:"mapbox://styles/mapbox/streets-v11"},
-    satellite_labels: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    satellite: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
     outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
     light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
     dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
     traffic: {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
     // Styles without labels (The models don't show) -------------------
-    // satellite: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
+    // satellite_no_layers: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
     // google: {name: "Google satellite", url: {
     //     'version': 8,
     //     'sources': {
@@ -48739,6 +48739,15 @@ function toggleButton(buttonId, toggle, ...targets) {
     return toggle
   }
 
+function closeWindow(){
+document.getElementById('close-window').addEventListener('click', (e) => {
+      document.getElementsByClassName('iframe').remove;
+      document.getElementById('selectors').classList.remove('hidden');
+      document.getElementById('close-window').classList.add('hidden');
+      document.getElementById('iframe-container').classList.add('hidden');
+    });
+  }
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -48773,10 +48782,7 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
   });
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
-Array.from(document.getElementById("selectors").children);
-Array.from(
-  document.getElementById("layers-container").children
-);
+
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
@@ -48840,7 +48846,9 @@ mapbox();
 
 // GUI  👌 _________________________________________________________________________________________
 
-const closeWindow = document.getElementById("close-window");
+const closeButton = document.getElementById("close-window");
+closeWindow();
+
 // ICDT 🍁
 document.getElementById("icdt").addEventListener("click", () => {
   openIframe("https://canadasdigitaltwin.ca", "icdt");
@@ -48866,14 +48874,40 @@ toggleButton("layers-button", false, "layers-container");
 
 // Tools ⚒️
 toggleButton("tools-button", false, "tools-container");
-// Map Style 🎨 → there is a plugin to change style: https://github.com/el/style-switcher
-const styleSelect = document.getElementById("style-select");
-createOptions(styleSelect, mapStyles$1);
-styleSelect.addEventListener("change", function (event) {
-  let style = event.target[event.target.selectedIndex].id;
-  const url = mapStyles$1[style].url;
-  map.setStyle(url);
+// Map Style 🎨 
+toggleButton("styles-button", false, "styles-container");
+const currentStyle = {};
+const styles = Array.from(document.getElementById('styles-container').children);
+styles.forEach(style => {
+  document.getElementById(style.id).addEventListener('click', () => {
+    currentStyle.id = style.id.split('-')[0];
+    currentStyle.url = mapStyles$1[currentStyle.id].url;
+    map.setStyle(currentStyle.url);
 });
+});
+
+// changeStyle('dark-style')
+// changeStyle('map-style')
+// changeStyle('satellite-style')
+// changeStyle('traffic-style')
+
+// function changeStyle(style){
+// document.getElementById(style).addEventListener('click', (e) => {
+//   console.log(e.path[2].id)
+//   // currentStyle = e;
+// //   console.log(currentStyle)
+// //   const url = cdt.mapStyles[style].url;
+// //   map.setStyle(url);
+// // })
+// })
+// }
+
+
+// styleSelect.addEventListener("change", function (event) {
+//   let style = event.target[event.target.selectedIndex].id;
+//   const url = cdt.mapStyles[style].url;
+//   map.setStyle(url);
+// });
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
@@ -49246,7 +49280,7 @@ function openIframe(iframeName, className = "iframe") {
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
-  closeWindow.classList.remove("hidden");
+  closeButton.classList.remove("hidden");
   hideElementsById("selectors");
 }
 
@@ -49255,6 +49289,7 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
+  closeButton.classList.remove("hidden");
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   const container = document.getElementById("iframe-container");
   while (container.childElementCount > 1) container.lastChild.remove();
@@ -49266,7 +49301,7 @@ function openBimViewer(object) {
 
   container.appendChild(bimViewer);
   container.classList.remove("hidden");
-  hideElementsById("place-select");
+  hideElementsById("place-select", 'geocoder');
 }
 
 function getCities(provinceCode) {
@@ -49409,8 +49444,6 @@ function setPlace(place, provinceTerm, cityName) {
   if (!place.hasOwnProperty("objects")) {
     removeFromScene();
     infoMessage(`⚠️ No objects at ${place.name}`);
-    hideElementsById("object-select");
-    unhideElementsById("osm");
     if (place.hasOwnProperty("gltfMasses")) {
       loadMasses(visibleMasses, place, true);
     }
@@ -49422,10 +49455,10 @@ function setPlace(place, provinceTerm, cityName) {
       );
       loadMasses(visibleMasses, place, true);
     }
-    loadObjectsGltf(place, scene);
-    unhideElementsById("object-select");
+    unhideElementsById("object-select","add-place-button", "add-object-button");
     createOptions(objectSelector, place.objects, 2);
     selectObj(objectSelector);
+    loadObjectsGltf(place, scene);
   }
 }
 
@@ -49580,9 +49613,8 @@ function mapbox() {
   // Add the control to the map 🔍
   const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    marker: {
-      color: "#73CEE2",
-    },
+    marker: false,
+    // {color: "#73CEE2"},
     country: "ca",
     bbox: [-144, 40, -50, 78],
     limit: 3,

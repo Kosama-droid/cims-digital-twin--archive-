@@ -1,13 +1,13 @@
 export default mapStyles = {
     //Styles with labels
     map: {name: "Map", url:"mapbox://styles/mapbox/streets-v11"},
-    satellite_labels: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
+    satellite: {name: "Satellite with Labels", url:"mapbox://styles/mapbox/satellite-streets-v11"},
     outdoors: {name: "Outdoors", url:"mapbox://styles/mapbox/outdoors-v11"},
     light: {name: "Light", url:"mapbox://styles/mapbox/light-v10"},
     dark: {name: "Dark", url:"mapbox://styles/mapbox/dark-v10"},
     traffic: {name: "Traffic", url:"mapbox://styles/mapbox/navigation-day-v1"},
     // Styles without labels (The models don't show) -------------------
-    // satellite: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
+    // satellite_no_layers: {name: "Satellite", url:"mapbox://styles/mapbox/satellite-v9"},
     // google: {name: "Google satellite", url: {
     //     'version': 8,
     //     'sources': {

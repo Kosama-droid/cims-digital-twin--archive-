@@ -83,18 +83,20 @@
 
     <nav class="toolbar end">
       <div id="layers-container" class="end column hidden">
+        <div id="categories" class="column start">
         <div id="walls">
-          <input type="checkbox" id="walls-checkbox" name="Walls" value=false>
+          <input type="checkbox" id="walls-checkbox" name="Walls" value=true checked=true>
           <label for="walls-checkbox"> Walls </label><br>
         </div>
         <div id="floors">
-          <input type="checkbox" id="floors-checkbox" name="Floors" value=false>
+          <input type="checkbox" id="floors-checkbox" name="Floors" value=true checked=true>
           <label for="walls-checkbox"> Floors </label><br>
         </div>
         <div id="roofs">
-          <input type="checkbox" id="roofs-checkbox" name="Roofs" value=false>
+          <input type="checkbox" id="roofs-checkbox" name="Roofs" value=true checked=true>
           <label for="roofs-checkbox"> roofs </label><br>
         </div>
+      </div>
       </div>
       <a class="white-icon" name="layers" id="layers-button" title="Hide layers">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

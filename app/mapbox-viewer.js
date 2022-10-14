@@ -17,10 +17,7 @@ import {
 import * as cdt from "../modules/cdt-api";
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
-const selectors = Array.from(document.getElementById("selectors").children);
-const layerContainer = Array.from(
-  document.getElementById("layers-container").children
-);
+
 const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
@@ -85,7 +82,9 @@ mapbox();
 
 // GUI  👌 _________________________________________________________________________________________
 
-const closeWindow = document.getElementById("close-window");
+const closeButton = document.getElementById("close-window");
+cdt.closeWindow();
+
 // ICDT 🍁
 document.getElementById("icdt").addEventListener("click", () => {
   openIframe("https://canadasdigitaltwin.ca", "icdt");
@@ -111,14 +110,18 @@ cdt.toggleButton("layers-button", false, "layers-container");
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
-// Map Style 🎨 → there is a plugin to change style: https://github.com/el/style-switcher
-const styleSelect = document.getElementById("style-select");
-cdt.createOptions(styleSelect, cdt.mapStyles);
-styleSelect.addEventListener("change", function (event) {
-  let style = event.target[event.target.selectedIndex].id;
-  const url = cdt.mapStyles[style].url;
-  map.setStyle(url);
+// Map Style 🎨 
+cdt.toggleButton("styles-button", false, "styles-container");
+const currentStyle = {};
+const styles = Array.from(document.getElementById('styles-container').children)
+styles.forEach(style => {
+  document.getElementById(style.id).addEventListener('click', () => {
+    currentStyle.id = style.id.split('-')[0];
+    currentStyle.url = cdt.mapStyles[currentStyle.id].url;
+    map.setStyle(currentStyle.url);
 });
+})
+
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
@@ -491,7 +494,7 @@ function openIframe(iframeName, className = "iframe") {
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
-  closeWindow.classList.remove("hidden");
+  closeButton.classList.remove("hidden");
   cdt.hideElementsById("selectors");
 }
 
@@ -500,6 +503,7 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
+  closeButton.classList.remove("hidden");
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   const container = document.getElementById("iframe-container");
   while (container.childElementCount > 1) container.lastChild.remove();
@@ -511,7 +515,7 @@ function openBimViewer(object) {
 
   container.appendChild(bimViewer);
   container.classList.remove("hidden");
-  cdt.hideElementsById("place-select");
+  cdt.hideElementsById("place-select", 'geocoder');
 }
 
 function getCities(provinceCode) {
@@ -668,8 +672,6 @@ function setPlace(place, provinceTerm, cityName) {
   if (!place.hasOwnProperty("objects")) {
     removeFromScene();
     infoMessage(`⚠️ No objects at ${place.name}`);
-    cdt.hideElementsById("object-select");
-    cdt.unhideElementsById("osm");
     if (place.hasOwnProperty("gltfMasses")) {
       loadMasses(visibleMasses, place, true);
     }
@@ -681,10 +683,10 @@ function setPlace(place, provinceTerm, cityName) {
       );
       loadMasses(visibleMasses, place, true);
     }
-    cdt.loadObjectsGltf(place, scene);
-    cdt.unhideElementsById("object-select");
+    cdt.unhideElementsById("object-select","add-place-button", "add-object-button");
     cdt.createOptions(objectSelector, place.objects, 2);
     selectObj(objectSelector);
+    cdt.loadObjectsGltf(place, scene);
   }
 }
 
@@ -846,9 +848,8 @@ function mapbox() {
   // Add the control to the map 🔍
   const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
-    marker: {
-      color: "#73CEE2",
-    },
+    marker: false,
+    // {color: "#73CEE2"},
     country: "ca",
     bbox: [-144, 40, -50, 78],
     limit: 3,
