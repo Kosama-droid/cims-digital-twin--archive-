@@ -202,6 +202,7 @@ a {
 
 .selector {
   z-index: 1;
+  background-color: var(--primary-light);
   padding: 0.7rem;
   margin: 0.5rem;
   font-weight: 500;
@@ -511,7 +512,7 @@ ul,
 .icdt {
   z-index: 3;
   justify-content: center;
-  width: 90%;
+  width: 86%;
   height: 83vh;
   margin: 5rem 4rem;
   border: none;

@@ -45,6 +45,8 @@ let scene,
   placeGeojsons,
   marker;
 
+let markers = [];
+
 let toggle = { osm: false };
 
 // Favourite places ⭐⭐⭐⭐⭐⭐⭐
@@ -86,42 +88,52 @@ const closeButton = document.getElementById("close-window");
 cdt.closeWindow();
 
 // ICDT 🍁
-document.getElementById("icdt").addEventListener("click", () => {
-  openIframe("https://canadasdigitaltwin.ca", "icdt");
-});
+let icdtToggle = false;
+icdtToggle = openWindow("icdt", icdtToggle, "https://canadasdigitaltwin.ca", "icdt");
 
-// User Login 👤
-document.getElementById("login").addEventListener("click", () => {
-  openIframe("login.html");
-});
+function openWindow(item, toggle, url = `${item}.html`, className) {
+  const button = document.getElementById(`${item}-button`);
+  button.addEventListener("click", () => {
+    if (!toggle) openIframe(url, className);
+    cdt.selectedButton(button, !toggle);
+    if (toggle) cdt.closeWindow(true);
+    toggle = !toggle;
+  });
+  return toggle;
+}
 
-// User settings ⚙️
-document.getElementById("settings").addEventListener("click", () => {
-  openIframe("settings.html");
-});
+// // User Login 👤
+let loginToggle = false;
+loginToggle = openWindow("login", loginToggle);
 
-// User info ℹ️
-document.getElementById("info").addEventListener("click", () => {
-  openIframe("info.html");
-});
+// Info ℹ️
+let infoToggle = false;
+infoToggle = openWindow("info", infoToggle);
+
+// Settings ⚙️
+let settingsToggle = false;
+settingsToggle = openWindow("settings", settingsToggle);
+
+// Search bar 🔍
+cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
-// Map Style 🎨 
+
+// Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
-const styles = Array.from(document.getElementById('styles-container').children)
-styles.forEach(style => {
-  document.getElementById(style.id).addEventListener('click', () => {
-    currentStyle.id = style.id.split('-')[0];
+const styles = Array.from(document.getElementById("styles-container").children);
+styles.forEach((style) => {
+  document.getElementById(style.id).addEventListener("click", () => {
+    currentStyle.id = style.id.split("-")[0];
     currentStyle.url = cdt.mapStyles[currentStyle.id].url;
     map.setStyle(currentStyle.url);
+  });
 });
-})
-
 
 // THREE JS 3️⃣  ______________________________________________________________
 const customLayer = {
@@ -224,25 +236,27 @@ const cancelPlace = document.getElementById("cancel-new-place");
 cdt.createOptions(placeSelector, places, 2);
 
 // Create new place 🆕
-let newPlaceToggle = cdt.toggleButton('add-place-button', false, "new-place-container")
-const addPlaceButton = document.getElementById('add-place-button')
+let newPlaceToggle = cdt.toggleButton(
+  "add-place-button",
+  false,
+  "new-place-container"
+);
+const addPlaceButton = document.getElementById("add-place-button");
 addPlaceButton.addEventListener("click", () => {
-  cancelObject.click();
-  newPlaceToggle = !newPlaceToggle
+  newPlaceToggle = !newPlaceToggle;
   if (newPlaceToggle) {
-  createPolygon();
-  map.getCanvas().style.cursor = "crosshair" 
-  document.getElementById("new-place-container").classList.remove('hidden');
-  }
-  else{
-    cancelPlace.click()
+    createPolygon();
+    map.getCanvas().style.cursor = "crosshair";
+    document.getElementById("new-place-container").classList.remove("hidden");
+  } else {
+    cancelPlace.click();
   }
 });
 cancelPlace.addEventListener("click", () => {
   newPlaceToggle = false;
-  document.getElementById("new-place-container").classList.add('hidden');
-  map.getCanvas().style.cursor = "" 
-  addPlaceButton.classList.remove('selected-button')
+  document.getElementById("new-place-container").classList.add("hidden");
+  map.getCanvas().style.cursor = "";
+  addPlaceButton.classList.remove("selected-button");
   draw.deleteAll();
 });
 document.getElementById("upload-place").onclick = () => {
@@ -254,43 +268,47 @@ placeSelector.addEventListener("change", (event) => {
   places = city.places;
   id = event.target[event.target.selectedIndex].id;
   if (id === "add-place") {
-    document.getElementById('add-place-button').click()
+    document.getElementById("tools-button").click();
+    document.getElementById("add-place-button").click();
   } else {
     place = places[id];
     setPlace(place, province.term, city.name);
-    cdt.unhideElementsById('add-object-button')
+    cdt.unhideElementsById("add-object-button");
   }
 });
 
 // Object ➡️________________
 let objectSelector = document.getElementById("object-select");
 const cancelObject = document.getElementById("cancel-new-object");
-cdt.createOptions(objectSelector, places, 2);
+cdt.createOptions(objectSelector, place.objects, 2);
 // Create new object 🆕
-let newObjectToggle = cdt.toggleButton('add-object-button', false, "new-object-container")
-const addObjectButton = document.getElementById('add-object-button')
+let newObjectToggle = cdt.toggleButton(
+  "add-object-button",
+  false,
+  "new-object-container"
+);
+const addObjectButton = document.getElementById("add-object-button");
 addObjectButton.addEventListener("click", () => {
-  cancelPlace.click();
-  newObjectToggle = !newObjectToggle
+  newObjectToggle = !newObjectToggle;
   if (newObjectToggle) {
-  addNewObject()
-  document.getElementById("new-object-container").classList.remove('hidden');
-  }
-  else{
-    document.getElementById("new-object-container").classList.add('hidden');
-    cancelObject.click()
+    addLocMarker("object");
+    addNewObject();
+    document.getElementById("new-object-container").classList.remove("hidden");
+  } else {
+    document.getElementById("new-object-container").classList.add("hidden");
+    cancelObject.click();
   }
 });
 cancelObject.addEventListener("click", () => {
   newObjectToggle = false;
-  document.getElementById("new-object-container").classList.add('hidden');
-  addObjectButton.classList.remove('selected-button')
+  document.getElementById("new-object-container").classList.add("hidden");
+  addObjectButton.classList.remove("selected-button");
+  removeMarker(markers);
 });
 document.getElementById("upload-object").onclick = () => {
   addNewObject();
   cancelObject.click();
 };
-
 
 map.on("dblclick", () => {
   if (!gltfMasses || !gltfMasses.selected) return;
@@ -496,7 +514,6 @@ function openIframe(iframeName, className = "iframe") {
   iframeContent.setAttribute("src", url);
   container.appendChild(iframeContent);
   container.classList.remove("hidden");
-  closeButton.classList.remove("hidden");
   cdt.hideElementsById("selectors");
 }
 
@@ -517,29 +534,7 @@ function openBimViewer(object) {
 
   container.appendChild(bimViewer);
   container.classList.remove("hidden");
-  cdt.hideElementsById("place-select", 'geocoder');
-}
-
-function getCities(provinceCode) {
-  citySelect = document.getElementById("city-select");
-  cdt
-    .getJson(
-      `https://geogratis.gc.ca/services/geoname/en/geonames.json?province=${provinceCode}&concise=CITY`
-    )
-    .then((jsonCity) => {
-      const cityItems = jsonCity.items;
-      while (citySelect.childElementCount > 1) {
-        citySelect.removeChild(citySelect.lastChild);
-      }
-      cityItems.forEach((cityItem) => {
-        let cityName = cityItem.name;
-        let option = document.createElement("option");
-        option.innerHTML = cityName;
-        option.setAttribute("id", cityName);
-        citySelect.appendChild(option);
-        cdt.sortChildren(citySelect);
-      });
-    });
+  cdt.hideElementsById("place-select", "geocoder");
 }
 
 function infoMessage(message, seconds = 4) {
@@ -575,7 +570,7 @@ function osmVisibility(map, toggle) {
 }
 
 function flyToCanada() {
-  let home = document.getElementById("home");
+  let home = document.getElementById("home-button");
   home.addEventListener("click", () => {
     flyTo(map, lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
@@ -585,10 +580,11 @@ function flyToCanada() {
   });
 }
 
-function selectObj(selector) {
+function selectObject(selector) {
   selector.addEventListener("change", () => {
     let id = selector[selector.selectedIndex].id;
     if (id === "add-object") {
+      document.getElementById("tools-container").classList.remove("hidden");
       cancelPlace.click();
       addLocMarker("object");
       document.getElementById(
@@ -661,7 +657,6 @@ function setPlace(place, provinceTerm, cityName) {
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
 
-  if (province.cities) getCities(province.code);
   if (city.places)
     cdt.createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
@@ -680,14 +675,16 @@ function setPlace(place, provinceTerm, cityName) {
   } else {
     loadMasses(invisibleMasses, place, false);
     if (isMobile) {
-      cdt.hideElementsById(
-        "place-select"
-      );
+      cdt.hideElementsById("place-select");
       loadMasses(visibleMasses, place, true);
     }
-    cdt.unhideElementsById("object-select","add-place-button", "add-object-button");
+    cdt.unhideElementsById(
+      "object-select",
+      "add-place-button",
+      "add-object-button"
+    );
     cdt.createOptions(objectSelector, place.objects, 2);
-    selectObj(objectSelector);
+    selectObject(objectSelector);
     cdt.loadObjectsGltf(place, scene);
   }
 }
@@ -879,12 +876,13 @@ function mapbox() {
     let i = 0;
     e.result.context.forEach((element) => {
       if (i == 1 && element.text == "Canada") city.name = e.result.text;
-      if (element.id.match(/region.*/)) province.term = element.short_code.substring(3);
+      if (element.id.match(/region.*/))
+        province.term = element.short_code.substring(3);
       if (element.id.match(/place.*/)) city.name = element.text;
-        i++;
+      i++;
     });
     console.log(province.term, city.name);
-    province = canada.provinces[province.term]
+    province = canada.provinces[province.term];
     city = province.cities[city.name];
     places = city.places;
     cdt.createOptions(placeSelector, places);
@@ -936,6 +934,7 @@ function addLocMarker(at) {
   }
 
   marker.on("dragend", onDragEnd);
+  markers.push(marker);
 }
 
 function createPolygon() {
@@ -959,12 +958,12 @@ function updateArea(e) {
 function addNewPlace() {
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
-  if (! newPlaceId) {
-    newPlaceId = "NN"
+  if (!newPlaceId) {
+    newPlaceId = "NN";
   }
   newPlace.name = document.getElementById("place-name").value;
-  if (! newPlace.name) {
-    newPlace.name = "no name"
+  if (!newPlace.name) {
+    newPlace.name = "no name";
   }
   newPlace.placeGeojson = draw.getAll();
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
@@ -973,15 +972,12 @@ function addNewPlace() {
   if (!cityName)
     canada.provinces[province.term].cities[city.name] = {
       name: city.name,
-      places: {},
+      places: { objects: {} },
     };
   canada.provinces[province.term].cities[city.name].places[newPlaceId] =
     newPlace;
-  cdt.createOptions(
-    placeSelector,
-    canada.provinces[province.term].cities[city.name].places,
-    2
-  );
+  place = newPlace;
+  cdt.createOptions(objectSelector, place.objects, 2);
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
 }
@@ -997,19 +993,25 @@ function addNewObject() {
   newObject.coordinates.trueNorth =
     document.getElementById("object-true-north").value;
   // newObject.glbFile = document.getElementById("object-glb-input");
-  canada.provinces[province.term].cities[city.name] = {
-    name: city.name,
-    objects: {},
-  };
-  console.log(canada.provinces[province.term].cities[city.name].objects);
-  canada.provinces[province.term].cities[city.name].objects[newObjectId] =
-    newObject;
+  if (!canada.provinces[province.term].cities.hasOwnProperty(city.name))
+    canada.provinces[province.term].cities[city.name] = { name: city.name };
+  if (
+    !canada.provinces[province.term].cities[city.name].places[
+      place.id
+    ].hasOwnProperty("objects")
+  )
+    canada.provinces[province.term].cities[city.name].places[place.id].objects =
+      {};
+
+  console.log(canada.provinces[province.term].cities[city.name]);
+  canada.provinces[province.term].cities[city.name].places[place.id].objects[
+    newObjectId
+  ] = newObject;
   cdt.createOptions(
     objectSelector,
-    canada.provinces[province.term].cities[city.name].objects,
+    canada.provinces[province.term].cities[city.name].places[place.id].objects,
     2
   );
-  console.log(canada.provinces[province.term]);
 
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
