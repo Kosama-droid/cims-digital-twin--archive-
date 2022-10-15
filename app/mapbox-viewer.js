@@ -559,7 +559,7 @@ function getGeojson(id, url, map, locGeojson) {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-  const osmButton = document.getElementById("osm");
+  const osmButton = document.getElementById("buildings-button");
   osmButton.onclick = () => {
     toggle = !toggle;
     cdt.selectedButton(osmButton, toggle, true);
@@ -694,8 +694,8 @@ async function createLayerButtons(city) {
   const layerContainer = document.getElementById("layers-container");
   cdt.removeChildren(layerContainer, 1);
   for (key in layers) {
-    const osm = document.getElementById("osm");
-    const newButton = osm.cloneNode(true);
+    const buildingsButton = document.getElementById("buildings-button");
+    const newButton = buildingsButton.cloneNode(true);
     newButton.classList.remove("hidden");
     const layer = await layers[key];
     newButton.title = `Show ${layer.name}`;

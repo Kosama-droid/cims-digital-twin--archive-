@@ -49312,7 +49312,7 @@ function infoMessage(message, seconds = 4) {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-  const osmButton = document.getElementById("osm");
+  const osmButton = document.getElementById("buildings-button");
   osmButton.onclick = () => {
     toggle = !toggle;
     selectedButton(osmButton, toggle, true);
@@ -49447,8 +49447,8 @@ async function createLayerButtons(city) {
   const layerContainer = document.getElementById("layers-container");
   removeChildren(layerContainer, 1);
   for (key in layers) {
-    const osm = document.getElementById("osm");
-    const newButton = osm.cloneNode(true);
+    const buildingsButton = document.getElementById("buildings-button");
+    const newButton = buildingsButton.cloneNode(true);
     newButton.classList.remove("hidden");
     const layer = await layers[key];
     newButton.title = `Show ${layer.name}`;
