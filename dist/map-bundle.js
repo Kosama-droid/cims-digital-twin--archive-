@@ -48886,6 +48886,9 @@ toggleButton("search-button", true, "geocoder", "selectors");
 // Layers 🍰
 toggleButton("layers-button", false, "layers-container");
 
+// Show OSM buildings 🏢
+const osmButton = document.getElementById("osm-button");
+
 // Tools ⚒️
 toggleButton("tools-button", false, "tools-container");
 
@@ -49223,7 +49226,7 @@ function loadOSM(map, opacity = 0.9) {
       filter: ["==", "extrude", "true"],
       // filter: ["{elementId} === 671842709", "extrude", "false"],
       type: "fill-extrusion",
-      minzoom: 13,
+      minzoom: 11,
       paint: {
         "fill-extrusion-color": "#aaa",
         "fill-extrusion-height": ["get", "height"],
@@ -49312,7 +49315,6 @@ function infoMessage(message, seconds = 4) {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-  const osmButton = document.getElementById("buildings-button");
   osmButton.onclick = () => {
     toggle = !toggle;
     selectedButton(osmButton, toggle, true);
@@ -49409,7 +49411,6 @@ function setModelOrigin(place) {
 function setPlace(place, provinceTerm, cityName) {
   province = canada$1.provinces[provinceTerm];
   city = province.cities[cityName];
-
   if (city.places)
     createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
@@ -49426,6 +49427,7 @@ function setPlace(place, provinceTerm, cityName) {
       loadMasses(visibleMasses, place, true);
     }
   } else {
+    if (document.getElementById('osm-button').classList.contains('selected-button')) osmButton.click();
     loadMasses(invisibleMasses, place, false);
     if (isMobile) {
       hideElementsById("place-select");
@@ -49447,9 +49449,9 @@ async function createLayerButtons(city) {
   const layerContainer = document.getElementById("layers-container");
   removeChildren(layerContainer, 1);
   for (key in layers) {
-    const buildingsButton = document.getElementById("buildings-button");
-    const newButton = buildingsButton.cloneNode(true);
+    const newButton = osmButton.cloneNode(true);
     newButton.classList.remove("hidden");
+    newButton.classList.remove("selected-button");
     const layer = await layers[key];
     newButton.title = `Show ${layer.name}`;
     newButton.name = `${layer.name}`;
@@ -49642,6 +49644,7 @@ function mapbox() {
     unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
+    osmButton.click();
   });
 }
 

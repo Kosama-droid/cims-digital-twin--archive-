@@ -120,6 +120,9 @@ cdt.toggleButton("search-button", true, "geocoder", "selectors");
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
 
+// Show OSM buildings 🏢
+const osmButton = document.getElementById("osm-button");
+
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
 
@@ -457,7 +460,7 @@ function loadOSM(map, opacity = 0.9) {
       filter: ["==", "extrude", "true"],
       // filter: ["{elementId} === 671842709", "extrude", "false"],
       type: "fill-extrusion",
-      minzoom: 13,
+      minzoom: 11,
       paint: {
         "fill-extrusion-color": "#aaa",
         "fill-extrusion-height": ["get", "height"],
@@ -559,7 +562,6 @@ function getGeojson(id, url, map, locGeojson) {
 
 // Show OSM buildings 🏢
 function osmVisibility(map, toggle) {
-  const osmButton = document.getElementById("buildings-button");
   osmButton.onclick = () => {
     toggle = !toggle;
     cdt.selectedButton(osmButton, toggle, true);
@@ -656,7 +658,6 @@ function setModelOrigin(place) {
 function setPlace(place, provinceTerm, cityName) {
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
-
   if (city.places)
     cdt.createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
@@ -673,6 +674,7 @@ function setPlace(place, provinceTerm, cityName) {
       loadMasses(visibleMasses, place, true);
     }
   } else {
+    if (document.getElementById('osm-button').classList.contains('selected-button')) osmButton.click()
     loadMasses(invisibleMasses, place, false);
     if (isMobile) {
       cdt.hideElementsById("place-select");
@@ -694,9 +696,9 @@ async function createLayerButtons(city) {
   const layerContainer = document.getElementById("layers-container");
   cdt.removeChildren(layerContainer, 1);
   for (key in layers) {
-    const buildingsButton = document.getElementById("buildings-button");
-    const newButton = buildingsButton.cloneNode(true);
+    const newButton = osmButton.cloneNode(true);
     newButton.classList.remove("hidden");
+    newButton.classList.remove("selected-button");
     const layer = await layers[key];
     newButton.title = `Show ${layer.name}`;
     newButton.name = `${layer.name}`;
@@ -889,6 +891,7 @@ function mapbox() {
     cdt.unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
+    osmButton.click()
   });
 }
 
