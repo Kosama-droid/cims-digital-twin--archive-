@@ -48720,8 +48720,9 @@ var mapStyles$1 = mapStyles = {
 };
 
 function toggleButton(buttonId, toggle, ...targets) {
-    const button = document.getElementById(buttonId);
+  const button = document.getElementById(buttonId);
     button.onclick = () => {
+      console.log(button.parentElement);
       toggle = !toggle;
       selectedButton(button, toggle);
       targets.forEach(target => {
@@ -48845,9 +48846,6 @@ let invisibleMasses = [];
 let lng = { canada: canada$1.lng },
   lat = { canada: canada$1.lat };
 
-// Setting Mapbox 🗺️📦
-mapbox();
-
 // GUI  👌 _________________________________________________________________________________________
 
 const closeButton = document.getElementById("close-window");
@@ -48859,7 +48857,11 @@ icdtToggle = openWindow("icdt", icdtToggle, "https://canadasdigitaltwin.ca", "ic
 
 function openWindow(item, toggle, url = `${item}.html`, className) {
   const button = document.getElementById(`${item}-button`);
+  let buttons = Array.from(button.parentElement.children);
   button.addEventListener("click", () => {
+    buttons.forEach(b => {
+      b.classList.remove('selected-button');
+    });
     if (!toggle) openIframe(url, className);
     selectedButton(button, !toggle);
     if (toggle) closeWindow(true);
@@ -48891,6 +48893,9 @@ const osmButton = document.getElementById("osm-button");
 
 // Tools ⚒️
 toggleButton("tools-button", false, "tools-container");
+
+// Setting Mapbox 🗺️📦
+mapbox();
 
 // Map Style 🎨
 toggleButton("styles-button", false, "styles-container");

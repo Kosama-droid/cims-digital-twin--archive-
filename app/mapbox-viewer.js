@@ -79,9 +79,6 @@ let invisibleMasses = [];
 let lng = { canada: canada.lng },
   lat = { canada: canada.lat };
 
-// Setting Mapbox 🗺️📦
-mapbox();
-
 // GUI  👌 _________________________________________________________________________________________
 
 const closeButton = document.getElementById("close-window");
@@ -93,7 +90,11 @@ icdtToggle = openWindow("icdt", icdtToggle, "https://canadasdigitaltwin.ca", "ic
 
 function openWindow(item, toggle, url = `${item}.html`, className) {
   const button = document.getElementById(`${item}-button`);
+  let buttons = Array.from(button.parentElement.children)
   button.addEventListener("click", () => {
+    buttons.forEach(b => {
+      b.classList.remove('selected-button')
+    });
     if (!toggle) openIframe(url, className);
     cdt.selectedButton(button, !toggle);
     if (toggle) cdt.closeWindow(true);
@@ -125,6 +126,9 @@ const osmButton = document.getElementById("osm-button");
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
+
+// Setting Mapbox 🗺️📦
+mapbox();
 
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");

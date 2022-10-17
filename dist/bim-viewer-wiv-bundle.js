@@ -123056,8 +123056,9 @@ mapStyles = {
 };
 
 function toggleButton(buttonId, toggle, ...targets) {
-    const button = document.getElementById(buttonId);
+  const button = document.getElementById(buttonId);
     button.onclick = () => {
+      console.log(button.parentElement);
       toggle = !toggle;
       selectedButton(button, toggle);
       targets.forEach(target => {
@@ -123129,7 +123130,6 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
-
 // tools ⚒️
 toggleButton("tools-button", false, "tools-container");
 

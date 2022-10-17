@@ -51,7 +51,6 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
-
 // tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container")
 

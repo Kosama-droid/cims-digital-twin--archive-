@@ -28,7 +28,12 @@
                         <label for="check"><span class="icon"></span> Keep me Signed in</label>
                     </div>
                     <div class="group">
-                        <input type="submit" class="button glowing-border" value="Sign In">
+                        <input id="submit" type="submit" class="button glowing-border" value="Sign In">
+                        <script>
+                            document.getElementById('submit').addEventListener('click', () => {
+                                window.parent.document.getElementById('login-button').click()
+                            })
+                        </script>
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
