@@ -109,6 +109,7 @@ a {
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
+  align-items: center;
 }
 
 .column {
@@ -202,6 +203,7 @@ a {
 
 .selector {
   z-index: 1;
+  background-color: var(--primary-light);
   padding: 0.7rem;
   margin: 0.5rem;
   font-weight: 500;
@@ -511,7 +513,7 @@ ul,
 .icdt {
   z-index: 3;
   justify-content: center;
-  width: 90%;
+  width: 86%;
   height: 83vh;
   margin: 5rem 4rem;
   border: none;
@@ -677,7 +679,6 @@ ul,
 .geocoder {
   display: flex;
   z-index: 1;
-  margin-top: 1.4rem;
   height: 2.3rem;
   margin-right: 0.5rem;
   }

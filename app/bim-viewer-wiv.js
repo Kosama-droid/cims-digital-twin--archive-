@@ -51,7 +51,6 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
-
 // tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container")
 
@@ -499,11 +498,15 @@ let currentUser = "Nico";
 //   );
 
 // 🗣️ write a message
-cdt.toggleButton("message-button", false, "message-container")
+const messageButton = document.getElementById("message-button")
+cdt.toggleVisibility(messageButton, toggle.message)
 
 window.oncontextmenu = () => {
+  let toggleMessage = document.getElementById("message-button").classList.contains('selected-button')
+  console.log(toggleMessage)
   const collision = viewer.context.castRayIfc(model);
-  if (!toggle.message || collision === null) return;
+  console.log(collision)
+  if (!toggleMessage || collision === null) return;
   const collisionLocation = collision.point;
   cdt.labeling(scene, collisionLocation, currentUser);
 };

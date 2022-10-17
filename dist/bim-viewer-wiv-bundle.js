@@ -122919,6 +122919,24 @@ function selectedButton(button, toggle, changeTitle = false) {
     changeTitle && toggle ? button.title = `Hide ${button.name}` : button.title = `Show ${button.name}`;
   }
 
+function toggleVisibility(button, toggle, object = null) {
+    button.onclick = function () {
+      if (toggle) {
+        this.setAttribute("title", `Show ${this.id.replace("-", " ")}`);
+        this.classList.remove("selected-button");
+        if (object) {object.classList.add("hidden");}        toggle = false;
+        console.log(toggle);
+        return toggle;
+      } else {
+        this.setAttribute("title", `Hide ${this.id.replace("-", " ")}`);
+        if (object) {object.classList.remove("hidden");}        this.classList.add("selected-button");
+        toggle = true;
+        console.log(toggle);
+        return toggle;
+      }
+    };
+  }
+
 function labeling(scene, collisionLocation, user = "User") {
     const message = window.prompt("Message:");
   
@@ -123038,8 +123056,9 @@ mapStyles = {
 };
 
 function toggleButton(buttonId, toggle, ...targets) {
-    const button = document.getElementById(buttonId);
+  const button = document.getElementById(buttonId);
     button.onclick = () => {
+      console.log(button.parentElement);
       toggle = !toggle;
       selectedButton(button, toggle);
       targets.forEach(target => {
@@ -123111,7 +123130,6 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
-
 // tools ⚒️
 toggleButton("tools-button", false, "tools-container");
 
@@ -123559,11 +123577,15 @@ let currentUser = "Nico";
 //   );
 
 // 🗣️ write a message
-toggleButton("message-button", false, "message-container");
+const messageButton = document.getElementById("message-button");
+toggleVisibility(messageButton, toggle.message);
 
 window.oncontextmenu = () => {
+  let toggleMessage = document.getElementById("message-button").classList.contains('selected-button');
+  console.log(toggleMessage);
   const collision = viewer.context.castRayIfc(model);
-  if (!toggle.message || collision === null) return;
+  console.log(collision);
+  if (!toggleMessage || collision === null) return;
   const collisionLocation = collision.point;
   labeling(scene, collisionLocation, currentUser);
 };
