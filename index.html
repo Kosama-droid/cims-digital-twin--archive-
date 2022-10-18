@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>CIMS | Digital Twin</title>
   <link rel="icon" type="image/x-icon" href="static/logos/cims.ico" />
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
   <link rel="stylesheet" href="styles.css?v=1.1">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,187 +16,197 @@
 
 <body class="hide-overflow">
   <header>
-    <!-- <h3 id="model-title">Imagine Canada's Digital Twin</h3> -->
-    <a href="https://canadasdigitaltwin.ca/"><img src="static/logos/icdt-logo.png" alt="CIMSlab"
-        title="Imagine Canada's Digital Twin" height="55px" />
-    </a>  
-    <nav class="top " id="top-bar">
-    <nav class="nav-bar" id="nav-bar">
-      <div id="selectors" class="all-pointer-events">
-        <select id="style-select" class="selector hidden">
-          <option class="option" value="none">-- select map style --</option>
-        </select>
-        <select id="province-select" class="selector">
-          <option class="option" value="none">
-            -- select a Province or Territory --
-          </option>
-        </select>
-        <select id="city-select" class="selector">
-          <option class="option" value="none">-- select a City --</option>
-        </select>
-        <select id="place-select" class="selector">
-          <option class="option" value="none">-- select a place --</option>
+    <nav id="top-container" class="row flex-container">
+      <a id="icdt-button" title="Imagine Canada's Digital Twin"><img src="static/logos/icdt-logo.png"
+          alt="Imagine Canada's Digital Twin" height="55px" />
+      </a>
+      <a id="home-button" name="Home" class="white-icon" title="Take me home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h7v-5h4v5h7v-10h3zm-5 8h-3v-5h-8v5h-3v-10.26l7-6.912 7 6.99v10.182z"/></svg>
+      </a>
+      <div id="windows" class="row">
+      <a id="login-button" name="Login" class="white-icon" title="Log in or Register">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z" />
+        </svg>
+      </a>
+      <a id="info-button" name="Information" class="white-icon" title="Information">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 6.5c-.414 0-.75.336-.75.75v5.5c0 .414.336.75.75.75s.75-.336.75-.75v-5.5c0-.414-.336-.75-.75-.75zm-.002-3c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1z">
+        </svg>
+      </a>
+      <a id="settings-button" name="Settings" class="white-icon" title="Open settings window">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M24 14.187v-4.374c-2.148-.766-2.726-.802-3.027-1.529-.303-.729.083-1.169 1.059-3.223l-3.093-3.093c-2.026.963-2.488 1.364-3.224 1.059-.727-.302-.768-.889-1.527-3.027h-4.375c-.764 2.144-.8 2.725-1.529 3.027-.752.313-1.203-.1-3.223-1.059l-3.093 3.093c.977 2.055 1.362 2.493 1.059 3.224-.302.727-.881.764-3.027 1.528v4.375c2.139.76 2.725.8 3.027 1.528.304.734-.081 1.167-1.059 3.223l3.093 3.093c1.999-.95 2.47-1.373 3.223-1.059.728.302.764.88 1.529 3.027h4.374c.758-2.131.799-2.723 1.537-3.031.745-.308 1.186.099 3.215 1.062l3.093-3.093c-.975-2.05-1.362-2.492-1.059-3.223.3-.726.88-.763 3.027-1.528zm-4.875.764c-.577 1.394-.068 2.458.488 3.578l-1.084 1.084c-1.093-.543-2.161-1.076-3.573-.49-1.396.581-1.79 1.693-2.188 2.877h-1.534c-.398-1.185-.791-2.297-2.183-2.875-1.419-.588-2.507-.045-3.579.488l-1.083-1.084c.557-1.118 1.066-2.18.487-3.58-.579-1.391-1.691-1.784-2.876-2.182v-1.533c1.185-.398 2.297-.791 2.875-2.184.578-1.394.068-2.459-.488-3.579l1.084-1.084c1.082.538 2.162 1.077 3.58.488 1.392-.577 1.785-1.69 2.183-2.875h1.534c.398 1.185.792 2.297 2.184 2.875 1.419.588 2.506.045 3.579-.488l1.084 1.084c-.556 1.121-1.065 2.187-.488 3.58.577 1.391 1.689 1.784 2.875 2.183v1.534c-1.188.398-2.302.791-2.877 2.183zm-7.125-5.951c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm0-2c-2.762 0-5 2.238-5 5s2.238 5 5 5 5-2.238 5-5-2.238-5-5-5z" />
+        </svg>
+      </a>
+    </div>
+      <a id="search-button" name="Search" class="white-icon selected-button" title="Search bar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"/></svg>
+      </a>
+      <div id="geocoder" class="geocoder"></div>
+      <div id="selectors" class="selectors">
+        <select id="place-select" class="selector hidden">
+          <option class="option" value="none">-- Select Place --</option>
           <option class="option" id="add-place">(+) Add new place</option>
         </select>
-        <select id="object-select" class="selector">
-          <option class="option" value="none">-- select an object --</option>
+        <select id="object-select" class="selector hidden">
+          <option class="option" value="none">-- Select Object --</option>
           <option class="option" id="add-object">(+) Add new object</option>
         </select>
       </div>
-      <div id="loader-container" class="loader-container hidden">
-        <div class="loader"></div>
-        <a id="progress-text"></a>
-      </div>
-    </nav>
-  </nav>
-  </header>
-
-  <nav id="new-place-container" class="add-new-container hidden">
-    <div id="new-place-location">province, city</div>
-    <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
-    <div class="item"><label for="place-id">Place ID:</label></div>
-    <div class="item">
-      <input id="place-id" type="name" name="Place ID" />
-    </div>
-    <div><br></div>
-    <div></div>
-    
-      <button id="create-place" class="button">Redo place polygon</button>
-      <div></div>
-      <div>Place area:</div>
-      <div id="calculated-area"></div>
-    
-    <!-- <div class="item"><label for="place-lng">Longitude:</label></div>
-    <div class="item">
-      <input id="place-lng" type="number" name="Longitud" />
-    </div>
-    <div class="item"><label for="place-lat">Latitude:</label></div>
-    <div class="item">
-      <input id="place-lat" type="number" name="Latitude" />
-    </div>
-    <div class="item">
-      <label for="place-msl">Meters above sea level:</label>
-    </div>
-    <div class="item">
-      <input id="place-msl" type="number" name="Meters above sea level:" />
-    </div>
-    <div class="item">
-      <label for="place-msl">Rotate true north:</label>
-    </div>
-    <div class="item">
-      <input id="place-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
-        oninput="this.nextElementSibling.value = this.value" /><output>0</output>
-    </div> -->
-
-   <div><br></div>
-   <div><br></div>
-      <button id="upload-place" class="button">Upload new place</button>
-      <button id="cancel-new-place" class="button">Cancel</button>
-  </nav>
-  <nav id="new-object-container" class="add-new-container hidden">
-    <div id="new-object-location">province, ontario, place</div>
-    <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
-    <div class="item"><label for="object-id">Object ID:</label></div>
-    <div class="item">
-      <input id="object-id" type="name" name="Object ID" />
-    </div>
-    <div><br></div>
-    <div></div>
-    <div class="item"><label for="object-lng">Longitude:</label></div>
-    <div class="item">
-      <input id="object-lng" type="number" name="Longitud" />
-    </div>
-    <div class="item"><label for="object-lat">Latitude:</label></div>
-    <div class="item">
-      <input id="object-lat" type="number" name="Latitude" />
-    </div>
-    <div class="item">
-      <label for="object-msl">Meters above sea level:</label>
-    </div>
-    <div class="item">
-      <input id="object-msl" type="number" name="Meters above sea level:" />
-    </div>
-    <div class="item">
-      <label for="object-msl">Rotate true north:</label>
-    </div>
-    <div class="item">
-      <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
-        oninput="this.nextElementSibling.value = this.value" /><output>0</output>
-    </div>
-    <div><br></div>
-    <div></div>
-    <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
-    <div class="item load-file">
-      <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
-    </div>
-    <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
-    <div class="item load-file">
-      <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
-    </div>
-    <div class="item"><br /></div>
-    <div class="item"></div>
-    <div class="item">
-      <button id="upload-object" class="button">Upload new object</button>
-    </div>
-    <div class="item">
-      <button id="cancel-new-object" class="button">Cancel</button>
-    </div>
-  </nav>
-  </nav>
-  <nav class="toolbar-container bottom">
-    <div id="toolbar-left-button" class="permanent">
-      <a class="button transp1-background circular" id="canada" title="Go to Canada">
-        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.000000 180.000000"
-          preserveAspectRatio="xMidYMid meet">
-          <g transform="translate(0.000000,180.000000) scale(0.100000,-0.100000)">
-            <path
-              d="M911 1615 c-52 -91 -98 -165 -103 -165 -5 0 -40 16 -78 35 -38 19 -72 35 -75 35 -10 0 -5 -39 35 -249 22 -117 40 -227 40 -245 0 -35 -20 -60 -42 -54 -8 2 -65 58 -127 126 -63 67 -116 122 -120 122 -3 0 -15 -29 -25 -65 -10 -36 -22 -67 -25 -69 -4 -3 -68 7 -144 22 -75 14 -139 23 -143 20 -5 -5 30 -154 72 -303 4 -17 -5 -26 -55 -50 -34 -16 -61 -32 -61 -36 0 -5 102 -90 227 -190 126 -100 232 -193 238 -206 6 -17 4 -42 -8 -87 -9 -36 -17 -67 -17 -70 0 -3 91 -6 203 -6 l202 -1 50 -74 c27 -41 52 -75 55 -75 3 0 30 34 59 76 l53 76 205 -7 c197 -7 205 -7 199 11 -38 124 -47 156 -44 159 2 2 111 89 243 195 132 105 241 195 242 198 1 4 -25 20 -57 37 -35 17 -60 36 -60 45 0 8 18 82 40 164 22 83 38 151 36 153 -1 2 -62 -9 -135 -23 -73 -14 -140 -24 -148 -22 -9 2 -24 30 -35 68 -11 36 -22 67 -24 69 -2 2 -56 -43 -120 -99 -157 -139 -174 -153 -179 -148 -3 2 18 123 45 268 28 145 48 266 45 269 -3 2 -42 -13 -86 -34 -67 -33 -82 -37 -89 -25 -6 8 -49 84 -97 168 -48 83 -89 152 -92 152 -3 0 -48 -74 -100 -165z" />
-          </g>
-        </svg>
-      </a>
-    </div>
-    <div class="toolbar" id="toolbar">
-      <a class="button transp1-background circular info" id="osm" name="OSM objects" title="Show OSM objects">
+      <a id="close-window" name="Close window" class="white-icon hidden" title="Close window">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
-            d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+            d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
         </svg>
       </a>
+    </nav>
+    <div id="loader-container" class="loader-container hidden">
+      <div class="loader"></div>
+      <a id="progress-text"></a>
     </div>
-    <div id="toolbar-right-button" class="permanent">
-      <a class="button transp1-background circular selected-button" name="layers" id="layers" title="Hide layers">
+
+  </header>
+
+  <nav id="right-container" class="column flex-container">
+    <nav class="toolbar start">
+      <a class="white-icon" id="tools-button" name="Tools" title="Open tools menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M20.715 24c-.864 0-1.711-.351-2.322-.962l-10.953-10.952c-.275-.274-.655-.432-1.044-.432l-.111.004c-1.681.129-3.373-.481-4.584-1.692-1.097-1.099-1.701-2.561-1.701-4.117 0-1.046.237-2.225.715-3.279l3.809 3.811c.436-.073.968-.393 1.405-.935.283-.35.427-.675.466-.91l-3.826-3.826c1.056-.476 2.219-.71 3.255-.71 1.533 0 3.043.601 4.143 1.702 1.208 1.209 1.823 2.88 1.69 4.584-.031.428.125.851.43 1.156l10.951 10.951c.62.621.962 1.446.962 2.322 0 1.811-1.474 3.285-3.285 3.285zm-14.319-14.343c.915 0 1.81.371 2.456 1.018l10.953 10.951c.239.24.571.377.909.377.71 0 1.288-.577 1.288-1.287 0-.344-.134-.667-.378-.911l-10.949-10.951c-.715-.716-1.083-1.707-1.009-2.718.088-1.127-.317-2.227-1.111-3.022-.493-.492-1.098-.833-1.758-1l1.49 1.491c.218 1.001.125 1.947-.804 3.097-1.002 1.243-2.292 1.932-3.88 1.586l-1.489-1.49c.167.66.508 1.266 1 1.759.796.794 1.893 1.2 3.017 1.11l.265-.01zm1.664 5.877l-4.665 4.627c-.229.229-.504.407-.79.558l-.579.302-1.026 2.145.833.834 2.101-1.07.301-.58c.15-.286.347-.545.574-.774l4.665-4.627-1.414-1.415zm7.15-7.798l4.507-4.499c.168-.17.442-.168.611 0 .168.17.169.442 0 .611l-4.507 4.5.89.89 4.507-4.5c.169-.169.441-.168.61.001.168.168.17.441.001.609l-4.508 4.5 1.039 1.039 4.767-4.759c.582-.583.873-1.346.873-2.11 0-.768-.293-1.537-.881-2.125-.584-.585-1.35-.877-2.113-.877-.766 0-1.529.293-2.113.877l-4.767 4.759 1.084 1.084zm5.49 12.464c-.276 0-.5.224-.5.5s.224.5.5.5.5-.224.5-.5-.223-.5-.5-.5z" />
+        </svg>
+      </a>
+      <div id="tools-container" class="end column hidden">
+      <a  id="styles-button" name="Map styles" title="Select map style" class="white-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M8.997 13.985c.01 1.104-.88 2.008-1.986 2.015-1.105.009-2.005-.88-2.011-1.984-.01-1.105.879-2.005 1.982-2.016 1.106-.007 2.009.883 2.015 1.985zm-.978-3.986c-1.104.008-2.008-.88-2.015-1.987-.009-1.103.877-2.004 1.984-2.011 1.102-.01 2.008.877 2.012 1.982.012 1.107-.88 2.006-1.981 2.016zm7.981-4.014c.004 1.102-.881 2.008-1.985 2.015-1.106.01-2.008-.879-2.015-1.983-.011-1.106.878-2.006 1.985-2.015 1.101-.006 2.005.881 2.015 1.983zm-12 15.847c4.587.38 2.944-4.492 7.188-4.537l1.838 1.534c.458 5.537-6.315 6.772-9.026 3.003zm14.065-7.115c1.427-2.239 5.846-9.748 5.846-9.748.353-.623-.429-1.273-.975-.813 0 0-6.572 5.714-8.511 7.525-1.532 1.432-1.539 2.086-2.035 4.447l1.68 1.4c2.227-.915 2.868-1.04 3.995-2.811zm-12.622 4.806c-2.084-1.82-3.42-4.479-3.443-7.447-.044-5.51 4.406-10.03 9.92-10.075 3.838-.021 6.479 1.905 6.496 3.447l1.663-1.456c-1.01-2.223-4.182-4.045-8.176-3.992-6.623.055-11.955 5.466-11.903 12.092.023 2.912 1.083 5.57 2.823 7.635.958.492 2.123.329 2.62-.204zm12.797-1.906c1.059 1.97-1.351 3.37-3.545 3.992-.304.912-.803 1.721-1.374 2.311 5.255-.591 9.061-4.304 6.266-7.889-.459.685-.897 1.197-1.347 1.586z" />
+        </svg>
+      </a>
+      <div id="styles-container" class="column hidden">
+        <a  id="dark-style" name="Dark mode" title="Dark mode" class="white-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12c0 6.627 5.373 12 12 12s12-5.373 12-12-5.373-12-12-12-12 5.373-12 12zm2 0c0-5.514 4.486-10 10-10v20c-5.514 0-10-4.486-10-10z"/></svg>
+        </a>
+        <a  id="map-style" name="Map mode" title="Map mode" class="white-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.545 5l-5.545-4-5.545 4-6.455-4v18l6.455 4 5.545-4 5.545 4 6.455-4v-18l-6.455 4zm-10.545 2.073l4-2.886v13.068l-4 2.885v-13.067zm6-2.886l4 2.886v13.068l-4-2.885v-13.069zm-11 .405l4 2.479v13.294l-4-2.479v-13.294zm20 13.295l-4 2.479v-13.295l4-2.479v13.295z"/></svg>
+        </a>
+        <a  id="satellite-style" name="Satellite mode" title="Satellite mode" class="white-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.144 8.171c-.035-.066.342-.102.409-.102.074.009-.196.452-.409.102zm-2.152-3.072l.108-.031c.064.055-.072.095-.051.136.086.155.021.248.008.332-.014.085-.104.048-.149.093-.053.066.258.075.262.085.011.033-.375.089-.304.171.096.136.824-.195.708-.176.225-.113.029-.125-.097-.19-.043-.215-.079-.547-.213-.68l.088-.102c-.206-.299-.36.362-.36.362zm13.008 6.901c0 6.627-5.373 12-12 12-6.628 0-12-5.373-12-12s5.372-12 12-12c6.627 0 12 5.373 12 12zm-8.31-5.371c-.006-.146-.19-.284-.382-.031-.135.174-.111.439-.184.557-.104.175.567.339.567.174.025-.277.732-.063.87-.025.248.069.643-.226.211-.381-.355-.13-.542-.269-.574-.523 0 0 .188-.176.106-.166-.218.027-.614.786-.614.395zm6.296 5.371c0-1.035-.177-2.08-.357-2.632-.058-.174-.189-.312-.359-.378-.256-.1-1.337.597-1.5.254-.107-.229-.324.146-.572.008-.12-.066-.454-.515-.605-.46-.309.111.474.964.688 1.076.201-.152.852-.465.992-.038.268.804-.737 1.685-1.251 2.149-.768.694-.624-.449-1.147-.852-.275-.211-.272-.66-.55-.815-.124-.07-.693-.725-.688-.813l-.017.166c-.094.071-.294-.268-.315-.321 0 .295.48.765.639 1.001.271.405.416.995.748 1.326.178.178.858.914 1.035.898.193-.017.803-.458.911-.433.644.152-1.516 3.205-1.721 3.583-.169.317.138 1.101.113 1.476-.029.433-.37.573-.693.809-.346.253-.265.745-.556.925-.517.318-.889 1.353-1.623 1.348-.216-.001-1.14.36-1.261.007-.094-.256-.22-.45-.353-.703-.13-.248-.015-.505-.173-.724-.109-.152-.475-.497-.508-.677-.002-.155.117-.626.28-.708.229-.117.044-.458.016-.656-.048-.354-.267-.646-.53-.851-.389-.299-.188-.537-.097-.964 0-.204-.124-.472-.398-.392-.564.164-.393-.44-.804-.413-.296.021-.538.209-.813.292-.346.104-.7-.082-1.042-.125-1.407-.178-1.866-1.786-1.499-2.946.037-.19-.114-.542-.048-.689.158-.352.48-.747.762-1.014.158-.15.361-.112.547-.229.287-.181.291-.553.572-.781.4-.325.946-.318 1.468-.388.278-.037 1.336-.266 1.503-.06 0 .038.191.604-.019.572.433.023 1.05.749 1.461.579.211-.088.134-.736.567-.423.262.188 1.436.272 1.68.069.15-.124.234-.93.052-1.021.116.115-.611.124-.679.098-.12-.044-.232.114-.425.025.116.055-.646-.354-.218-.667-.179.131-.346-.037-.539.107-.133.108.062.18-.128.274-.302.153-.53-.525-.644-.602-.116-.076-1.014-.706-.77-.295l.789.785c-.039.025-.207-.286-.207-.059.053-.135.02.579-.104.347-.055-.089.09-.139.006-.268 0-.085-.228-.168-.272-.226-.125-.155-.457-.497-.637-.579-.05-.023-.764.087-.824.11-.07.098-.13.201-.179.311-.148.055-.287.126-.419.214l-.157.353c-.068.061-.765.291-.769.3.029-.075-.487-.171-.453-.321.038-.165.213-.68.168-.868-.048-.197 1.074.284 1.146-.235.029-.225.046-.487-.313-.525.068.008.695-.246.799-.36.146-.168.481-.442.724-.442.284 0 .223-.413.354-.615.131.053-.07.376.087.507-.01-.103.445.057.489.033.104-.054.684-.022.594-.294-.1-.277.051-.195.181-.253-.022.009.34-.619.402-.413-.043-.212-.421.074-.553.063-.305-.024-.176-.52-.061-.665.089-.115-.243-.256-.247-.036-.006.329-.312.627-.241 1.064.108.659-.735-.159-.809-.114-.28.17-.509-.214-.364-.444.148-.235.505-.224.652-.476.104-.178.225-.385.385-.52.535-.449.683-.09 1.216-.041.521.048.176.124.104.324-.069.19.286.258.409.099.07-.092.229-.323.298-.494.089-.222.901-.197.334-.536-.374-.223-2.004-.672-3.096-.672-.236 0-.401.263-.581.412-.356.295-1.268.874-1.775.698-.519-.179-1.63.66-1.808.666-.065.004.004-.634.358-.681-.153.023 1.247-.707 1.209-.859-.046-.18-2.799.822-2.676 1.023.059.092.299.092-.016.294-.18.109-.372.801-.541.801-.505.221-.537-.435-1.099.409l-.894.36c-1.328 1.411-2.247 3.198-2.58 5.183-.013.079.334.226.379.28.112.134.112.712.167.901.138.478.479.744.74 1.179.154.259.41.914.329 1.186.108-.178 1.07.815 1.246 1.022.414.487.733 1.077.061 1.559-.217.156.33 1.129.048 1.368l-.361.093c-.356.219-.195.756.021.982 1.818 1.901 4.38 3.087 7.22 3.087 5.517 0 9.989-4.472 9.989-9.989zm-11.507-6.357c.125-.055.293-.053.311-.22.015-.148.044-.046.08-.1.035-.053-.067-.138-.11-.146-.064-.014-.108.069-.149.104l-.072.019-.068.087.008.048-.087.106c-.085.084.002.139.087.102z"/></svg>
+        </a>
+        <a  id="traffic-style" name="Traffic mode" title="Traffic mode" class="white-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 11v-3h1.247c.882 0 1.235.297 1.828.909.452.465 1.925 2.091 1.925 2.091h-5zm-1-3h-2.243c-.688 0-1.051.222-1.377.581-.316.348-.895.948-1.506 1.671 1.719.644 4.055.748 5.126.748v-3zm14 5.161c0-2.823-2.03-3.41-2.794-3.631-1.142-.331-1.654-.475-3.031-.794-.55-.545-2.052-2.036-2.389-2.376l-.089-.091c-.666-.679-1.421-1.269-3.172-1.269h-7.64c-.547 0-.791.456-.254.944-.534.462-1.944 1.706-2.34 2.108-1.384 1.402-2.291 2.48-2.291 4.603 0 2.461 1.361 4.258 3.179 4.332.41 1.169 1.512 2.013 2.821 2.013 1.304 0 2.403-.838 2.816-2h6.367c.413 1.162 1.512 2 2.816 2 1.308 0 2.409-.843 2.82-2.01 1.934-.056 3.181-1.505 3.181-3.829zm-18 4.039c-.662 0-1.2-.538-1.2-1.2s.538-1.2 1.2-1.2 1.2.538 1.2 1.2-.538 1.2-1.2 1.2zm12 0c-.662 0-1.2-.538-1.2-1.2s.538-1.2 1.2-1.2 1.2.538 1.2 1.2-.538 1.2-1.2 1.2zm2.832-2.15c-.399-1.188-1.509-2.05-2.832-2.05-1.327 0-2.44.868-2.836 2.062h-6.328c-.396-1.194-1.509-2.062-2.836-2.062-1.319 0-2.426.857-2.829 2.04-.586-.114-1.171-1.037-1.171-2.385 0-1.335.47-1.938 1.714-3.199.725-.735 1.31-1.209 2.263-2.026.34-.291.774-.432 1.222-.43h5.173c1.22 0 1.577.385 2.116.892.419.393 2.682 2.665 2.682 2.665s2.303.554 3.48.895c.84.243 1.35.479 1.35 1.71 0 1.196-.396 1.826-1.168 1.888z"/></svg>
+        </a>
+      </div>
+      <a  id="add-place-button" name="Add new place" title="Add new place" class="white-icon hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3c2.131 0 4 1.73 4 3.702 0 2.05-1.714 4.941-4 8.561-2.286-3.62-4-6.511-4-8.561 0-1.972 1.869-3.702 4-3.702zm0-2c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm8 6h-3.135c-.385.641-.798 1.309-1.232 2h3.131l.5 1h-4.264l-.344.544-.289.456h.558l.858 2h-7.488l.858-2h.479l-.289-.456-.343-.544h-2.042l-1.011-1h2.42c-.435-.691-.848-1.359-1.232-2h-3.135l-4 8h24l-4-8zm-12.794 6h-3.97l1.764-3.528 1.516 1.528h1.549l-.859 2zm8.808-2h3.75l1 2h-3.892l-.858-2z"/></svg>
+      </a>
+      <nav id="new-place-container" class="double-list-container hidden">
+        <div id="new-place-location">province, city</div>
+        <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
+        <div class="item"><label for="place-id">Place ID:</label></div>
+        <div class="item">
+          <input id="place-id" type="name" name="Place ID" />
+        </div>
+        <div>Place area:</div>
+        <div id="calculated-area" class="gray-underline"></div>
+        <div><br></div>
+        <div></div>
+        <button id="upload-place" class="button">Upload place</button>
+        <button id="cancel-new-place" class="button">Cancel</button>
+      </nav>
+      <a  id="add-object-button" name="Add new object" title="Add new object" class="white-icon hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-5.522 0-10 4.395-10 9.815 0 5.505 4.375 9.268 10 14.185 5.625-4.917 10-8.68 10-14.185 0-5.42-4.478-9.815-10-9.815zm0 18c-4.419 0-8-3.582-8-8s3.581-8 8-8 8 3.582 8 8-3.581 8-8 8zm4-7h-3v3h-2v-3h-3v-2h3v-3h2v3h3v2z"/></svg>
+      </a>
+      <nav id="new-object-container" class="double-list-container hidden">
+        <div id="new-object-location">province, city, place</div>
+        <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
+        <div class="item"><label for="object-id">Object ID:</label></div>
+        <div class="item">
+          <input id="object-id" type="name" name="Object ID" />
+        </div>
+        <div><br></div>
+        <div></div>
+        <div class="item"><label for="object-lng">Longitude:</label></div>
+        <div class="item">
+          <input id="object-lng" type="number" name="Longitud" />
+        </div>
+        <div class="item"><label for="object-lat">Latitude:</label></div>
+        <div class="item">
+          <input id="object-lat" type="number" name="Latitude" />
+        </div>
+        <div class="item">
+          <label for="object-msl">Meters above sea level:</label>
+        </div>
+        <div class="item">
+          <input id="object-msl" type="number" name="Meters above sea level:" />
+        </div>
+        <div class="item">
+          <label for="object-msl">Rotate true north:</label>
+        </div>
+        <div class="item">
+          <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+            oninput="this.nextElementSibling.value = this.value" /><output>0</output>
+        </div>
+        <div><br></div>
+        <div></div>
+        <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
+        <div class="item load-file">
+          <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
+        </div>
+        <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
+        <div class="item load-file">
+          <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
+        </div>
+        <div class="item"><br /></div>
+        <div class="item"></div>
+        <div class="item">
+          <button id="upload-object" class="button">Upload object</button>
+        </div>
+        <div class="item">
+          <button id="cancel-new-object" class="button">Cancel</button>
+        </div>
+      </nav>
+      </div>
+    </nav>
+
+    <nav class="toolbar end">
+      <div id="layers-container" class="end column hidden">
+        <a id="osm-button" name="Buldings" title="Show buildings" class="white-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M21 22h2v2h-22v-2h2v-22h18v22zm-10-3h-2v4h2v-4zm4 0h-2v4h2v-4zm4-17h-14v20h2v-5h10v5h2v-20zm-12 11h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm-8-3h2v2h-2v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+          </svg>
+        </a>
+      </div>
+      <a class="white-icon" name="layers" id="layers-button" title="Hide layers">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
             d="M21.698 10.658l2.302 1.342-12.002 7-11.998-7 2.301-1.342 9.697 5.658 9.7-5.658zm-9.7 10.657l-9.697-5.658-2.301 1.343 11.998 7 12.002-7-2.302-1.342-9.7 5.657zm0-19l8.032 4.685-8.032 4.685-8.029-4.685 8.029-4.685zm0-2.315l-11.998 7 11.998 7 12.002-7-12.002-7z" />
         </svg>
       </a>
-    </div>
+    </nav>
+
   </nav>
+
   <div id="full-screen-flex-container">
     <a id="message" class="centre transp1-background circular hidden"></a>
   </div>
-  <div class="hide-overflow canvas all-pointer-events">
-    <div id="map" class="map" ></div>
+  <div id="map-container" class="hide-overflow canvas all-pointer-events">
+    <div id="map" class="map"></div>
   </div>
 
-  <a id="close-bim-viewer" title="Close BIM viewer" class="hidden all-pointer-events">
-    <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"
-        fill-rule="nonzero" />
-    </svg>
-  </a>
-  <div class="bim-container hidden" id="bim-container"></div>
+  <div class="iframe-container hidden" id="iframe-container"></div>
+
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
-  <link
-    href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-    rel="stylesheet"
-  />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
-  
-<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
 
   <script src="dist/map-bundle.js"></script>
-  </body>
+</body>
+
 </html>
