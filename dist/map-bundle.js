@@ -48722,7 +48722,6 @@ var mapStyles$1 = mapStyles = {
 function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId);
     button.onclick = () => {
-      console.log(button.parentElement);
       toggle = !toggle;
       selectedButton(button, toggle);
       targets.forEach(target => {
@@ -49642,6 +49641,7 @@ function mapbox() {
       i++;
     });
     console.log(province.term, city.name);
+    console.log(e.result.text);
     province = canada$1.provinces[province.term];
     city = province.cities[city.name];
     places = city.places;

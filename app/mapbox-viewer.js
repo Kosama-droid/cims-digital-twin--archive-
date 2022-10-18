@@ -888,6 +888,7 @@ function mapbox() {
       i++;
     });
     console.log(province.term, city.name);
+    console.log(e.result.text);
     province = canada.provinces[province.term];
     city = province.cities[city.name];
     places = city.places;
