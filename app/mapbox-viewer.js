@@ -963,6 +963,7 @@ function updateArea(e) {
 }
 
 function addNewPlace() {
+  console.log("Adding a new place");
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   if (!newPlaceId) {
