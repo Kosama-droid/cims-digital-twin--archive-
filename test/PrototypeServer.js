@@ -1,13 +1,12 @@
 //Prototype 1 - Database server for Canada.js
 
 
-
 const fs = require("fs"); // allows us to work with filesystem
 //Express
 const express = require('express');
 const bodyParser = require('body-parser'); //parses body of request when using POST request 
 const app = express();
-//app.listen(3000);
+app.listen(3000);
 //mongoDB
 const mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
