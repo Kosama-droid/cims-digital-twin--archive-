@@ -987,6 +987,18 @@ function addNewPlace() {
   cdt.createOptions(objectSelector, place.objects, 2);
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
+
+  //testing a POST request to the server
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("The new place was sent to the server");
+    }
+  }
+
+  req.open("POST", "http://localhost:3000/");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newPlace));
 }
 
 function addNewObject() {
