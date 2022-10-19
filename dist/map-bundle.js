@@ -49717,6 +49717,7 @@ function updateArea(e) {
 }
 
 function addNewPlace() {
+  console.log("Adding a new place");
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   if (!newPlaceId) {
@@ -49741,6 +49742,18 @@ function addNewPlace() {
   createOptions(objectSelector, place.objects, 2);
   console.log(canada$1.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");
+
+  //testing a POST request to the server
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("The new place was sent to the server");
+    }
+  };
+
+  req.open("POST", "http://localhost:3000");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newPlace));
 }
 
 function addNewObject() {
