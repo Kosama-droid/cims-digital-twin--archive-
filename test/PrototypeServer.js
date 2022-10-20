@@ -1,6 +1,5 @@
 //Prototype 1 - Database server for Canada.js
 
-
 const fs = require("fs"); // allows us to work with filesystem
 //Express
 const express = require('express');
@@ -25,8 +24,6 @@ const path = require('path');
 let reqpath = path.join(__dirname, "../"); //using static
 app.use(express.static(reqpath));
 
-//sendfile to be able to use html with express
-
 //connecting to database
 MongoClient.connect('mongodb://localhost:27017/cimsTest', function(err, db) {
    // useNewUrlParser: true
@@ -37,6 +34,18 @@ MongoClient.connect('mongodb://localhost:27017/cimsTest', function(err, db) {
     db.close();
 });
 
+app.post("/post", (req, res) => {
+    
+    /*if (err) {
+        return console.error(err.message);
+    }*/
+
+    console.log("received new place");
+    console.log(req.body);
+
+    res.status(200);
+    res.send()
+})
 
 /*app.route(["/"])
     .get((req, res) => {
