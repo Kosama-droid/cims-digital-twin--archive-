@@ -961,9 +961,24 @@ function updateArea(e) {
     answer.innerHTML = "";
   }
 }
+//testing a POST request to the server
+function testPost(newPlace) {
+
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("The new place was sent to the server");
+    }
+  }
+
+  req.open("POST", "http://localhost:3000/post");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newPlace));
+}
 
 function addNewPlace() {
-  console.log("Adding a new place");
+  console.log("Adding a new Place");
+
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
   if (!newPlaceId) {
@@ -989,17 +1004,9 @@ function addNewPlace() {
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
 
-  //testing a POST request to the server
-  let req = new XMLHttpRequest();
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      console.log("The new place was sent to the server");
-    }
-  }
-
-  req.open("POST", "http://localhost:3000/");
-  req.setRequestHeader("Content-Type", "application/JSON");
-  req.send(JSON.stringify(newPlace));
+  //testing testPost function
+  console.log("Sending a new place to server");
+  testPost(newPlace);
 }
 
 function addNewObject() {
