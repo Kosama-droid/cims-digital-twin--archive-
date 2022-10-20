@@ -49735,6 +49735,7 @@ function addNewPlace() {
 
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
+  newPlace.id = newPlaceId;
   if (!newPlaceId) {
     newPlaceId = "NN";
   }
