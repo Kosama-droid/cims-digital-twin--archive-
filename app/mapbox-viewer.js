@@ -980,9 +980,9 @@ function addNewPlace() {
   console.log("Adding a new Place");
 
   const newPlace = {};
-  let newPlaceId = document.getElementById("place-id").value.toUpperCase();
-  if (!newPlaceId) {
-    newPlaceId = "NN";
+  newPlace.Id = document.getElementById("place-id").value.toUpperCase();
+  if (!newPlace.Id) {
+    newPlace.Id = "NN";
   }
   newPlace.name = document.getElementById("place-name").value;
   if (!newPlace.name) {
