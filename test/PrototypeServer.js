@@ -35,13 +35,13 @@ MongoClient.connect('mongodb://localhost:27017/cimsTest', function(err, db) {
 });
 
 app.post("/post", (req, res) => {
-    
+
     /*if (err) {
         return console.error(err.message);
     }*/
 
     console.log("received new place");
-    console.log(req.body);
+    console.log(req);
 
     res.status(200);
     res.send()
