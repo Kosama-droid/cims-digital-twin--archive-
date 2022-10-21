@@ -9,6 +9,7 @@ app.listen(3000);
 //mongoDB
 const mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 //pug
 const pug = require('pug');
 
@@ -24,16 +25,35 @@ const path = require('path');
 let reqpath = path.join(__dirname, "../"); //using static
 app.use(express.static(reqpath));
 
+
 //connecting to database
-MongoClient.connect('mongodb://localhost:27017/cimsTest', function(err, db) {
-   // useNewUrlParser: true
+mongoose.connect('mongodb://localhost/cimsTest', {useNewUrlParser: true, useUnifiedTopology: true});
+
+/*
+let db = mongoose.connection;
+console.log(db);
+db.on('error', console.error.bind(console, 'Error connecting to database'));*/
+
+/*
+//connecting to database
+MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
+    // useNewUrlParser: true
     if (err) throw err;
-    console.log("Database 'cimsTest' created or opened")
-    console.log(db.db)
+    var dbase = db.db("cimsTest");
+    console.log("Database 'cimsTest' created or opened -",dbase)
 
-    db.close();
-});
+    
+    dbase.createCollection("place", function(err, res){
+        if (err) throw err;
+        console.log("Collection 'place' is created");
+        //db.close();
+    }
 
+    //db.close();
+}); 
+*/
+
+//POSTs - information sent by the client
 app.post("/post", (req, res) => {
 
     /*if (err) {
@@ -41,11 +61,27 @@ app.post("/post", (req, res) => {
     }*/
 
     console.log("received new place");
-    console.log(req);
+    console.log(req.body); //printing the newPlace data
+
+    /*
+    //inserting in db
+    db.place.insertOne({
+        name: req.body.name,
+        geoJson: req.body.placeGeojson
+    })*/
 
     res.status(200);
     res.send()
 })
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////statically inserting Canada.js data inside Canada db, collections - Province, City, Place, Object
+//TEST new branch
 
 /*app.route(["/"])
     .get((req, res) => {
@@ -54,13 +90,6 @@ app.post("/post", (req, res) => {
         res.send(pug.renderFile("../index.html", ))
     });
 */
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////statically inserting Canada.js data inside Canada db, collections - Province, City, Place, Object
-//TEST new branch
 
 /*db.place.insertMany({
     name: "Carleton University",
