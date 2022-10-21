@@ -43,7 +43,7 @@ app.post("/post", (req, res) => {
 
     var postedPlace = req.body;
     console.log("received new place");
-    console.log(postedPlace); //printing the new Place data
+    console.log("req.body: postedPlac -", postedPlace); //printing the new Place data
 
     let newPlace = new place({
         name: postedPlace.name,
@@ -55,8 +55,18 @@ app.post("/post", (req, res) => {
     newPlace.save(function (err, result) {
         if (err) return handleError(err);
 
-        console.log("inserted");
+        //making sure that the newPlace is in db
+        place.find((err, data) => {
+            if (err) {
+                return console.log("Place not found");
+            }
+
+            console.log("Place find: data", data);
+        })
+
+        console.log("inserted"); //<-- is it tho
     })
+
 
     /*
     //inserting in db
