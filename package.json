@@ -10,6 +10,7 @@
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl-style-switcher": "^1.0.11",
     "mongodb": "^4.10.0",
+    "mongoose": "^6.6.6",
     "pug": "^3.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.135.0",
