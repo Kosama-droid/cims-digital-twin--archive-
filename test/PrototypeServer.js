@@ -1,6 +1,6 @@
 //Prototype 1 - Database server for Canada.js
 
-const fs = require("fs"); // allows us to work with filesystem
+const fs = require("fs"); //allows us to work with filesystem
 //Express
 const express = require('express');
 const bodyParser = require('body-parser'); //parses body of request when using POST request 
@@ -25,33 +25,14 @@ const path = require('path');
 let reqpath = path.join(__dirname, "../"); //using static
 app.use(express.static(reqpath));
 
+//using schema 
+const place = require("./placeModel.js");
 
 //connecting to database
 mongoose.connect('mongodb://localhost/cimsTest', {useNewUrlParser: true, useUnifiedTopology: true});
 
-/*
 let db = mongoose.connection;
-console.log(db);
-db.on('error', console.error.bind(console, 'Error connecting to database'));*/
-
-/*
-//connecting to database
-MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
-    // useNewUrlParser: true
-    if (err) throw err;
-    var dbase = db.db("cimsTest");
-    console.log("Database 'cimsTest' created or opened -",dbase)
-
-    
-    dbase.createCollection("place", function(err, res){
-        if (err) throw err;
-        console.log("Collection 'place' is created");
-        //db.close();
-    }
-
-    //db.close();
-}); 
-*/
+db.on('error', console.error.bind(console, 'Error connecting to database'));
 
 //POSTs - information sent by the client
 app.post("/post", (req, res) => {
@@ -60,8 +41,22 @@ app.post("/post", (req, res) => {
         return console.error(err.message);
     }*/
 
+    var postedPlace = req.body;
     console.log("received new place");
-    console.log(req.body); //printing the newPlace data
+    console.log(postedPlace); //printing the new Place data
+
+    let newPlace = new place({
+        name: postedPlace.name,
+        id: postedPlace.id,
+        geoJson: postedPlace.geoJson
+    })
+
+    //Not sure if this inserts the document into the document and db
+    newPlace.save(function (err, result) {
+        if (err) return handleError(err);
+
+        console.log("inserted");
+    })
 
     /*
     //inserting in db
