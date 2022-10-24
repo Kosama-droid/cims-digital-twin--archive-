@@ -49715,23 +49715,42 @@ function updateArea(e) {
     answer.innerHTML = "";
   }
 }
+
+//testing the GET requests
+//GET places names to populate dropdown
+
+//GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
+function testGetPlaces(){
+  let req = new XMLHttpRequest(); //declaring a new http request
+  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testGetPlaces(): Requesting Places's Names for dropdown menu");
+      console.log(res.body);
+    }
+  };
+  req.open("GET", "http://localhost:3000/getPlaces");
+  //req.setRequestHeader("Content-Type", "application/JSON");
+  req.end();
+}
+
 //testing a POST request to the server
-function testPost(newPlace) {
+//POSTing the data of a new place to the server so it can get added to the db
+function testPostNewPlace(newPlace) {
 
   let req = new XMLHttpRequest();
   req.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      console.log("The new place was sent to the server");
+      console.log("testPostNewPlace(): The new place was sent to the server");
     }
   };
 
-  req.open("POST", "http://localhost:3000/post");
+  req.open("POST", "http://localhost:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
 }
 
 function addNewPlace() {
-  console.log("Adding a new Place");
+  console.log("addNewPlace(): 'Adding a new Place'");
 
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
@@ -49755,13 +49774,21 @@ function addNewPlace() {
   canada$1.provinces[province.term].cities[city.name].places[newPlaceId] =
     newPlace;
   place = newPlace;
-  createOptions(objectSelector, place.objects, 2);
+
+  //testing testPostNewPlace function
+  console.log("addNewPlace(): Sending a new place to server");
+  testPostNewPlace(newPlace);
+
+  //testing testGetNames function
+  console.log("addNewPlace(): Getting the new list of names from the server"); //this is not inclusive of already existing places yet (e.g. Carleton)
+  let newListOfNames = testGetPlaces();
+
+  //cdt.createOptions(objectSelector, place.objects, 2);
+  createOptions(objectSelector, newListOfNames, 2);
   console.log(canada$1.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");
 
-  //testing testPost function
-  console.log("Sending a new place to server");
-  testPost(newPlace);
+
 }
 
 function addNewObject() {
