@@ -34,8 +34,29 @@ mongoose.connect('mongodb://localhost/cimsTest', {useNewUrlParser: true, useUnif
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error connecting to database'));
 
+//GETs - information requested by the client
+app.get("/getPlaces", (req, res) => {
+    console.log('getNames request received.')
+    //let names = [];
+    place.find((err, data) => {
+        if (err) {
+            return console.log("error: getNames - not found");
+        }
+        //this was for having an array that contains the names only
+        /*
+        for(let i = 0; i < data.length; i++){
+            names += data.name;
+        }
+        */
+        console.log("Place find: data", data);
+    })
+
+    res.status(200);
+	res.send(data);
+})
+
 //POSTs - information sent by the client
-app.post("/post", (req, res) => {
+app.post("/postNewPlace", (req, res) => {
 
     /*if (err) {
         return console.error(err.message);
@@ -43,7 +64,7 @@ app.post("/post", (req, res) => {
 
     var postedPlace = req.body;
     console.log("received new place");
-    console.log("req.body: postedPlac -", postedPlace); //printing the new Place data
+    console.log("req.body: postedPlace -", postedPlace); //printing the new Place data
 
     let newPlace = new place({
         name: postedPlace.name,
@@ -66,7 +87,6 @@ app.post("/post", (req, res) => {
 
         console.log("inserted"); //<-- is it tho
     })
-
 
     /*
     //inserting in db
