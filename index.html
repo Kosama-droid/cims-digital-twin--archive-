@@ -129,6 +129,21 @@
         </div>
         <div><br></div>
         <div></div>
+        <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
+        <div class="item load-file">
+          <input class="load-file inactive" type="file" id="object-glb-input" accept=".glb, .gltf"/>
+        </div>
+        <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
+        <div class="item load-file">
+          <input class="load-file inactive" type="file" id="object-ifc-input" accept=".ifc" />
+        </div>
+        <div class="item">
+          <label for="object-true-north">Rotate true north:</label>
+        </div>
+        <div class="item">
+          <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+            oninput="this.nextElementSibling.value = this.value" /><output>0</output>
+        </div>
         <div class="item"><label for="object-lng">Longitude:</label></div>
         <div class="item">
           <input id="object-lng" type="number" name="Longitud" />
@@ -138,32 +153,14 @@
           <input id="object-lat" type="number" name="Latitude" />
         </div>
         <div class="item">
-          <label for="object-msl">Meters above sea level:</label>
+          <label for="object-msl">Mts above sea level:</label>
         </div>
         <div class="item">
           <input id="object-msl" type="number" name="Meters above sea level:" />
         </div>
+        
         <div class="item">
-          <label for="object-msl">Rotate true north:</label>
-        </div>
-        <div class="item">
-          <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
-            oninput="this.nextElementSibling.value = this.value" /><output>0</output>
-        </div>
-        <div><br></div>
-        <div></div>
-        <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
-        <div class="item load-file">
-          <input class="load-file" type="file" id="object-glb-input" accept=".glb, .gltf" />
-        </div>
-        <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
-        <div class="item load-file">
-          <input class="load-file" type="file" id="object-ifc-input" accept=".ifc" />
-        </div>
-        <div class="item"><br /></div>
-        <div class="item"></div>
-        <div class="item">
-          <button id="upload-object" class="button">Upload object</button>
+          <button id="upload-object" class="button inactive">Upload object</button>
         </div>
         <div class="item">
           <button id="cancel-new-object" class="button">Cancel</button>
