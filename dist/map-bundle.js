@@ -49721,16 +49721,17 @@ function updateArea(e) {
 
 //GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
 function testGetPlaces(){
+  
   let req = new XMLHttpRequest(); //declaring a new http request
   req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
     if(this.readyState == 4 && this.status == 200){
-      console.log("testGetPlaces(): Requesting Places's Names for dropdown menu");
-      console.log(res.body);
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu");
+      //let res = JSON.parse(req.responseText);
+      console.log(req.responseText);
     }
   };
-  req.open("GET", "http://localhost:3000/getPlaces");
-  //req.setRequestHeader("Content-Type", "application/JSON");
-  req.end();
+  req.open("GET", "http://localhost:3000/getPlaces",true);
+  req.send();
 }
 
 //testing a POST request to the server
@@ -49778,6 +49779,13 @@ function addNewPlace() {
   //testing testPostNewPlace function
   console.log("addNewPlace(): Sending a new place to server");
   testPostNewPlace(newPlace);
+
+  /*testPostNewPlace(newPlace).then(function(){
+    let newListOfNames = testGetPlaces();
+    console.log("Second call testGet promise")
+  }).catch(function (err){
+    console.log(err);
+  });*/
 
   //testing testGetNames function
   console.log("addNewPlace(): Getting the new list of names from the server"); //this is not inclusive of already existing places yet (e.g. Carleton)

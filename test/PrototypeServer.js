@@ -36,23 +36,21 @@ db.on('error', console.error.bind(console, 'Error connecting to database'));
 
 //GETs - information requested by the client
 app.get("/getPlaces", (req, res) => {
+
     console.log('getNames request received.')
-    //let names = [];
     place.find((err, data) => {
         if (err) {
+            res.status(400);
+            res.write("GetPlaces: Server error");
+	        res.end();
             return console.log("error: getNames - not found");
         }
-        //this was for having an array that contains the names only
-        /*
-        for(let i = 0; i < data.length; i++){
-            names += data.name;
-        }
-        */
         console.log("Place find: data", data);
+    
+        res.status(200);
+        res.setHeader("Content-Type", "application/JSON");
+	    res.send(data);
     })
-
-    res.status(200);
-	res.send(data);
 })
 
 //POSTs - information sent by the client
@@ -72,11 +70,12 @@ app.post("/postNewPlace", (req, res) => {
         geoJson: postedPlace.geoJson
     })
 
-    //Not sure if this inserts the document into the document and db
+    //Saving new place in db
     newPlace.save(function (err, result) {
         if (err) return handleError(err);
 
         //making sure that the newPlace is in db
+        /*
         place.find((err, data) => {
             if (err) {
                 return console.log("Place not found");
@@ -84,16 +83,10 @@ app.post("/postNewPlace", (req, res) => {
 
             console.log("Place find: data", data);
         })
+        */
 
-        console.log("inserted"); //<-- is it tho
+        console.log("inserted");
     })
-
-    /*
-    //inserting in db
-    db.place.insertOne({
-        name: req.body.name,
-        geoJson: req.body.placeGeojson
-    })*/
 
     res.status(200);
     res.send()
