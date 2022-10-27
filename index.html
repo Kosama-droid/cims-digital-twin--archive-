@@ -122,7 +122,7 @@
       </a>
       <nav id="new-object-container" class="double-list-container hidden">
         <div id="new-object-location">province, city, place</div>
-        <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
+        <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name"/>
         <div class="item"><label for="object-id">Object ID:</label></div>
         <div class="item">
           <input id="object-id" type="name" name="Object ID" />
@@ -141,7 +141,7 @@
           <label for="object-true-north">Rotate true north:</label>
         </div>
         <div class="item">
-          <input id="object-true-north" type="range" min="0" max="359" value="0" class="slider" name="Rotate true north"
+          <input id="object-true-north" type="range" min="0" max="360" step="0.1" value="0" class="slider" name="Rotate true north"
             oninput="this.nextElementSibling.value = this.value" /><output>0</output>
         </div>
         <div class="item"><label for="object-lng">Longitude:</label></div>

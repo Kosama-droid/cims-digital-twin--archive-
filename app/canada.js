@@ -311,7 +311,6 @@ export default canada = {
                 msl: 80,
                 zoom: 15,
               },
-              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -724,7 +723,7 @@ export default canada = {
                 },
               },
             },
-            CWM: {
+            /*CWM: {
               name: "Canadian War Museum",
               id: "CWM",
               placeGeojson:{
@@ -825,7 +824,7 @@ export default canada = {
                   name: "Canadian War Museum",
                 },
               },
-            },
+            },*/
             NAC: {
               name: "National Art Centre",
               placeGeojson:{
@@ -1113,7 +1112,6 @@ export default canada = {
                 msl: 188,
                 zoom: 16,
               },
-              logo: "assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },

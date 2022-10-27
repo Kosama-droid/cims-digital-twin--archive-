@@ -346,7 +346,6 @@ var canada$1 = canada = {
                 msl: 80,
                 zoom: 15,
               },
-              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -759,7 +758,7 @@ var canada$1 = canada = {
                 },
               },
             },
-            CWM: {
+            /*CWM: {
               name: "Canadian War Museum",
               id: "CWM",
               placeGeojson:{
@@ -860,7 +859,7 @@ var canada$1 = canada = {
                   name: "Canadian War Museum",
                 },
               },
-            },
+            },*/
             NAC: {
               name: "National Art Centre",
               placeGeojson:{
@@ -1148,7 +1147,6 @@ var canada$1 = canada = {
                 msl: 188,
                 zoom: 16,
               },
-              logo: "assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
