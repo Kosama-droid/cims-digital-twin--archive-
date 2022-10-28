@@ -43,7 +43,6 @@ let scene,
   gltfMasses,
   places,
   placeGeojson,
-  placeGeojsons,
   marker;
 
 let markers = [];
@@ -67,7 +66,6 @@ let modelOrigin,
   modelRotate,
   modelAsMercatorCoordinate,
   modelTransform;
-setPlaceOrigin(carleton);
 
 let previousSelection = {
   mesh: null,
@@ -397,11 +395,18 @@ function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
 }
 
 function flyToPlace(place, pitch = 50) {
-  map.flyTo({
-    center: [place.coordinates.lng, place.coordinates.lat],
-    zoom: place.coordinates.zoom,
-    pitch: pitch,
-    duration: 2000,
+  let bbox = turf.bbox(place.placeGeojson)
+  map.fitBounds(bbox)
+}
+
+function flyToCanada() {
+  let home = document.getElementById("home-button");
+  home.addEventListener("click", () => {
+    flyTo(map, lng.canada, lat.canada, 4, 0);
+    map.fitBounds(canada.bbox);
+    setTimeout(function () {
+      location.reload();
+    }, 2000);
   });
 }
 
@@ -583,17 +588,6 @@ function osmVisibility(map, toggle) {
   };
 }
 
-function flyToCanada() {
-  let home = document.getElementById("home-button");
-  home.addEventListener("click", () => {
-    flyTo(map, lng.canada, lat.canada, 4, 0);
-    map.fitBounds(canada.bbox);
-    setTimeout(function () {
-      location.reload();
-    }, 2000);
-  });
-}
-
 function selectObject(selector) {
   selector.addEventListener("change", () => {
     let id = selector[selector.selectedIndex].id;
@@ -643,10 +637,13 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
 }
 
 function setPlaceOrigin(place) {
-  let lng = place.coordinates.lng;
-  let lat = place.coordinates.lat;
-  let msl = place.coordinates.msl;
-  let trueNorth = 0;
+  let center = turf.center(place.placeGeojson);
+  let centerCoordinates = center.geometry.coordinates;
+let lng = place.coordinates? place.coordinates.lng : centerCoordinates[0];
+let lat = place.coordinates? place.coordinates.lat : centerCoordinates[1];
+const coordinates = {lng: lng, lat: lat}
+let msl = place.coordinates? place.coordinates.msl : map.queryTerrainElevation(coordinates);
+let trueNorth = place.trueNorth? place.trueNorth: 0;
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
 
