@@ -344,7 +344,6 @@ var canada$1 = canada = {
                 lat: 45.38435,
                 lng: -75.69435,
                 msl: 80,
-                zoom: 15,
               },
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
@@ -659,7 +658,6 @@ var canada$1 = canada = {
                 lat: 45.42521,
                 lng: -75.70011,
                 msl: 85,
-                zoom: 16,
               },
               gltfMasses: {
                 url: "assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
@@ -742,7 +740,6 @@ var canada$1 = canada = {
                 lat: 45.41681,
                 lng: -75.71448,
                 msl: 56.1,
-                zoom: 18,
               },
               logo: "assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
@@ -846,7 +843,6 @@ var canada$1 = canada = {
                 lat: 45.4172408,
                 lng: -75.71729,
                 msl: 56.1,
-                zoom: 17,
               },
               logo: "assets/ON/Ottawa/CWM/cwm-logo.png",
               gltfMasses: {
@@ -931,7 +927,6 @@ var canada$1 = canada = {
                 lat: 45.42391168154506,
                 lng: -75.69351075230375,
                 msl: 53,
-                zoom: 16,
               },
               logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
             },
@@ -1145,7 +1140,6 @@ var canada$1 = canada = {
                 lat: 43.73519,
                 lng: -79.474102,
                 msl: 188,
-                zoom: 16,
               },
               gltfMasses: {
                 url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
@@ -96844,19 +96838,19 @@ function setPlaceOrigin(place) {
   let msl = place.coordinates
     ? place.coordinates.msl
     : map.queryTerrainElevation(coordinates);
-  place.trueNorth ? place.trueNorth : 0;
-  setObjectOrigin(lng, lat, msl);
+  let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
+  setObjectOrigin(lng, lat, msl, trueNorth);
 }
 
-function setObjectOrigin(lng, lat, msl, trueNorth) {
+function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
   modelOrigin = [lng, lat];
   modelAltitude = msl;
-  modelRotate = [Math.PI / 2, 0, 0];
+  let radians = degreesToRadians(trueNorth);
+  modelRotate = [Math.PI / 2, radians, 0];
   modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
     modelOrigin,
     modelAltitude
   );
-
   modelTransform = {
     translateX: modelAsMercatorCoordinate.x,
     translateY: modelAsMercatorCoordinate.y,
@@ -97236,6 +97230,8 @@ function addNewObject() {
     );
     loadObjectIfc(place, newObjectId);
     loadObjectGltf(place, newObjectId);
+    rotateObjectTrueNorth(object);
+    changeObjectAltitude(object);
   });
 
   if (!canada$1.provinces[province.term].cities.hasOwnProperty(city.name))
@@ -97274,12 +97270,24 @@ function makeActiveById(...ids) {
   });
 }
 
-document.getElementById("object-true-north").addEventListener("input", (e) => {
-  let trueNorth = e.srcElement.value;
+function rotateObjectTrueNorth(object){
+const trueNorthInput = document.getElementById("object-true-north");
+trueNorthInput.addEventListener("input", () => {
+  let trueNorth = trueNorthInput.value;
   let radians = degreesToRadians(trueNorth);
   object.gltfModel.rotation.y = radians;
   object.trueNorth = trueNorth;
 });
+}
+
+function changeObjectAltitude(object){
+let mslInput = document.getElementById('object-msl');
+mslInput.addEventListener('change', () => {
+  let msl =  mslInput.value - modelAltitude;
+  object.gltfModel.position.y = msl;
+  object.coordinates.msl = msl;
+});
+}
 
 function loadObjectIfc(place, objectId = "object") {
   const ifcLoader = new IFCLoader();

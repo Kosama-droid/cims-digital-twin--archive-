@@ -645,19 +645,19 @@ function setPlaceOrigin(place) {
   let msl = place.coordinates
     ? place.coordinates.msl
     : map.queryTerrainElevation(coordinates);
-  let trueNorth = place.trueNorth ? place.trueNorth : 0;
+  let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
 
-function setObjectOrigin(lng, lat, msl, trueNorth) {
+function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
   modelOrigin = [lng, lat];
   modelAltitude = msl;
-  modelRotate = [Math.PI / 2, 0, 0];
+  let radians = degreesToRadians(trueNorth);
+  modelRotate = [Math.PI / 2, radians, 0];
   modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
     modelOrigin,
     modelAltitude
   );
-
   modelTransform = {
     translateX: modelAsMercatorCoordinate.x,
     translateY: modelAsMercatorCoordinate.y,
@@ -1037,6 +1037,8 @@ function addNewObject() {
     );
     loadObjectIfc(place, newObjectId);
     loadObjectGltf(place, newObjectId);
+    rotateObjectTrueNorth(object)
+    changeObjectAltitude(object)
   });
 
   if (!canada.provinces[province.term].cities.hasOwnProperty(city.name))
@@ -1075,12 +1077,24 @@ function makeActiveById(...ids) {
   });
 }
 
-document.getElementById("object-true-north").addEventListener("input", (e) => {
-  let trueNorth = e.srcElement.value;
+function rotateObjectTrueNorth(object){
+const trueNorthInput = document.getElementById("object-true-north")
+trueNorthInput.addEventListener("input", () => {
+  let trueNorth = trueNorthInput.value;
   let radians = degreesToRadians(trueNorth);
   object.gltfModel.rotation.y = radians;
   object.trueNorth = trueNorth;
 });
+}
+
+function changeObjectAltitude(object){
+let mslInput = document.getElementById('object-msl')
+mslInput.addEventListener('change', () => {
+  let msl =  mslInput.value - modelAltitude
+  object.gltfModel.position.y = msl
+  object.coordinates.msl = msl
+})
+}
 
 function loadObjectIfc(place, objectId = "object") {
   const ifcLoader = new IFCLoader();
