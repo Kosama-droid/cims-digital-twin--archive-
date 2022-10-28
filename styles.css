@@ -661,6 +661,12 @@ ul,
   z-index: 3;
 }
 
+#message{
+  background-color: var(--primary-light-transp1);
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+}
+
 @media (max-width: 500px) {
   .iframe {
     margin: 0.5rem;

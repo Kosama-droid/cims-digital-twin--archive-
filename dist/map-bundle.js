@@ -96190,6 +96190,31 @@ if (!bool) document.getElementById('close-window').addEventListener('click', (e)
   }
   }
 
+function degreesToRadians$1(degrees) {
+  return degrees * (Math.PI / 180);
+}
+
+function rotateObjectTrueNorth(object){
+  const trueNorthInput = document.getElementById("object-true-north");
+  trueNorthInput.addEventListener("input", () => {
+    let trueNorth = trueNorthInput.value;
+    let radians = degreesToRadians$1(trueNorth);
+    if(object.gltfModel) object.gltfModel.rotation.y = radians;
+    if(object.ifcModel)object.ifcModel.rotation.y = radians;
+    object.trueNorth = trueNorth;
+  });
+  }
+
+function changeObjectAltitude(object, altitude = 0){
+    let mslInput = document.getElementById('object-msl');
+    mslInput.addEventListener('change', () => {
+      let msl =  mslInput.value - altitude;
+      if(object.gltfModel) object.gltfModel.position.y = msl;
+      if(object.ifcModel)object.ifcModel.position.y = msl;
+      object.coordinates.msl = msl;
+    });
+    }
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -96288,7 +96313,7 @@ let lng = { canada: canada$1.lng },
 // GUI  👌 _________________________________________________________________________________________
 
 const closeButton = document.getElementById("close-window");
-let loadingContainer = document.getElementById("loader-container");
+document.getElementById("loader-container");
 closeWindow();
 
 // ICDT 🍁
@@ -96842,6 +96867,10 @@ function setPlaceOrigin(place) {
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
 
+function degreesToRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
+
 function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
   modelOrigin = [lng, lat];
   modelAltitude = msl;
@@ -97222,16 +97251,19 @@ function addNewObject() {
   document.getElementById("object-id").addEventListener("change", () => {
     console.log(newObject.name);
     if (newObject.name === "") newObject.name = "unnamed";
-    makeActiveById(
-      "object-glb-input",
-      "object-ifc-input",
-      "object-true-north",
-      "upload-object"
-    );
-    loadObjectIfc(place, newObjectId);
-    loadObjectGltf(place, newObjectId);
-    rotateObjectTrueNorth(object);
-    changeObjectAltitude(object);
+    makeActiveById("object-model-input", "object-true-north", "upload-object");
+    const modelInput = document.getElementById("object-model-input");
+    modelInput.addEventListener("change", (changed) => {
+      console.log(changed.target.files[0].name);
+      let fileName = changed.target.files[0].name;
+      fileType = fileName.split('.').pop();
+      console.log(fileType);
+      if (fileType === 'glb' || fileType === 'gltf') loadObjectGltf(place, newObjectId, changed);
+      else if (fileType === 'ifc') loadObjectIfc(place, newObjectId, changed);
+      else infoMessage(`⚠️ ${fileType.toUpperCase()}s are not supported yet, please let us know if you want us to include them in the future`);
+      rotateObjectTrueNorth(object);
+      changeObjectAltitude(object, modelAltitude);
+    });
   });
 
   if (!canada$1.provinces[province.term].cities.hasOwnProperty(city.name))
@@ -97260,56 +97292,30 @@ function addNewObject() {
   // if (!isInPlace) message("Object outside place")
 }
 
-function degreesToRadians(degrees) {
-  return degrees * (Math.PI / 180);
-}
-
 function makeActiveById(...ids) {
   ids.forEach((id) => {
     document.getElementById(id).classList.remove("inactive");
   });
 }
 
-function rotateObjectTrueNorth(object){
-const trueNorthInput = document.getElementById("object-true-north");
-trueNorthInput.addEventListener("input", () => {
-  let trueNorth = trueNorthInput.value;
-  let radians = degreesToRadians(trueNorth);
-  object.gltfModel.rotation.y = radians;
-  object.trueNorth = trueNorth;
-});
-}
-
-function changeObjectAltitude(object){
-let mslInput = document.getElementById('object-msl');
-mslInput.addEventListener('change', () => {
-  let msl =  mslInput.value - modelAltitude;
-  object.gltfModel.position.y = msl;
-  object.coordinates.msl = msl;
-});
-}
-
-function loadObjectIfc(place, objectId = "object") {
+function loadObjectIfc(place, objectId = "object", changed) {
   const ifcLoader = new IFCLoader();
   ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const ifcInput = document.getElementById("object-ifc-input");
-  ifcInput.addEventListener(
-    "change",
-    (changed) => {
-      const group = new Group();
-      group.name = `${place.id}-ifcGroup`;
-      const ifcURL = URL.createObjectURL(changed.target.files[0]);
-      ifcLoader.load(ifcURL, (ifcModel) => {
-        ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-        object.ifcModel = ifcModel;
-        group.add(ifcModel);
-        scene.add(group);
-        loadingContainer.classList.add("hidden");
-      });
+  const group = new Group();
+  group.name = `${place.id}-ifcGroup`;
+  const ifcURL = URL.createObjectURL(changed.target.files[0]);
+  ifcLoader.load(
+    ifcURL,
+    (ifcModel) => {
+      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+      object.ifcModel = ifcModel;
+      group.add(ifcModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
     },
     () => {
-      loadingContainer.classList.remove("hidden");
-      progressText.textContent = `Loading ${place.name}'s objects`;
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
     },
     (error) => {
       console.log(error);
@@ -97318,32 +97324,26 @@ function loadObjectIfc(place, objectId = "object") {
   );
 }
 
-function loadObjectGltf(place, objectId = "object") {
+function loadObjectGltf(place, objectId = "object", changed) {
   const gltfLoader = new GLTFLoader();
-  const gltfInput = document.getElementById("object-glb-input");
-  let loadingContainer = document.getElementById("loader-container");
-  let progressText = document.getElementById("progress-text");
-
-  gltfInput.addEventListener(
-    "change",
-    (changed) => {
-      const group = new Group();
-      group.name = `${place.id}-gltfGroup`;
-      const gltfURL = URL.createObjectURL(changed.target.files[0]);
-      gltfLoader.load(gltfURL, (gltf) => {
-        let gltfModel = gltf.scene;
-        gltfModel.name = `${place.id}-${objectId}-gltfModel`;
-        object.gltfModel = gltfModel;
-        group.add(gltfModel);
-        scene.add(group);
-        loadingContainer.classList.add("hidden");
-      });
+  const group = new Group();
+  group.name = `${place.id}-gltfGroup`;
+  const gltfURL = URL.createObjectURL(changed.target.files[0]);
+  gltfLoader.load(
+    gltfURL,
+    (gltf) => {
+      let gltfModel = gltf.scene;
+      gltfModel.name = `${place.id}-${objectId}-gltfModel`;
+      object.gltfModel = gltfModel;
+      group.add(gltfModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
     },
     () => {
-      loadingContainer.classList.remove("hidden");
-      progressText.textContent = `Loading ${place.name}'s objects`;
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
     },
-    (error) => {
+    () => {
       return;
     }
   );

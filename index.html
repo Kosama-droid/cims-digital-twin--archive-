@@ -63,6 +63,7 @@
             d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
         </svg>
       </a>
+      <a id="message" class="hidden"></a>
     </nav>
     <div id="loader-container" class="loader-container hidden">
       <div class="loader"></div>
@@ -129,13 +130,9 @@
         </div>
         <div><br></div>
         <div></div>
-        <div class="item"><label for="object-glb-input">Load object 3d model:</label></div>
+        <div class="item" title="Load 3d model (gltf, or ifc)"><label for="object-model-input">Load object 3d model:</label></div>
         <div class="item load-file">
-          <input class="load-file inactive" type="file" id="object-glb-input" accept=".glb, .gltf"/>
-        </div>
-        <div class="item"><label for="object-ifc-input">Load object IFC:</label></div>
-        <div class="item load-file">
-          <input class="load-file inactive" type="file" id="object-ifc-input" accept=".ifc" />
+          <input class="load-file inactive" type="file" id="object-model-input" accept=".glb, .gltf, .ifc, .fbx, .obj"/>
         </div>
         <div class="item">
           <label for="object-true-north">Rotate true north:</label>
@@ -187,10 +184,6 @@
     </nav>
 
   </nav>
-
-  <div id="full-screen-flex-container">
-    <a id="message" class="centre transp1-background circular hidden"></a>
-  </div>
   <div id="map-container" class="hide-overflow canvas all-pointer-events">
     <div id="map" class="map"></div>
   </div>
