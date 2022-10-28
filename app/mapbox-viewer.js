@@ -43,7 +43,6 @@ let scene,
   gltfMasses,
   places,
   placeGeojson,
-  placeGeojsons,
   marker;
 
 let markers = [];
@@ -67,7 +66,6 @@ let modelOrigin,
   modelRotate,
   modelAsMercatorCoordinate,
   modelTransform;
-setPlaceOrigin(carleton);
 
 let previousSelection = {
   mesh: null,
@@ -397,11 +395,18 @@ function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
 }
 
 function flyToPlace(place, pitch = 50) {
-  map.flyTo({
-    center: [place.coordinates.lng, place.coordinates.lat],
-    zoom: place.coordinates.zoom,
-    pitch: pitch,
-    duration: 2000,
+  let bbox = turf.bbox(place.placeGeojson);
+  map.fitBounds(bbox);
+}
+
+function flyToCanada() {
+  let home = document.getElementById("home-button");
+  home.addEventListener("click", () => {
+    flyTo(map, lng.canada, lat.canada, 4, 0);
+    map.fitBounds(canada.bbox);
+    setTimeout(function () {
+      location.reload();
+    }, 2000);
   });
 }
 
@@ -583,17 +588,6 @@ function osmVisibility(map, toggle) {
   };
 }
 
-function flyToCanada() {
-  let home = document.getElementById("home-button");
-  home.addEventListener("click", () => {
-    flyTo(map, lng.canada, lat.canada, 4, 0);
-    map.fitBounds(canada.bbox);
-    setTimeout(function () {
-      location.reload();
-    }, 2000);
-  });
-}
-
 function selectObject(selector) {
   selector.addEventListener("change", () => {
     let id = selector[selector.selectedIndex].id;
@@ -643,10 +637,15 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
 }
 
 function setPlaceOrigin(place) {
-  let lng = place.coordinates.lng;
-  let lat = place.coordinates.lat;
-  let msl = place.coordinates.msl;
-  let trueNorth = 0;
+  let center = turf.center(place.placeGeojson);
+  let centerCoordinates = center.geometry.coordinates;
+  let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
+  let lat = place.coordinates ? place.coordinates.lat : centerCoordinates[1];
+  const coordinates = { lng: lng, lat: lat };
+  let msl = place.coordinates
+    ? place.coordinates.msl
+    : map.queryTerrainElevation(coordinates);
+  let trueNorth = place.trueNorth ? place.trueNorth : 0;
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
 
@@ -1027,13 +1026,18 @@ function addNewObject() {
   newObject.coordinates.msl = document.getElementById("object-msl").value;
   newObject.coordinates.trueNorth =
     document.getElementById("object-true-north").value;
-    document.getElementById("object-id").addEventListener('change', () => {
-      console.log(newObject.name)
-      if (newObject.name === "") newObject.name = "unnamed"
-      makeActiveById('object-glb-input', 'object-ifc-input', 'object-true-north', 'upload-object');
-      loadObjectIfc(place, newObjectId)
-      loadObjectGltf(place, newObjectId)
-    } )
+  document.getElementById("object-id").addEventListener("change", () => {
+    console.log(newObject.name);
+    if (newObject.name === "") newObject.name = "unnamed";
+    makeActiveById(
+      "object-glb-input",
+      "object-ifc-input",
+      "object-true-north",
+      "upload-object"
+    );
+    loadObjectIfc(place, newObjectId);
+    loadObjectGltf(place, newObjectId);
+  });
 
   if (!canada.provinces[province.term].cities.hasOwnProperty(city.name))
     canada.provinces[province.term].cities[city.name] = { name: city.name };
@@ -1054,29 +1058,31 @@ function addNewObject() {
     canada.provinces[province.term].cities[city.name].places[place.id].objects,
     2
   );
-object = newObject;
+  object = newObject;
 
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
 }
 
-function degreesToRadians(degrees){return degrees * (Math.PI/180)}
+function degreesToRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
 
 function makeActiveById(...ids) {
-  ids.forEach(id => {
-    document.getElementById(id).classList.remove('inactive');
+  ids.forEach((id) => {
+    document.getElementById(id).classList.remove("inactive");
   });
 }
 
-document.getElementById("object-true-north").addEventListener('input', (e) => {
-  let trueNorth =  e.srcElement.value;
-  let radians = degreesToRadians(trueNorth)
+document.getElementById("object-true-north").addEventListener("input", (e) => {
+  let trueNorth = e.srcElement.value;
+  let radians = degreesToRadians(trueNorth);
   object.gltfModel.rotation.y = radians;
   object.trueNorth = trueNorth;
-})
+});
 
-function loadObjectIfc(place, objectId = 'object'){
+function loadObjectIfc(place, objectId = "object") {
   const ifcLoader = new IFCLoader();
   ifcLoader.ifcManager.setWasmPath("../wasm/");
   const ifcInput = document.getElementById("object-ifc-input");
@@ -1088,7 +1094,7 @@ function loadObjectIfc(place, objectId = 'object'){
       const ifcURL = URL.createObjectURL(changed.target.files[0]);
       ifcLoader.load(ifcURL, (ifcModel) => {
         ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-        object.ifcModel =  ifcModel; 
+        object.ifcModel = ifcModel;
         group.add(ifcModel);
         scene.add(group);
         loadingContainer.classList.add("hidden");
@@ -1099,18 +1105,18 @@ function loadObjectIfc(place, objectId = 'object'){
       progressText.textContent = `Loading ${place.name}'s objects`;
     },
     (error) => {
-      console.log(error)
+      console.log(error);
       return;
     }
   );
-  }
-  
-  function loadObjectGltf(place, objectId = 'object'){
+}
+
+function loadObjectGltf(place, objectId = "object") {
   const gltfLoader = new GLTFLoader();
   const gltfInput = document.getElementById("object-glb-input");
   let loadingContainer = document.getElementById("loader-container");
   let progressText = document.getElementById("progress-text");
-  
+
   gltfInput.addEventListener(
     "change",
     (changed) => {
@@ -1120,7 +1126,7 @@ function loadObjectIfc(place, objectId = 'object'){
       gltfLoader.load(gltfURL, (gltf) => {
         let gltfModel = gltf.scene;
         gltfModel.name = `${place.id}-${objectId}-gltfModel`;
-        object.gltfModel =  gltfModel; 
+        object.gltfModel = gltfModel;
         group.add(gltfModel);
         scene.add(group);
         loadingContainer.classList.add("hidden");
@@ -1134,4 +1140,4 @@ function loadObjectIfc(place, objectId = 'object'){
       return;
     }
   );
-  }
+}
