@@ -97134,13 +97134,23 @@ function mapbox() {
     });
     let center = e.result.center;
     setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
+    console.log(e.result);
     console.log(province.term, city.name);
-    console.log(e.result.text);
+    if (city.name === "") city.name = e.result.text;
+    console.log(city.name);
     province = canada$1.provinces[province.term];
-    city = province.cities[city.name];
-    places = city.places;
-    createOptions(placeSelector, places);
-    unhideElementsById("place-select", "add-place-button");
+
+    if (province.cities[city.name]) {
+      city = province.cities[city.name];
+      places = city.places;
+      createOptions(placeSelector, places);}
+    else {
+      canada$1.provinces[province.term].cities[city.name] = {name: city.name, places:{}, layers:{}};
+      city = canada$1.provinces[province.term].cities[city.name];
+    }
+    console.log(province);
+    
+      unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
     osmButton.click();
