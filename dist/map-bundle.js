@@ -928,7 +928,7 @@ var canada$1 = canada = {
                 lng: -75.69351075230375,
                 msl: 53,
               },
-              logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
+              objects:{}
             },
           },
           layers: {
@@ -96215,6 +96215,12 @@ function changeObjectAltitude(object, altitude = 0){
     });
     }
 
+function makeActiveById(...ids) {
+  ids.forEach((id) => {
+    document.getElementById(id).classList.remove("inactive");
+  });
+}
+
 var highlightMaterial$1 = highlightMaterial = new MeshBasicMaterial({
     color: 0xcccc50,
     flatShading: true,
@@ -96616,7 +96622,7 @@ document.addEventListener("keydown", (event) => {
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
-function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
+function flyTo(lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
     center: [lng, lat],
     zoom: zoom,
@@ -96633,7 +96639,7 @@ function flyToPlace(place, pitch = 50) {
 function flyToCanada() {
   let home = document.getElementById("home-button");
   home.addEventListener("click", () => {
-    flyTo(map, lng.canada, lat.canada, 4, 0);
+    flyTo(lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada$1.bbox);
     setTimeout(function () {
       location.reload();
@@ -97126,6 +97132,8 @@ function mapbox() {
       if (element.id.match(/place.*/)) city.name = element.text;
       i++;
     });
+    let center = e.result.center;
+    setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
     console.log(province.term, city.name);
     console.log(e.result.text);
     province = canada$1.provinces[province.term];
@@ -97290,12 +97298,6 @@ function addNewObject() {
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
-}
-
-function makeActiveById(...ids) {
-  ids.forEach((id) => {
-    document.getElementById(id).classList.remove("inactive");
-  });
 }
 
 function loadObjectIfc(place, objectId = "object", changed) {

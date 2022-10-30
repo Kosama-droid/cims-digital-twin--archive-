@@ -928,7 +928,7 @@ var canada$1 = canada = {
                 lng: -75.69351075230375,
                 msl: 53,
               },
-              logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
+              objects:{}
             },
           },
           layers: {

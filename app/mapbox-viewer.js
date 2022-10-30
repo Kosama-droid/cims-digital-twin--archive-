@@ -385,7 +385,7 @@ document.addEventListener("keydown", (event) => {
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
-function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
+function flyTo(lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
     center: [lng, lat],
     zoom: zoom,
@@ -402,7 +402,7 @@ function flyToPlace(place, pitch = 50) {
 function flyToCanada() {
   let home = document.getElementById("home-button");
   home.addEventListener("click", () => {
-    flyTo(map, lng.canada, lat.canada, 4, 0);
+    flyTo(lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
     setTimeout(function () {
       location.reload();
@@ -908,6 +908,8 @@ function mapbox() {
       if (element.id.match(/place.*/)) city.name = element.text;
       i++;
     });
+    let center = e.result.center;
+    setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
     console.log(province.term, city.name);
     console.log(e.result.text);
     province = canada.provinces[province.term];
@@ -1033,7 +1035,7 @@ function addNewObject() {
   document.getElementById("object-id").addEventListener("change", () => {
     console.log(newObject.name);
     if (newObject.name === "") newObject.name = "unnamed";
-    makeActiveById("object-model-input", "object-true-north", "upload-object");
+    cdt.makeActiveById("object-model-input", "object-true-north", "upload-object");
     const modelInput = document.getElementById("object-model-input");
     modelInput.addEventListener("change", (changed) => {
       console.log(changed.target.files[0].name);
@@ -1072,12 +1074,6 @@ function addNewObject() {
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
-}
-
-function makeActiveById(...ids) {
-  ids.forEach((id) => {
-    document.getElementById(id).classList.remove("inactive");
-  });
 }
 
 function loadObjectIfc(place, objectId = "object", changed) {
