@@ -910,7 +910,7 @@ function mapbox() {
     });
     let center = e.result.center;
     setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
-    console.log(e.result)
+
     console.log(province.term, city.name);
     if (city.name === "") city.name = e.result.text;
     console.log(city.name);
