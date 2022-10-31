@@ -49721,13 +49721,15 @@ function updateArea(e) {
 
 //GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
 function testGetPlaces(){
-  
+  console.log("TestGetPlaces");
   let req = new XMLHttpRequest(); //declaring a new http request
   req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
     if(this.readyState == 4 && this.status == 200){
       console.log("testGetPlaces(): Got Places's Names for dropdown menu");
-      //let res = JSON.parse(req.responseText);
-      console.log(req.responseText);
+      let gotPlaces = JSON.parse(req.responseText);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown");
+      createOptions(placeSelector, gotPlaces, 2);
+      console.log(JSON.parse(req.responseText));
     }
   };
   req.open("GET", "http://localhost:3000/getPlaces",true);
@@ -49737,7 +49739,7 @@ function testGetPlaces(){
 //testing a POST request to the server
 //POSTing the data of a new place to the server so it can get added to the db
 function testPostNewPlace(newPlace) {
-
+  console.log("testPostNewPlace");
   let req = new XMLHttpRequest();
   req.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
@@ -49748,6 +49750,12 @@ function testPostNewPlace(newPlace) {
   req.open("POST", "http://localhost:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
+}
+
+async function asyncCall(newPlace) {
+  console.log("asyncCall: waiting for NewPlace to be received before geting places");
+  await testPostNewPlace(newPlace);
+  testGetPlaces();
 }
 
 function addNewPlace() {
@@ -49767,6 +49775,8 @@ function addNewPlace() {
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
   let cityName = canada$1.provinces[province.term].cities[city.name];
+  //console.log(cityName.name,"line 1022 city name");
+  newPlace.city = cityName.name;
   if (!cityName)
     canada$1.provinces[province.term].cities[city.name] = {
       name: city.name,
@@ -49776,27 +49786,32 @@ function addNewPlace() {
     newPlace;
   place = newPlace;
 
+  asyncCall(newPlace);
+  
+  /*
   //testing testPostNewPlace function
   console.log("addNewPlace(): Sending a new place to server");
-  testPostNewPlace(newPlace);
-
-  /*testPostNewPlace(newPlace).then(function(){
-    let newListOfNames = testGetPlaces();
-    console.log("Second call testGet promise")
-  }).catch(function (err){
-    console.log(err);
-  });*/
+  testPostNewPlace(newPlace)
 
   //testing testGetNames function
-  console.log("addNewPlace(): Getting the new list of names from the server"); //this is not inclusive of already existing places yet (e.g. Carleton)
+  console.log("addNewPlace(): Getting the new list of names from the server") //this is not inclusive of already existing places yet (e.g. Carleton)
   let newListOfNames = testGetPlaces();
+  */
 
-  //cdt.createOptions(objectSelector, place.objects, 2);
-  createOptions(objectSelector, newListOfNames, 2);
+  console.log('place.objects',canada$1.provinces[province.term].cities[city.name].places);
+  console.log('newListofPlace', newListOfNames);
+
+  /*cdt.createOptions(
+    placeSelector,
+    //newListOfNames,
+    canada.provinces[province.term].cities[city.name].places,
+    2
+  );
+
+  cdt.createOptions(objectSelector, place.objects, 2);*/
+  //cdt.createOptions(objectSelector, newListOfNames.objects, 2);
   console.log(canada$1.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");
-
-
 }
 
 function addNewObject() {

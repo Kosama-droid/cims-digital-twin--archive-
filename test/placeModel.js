@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 let placeSchema = Schema({
     name: { type: String, required: true },
     id: { type: String, required: true },
-    geoJson: {type : Array, required: true}
+    geoJson: {type : Array, required: true},
+    city: {type: String, required: true}
 });
 
 const place = mongoose.model("place", placeSchema);
