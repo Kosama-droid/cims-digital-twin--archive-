@@ -3,7 +3,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 export default function loadObjectsGltf(site, currentScene) {
-  site.id = site.id;
   const group = new Group();
   group.name = `${site.id}-objects`;
   const gltfloader = new GLTFLoader();

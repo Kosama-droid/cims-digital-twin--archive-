@@ -344,9 +344,7 @@ var canada$1 = canada = {
                 lat: 45.38435,
                 lng: -75.69435,
                 msl: 80,
-                zoom: 15,
               },
-              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -660,7 +658,6 @@ var canada$1 = canada = {
                 lat: 45.42521,
                 lng: -75.70011,
                 msl: 85,
-                zoom: 16,
               },
               gltfMasses: {
                 url: "assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
@@ -743,7 +740,6 @@ var canada$1 = canada = {
                 lat: 45.41681,
                 lng: -75.71448,
                 msl: 56.1,
-                zoom: 18,
               },
               logo: "assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
@@ -759,7 +755,7 @@ var canada$1 = canada = {
                 },
               },
             },
-            CWM: {
+            /*CWM: {
               name: "Canadian War Museum",
               id: "CWM",
               placeGeojson:{
@@ -847,7 +843,6 @@ var canada$1 = canada = {
                 lat: 45.4172408,
                 lng: -75.71729,
                 msl: 56.1,
-                zoom: 17,
               },
               logo: "assets/ON/Ottawa/CWM/cwm-logo.png",
               gltfMasses: {
@@ -860,7 +855,7 @@ var canada$1 = canada = {
                   name: "Canadian War Museum",
                 },
               },
-            },
+            },*/
             NAC: {
               name: "National Art Centre",
               placeGeojson:{
@@ -932,9 +927,8 @@ var canada$1 = canada = {
                 lat: 45.42391168154506,
                 lng: -75.69351075230375,
                 msl: 53,
-                zoom: 16,
               },
-              logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
+              objects:{}
             },
           },
           layers: {
@@ -1146,9 +1140,7 @@ var canada$1 = canada = {
                 lat: 43.73519,
                 lng: -79.474102,
                 msl: 188,
-                zoom: 16,
               },
-              logo: "assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
@@ -123058,7 +123050,6 @@ mapStyles = {
 function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId);
     button.onclick = () => {
-      console.log(button.parentElement);
       toggle = !toggle;
       selectedButton(button, toggle);
       targets.forEach(target => {

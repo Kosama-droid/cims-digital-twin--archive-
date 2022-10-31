@@ -15,7 +15,10 @@ export { default as loadObjectGltf } from "./loadObjectGltf.js"
 export { default as mapStyles } from "./mapStyles.js"
 export { default as toggleButton } from "./toggleButton.js"
 export { default as closeWindow } from "./closeWindow.js"
-
+export { default as rotateObjectTrueNorth } from "./rotateObjectTrueNorth.js"
+export { default as changeObjectAltitude } from "./changeObjectAltitude.js"
+export { default as degreesToRadians } from "./degreesToRadians.js"
+export { default as makeActiveById } from "./makeActiveById.js"
 
 // Materials 🎨
 export { default as highlightMaterial } from "../modules/materials/highlightMaterial.js"

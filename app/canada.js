@@ -309,9 +309,7 @@ export default canada = {
                 lat: 45.38435,
                 lng: -75.69435,
                 msl: 80,
-                zoom: 15,
               },
-              // logo: "assets/ON/Ottawa/CDC/cu_logo.jfif",
               gltfPath: "assets/ON/Ottawa/CDC/glb/ON_Ottawa_CDC_",
               gltfMasses: {
                 url: "assets/ON/Ottawa/CDC/glb/ON-Ottawa-cu-masses.glb",
@@ -625,7 +623,6 @@ export default canada = {
                 lat: 45.42521,
                 lng: -75.70011,
                 msl: 85,
-                zoom: 16,
               },
               gltfMasses: {
                 url: "assets/ON/Ottawa/PB/glb/ON-Ottawa-PB.glb",
@@ -708,7 +705,6 @@ export default canada = {
                 lat: 45.41681,
                 lng: -75.71448,
                 msl: 56.1,
-                zoom: 18,
               },
               logo: "assets/ON/Ottawa/HM/ncc-logo.jpg",
               gltfMasses: {
@@ -724,7 +720,7 @@ export default canada = {
                 },
               },
             },
-            CWM: {
+            /*CWM: {
               name: "Canadian War Museum",
               id: "CWM",
               placeGeojson:{
@@ -812,7 +808,6 @@ export default canada = {
                 lat: 45.4172408,
                 lng: -75.71729,
                 msl: 56.1,
-                zoom: 17,
               },
               logo: "assets/ON/Ottawa/CWM/cwm-logo.png",
               gltfMasses: {
@@ -825,7 +820,7 @@ export default canada = {
                   name: "Canadian War Museum",
                 },
               },
-            },
+            },*/
             NAC: {
               name: "National Art Centre",
               placeGeojson:{
@@ -897,9 +892,8 @@ export default canada = {
                 lat: 45.42391168154506,
                 lng: -75.69351075230375,
                 msl: 53,
-                zoom: 16,
               },
-              logo: "assets/ON/Ottawa/NAC/nac-logo.jpg",
+              objects:{}
             },
           },
           layers: {
@@ -1111,9 +1105,7 @@ export default canada = {
                 lat: 43.73519,
                 lng: -79.474102,
                 msl: 188,
-                zoom: 16,
               },
-              logo: "assets/ON/Toronto/DA/northcrest_logo.jfif",
               gltfMasses: {
                 url: "assets/ON/Toronto/DA/glb/ON-Toronto-DA-masses.gltf",
               },
