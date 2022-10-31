@@ -997,13 +997,58 @@ function updateArea(e) {
   }
 }
 
+//testing the GET requests
+//GET places names to populate dropdown
+
+//GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
+function testGetPlaces(){
+  console.log("TestGetPlaces");
+  let req = new XMLHttpRequest(); //declaring a new http request
+  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu")
+      let gotPlaces = JSON.parse(req.responseText);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown")
+      cdt.createOptions(placeSelector, gotPlaces, 2)
+      console.log(JSON.parse(req.responseText))
+    }
+  }
+  req.open("GET", "http://localhost:3000/getPlaces",true);
+  req.send();
+}
+
+//testing a POST request to the server
+//POSTing the data of a new place to the server so it can get added to the db
+function testPostNewPlace(newPlace) {
+  console.log("testPostNewPlace");
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testPostNewPlace(): The new place was sent to the server");
+    }
+  }
+
+  req.open("POST", "http://localhost:3000/postNewPlace");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newPlace));
+}
+
+//call post and get synchronously to be sure the newPlace has been added to the db before getting the list of places
+async function asyncCall(newPlace) {
+  console.log("asyncCall: waiting for NewPlace to be received before geting places");
+  await testPostNewPlace(newPlace);
+  testGetPlaces();
+}
+
 function addNewPlace() {
+  console.log("addNewPlace(): 'Adding a new Place'");
+
   const newPlace = {};
   let newPlaceId = document.getElementById("place-id").value.toUpperCase();
+  newPlace.id = newPlaceId;
   if (!newPlaceId) {
     newPlaceId = "NN";
   }
-  newPlace.id = newPlaceId;
   newPlace.name = document.getElementById("place-name").value;
   if (!newPlace.name) {
     newPlace.name = "no name";
@@ -1012,20 +1057,20 @@ function addNewPlace() {
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
   let cityName = canada.provinces[province.term].cities[city.name];
+  newPlace.city = cityName.name;
   if (!cityName)
     canada.provinces[province.term].cities[city.name] = {
       name: city.name,
       places: { objects: {} },
     };
-  canada.provinces[province.term].cities[city.name].places[newPlaceId] =
-    newPlace;
+  canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
   place = newPlace;
-  cdt.createOptions(
-    placeSelector,
-    canada.provinces[province.term].cities[city.name].places,
-    2
-  );
-  cdt.createOptions(objectSelector, place.objects, 2);
+
+  asyncCall(newPlace);
+
+  console.log('place.objects',canada.provinces[province.term].cities[city.name].places);
+  console.log('newPlace', newPlace);
+
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
 }
