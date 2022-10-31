@@ -49752,6 +49752,7 @@ function testPostNewPlace(newPlace) {
   req.send(JSON.stringify(newPlace));
 }
 
+//call post and get synchronously to be sure the newPlace has been added to the db before getting the list of places
 async function asyncCall(newPlace) {
   console.log("asyncCall: waiting for NewPlace to be received before geting places");
   await testPostNewPlace(newPlace);
@@ -49775,41 +49776,20 @@ function addNewPlace() {
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
   let cityName = canada$1.provinces[province.term].cities[city.name];
-  //console.log(cityName.name,"line 1022 city name");
   newPlace.city = cityName.name;
   if (!cityName)
     canada$1.provinces[province.term].cities[city.name] = {
       name: city.name,
       places: { objects: {} },
     };
-  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] =
-    newPlace;
+  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
   place = newPlace;
 
   asyncCall(newPlace);
-  
-  /*
-  //testing testPostNewPlace function
-  console.log("addNewPlace(): Sending a new place to server");
-  testPostNewPlace(newPlace)
-
-  //testing testGetNames function
-  console.log("addNewPlace(): Getting the new list of names from the server") //this is not inclusive of already existing places yet (e.g. Carleton)
-  let newListOfNames = testGetPlaces();
-  */
 
   console.log('place.objects',canada$1.provinces[province.term].cities[city.name].places);
-  console.log('newListofPlace', newListOfNames);
+  console.log('newPlace', newPlace);
 
-  /*cdt.createOptions(
-    placeSelector,
-    //newListOfNames,
-    canada.provinces[province.term].cities[city.name].places,
-    2
-  );
-
-  cdt.createOptions(objectSelector, place.objects, 2);*/
-  //cdt.createOptions(objectSelector, newListOfNames.objects, 2);
   console.log(canada$1.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");
 }

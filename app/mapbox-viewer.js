@@ -1022,24 +1022,38 @@ function addNewPlace() {
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
   let cityName = canada.provinces[province.term].cities[city.name];
-  //console.log(cityName.name,"line 1022 city name");
   newPlace.city = cityName.name;
   if (!cityName)
     canada.provinces[province.term].cities[city.name] = {
       name: city.name,
       places: { objects: {} },
     };
-  canada.provinces[province.term].cities[city.name].places[newPlaceId] =
-    newPlace;
+  canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
   place = newPlace;
 
   asyncCall(newPlace);
 
   console.log('place.objects',canada.provinces[province.term].cities[city.name].places);
-  console.log('newListofPlace', newListOfNames);
+  console.log('newPlace', newPlace);
 
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
+}
+
+//testing a POST request to the server
+//POSTing the data of a new object to the server so it can get added to the db
+function testPostNewObject(newObject) {
+  console.log("testPostNewObject");
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testPostNewObject(): The new object was sent to the server");
+    }
+  }
+
+  req.open("POST", "http://localhost:3000/postNewObject");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newObject));
 }
 
 function addNewObject() {
