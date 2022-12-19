@@ -46,6 +46,12 @@ header img {
   cursor: pointer;
 }
 
+h1 {
+  font-weight: 400;
+  font-size: 3rem;
+  margin: 0.7rem;
+}
+
 h2 {
   font-weight: 400;
   font-size: 1.5rem;
@@ -73,8 +79,8 @@ a {
 }
 
 .lines {
-  border-top: 1px solid rgb(50, 50, 50);
-  border-bottom: 1px solid rgb(50, 50, 50);
+  border-top: 1px solid rgb(90, 90, 90);
+  border-bottom: 1px solid rgb(90, 90, 90);
 }
 
 .map {
@@ -251,7 +257,6 @@ a {
   margin: 2rem;
   max-height: 70%;
   font-size: 0.8rem;
-  text-transform: uppercase;
   position: absolute;
   overflow: auto;
 }
@@ -263,8 +268,16 @@ a {
 
 .left {
   left: 0;
+  display: flex;
+  align-items: flex-start;
   width: fit-content;
   padding: 0.5rem;
+}
+
+.space-between{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .ifc-property-header {
@@ -490,8 +503,7 @@ ul,
 
 .iframe {
   z-index: 5;
-  /* justify-content: center; */
-  right: 0px;
+  right: 4.3rem;
   position: absolute;
   background-color: var(--dark-transparent);
   height: 100%;
@@ -506,7 +518,6 @@ ul,
   top: 0;
   display: flex;
   justify-content:flex-end;
-  padding-right: 4.3rem;
   height: 100%;
   width: 100%;
   pointer-events: none;
@@ -563,6 +574,10 @@ ul,
 
 /* .close-window svg{
 } */
+
+.pointer{
+  cursor: pointer;
+}
 
 .all-pointer-events {
   pointer-events: all;
@@ -672,7 +687,6 @@ ul,
   background-color: var(--dark-transparent);
   font-weight: 300;
   font-size: 0.7rem;
-  text-transform: uppercase;
   color: var(--primary-light);
 }
 
@@ -685,6 +699,7 @@ ul,
 
 #top-container {
   z-index: 2;
+  padding: 1rem;
   width: 100%;
   background-image: linear-gradient(180deg, black, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
