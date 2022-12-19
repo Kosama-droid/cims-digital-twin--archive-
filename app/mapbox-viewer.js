@@ -130,6 +130,10 @@ cdt.toggleButton("tools-button", false, "tools-container");
 // Setting Mapbox 🗺️📦
 mapbox();
 
+// Share window
+cdt.toggleButton("share-view-button", false, "share-view-window");
+
+
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
