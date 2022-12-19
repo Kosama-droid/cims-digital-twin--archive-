@@ -4,6 +4,10 @@ body html {
 	border: none;
 }
 
+label{
+	color: var(--icdt-color);
+}
+
 .iframe {
 	border-radius: 0;
 	box-shadow: none;
@@ -20,9 +24,7 @@ body html {
 	z-index: 1;
 	max-width: 525px;
 	max-height: calc(100% - 6rem);
-	background-color: var(--secondary-color);
 	position: absolute;
-	border-radius: var(--border-radius);
 	pointer-events: all;
 }
 
@@ -39,7 +41,6 @@ body html {
 	height: 92.5%;
 	position: absolute;
 	padding: 90px 70px 50px 70px;
-	background-color: var(--secondary-color);
 	border-radius: var(--border-radius);
 }
 

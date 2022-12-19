@@ -1,7 +1,6 @@
 import canada from "./canada.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import { IfcViewerAPI } from "web-ifc-viewer";
 import {
   AmbientLight,
   DirectionalLight,
@@ -86,7 +85,16 @@ const closeButton = document.getElementById("close-window");
 let loadingContainer = document.getElementById("loader-container");
 cdt.closeWindow();
 
-function openWindow(item, toggle, className, url = `${item}.html`) {
+// ICDT 🍁
+let icdtToggle = false;
+icdtToggle = openWindow(
+  "icdt",
+  icdtToggle,
+  "https://canadasdigitaltwin.ca",
+  "icdt"
+);
+
+function openWindow(item, toggle, url = `${item}.html`, className) {
   const button = document.getElementById(`${item}-button`);
   let buttons = Array.from(button.parentElement.children);
   button.addEventListener("click", () => {
@@ -103,7 +111,11 @@ function openWindow(item, toggle, className, url = `${item}.html`) {
 
 // // User Login 👤
 let loginToggle = false;
-loginToggle = openWindow("login", loginToggle, "login-window");
+loginToggle = openWindow("login", loginToggle);
+
+// Info ℹ️
+let infoToggle = false;
+infoToggle = openWindow("info", infoToggle);
 
 // Settings ⚙️
 let settingsToggle = false;
@@ -112,36 +124,28 @@ settingsToggle = openWindow("settings", settingsToggle);
 // Search bar 🔍
 cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
-// info ℹ️
-cdt.toggleButton("info-button", false, "info-container");
-
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
 
 // Show OSM buildings 🏢
 const osmButton = document.getElementById("osm-button");
 
-// Right menu 👉
-cdt.toggleButton("right-menu-button", true, "right-container");
-
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
 
 // Setting Mapbox 🗺️📦
-mapbox();
+maplibre();
 
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
-  if (style.id){
   document.getElementById(style.id).addEventListener("click", () => {
     currentStyle.id = style.id.split("-")[0];
     currentStyle.url = cdt.mapStyles[currentStyle.id].url;
     map.setStyle(currentStyle.url);
   });
-}
 });
 
 // THREE JS 3️⃣  ______________________________________________________________
@@ -332,7 +336,7 @@ map.on("dblclick", () => {
 // });
 
 map.on("style.load", function () {
-  map.addLayer(customLayer, "waterway-label");
+  // map.addLayer(customLayer, "waterway-label");
   if (three) setPlace(place, province.term, city.name);
 });
 
@@ -398,7 +402,7 @@ function flyToPlace(place) {
 }
 
 function flyToCanada() {
-  let home = document.getElementById("icdt-button");
+  let home = document.getElementById("home-button");
   home.addEventListener("click", () => {
     flyTo(lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
@@ -447,45 +451,45 @@ function removeGeojson(geojson) {
 }
 
 // ADD DEM TERRAIN 🏔️
-function addTerrain(map) {
-  map.addSource("mapbox-dem", {
-    type: "raster-dem",
-    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-    tileSize: 512,
-    maxzoom: 14,
-  });
-  // add the DEM source as a terrain layer with exaggerated height
-  map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-}
+// function addTerrain(map) {
+//   map.addSource("mapbox-dem", {
+//     type: "raster-dem",
+//     url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+//     tileSize: 512,
+//     maxzoom: 14,
+//   });
+//   // add the DEM source as a terrain layer with exaggerated height
+//   map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+// }
 
 // LOAD OSM BUILDING 🏢
 // let osmHeight = 1 *
-function loadOSM(map, opacity = 0.9) {
-  // Insert the layer beneath any symbol layer.
-  const layers = map.getStyle().layers;
-  const labelLayerId = layers.find(
-    (layer) => layer.type === "symbol" && layer.layout["text-field"]
-  ).id;
-  // perc2color(((["get", "height"] - 3) * 100) / (66 - 3))
-  map.addLayer(
-    {
-      id: "OSM-buildings",
-      source: "composite",
-      "source-layer": "building",
-      filter: ["==", "extrude", "true"],
-      // filter: ["{elementId} === 671842709", "extrude", "false"],
-      type: "fill-extrusion",
-      minzoom: 11,
-      paint: {
-        "fill-extrusion-color": "#aaa",
-        "fill-extrusion-height": ["get", "height"],
-        "fill-extrusion-base": ["get", "min_height"],
-        "fill-extrusion-opacity": opacity,
-      },
-    },
-    labelLayerId
-  );
-}
+// function loadOSM(map, opacity = 0.9) {
+//   // Insert the layer beneath any symbol layer.
+//   const layers = map.getStyle().layers;
+//   const labelLayerId = layers.find(
+//     (layer) => layer.type === "symbol" && layer.layout["text-field"]
+//   ).id;
+//   // perc2color(((["get", "height"] - 3) * 100) / (66 - 3))
+//   map.addLayer(
+//     {
+//       id: "OSM-buildings",
+//       source: "composite",
+//       "source-layer": "building",
+//       filter: ["==", "extrude", "true"],
+//       // filter: ["{elementId} === 671842709", "extrude", "false"],
+//       type: "fill-extrusion",
+//       minzoom: 11,
+//       paint: {
+//         "fill-extrusion-color": "#aaa",
+//         "fill-extrusion-height": ["get", "height"],
+//         "fill-extrusion-base": ["get", "min_height"],
+//         "fill-extrusion-opacity": opacity,
+//       },
+//     },
+//     labelLayerId
+//   );
+// }
 
 // Raycasting
 function getMousePosition(event) {
@@ -576,15 +580,15 @@ function getGeojson(id, url, map, locGeojson) {
 }
 
 // Show OSM buildings 🏢
-function osmVisibility(map, toggle) {
-  osmButton.onclick = () => {
-    toggle = !toggle;
-    cdt.selectedButton(osmButton, toggle, true);
-    map.getLayer("OSM-buildings");
-    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
-    toggle.osm = toggle;
-  };
-}
+// function osmVisibility(map, toggle) {
+//   osmButton.onclick = () => {
+//     toggle = !toggle;
+//     cdt.selectedButton(osmButton, toggle, true);
+//     map.getLayer("OSM-buildings");
+//     toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
+//     toggle.osm = toggle;
+//   };
+// }
 
 function selectObject(selector) {
   selector.addEventListener("change", () => {
@@ -643,7 +647,7 @@ function setPlaceOrigin(place) {
   const coordinates = { lng: lng, lat: lat };
   let msl = place.coordinates
     ? place.coordinates.msl
-    : map.queryTerrainElevation(coordinates);
+    : 0;
   let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
@@ -735,13 +739,14 @@ async function createLayerButtons(city) {
 }
 
 function removeFromScene() {
+  console.log(scene)
   let toRemove = scene.children.slice(3);
   if (toRemove.lenght === 0) return;
   toRemove.forEach((group) => {
     group.traverse(function (object) {
       if (object.isMesh) {
         object.geometry.dispose();
-        // object.material.dispose();
+        object.material.dispose();
       }
     });
     scene.remove(group);
@@ -839,13 +844,15 @@ function removeMarker(markers) {
     });
 }
 
-// MAPBOX 🗺️📦
-function mapbox() {
+// MAPLIBRE 🗺️📦🆓
+function maplibre() {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
-  map = new mapboxgl.Map({
+  map = new maplibregl.Map({
     container: "map", // container ID
-    style: cdt.mapStyles.satellite.url,
+    // style: 'https://demotiles.maplibre.org/style.json',
+    style:'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', 
+    // style: 'https://api.maptiler.com/maps/hybrid/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', 
     center: [lng.canada, lat.canada], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
@@ -855,10 +862,11 @@ function mapbox() {
   });
   map.fitBounds(canada.bbox);
   // Add north and zoom controls 🔺➕
-  map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
+  let nav = new maplibregl.NavigationControl();
+map.addControl(nav, 'bottom-left');
   // Activate geolocation 🌎🔍
   map.addControl(
-    new mapboxgl.GeolocateControl({
+    new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
       },
@@ -869,7 +877,7 @@ function mapbox() {
     "bottom-left"
   );
 
-  // Add the control to the map 🔍
+  // Add the control to the map 🔍 https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md
   const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     marker: false,
@@ -884,18 +892,9 @@ function mapbox() {
 
   // Day sky
   map.on("style.load", () => {
-    // Set the default atmosphere style
-    // add sky styling with `setFog` that will show when the map is highly pitched
-    map.setFog({
-      "horizon-blend": 0.3,
-      color: "#f8f0e3",
-      "high-color": "#add8e6",
-      "space-color": "#d8f2ff",
-      "star-intensity": 0.0,
-    });
-    addTerrain(map);
-    osmVisibility(map, toggle.osm);
-    map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+    // addTerrain(map);
+    // osmVisibility(map, toggle.osm);
+    // map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
   });
 
   geocoder.on("result", (e) => {
@@ -908,7 +907,7 @@ function mapbox() {
       i++;
     });
     let center = e.result.center;
-    setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
+    setObjectOrigin(center[0], center[1], 0);
 
     console.log(province.term, city.name);
     if (city.name === "") city.name = e.result.text;
@@ -923,6 +922,7 @@ function mapbox() {
       canada.provinces[province.term].cities[city.name] = {name: city.name, places:{}, layers:{}}
       city = canada.provinces[province.term].cities[city.name];
     }
+    console.log(province)
     
       cdt.unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
@@ -966,7 +966,7 @@ function addLocMarker(at) {
   function onDragEnd() {
     // if (popup) popup.remove();
     markerLoc = marker.getLngLat();
-    markerLoc.msl = map.queryTerrainElevation(marker.getLngLat());
+    markerLoc.msl = 0;
     document.getElementById(`${at}-lng`).value = `${markerLoc.lng}`;
     document.getElementById(`${at}-lat`).value = `${markerLoc.lat}`;
     document.getElementById(`${at}-msl`).value = `${markerLoc.msl}`;
@@ -1127,8 +1127,8 @@ function addNewObject() {
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
+}
 
-// IFC Three 3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣
 function loadObjectIfc(place, objectId = "object", changed) {
   const ifcLoader = new IFCLoader();
   ifcLoader.ifcManager.setWasmPath("../wasm/");
@@ -1154,32 +1154,6 @@ function loadObjectIfc(place, objectId = "object", changed) {
     }
   );
 }
-    
-  const ifcLoader = new IFCLoader();
-  ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const group = new Group();
-  group.name = `${place.id}-ifcGroup`;
-  const ifcURL = URL.createObjectURL(changed.target.files[0]);
-  ifcLoader.load(
-    ifcURL,
-    (ifcModel) => {
-      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-      object.ifcModel = ifcModel;
-      group.add(ifcModel);
-      scene.add(group);
-      document.getElementById("loader-container").classList.add("hidden");
-    },
-    () => {
-      document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
-    },
-    (error) => {
-      console.log(error);
-      return;
-    }
-  );
-}
-
 
 function loadObjectGltf(place, objectId = "object", changed) {
   const gltfLoader = new GLTFLoader();

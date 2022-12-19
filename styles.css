@@ -8,7 +8,7 @@
   --primary-light-transp1: rgba(255, 255, 255, 0.7);
   --primary-light-transp2: rgba(255, 255, 255, 0.4);
   --primary-dark: black;
-  --dark-transparent: rgba(0, 0, 0, 0.5);
+  --dark-transparent: rgba(0, 0, 0, 0.8);
   --secondary-color: #8c8c8c;
   --secondary-transp1: #8c8c8cee;
   --icdt-color: #73CEE2;
@@ -34,7 +34,7 @@ hide-overflow {
 
 header {
   display: flex;
-  align-items:flex-start;
+  align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
   pointer-events: none;
@@ -70,6 +70,11 @@ a {
   flex-direction: column;
   justify-content: center;
   pointer-events: auto;
+}
+
+.lines {
+  border-top: 1px solid rgb(50, 50, 50);
+  border-bottom: 1px solid rgb(50, 50, 50);
 }
 
 .map {
@@ -115,18 +120,18 @@ a {
 .column {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
-
-
 
 .white-icon svg {
   transition: all 0.3s ease 0s;
   cursor: pointer;
+  margin: 0.4rem;
   display: flex;
   align-items: center;
   width: fit-content;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.5rem;
+  height: 1.5rem;
   fill: var(--primary-light);
   stroke: rgba(0, 0, 0, 0.3);
   stroke-width: 1px;
@@ -153,7 +158,7 @@ a {
   margin-top: 0.4rem;
 }
 
-.inactive{
+.inactive {
   opacity: 60%;
   pointer-events: none;
 }
@@ -183,7 +188,7 @@ a {
   font-weight: 600;
 }
 
-.gray-underline{
+.gray-underline {
   width: 100%;
   border-bottom: solid 1px #888;
 }
@@ -483,47 +488,66 @@ ul,
   border-radius: 4px;
 }
 
-.iframe-container {
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  pointer-events: all;
-}
-
 .iframe {
-  z-index: 3;
-  justify-content: center;
+  z-index: 5;
+  /* justify-content: center; */
+  right: 0px;
   position: absolute;
-  height: calc(100% - 1rem);
-  width: calc(100% - 1rem);
+  background-color: var(--dark-transparent);
+  height: 100%;
   border: none;
   transition: all 0.5s ease 0s;
   pointer-events: all;
 }
 
-.iframe-content {
-  z-index: 3;
-  padding: 3rem 1rem;
-  width: 50%;
-  height: 87vh;
-  margin: 4.5rem 3rem;
-  background-color: var(--secondary-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+.iframe-container {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content:flex-end;
+  padding-right: 4.3rem;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+#info-container {
+  z-index: 5;
+  justify-content: center;
+  right: 4.3rem;
+  position: absolute;
+  top: 0px;
+  background-color: var(--dark-transparent);
+  height: 100%;
+  padding-top: 10rem;
+  padding-left: 3rem;
+  border: none;
+  pointer-events: all;
+  width: fit-content;
+}
+
+.login-window {
+  z-index: 5;
+  justify-content: center;
+  right: 4.3rem;
+  padding-top: 10rem;
+  position: absolute;
+  background-color: var(--dark-transparent);
+  height: 100%;
+  border: none;
+  transition: all 0.5s ease 0s;
+  pointer-events: all;
+  width: 450px;
 }
 
 .icdt {
   z-index: 3;
-  justify-content: center;
-  width: 86%;
+  width: 90%;
   height: 83vh;
-  margin: 5rem 4rem;
+  margin-top: 5rem;
+  right: 0px;
   border: none;
-  border-radius: var(--border-radius);
   transition: all 0.5s ease 0s;
   pointer-events: all;
 }
@@ -586,11 +610,7 @@ ul,
 .start {
   display: flex;
   align-self: flex-start;
-}
-
-.end {
-  display: flex;
-  align-items: flex-end;
+  align-items:flex-end;
 }
 
 @keyframes opacity-change {
@@ -632,13 +652,19 @@ ul,
   pointer-events: none;
 }
 
+#right-menu-button {
+  position: absolute;
+  right: 0.2rem;
+  top: 1rem;
+}
+
 #right-container {
   position: absolute;
-  padding: 1rem 0.5rem;
+  padding: 1rem 0.2rem;
   top: 0px;
+  padding-top: 5rem;
   right: 0px;
   height: 100vh;
-  display: flex;
   align-items: flex-end;
   flex-direction: column;
   justify-content: space-between;
@@ -658,10 +684,12 @@ ul,
 }
 
 #top-container {
-  z-index: 3;
+  z-index: 2;
+  width: 100%;
+  background-image: linear-gradient(180deg, black, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
 
-#message{
+#message {
   background-color: var(--primary-light-transp1);
   border-radius: 0.5rem;
   margin: 0.5rem;
@@ -690,16 +718,16 @@ ul,
 
 .geocoder {
   display: flex;
-  z-index: 1;
+  z-index: 4;
   height: 2.3rem;
   margin-right: 0.5rem;
-  }
+}
 
-  .mapboxgl-ctrl-geocoder {
+.mapboxgl-ctrl-geocoder {
   min-width: 100%;
   /* background-color: var(--primary-light-transp1); */
   border-radius: 0.5rem;
-  }
+}
 
 .hidden {
   display: none;
