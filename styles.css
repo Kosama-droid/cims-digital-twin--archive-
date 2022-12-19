@@ -254,15 +254,17 @@ a {
 }
 
 .side-menu {
-  margin: 2rem;
-  max-height: 70%;
+  height: 100%;
   font-size: 0.8rem;
   position: absolute;
   overflow: auto;
+  background-color: var(--dark-transparent);
+  padding-top: 7rem;
+  color: var(--primary-light);
 }
 
 .right {
-  right: 2.5rem;
+  right: 4.3rem;
   width: 20rem;
 }
 
@@ -281,6 +283,7 @@ a {
 }
 
 .ifc-property-header {
+  color: var(--icdt-color);
   font-weight: 700;
 }
 
@@ -464,7 +467,7 @@ ul,
 /* Create the caret/arrow with a unicode, and style it */
 .caret::before {
   content: "\25B6";
-  color: black;
+  color: var(--icdt-color);
   display: inline-block;
   margin-right: 0.5rem;
   padding: 0.2rem;
@@ -651,9 +654,8 @@ ul,
 }
 
 #bim-viewer {
-  margin: 0.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+  width: 100vw;
+  pointer-events: all;
 }
 
 #progress-text {
