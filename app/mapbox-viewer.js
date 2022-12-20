@@ -114,6 +114,8 @@ cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
 // info ℹ️
 cdt.toggleButton("info-button", false, "info-container");
+const infoHeader = document.getElementById("info-header")
+infoHeader.addEventListener("click", () => document.getElementById("info-button").click())
 
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
@@ -122,7 +124,11 @@ cdt.toggleButton("layers-button", false, "layers-container");
 const osmButton = document.getElementById("osm-button");
 
 // Right menu 👉
-cdt.toggleButton("right-menu-button", true, "right-container");
+cdt.toggleButton("right-menu-button", false, "right-container");
+const rightMenuButtons = document.getElementById("right-menu-buttons");
+rightMenuButtons.addEventListener("click", () => {
+  if (!document.getElementById("geocoder").classList.contains("hidden")) document.getElementById("search-button").click();
+})
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
@@ -133,10 +139,11 @@ mapbox();
 // Share window
 cdt.toggleButton("share-view-button", false, "share-view-window");
 
-
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
+const mapsHeader = document.getElementById("maps-header")
+mapsHeader.addEventListener("click", () => document.getElementById("styles-button").click())
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
   if (style.id){
@@ -544,6 +551,7 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
+  cdt.hideRightMenus();
   closeButton.classList.remove("hidden");
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   const container = document.getElementById("iframe-container");

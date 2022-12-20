@@ -123049,15 +123049,28 @@ mapStyles = {
     },
 };
 
+function unselectSibilings(button) {
+const buttonParent = button.parentElement;
+childrenArray = Array.from(buttonParent.children);
+console.log(buttonParent);
+console.log(childrenArray);
+  }
+
 function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId);
     button.onclick = () => {
       toggle = !toggle;
       selectedButton(button, toggle);
+      unselectSibilings(button);
       targets.forEach(target => {
-             toggle
-        ? document.getElementById(target).classList.remove("hidden")
-        : document.getElementById(target).classList.add("hidden"); 
+        const targetElement = document.getElementById(target);
+        const rightMenus = Array.from(document.getElementById("right-menus").children);
+        rightMenus.forEach(menu => {
+          menu.classList.add("hidden");
+        });
+        toggle
+        ? targetElement.classList.remove("hidden")
+        : targetElement.classList.add("hidden"); 
       });
     };
     return toggle

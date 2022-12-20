@@ -106736,15 +106736,33 @@ var mapStyles$1 = mapStyles = {
     },
 };
 
+function unselectSibilings(button) {
+  const buttonParent = button.parentElement;
+  const buttonSibilings = buttonParent.children;
+  const childrenArray = Array.from(buttonSibilings);
+  childrenArray.forEach((child) => {
+    child.classList.remove("selected-button");
+  });
+}
+
+function hideRightMenus(exclude) {
+  const rightMenus = Array.from(document.getElementById("right-menus").children);
+      rightMenus.forEach(menu => {
+        if (menu !== exclude) menu.classList.add("hidden");
+      });
+}
+
 function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId);
     button.onclick = () => {
       toggle = !toggle;
+      unselectSibilings(button);
       selectedButton(button, toggle);
       targets.forEach(target => {
-             toggle
-        ? document.getElementById(target).classList.remove("hidden")
-        : document.getElementById(target).classList.add("hidden"); 
+        const targetElement = document.getElementById(target);
+        toggle
+        ? targetElement.classList.remove("hidden")
+        : targetElement.classList.add("hidden"); 
       });
     };
     return toggle
@@ -106927,6 +106945,8 @@ toggleButton("search-button", true, "geocoder", "selectors");
 
 // info ℹ️
 toggleButton("info-button", false, "info-container");
+const infoHeader = document.getElementById("info-header");
+infoHeader.addEventListener("click", () => document.getElementById("info-button").click());
 
 // Layers 🍰
 toggleButton("layers-button", false, "layers-container");
@@ -106935,7 +106955,11 @@ toggleButton("layers-button", false, "layers-container");
 const osmButton = document.getElementById("osm-button");
 
 // Right menu 👉
-toggleButton("right-menu-button", true, "right-container");
+toggleButton("right-menu-button", false, "right-container");
+const rightMenuButtons = document.getElementById("right-menu-buttons");
+rightMenuButtons.addEventListener("click", () => {
+  if (!document.getElementById("geocoder").classList.contains("hidden")) document.getElementById("search-button").click();
+});
 
 // Tools ⚒️
 toggleButton("tools-button", false, "tools-container");
@@ -106946,10 +106970,11 @@ mapbox();
 // Share window
 toggleButton("share-view-button", false, "share-view-window");
 
-
 // Map Style 🎨
 toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
+const mapsHeader = document.getElementById("maps-header");
+mapsHeader.addEventListener("click", () => document.getElementById("styles-button").click());
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
   if (style.id){
@@ -107357,6 +107382,7 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
+  hideRightMenus();
   closeButton.classList.remove("hidden");
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
   const container = document.getElementById("iframe-container");

@@ -1,14 +1,18 @@
-import selectedButton from "../modules/selectedButton";
+import selectedButton from "./selectedButton";
+import unselectSibilings from "./unselectSibilings";
+import hideRightMenus from "./hideRightMenus";
 
 export default function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId)
     button.onclick = () => {
       toggle = !toggle;
+      unselectSibilings(button)
       selectedButton(button, toggle);
       targets.forEach(target => {
-             toggle
-        ? document.getElementById(target).classList.remove("hidden")
-        : document.getElementById(target).classList.add("hidden"); 
+        const targetElement = document.getElementById(target);
+        toggle
+        ? targetElement.classList.remove("hidden")
+        : targetElement.classList.add("hidden"); 
       });
     };
     return toggle
