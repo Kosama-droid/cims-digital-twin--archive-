@@ -51,6 +51,10 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
+
+// Right menu 👉
+cdt.toggleButton("bim-right-menu-button", false, "bim-right-container");
+
 // tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container")
 
@@ -60,7 +64,6 @@ cdt.toggleButton("layers-button", false, "layers-container")
 // project tree 🌳
 cdt.toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu")
 
-
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
   container,
@@ -68,6 +71,10 @@ const viewer = new IfcViewerAPI({
 });
 viewer.IFC.setWasmPath("wasm/");
 const scene = viewer.context.getScene();
+
+// Share window 📷
+cdt.toggleButton("share-view-button", false, "share-view-window");
+
 // Create axes
 viewer.axes.setAxes();
 

@@ -106958,7 +106958,7 @@ const osmButton = document.getElementById("osm-button");
 toggleButton("right-menu-button", false, "right-container");
 const rightMenuButtons = document.getElementById("right-menu-buttons");
 rightMenuButtons.addEventListener("click", () => {
-  if (!document.getElementById("geocoder").classList.contains("hidden")) document.getElementById("search-button").click();
+  if (!document.getElementById("selectors").classList.contains("hidden")) document.getElementById("search-button").click();
 });
 
 // Tools ⚒️
@@ -106967,7 +106967,7 @@ toggleButton("tools-button", false, "tools-container");
 // Setting Mapbox 🗺️📦
 mapbox();
 
-// Share window
+// Share window 📷
 toggleButton("share-view-button", false, "share-view-window");
 
 // Map Style 🎨
@@ -107385,12 +107385,12 @@ function openBimViewer(object) {
   hideRightMenus();
   closeButton.classList.remove("hidden");
   const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  const container = document.getElementById("iframe-container");
+  const container = document.getElementById("bim-viewer-container");
   while (container.childElementCount > 1) container.lastChild.remove();
 
-  bimViewer = document.createElement("iframe");
+  const bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
-  bimViewer.classList.add("iframe");
+  // bimViewer.classList.add("bim-viewer");
   bimViewer.setAttribute("src", url);
 
   container.appendChild(bimViewer);

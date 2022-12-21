@@ -123050,24 +123050,22 @@ mapStyles = {
 };
 
 function unselectSibilings(button) {
-const buttonParent = button.parentElement;
-childrenArray = Array.from(buttonParent.children);
-console.log(buttonParent);
-console.log(childrenArray);
-  }
+  const buttonParent = button.parentElement;
+  const buttonSibilings = buttonParent.children;
+  const childrenArray = Array.from(buttonSibilings);
+  childrenArray.forEach((child) => {
+    child.classList.remove("selected-button");
+  });
+}
 
 function toggleButton(buttonId, toggle, ...targets) {
   const button = document.getElementById(buttonId);
     button.onclick = () => {
       toggle = !toggle;
-      selectedButton(button, toggle);
       unselectSibilings(button);
+      selectedButton(button, toggle);
       targets.forEach(target => {
         const targetElement = document.getElementById(target);
-        const rightMenus = Array.from(document.getElementById("right-menus").children);
-        rightMenus.forEach(menu => {
-          menu.classList.add("hidden");
-        });
         toggle
         ? targetElement.classList.remove("hidden")
         : targetElement.classList.add("hidden"); 
@@ -123136,6 +123134,10 @@ object.name = objects[object.id].name;
 const container = document.getElementById("viewer-container");
 
 // GUI  👌 _________________________________________________________________________________________
+
+// Right menu 👉
+toggleButton("bim-right-menu-button", false, "bim-right-container");
+
 // tools ⚒️
 toggleButton("tools-button", false, "tools-container");
 
@@ -123145,7 +123147,6 @@ toggleButton("layers-button", false, "layers-container");
 // project tree 🌳
 toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu");
 
-
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
   container,
@@ -123153,6 +123154,10 @@ const viewer = new IfcViewerAPI({
 });
 viewer.IFC.setWasmPath("wasm/");
 const scene = viewer.context.getScene();
+
+// Share window 📷
+toggleButton("share-view-button", false, "share-view-window");
+
 // Create axes
 viewer.axes.setAxes();
 

@@ -16,21 +16,23 @@
 </head>
 
 <body class="hide-overflow">
+  
+  <div id="top-gradient"></div>
   <header>
     <nav id="top-container" class="row flex-container">
-      <a id="icdt-button" title="Imagine Canada's Digital Twin"><img src="static/logos/icdt-logo.png"
-          alt="Imagine Canada's Digital Twin" height="55px" />
+      <a id="icdt-button" title="Imagine Canada's Digital Twin" class="on-top"><img src="static/logos/icdt-logo.png"
+          alt="Imagine Canada's Digital Twin" height="55px""/>
       </a>
 
       </div>
-      <a id="search-button" name="Search" class="white-icon selected-button" title="Search bar">
+      <a id="search-button" name="Search" class="white-icon selected-button on-top" title="Search bar">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
             d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z" />
         </svg>
       </a>
       
-      <div id="selectors" class="selectors">
+      <div id="selectors" class="selectors on-top">
         <div id="geocoder" class="geocoder"></div>
         <select id="place-select" class="selector hidden">
           <option class="option" value="none">-- Select Place --</option>
@@ -54,14 +56,13 @@
       <a id="progress-text"></a>
     </div>
   </header>
-
-<a id="right-menu-button" class="white-icon" name="Show side menu" title="Show side menu">
+<a id="right-menu-button" class="white-icon right-menu-button" name="Show side menu" title="Show side menu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z" />
         </svg>
       </a>
 
-  <nav id="right-container" class="right-container hidden">
+  <aside id="right-container" class="right-container hidden">
     <div id="right-menu-buttons">
       <a id="tools-button" class="white-icon" name="Tools" title="Open tools menu">
         <svg viewBox="0 0 27 28" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +116,7 @@
               d="M12 3c2.131 0 4 1.73 4 3.702 0 2.05-1.714 4.941-4 8.561-2.286-3.62-4-6.511-4-8.561 0-1.972 1.869-3.702 4-3.702zm0-2c-3.148 0-6 2.553-6 5.702 0 3.148 2.602 6.907 6 12.298 3.398-5.391 6-9.15 6-12.298 0-3.149-2.851-5.702-6-5.702zm0 8c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2zm8 6h-3.135c-.385.641-.798 1.309-1.232 2h3.131l.5 1h-4.264l-.344.544-.289.456h.558l.858 2h-7.488l.858-2h.479l-.289-.456-.343-.544h-2.042l-1.011-1h2.42c-.435-.691-.848-1.359-1.232-2h-3.135l-4 8h24l-4-8zm-12.794 6h-3.97l1.764-3.528 1.516 1.528h1.549l-.859 2zm8.808-2h3.75l1 2h-3.892l-.858-2z" />
           </svg>
         </a>
-        <nav id="new-place-container" class="double-list-container hidden">
+        <aside id="new-place-container" class="double-list-container hidden">
           <div id="new-place-location">province, city</div>
           <input id="place-name" class="new-item-name" type="name" name="Name" placeholder="Place Name" />
           <div class="item"><label for="place-id">Place ID:</label></div>
@@ -128,14 +129,14 @@
           <div></div>
           <button id="upload-place" class="button">Upload place</button>
           <button id="cancel-new-place" class="button">Cancel</button>
-        </nav>
+        </aside>
         <a id="add-object-button" name="Add new object" title="Add new object" class="white-icon hidden">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
               d="M12 0c-5.522 0-10 4.395-10 9.815 0 5.505 4.375 9.268 10 14.185 5.625-4.917 10-8.68 10-14.185 0-5.42-4.478-9.815-10-9.815zm0 18c-4.419 0-8-3.582-8-8s3.581-8 8-8 8 3.582 8 8-3.581 8-8 8zm4-7h-3v3h-2v-3h-3v-2h3v-3h2v3h3v2z" />
           </svg>
         </a>
-        <nav id="new-object-container" class="double-list-container hidden">
+        <aside id="new-object-container" class="double-list-container hidden">
           <div id="new-object-location">province, city, place</div>
           <input id="object-name" class="new-item-name" type="name" name="Name" placeholder="Object Name" />
           <div class="item"><label for="object-id">Object ID:</label></div>
@@ -178,7 +179,7 @@
           <div class="item">
             <button id="cancel-new-object" class="button">Cancel</button>
           </div>
-        </nav>
+        </aside>
       </div>
       <div id="layers-container" class="hidden lines">
         <a id="osm-button" name="Buldings" title="Show buildings" class="white-icon">
@@ -217,10 +218,12 @@
               src="static\images\icdt-libraries-dark.png" alt="CDT applications" width="900px"></a>
         </div>
         <div class="iframe-container hidden" id="iframe-container"></div>
-        <div id="bim-viewer" class="hidden"></div>
+        
     </div>
 
-  </nav>
+  </aside>
+  
+<div id="bim-viewer-container" class="hidden"></div>
 
   <div id="full-screen-flex-container">
     <div id="share-view-window" class="share-view-window hidden">

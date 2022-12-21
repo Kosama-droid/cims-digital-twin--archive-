@@ -33,13 +33,17 @@ hide-overflow {
 }
 
 header {
+  position: fixed;
+  top: 0px;
+  z-index: 3;
+  width: 100vw;
   display: flex;
   align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
   pointer-events: none;
   flex-wrap: wrap;
-  height: 400px;
+  height: 7rem;
 }
 
 header img {
@@ -511,6 +515,16 @@ ul,
   width: 450px;
 }
 
+#bim-viewer {
+  position: absolute;
+  top: 0px;
+  height: 100vh;
+  border: none;
+  transition: all 0.5s ease 0s;
+  pointer-events: all;
+  width: 450px;
+}
+
 .login-window {
   z-index: 5;
   justify-content: center;
@@ -642,6 +656,7 @@ ul,
 
 .share-view-window {
   background-color: var(--dark-transparent);
+  z-index: 3;
   border-radius: var(--border-radius);
   width: 430px;
   height: 300px;
@@ -669,8 +684,7 @@ ul,
   cursor: pointer;
 }
 
-#right-menu-button {
-  z-index: 3;
+.right-menu-button {
   position: absolute;
   right: 0rem;
   width: 4.3rem;
@@ -726,10 +740,25 @@ ul,
   pointer-events: all;
 }
 
-#top-container {
-  z-index: 2;
+#categories{
+  display: flex;
+  align-items: stretch;
+  width: 180px;
+  padding: 0 2rem;
+  font-size: 1.2rem;
+}
+
+
+#top-container { 
   padding: 1rem;
+  z-index: 5;
+  position: absolute;
+}
+
+#top-gradient{
+  z-index: 1;
   width: 100%;
+  height: 7rem;
   background-image: linear-gradient(180deg, black, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
 }
 
@@ -767,6 +796,11 @@ ul,
   /* background-color: var(--primary-light-transp1); */
   border-radius: 0.5rem;
 }
+
+.on-top{
+  z-index: 10;
+}
+
 
 .hidden {
   display: none;
