@@ -1,16 +1,16 @@
-export default function closeWindow(bool = false){
-  // if bool is false, the window will close with the close icon
-if (!bool) document.getElementById('close-window').addEventListener('click', (e) => {
-      document.getElementsByClassName('iframe').remove;
-      document.getElementById('selectors').classList.remove('hidden');
-      document.getElementById('close-window').classList.add('hidden');
-      document.getElementById('iframe-container').classList.add('hidden');
-    })
-    // if bool is true, the window will close 
-  else{
-    document.getElementsByClassName('iframe').remove;
-    document.getElementById('selectors').classList.remove('hidden');
-    document.getElementById('close-window').classList.add('hidden');
-    document.getElementById('iframe-container').classList.add('hidden');
-  }
-  }
+export default function closeWindow(buttonId, iframe) {
+  const closeButton = document.getElementById(buttonId);
+  closeButton.addEventListener("click", () => {
+    if (iframe) {
+      document.getElementsByTagName("iframe").item(0).remove();
+      closeButton.classList.add("hidden");
+      document.getElementById("iframe-container").classList.add("hidden");
+    } else {
+      const menuButton = document.getElementById(
+        buttonId.replace("close", "button")
+      );
+      if (menuButton) menuButton.click();
+      else closeButton.parentElement.classList.add("hidden");
+    }
+  });
+}

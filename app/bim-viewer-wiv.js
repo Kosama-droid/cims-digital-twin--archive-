@@ -56,13 +56,13 @@ const container = document.getElementById("viewer-container");
 cdt.toggleButton("bim-right-menu-button", false, "bim-right-container");
 
 // tools ⚒️
-cdt.toggleButton("tools-button", false, "tools-container")
+cdt.toggleButton("tools-button", false, "tools-container");
 
 // layers ⚒️
-cdt.toggleButton("layers-button", false, "layers-container")
+cdt.toggleButton("layers-button", false, "layers-container");
 
 // project tree 🌳
-cdt.toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu")
+cdt.toggleButton("ifc-tree-button", false, "ifc-tree-menu", "side-menu");
 
 // IFC Viewer 👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️👁️
 const viewer = new IfcViewerAPI({
@@ -74,6 +74,10 @@ const scene = viewer.context.getScene();
 
 // Share window 📷
 cdt.toggleButton("share-view-button", false, "share-view-window");
+cdt.closeWindow("share-view-close");
+document.getElementById("done-share-button").addEventListener("click", () => {
+  document.getElementById("share-view-button").click();
+});
 
 // Create axes
 viewer.axes.setAxes();
@@ -83,7 +87,9 @@ viewer.IFC.loader.ifcManager.applyWebIfcConfig({
   COORDINATE_TO_ORIGIN: true,
 });
 
-object.ifcURL = `${place.ifcPath}${object.id}/ifc/${place.objects[object.id].ifcFileName}`;
+object.ifcURL = `${place.ifcPath}${object.id}/ifc/${
+  place.objects[object.id].ifcFileName
+}`;
 
 // Projection
 document.getElementById("projection").onclick = () =>
@@ -101,36 +107,67 @@ async function loadIfc(ifcURL) {
   const loadingContainer = document.getElementById("loader-container");
   const progressText = document.getElementById("progress-text");
 
-    let categories = [
-      "walls",
-      "slabs",
-      "roofs",
-      "curtainwalls",
-      "windows",
-      "doors",
-      "columns",
-      "furniture",
-      "stairs",
-    ];
+  let categories = [
+    "walls",
+    "slabs",
+    "roofs",
+    "curtainwalls",
+    "windows",
+    "doors",
+    "columns",
+    "furniture",
+    "stairs",
+  ];
 
-    categories.forEach((category) => {
-      model[category] = loadGlbByCategory(category);
+  categories.forEach((category) => {
+    model[category] = loadGlbByCategory(category);
 
-      async function loadGlbByCategory(category) {
-        let categoryGlb = await viewer.GLTF.loadModel(
-          `${glbFilePath}_${category}.glb`
-        );
-        if (category === "walls") await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
-        if (categoryGlb.modelID > -1) {
-          // Postproduction 💅
-          viewer.shadowDropper.renderShadow(categoryGlb.modelID);
-          // ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial)
-          return categoryGlb;
-        } else {
-          throw new Error(`${category} does not exist in this object`);
-        }
+    async function loadGlbByCategory(category) {
+      let categoryGlb = await viewer.GLTF.loadModel(
+        `${glbFilePath}_${category}.glb`
+      );
+      if (category === "walls")
+        await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
+      if (categoryGlb.modelID > -1) {
+        // Postproduction 💅
+        viewer.shadowDropper.renderShadow(categoryGlb.modelID);
+        // ClippingEdges.newStyleFromMesh(`${category}-style`, categoryGlb, lineMaterial)
+        return categoryGlb;
+      } else {
+        throw new Error(`${category} does not exist in this object`);
       }
-    });    
+    }
+  });
+
+  const camera = viewer.context.ifcCamera.cameraControls;
+
+  let cameraPosition, positionLink;
+
+  camera.addEventListener("update", () => {
+    let cam = `${cdt.roundNum(camera.getPosition().x)},${cdt.roundNum(
+      camera.getPosition().y
+    )},${cdt.roundNum(camera.getPosition().z)}`;
+    let target = `${cdt.roundNum(camera.getTarget().x)},${cdt.roundNum(
+      camera.getTarget().y
+    )},${cdt.roundNum(camera.getTarget().z)}`;
+    cameraPosition = `Camera: ${cam} / Target: ${target}`;
+    positionLink = `${currentURL}#c=${cam}/t=${target}`;
+  });
+
+  const cameraPositionButton = document.getElementById(
+    "camera-position-button"
+  );
+  cameraPositionButton.addEventListener("click", () => {
+    document.getElementById("share-position-input").value = cameraPosition;
+  });
+
+  const linkCameraPositionButton = document.getElementById(
+    "link-camera-position-button"
+  );
+  linkCameraPositionButton.addEventListener("click", () => {
+    cdt.infoMessage(`Link: ${positionLink} copied to clipboard`);
+    navigator.clipboard.writeText(positionLink);
+  });
 
   viewer.context.renderer.postProduction.active = true;
   loadingContainer.classList.add("hidden");
@@ -152,12 +189,12 @@ async function loadIfc(ifcURL) {
 
   //   await viewer.plans.computeAllPlanViews(model.modelID);
 
-    const lineMaterial = new LineBasicMaterial({ color: "black" });
-    const baseMaterial = new MeshBasicMaterial({
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1,
-    });
+  const lineMaterial = new LineBasicMaterial({ color: "black" });
+  const baseMaterial = new MeshBasicMaterial({
+    polygonOffset: true,
+    polygonOffsetFactor: 1,
+    polygonOffsetUnits: 1,
+  });
 
   //   await viewer.edges.create(
   //     "plan-edges",
@@ -280,7 +317,7 @@ window.onkeydown = (event) => {
 
   if (event.code === "Delete" && toggle.dimensions) {
     viewer.dimensions.delete();
-    updatePostProduction()
+    updatePostProduction();
   }
   if (event.code === "Delete" && toggle.clipping) {
     viewer.clipper.deletePlane();
@@ -414,7 +451,7 @@ function createPropertyEntry(key, value) {
 }
 
 // properties 📒
-cdt.toggleButton("properties-button", false, "ifc-property-menu", "side-menu")
+cdt.toggleButton("properties-button", false, "ifc-property-menu", "side-menu");
 
 // Project Tree 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
 
@@ -505,14 +542,16 @@ let currentUser = "Nico";
 //   );
 
 // 🗣️ write a message
-const messageButton = document.getElementById("message-button")
-cdt.toggleVisibility(messageButton, toggle.message)
+const messageButton = document.getElementById("message-button");
+cdt.toggleVisibility(messageButton, toggle.message);
 
 window.oncontextmenu = () => {
-  let toggleMessage = document.getElementById("message-button").classList.contains('selected-button')
-  console.log(toggleMessage)
+  let toggleMessage = document
+    .getElementById("message-button")
+    .classList.contains("selected-button");
+  console.log(toggleMessage);
   const collision = viewer.context.castRayIfc(model);
-  console.log(collision)
+  console.log(collision);
   if (!toggleMessage || collision === null) return;
   const collisionLocation = collision.point;
   cdt.labeling(scene, collisionLocation, currentUser);
@@ -577,7 +616,6 @@ async function preproscessIfc(object) {
 function updatePostProduction() {
   viewer.context.renderer.postProduction.update();
 }
-
 
 // Set up stats
 // const stats = new Stats();

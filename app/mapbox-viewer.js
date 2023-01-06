@@ -82,9 +82,8 @@ let lng = { canada: canada.lng },
 
 // GUI  👌 _________________________________________________________________________________________
 
-const closeButton = document.getElementById("close-window");
-let loadingContainer = document.getElementById("loader-container");
-cdt.closeWindow();
+const closeButton = document.getElementById("close-iframe");
+cdt.closeWindow("close-iframe", true);
 
 function openWindow(item, toggle, className, url = `${item}.html`) {
   const button = document.getElementById(`${item}-button`);
@@ -114,8 +113,10 @@ cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
 // info ℹ️
 cdt.toggleButton("info-button", false, "info-container");
-const infoHeader = document.getElementById("info-header")
-infoHeader.addEventListener("click", () => document.getElementById("info-button").click())
+const infoHeader = document.getElementById("info-header");
+infoHeader.addEventListener("click", () =>
+  document.getElementById("info-button").click()
+);
 
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
@@ -127,8 +128,9 @@ const osmButton = document.getElementById("osm-button");
 cdt.toggleButton("right-menu-button", false, "right-container");
 const rightMenuButtons = document.getElementById("right-menu-buttons");
 rightMenuButtons.addEventListener("click", () => {
-  if (!document.getElementById("selectors").classList.contains("hidden")) document.getElementById("search-button").click();
-})
+  if (!document.getElementById("selectors").classList.contains("hidden"))
+    document.getElementById("search-button").click();
+});
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
@@ -138,21 +140,55 @@ mapbox();
 
 // Share window 📷
 cdt.toggleButton("share-view-button", false, "share-view-window");
+cdt.closeWindow("share-view-close");
+document.getElementById("done-share-button").addEventListener("click", () => {
+  document.getElementById("share-view-button").click();
+});
+
+let cameraPositionText, positionLink;
+
+const cameraPositionButton = document.getElementById("camera-position-button");
+cameraPositionButton.addEventListener("click", () => {
+  const viewerPosition = map.getFreeCameraOptions();
+  const cameraPosition = viewerPosition._position.toLngLat();
+
+  const currentURL = window.location.href;
+  cameraPositionText = `Longitude ${cdt.roundNum(
+    cameraPosition.lng,
+    2
+  )} Latitude ${cdt.roundNum(cameraPosition.lat, 2)} zoom=`;
+  positionLink = `${currentURL}#lng=${cdt.roundNum(
+    cameraPosition.lng,
+    2
+  )}/lat=${cdt.roundNum(cameraPosition.lat, 2)}/zoom=`;
+  console.log(cameraPositionText, positionLink);
+  document.getElementById("share-position-input").value = cameraPositionText;
+});
+
+const linkCameraPositionButton = document.getElementById(
+  "link-camera-position-button"
+);
+linkCameraPositionButton.addEventListener("click", () => {
+  cdt.infoMessage(`Link: ${positionLink} copied to clipboard`);
+  navigator.clipboard.writeText(positionLink);
+});
 
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
-const mapsHeader = document.getElementById("maps-header")
-mapsHeader.addEventListener("click", () => document.getElementById("styles-button").click())
+const mapsHeader = document.getElementById("maps-header");
+mapsHeader.addEventListener("click", () =>
+  document.getElementById("styles-button").click()
+);
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
-  if (style.id){
-  document.getElementById(style.id).addEventListener("click", () => {
-    currentStyle.id = style.id.split("-")[0];
-    currentStyle.url = cdt.mapStyles[currentStyle.id].url;
-    map.setStyle(currentStyle.url);
-  });
-}
+  if (style.id) {
+    document.getElementById(style.id).addEventListener("click", () => {
+      currentStyle.id = style.id.split("-")[0];
+      currentStyle.url = cdt.mapStyles[currentStyle.id].url;
+      map.setStyle(currentStyle.url);
+    });
+  }
 });
 
 // THREE JS 3️⃣  ______________________________________________________________
@@ -403,7 +439,7 @@ function flyTo(lng, lat, zoom = 15, pitch = 50) {
 
 // ⚠️ Change function name to fitToBBox
 function flyToPlace(place) {
-  console.log('399 flyToPlace', place)
+  console.log("399 flyToPlace", place);
   let bbox = turf.bbox(place.placeGeojson);
   map.fitBounds(bbox);
 }
@@ -647,7 +683,7 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
 }
 
 function setPlaceOrigin(place) {
-  console.log('641 setPlaceOrigin', place)
+  console.log("641 setPlaceOrigin", place);
   let center = turf.center(place.placeGeojson);
   let centerCoordinates = center.geometry.coordinates;
   let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
@@ -920,7 +956,11 @@ function mapbox() {
       i++;
     });
     let center = e.result.center;
-    setObjectOrigin(center[0], center[1], map.queryTerrainElevation({lng: center[0], lat: center[1]}));
+    setObjectOrigin(
+      center[0],
+      center[1],
+      map.queryTerrainElevation({ lng: center[0], lat: center[1] })
+    );
 
     console.log(province.term, city.name);
     if (city.name === "") city.name = e.result.text;
@@ -930,13 +970,17 @@ function mapbox() {
     if (province.cities[city.name]) {
       city = province.cities[city.name];
       places = city.places;
-      cdt.createOptions(placeSelector, places)}
-    else {
-      canada.provinces[province.term].cities[city.name] = {name: city.name, places:{}, layers:{}}
+      cdt.createOptions(placeSelector, places);
+    } else {
+      canada.provinces[province.term].cities[city.name] = {
+        name: city.name,
+        places: {},
+        layers: {},
+      };
       city = canada.provinces[province.term].cities[city.name];
     }
-    
-      cdt.unhideElementsById("place-select", "add-place-button");
+
+    cdt.unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
     osmButton.click();
@@ -1011,19 +1055,22 @@ function updateArea(e) {
 //GET places names to populate dropdown
 
 //GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
-function testGetPlaces(){
+function testGetPlaces() {
   console.log("TestGetPlaces");
   let req = new XMLHttpRequest(); //declaring a new http request
-  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
-    if(this.readyState == 4 && this.status == 200){
-      console.log("testGetPlaces(): Got Places's Names for dropdown menu")
+  req.onreadystatechange = function () {
+    //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
+    if (this.readyState == 4 && this.status == 200) {
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu");
       let gotPlaces = JSON.parse(req.responseText);
-      console.log("testGetPlaces(): Calling createOptions to populate new dropdown")
-      cdt.createOptions(placeSelector, gotPlaces, 2)
-      console.log(JSON.parse(req.responseText))
+      console.log(
+        "testGetPlaces(): Calling createOptions to populate new dropdown"
+      );
+      cdt.createOptions(placeSelector, gotPlaces, 2);
+      console.log(JSON.parse(req.responseText));
     }
-  }
-  req.open("GET", "http://localhost:3000/getPlaces",true);
+  };
+  req.open("GET", "http://localhost:3000/getPlaces", true);
   req.send();
 }
 
@@ -1032,11 +1079,11 @@ function testGetPlaces(){
 function testPostNewPlace(newPlace) {
   console.log("testPostNewPlace");
   let req = new XMLHttpRequest();
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
       console.log("testPostNewPlace(): The new place was sent to the server");
     }
-  }
+  };
 
   req.open("POST", "http://localhost:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
@@ -1045,7 +1092,9 @@ function testPostNewPlace(newPlace) {
 
 //call post and get synchronously to be sure the newPlace has been added to the db before getting the list of places
 async function asyncCall(newPlace) {
-  console.log("asyncCall: waiting for NewPlace to be received before geting places");
+  console.log(
+    "asyncCall: waiting for NewPlace to be received before geting places"
+  );
   await testPostNewPlace(newPlace);
   testGetPlaces();
 }
@@ -1073,13 +1122,17 @@ function addNewPlace() {
       name: city.name,
       places: { objects: {} },
     };
-  canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
+  canada.provinces[province.term].cities[city.name].places[newPlaceId] =
+    newPlace;
   place = newPlace;
 
   asyncCall(newPlace);
 
-  console.log('place.objects',canada.provinces[province.term].cities[city.name].places);
-  console.log('newPlace', newPlace);
+  console.log(
+    "place.objects",
+    canada.provinces[province.term].cities[city.name].places
+  );
+  console.log("newPlace", newPlace);
 
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
@@ -1100,16 +1153,24 @@ function addNewObject() {
   document.getElementById("object-id").addEventListener("change", () => {
     console.log(newObject.name);
     if (newObject.name === "") newObject.name = "unnamed";
-    cdt.makeActiveById("object-model-input", "object-true-north", "upload-object");
+    cdt.makeActiveById(
+      "object-model-input",
+      "object-true-north",
+      "upload-object"
+    );
     const modelInput = document.getElementById("object-model-input");
     modelInput.addEventListener("change", (changed) => {
       console.log(changed.target.files[0].name);
-      let fileName = changed.target.files[0].name
-      fileType = fileName.split('.').pop()
-      console.log(fileType)
-      if (fileType === 'glb' || fileType === 'gltf') loadObjectGltf(place, newObjectId, changed);
-      else if (fileType === 'ifc') loadObjectIfc(place, newObjectId, changed);
-      else infoMessage(`⚠️ ${fileType.toUpperCase()}s are not supported yet, please let us know if you want us to include them in the future`)
+      let fileName = changed.target.files[0].name;
+      fileType = fileName.split(".").pop();
+      console.log(fileType);
+      if (fileType === "glb" || fileType === "gltf")
+        loadObjectGltf(place, newObjectId, changed);
+      else if (fileType === "ifc") loadObjectIfc(place, newObjectId, changed);
+      else
+        infoMessage(
+          `⚠️ ${fileType.toUpperCase()}s are not supported yet, please let us know if you want us to include them in the future`
+        );
       cdt.rotateObjectTrueNorth(object);
       cdt.changeObjectAltitude(object, modelAltitude);
     });
@@ -1140,58 +1201,61 @@ function addNewObject() {
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
 
-// IFC Three 3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣
-function loadObjectIfc(place, objectId = "object", changed) {
-  const ifcLoader = new IFCLoader();
-  ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const group = new Group();
-  group.name = `${place.id}-ifcGroup`;
-  const ifcURL = URL.createObjectURL(changed.target.files[0]);
-  ifcLoader.load(
-    ifcURL,
-    (ifcModel) => {
-      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-      object.ifcModel = ifcModel;
-      group.add(ifcModel);
-      scene.add(group);
-      document.getElementById("loader-container").classList.add("hidden");
-    },
-    () => {
-      document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
-    },
-    (error) => {
-      console.log(error);
-      return;
-    }
-  );
-}
-    
-  const ifcLoader = new IFCLoader();
-  ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const group = new Group();
-  group.name = `${place.id}-ifcGroup`;
-  const ifcURL = URL.createObjectURL(changed.target.files[0]);
-  ifcLoader.load(
-    ifcURL,
-    (ifcModel) => {
-      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-      object.ifcModel = ifcModel;
-      group.add(ifcModel);
-      scene.add(group);
-      document.getElementById("loader-container").classList.add("hidden");
-    },
-    () => {
-      document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
-    },
-    (error) => {
-      console.log(error);
-      return;
-    }
-  );
-}
+  // IFC Three 3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣
+  function loadObjectIfc(place, objectId = "object", changed) {
+    const ifcLoader = new IFCLoader();
+    ifcLoader.ifcManager.setWasmPath("../wasm/");
+    const group = new Group();
+    group.name = `${place.id}-ifcGroup`;
+    const ifcURL = URL.createObjectURL(changed.target.files[0]);
+    ifcLoader.load(
+      ifcURL,
+      (ifcModel) => {
+        ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+        object.ifcModel = ifcModel;
+        group.add(ifcModel);
+        scene.add(group);
+        document.getElementById("loader-container").classList.add("hidden");
+      },
+      () => {
+        document.getElementById("loader-container").classList.remove("hidden");
+        document.getElementById(
+          "progress-text"
+        ).textContent = `Loading ${place.name}'s objects`;
+      },
+      (error) => {
+        console.log(error);
+        return;
+      }
+    );
+  }
 
+  const ifcLoader = new IFCLoader();
+  ifcLoader.ifcManager.setWasmPath("../wasm/");
+  const group = new Group();
+  group.name = `${place.id}-ifcGroup`;
+  const ifcURL = URL.createObjectURL(changed.target.files[0]);
+  ifcLoader.load(
+    ifcURL,
+    (ifcModel) => {
+      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+      object.ifcModel = ifcModel;
+      group.add(ifcModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
+    },
+    () => {
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById(
+        "progress-text"
+      ).textContent = `Loading ${place.name}'s objects`;
+    },
+    (error) => {
+      console.log(error);
+      return;
+    }
+  );
+}
 
 function loadObjectGltf(place, objectId = "object", changed) {
   const gltfLoader = new GLTFLoader();
@@ -1210,11 +1274,12 @@ function loadObjectGltf(place, objectId = "object", changed) {
     },
     () => {
       document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
+      document.getElementById(
+        "progress-text"
+      ).textContent = `Loading ${place.name}'s objects`;
     },
     () => {
       return;
     }
   );
 }
-
