@@ -758,6 +758,13 @@ ul,
   flex-direction: column;
 }
 
+.styles-container>a {
+  padding: 0.8rem;
+
+}
+
+
+
 .selectors {
   display: flex;
   align-items: center;
