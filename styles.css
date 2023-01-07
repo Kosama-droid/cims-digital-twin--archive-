@@ -760,7 +760,7 @@ ul,
 
 .styles-container>a {
   padding: 0.8rem;
-
+  pointer-events: all;
 }
 
 
