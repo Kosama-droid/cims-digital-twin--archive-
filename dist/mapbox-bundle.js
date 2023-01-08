@@ -106777,19 +106777,23 @@ function toggleButton(buttonId, toggle, ...targets) {
 
 function closeWindow(buttonId, iframe) {
   const closeButton = document.getElementById(buttonId);
-  closeButton.addEventListener("click", () => {
-    if (iframe) {
-      document.getElementsByTagName("iframe").item(0).remove();
-      closeButton.classList.add("hidden");
-      document.getElementById("iframe-container").classList.add("hidden");
-    } else {
-      const menuButton = document.getElementById(
-        buttonId.replace("close", "button")
-      );
-      if (menuButton) menuButton.click();
-      else closeButton.parentElement.classList.add("hidden");
-    }
-  });
+  if (closeButton)
+    closeButton.addEventListener("click", () => {
+      if (iframe) {
+        document.getElementsByTagName("iframe").item(0).classList.add("hidden");
+        if (closeButton) closeButton.classList.add("hidden");
+      } else {
+        document.getElementsByClassName("iframe").remove;
+        const menuButton = document.getElementById(
+          buttonId.replace("close", "button")
+        );
+        if (menuButton) menuButton.click();
+        else closeButton.parentElement.classList.add("hidden");
+      }
+    });
+  else {
+    document.getElementById("iframe-container").classList.add("hidden");
+  }
 }
 
 function degreesToRadians$1(degrees) {
@@ -106938,7 +106942,7 @@ function openWindow(item, toggle, className, url = `${item}.html`) {
     });
     if (!toggle) openIframe(url, className);
     selectedButton(button, !toggle);
-    if (toggle) closeWindow(true);
+    if (toggle) closeWindow(false, toggle);
     toggle = !toggle;
   });
   return toggle;

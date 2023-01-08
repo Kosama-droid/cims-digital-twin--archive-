@@ -94,7 +94,7 @@ function openWindow(item, toggle, className, url = `${item}.html`) {
     });
     if (!toggle) openIframe(url, className);
     cdt.selectedButton(button, !toggle);
-    if (toggle) cdt.closeWindow(true);
+    if (toggle) cdt.closeWindow(false, toggle);
     toggle = !toggle;
   });
   return toggle;

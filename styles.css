@@ -142,10 +142,14 @@ h3 {
   align-items: flex-end;
 }
 
+.white-icon {
+  padding: 1.2rem;
+}
+
 .white-icon svg {
   transition: all 0.3s ease 0s;
   cursor: pointer;
-  margin: 1.2rem;
+
   display: flex;
   align-items: center;
   width: fit-content;
@@ -697,8 +701,9 @@ ul,
   margin-top: 1rem;
 }
 
-.share-view-window svg {
+.share-view-window a {
   margin: 0.5rem;
+  padding: 0.2rem;
 }
 
 #share-icons {
@@ -747,9 +752,16 @@ ul,
   width: 4.3rem;
 }
 
-#right-menus {
+.right-menus {
   width: fit-content;
+  display: flex;
+  justify-content: center;
 }
+
+.right-menus div {
+  padding: 1.2rem;
+}
+
 
 .styles-container {
   width: 22rem;
