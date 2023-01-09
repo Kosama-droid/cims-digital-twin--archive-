@@ -754,12 +754,16 @@ ul,
 
 .right-menus {
   width: fit-content;
+  flex-direction: column;
   display: flex;
   justify-content: center;
 }
 
-.right-menus div {
-  padding: 1.2rem;
+.layers-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 
