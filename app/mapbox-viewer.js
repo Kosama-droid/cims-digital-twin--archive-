@@ -62,11 +62,7 @@ let place = { id: "", name: "" };
 let object;
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
-let modelOrigin,
-  modelAltitude,
-  modelRotate,
-  modelAsMercatorCoordinate,
-  modelTransform;
+let modelOrigin, modelAltitude, modelRotate, modelAsMercatorCoordinate;
 
 let previousSelection = {
   mesh: null,
@@ -79,6 +75,16 @@ let locGeojson = { source: { id: false } };
 let invisibleMasses = [];
 let lng = { canada: canada.lng },
   lat = { canada: canada.lat };
+
+let modelTransform = {
+  translateX: 0,
+  translateY: 0,
+  translateZ: 0,
+  rotateX: 0,
+  rotateY: 0,
+  rotateZ: 0,
+  scale: 0,
+};
 
 // GUI  👌 _________________________________________________________________________________________
 
@@ -138,6 +144,17 @@ cdt.toggleButton("tools-button", false, "tools-container");
 // Setting Mapbox 🗺️📦
 mapbox();
 
+const currentURL = window.location.href.split("#")[0];
+const urlPosition = window.location.href.split("#")[1];
+const currentPosition = eval("({" + urlPosition + "})");
+
+if (urlPosition) {
+  const currentCenter = (({ lng, lat }) => ({ lng, lat }))(currentPosition);
+  map.setCenter(currentCenter);
+  map.setZoom(currentPosition.zoom);
+  map.setPitch(currentPosition.pitch);
+}
+
 // Share window 📷
 cdt.toggleButton("share-view-button", false, "share-view-window");
 cdt.closeWindow("share-view-close");
@@ -149,18 +166,15 @@ let cameraPositionText, positionLink;
 
 const cameraPositionButton = document.getElementById("camera-position-button");
 cameraPositionButton.addEventListener("click", () => {
-  const viewerPosition = map.getFreeCameraOptions();
-  const cameraPosition = viewerPosition._position.toLngLat();
+  const centerLng = cdt.roundNum(map.getCenter().lng, 4);
+  const centerLat = cdt.roundNum(map.getCenter().lat, 4);
+  const zoom = cdt.roundNum(map.getZoom(), 2);
+  const pitch = cdt.roundNum(map.getPitch(), 2);
 
-  const currentURL = window.location.href;
-  cameraPositionText = `Longitude ${cdt.roundNum(
-    cameraPosition.lng,
-    2
-  )} Latitude ${cdt.roundNum(cameraPosition.lat, 2)} zoom=`;
-  positionLink = `${currentURL}#lng=${cdt.roundNum(
-    cameraPosition.lng,
-    2
-  )}/lat=${cdt.roundNum(cameraPosition.lat, 2)}/zoom=`;
+  console.log(centerLng, centerLat, zoom, pitch);
+
+  cameraPositionText = `Lng ${centerLng} Lat ${centerLat} zoom=${zoom}/pitch=${pitch}`;
+  positionLink = `${currentURL}#lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch}`;
   console.log(cameraPositionText, positionLink);
   document.getElementById("share-position-input").value = cameraPositionText;
 });

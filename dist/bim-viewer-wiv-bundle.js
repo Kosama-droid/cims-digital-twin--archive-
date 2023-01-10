@@ -123102,21 +123102,6 @@ function closeWindow(buttonId, iframe) {
   }
 }
 
-// export default function closeWindow(bool = false){
-//   // if bool is false, the window will close with the close icon
-// if (!bool) document.getElementById('close-window').addEventListener('click', (e) => {
-
-//       document.getElementById('selectors').classList.remove('hidden');
-//       document.getElementById('close-window').classList.add('hidden');
-//       document.getElementById('iframe-container').classList.add('hidden');
-//     })
-//     // if bool is true, the window will close
-//   else{
-//     document.getElementsByClassName('iframe').remove;
-//     document.getElementById('selectors').classList.remove('hidden');
-//     document.getElementById('close-window').classList.add('hidden');
-//
-
 var roundNum$1 = roundNum = (num, decimals = 1) => {
   const multiplier = 10 ** decimals;
   const result = Math.round(num * multiplier) / multiplier;
@@ -123159,10 +123144,13 @@ massesMaterial = new MeshStandardMaterial({
 // import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
-const currentURL = window.location.href;
+const currentURL = window.location.href.split("#")[0];
+const urlPosition = window.location.href.split("#")[1];
+
 const url = new URL(currentURL);
 const currentModelCode = url.searchParams.get("id");
 let codes = currentModelCode.split("/");
+
 let province = { term: codes[0] };
 let city = { name: codes[1] };
 let place = { id: codes[2] };
@@ -123260,6 +123248,15 @@ async function loadIfc(ifcURL) {
       );
       if (category === "walls")
         await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
+      if (urlPosition) {
+        const currentPosition = eval("({" + urlPosition + "})");
+        const currentCamera = currentPosition.camera;
+        const currentTarget = currentPosition.target;
+        console.log(currentPosition);
+
+        camera.setPosition(currentCamera.x, currentCamera.y, currentCamera.z);
+        camera.setTarget(currentTarget.x, currentTarget.y, currentTarget.z);
+      }
       if (categoryGlb.modelID > -1) {
         // Postproduction 💅
         viewer.shadowDropper.renderShadow(categoryGlb.modelID);
@@ -123276,14 +123273,14 @@ async function loadIfc(ifcURL) {
   let cameraPosition, positionLink;
 
   camera.addEventListener("update", () => {
-    let cam = `${roundNum$1(camera.getPosition().x)},${roundNum$1(
+    let cam = `{x:${roundNum$1(camera.getPosition().x)},y:${roundNum$1(
       camera.getPosition().y
-    )},${roundNum$1(camera.getPosition().z)}`;
-    let target = `${roundNum$1(camera.getTarget().x)},${roundNum$1(
+    )},z:${roundNum$1(camera.getPosition().z)}}`;
+    let target = `{x:${roundNum$1(camera.getTarget().x)},y:${roundNum$1(
       camera.getTarget().y
-    )},${roundNum$1(camera.getTarget().z)}`;
+    )},z:${roundNum$1(camera.getTarget().z)}}`;
     cameraPosition = `Camera: ${cam} / Target: ${target}`;
-    positionLink = `${currentURL}#c=${cam}/t=${target}`;
+    positionLink = `${currentURL}#camera:${cam},target:${target}`;
   });
 
   const cameraPositionButton = document.getElementById(

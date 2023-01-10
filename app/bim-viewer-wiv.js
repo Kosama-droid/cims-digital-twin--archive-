@@ -27,10 +27,13 @@ import {
 // import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
-const currentURL = window.location.href;
+const currentURL = window.location.href.split("#")[0];
+const urlPosition = window.location.href.split("#")[1];
+
 const url = new URL(currentURL);
 const currentModelCode = url.searchParams.get("id");
 let codes = currentModelCode.split("/");
+
 let province = { term: codes[0] };
 let city = { name: codes[1] };
 let place = { id: codes[2] };
@@ -128,6 +131,15 @@ async function loadIfc(ifcURL) {
       );
       if (category === "walls")
         await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
+      if (urlPosition) {
+        const currentPosition = eval("({" + urlPosition + "})");
+        const currentCamera = currentPosition.camera;
+        const currentTarget = currentPosition.target;
+        console.log(currentPosition);
+
+        camera.setPosition(currentCamera.x, currentCamera.y, currentCamera.z);
+        camera.setTarget(currentTarget.x, currentTarget.y, currentTarget.z);
+      }
       if (categoryGlb.modelID > -1) {
         // Postproduction 💅
         viewer.shadowDropper.renderShadow(categoryGlb.modelID);
@@ -144,14 +156,14 @@ async function loadIfc(ifcURL) {
   let cameraPosition, positionLink;
 
   camera.addEventListener("update", () => {
-    let cam = `${cdt.roundNum(camera.getPosition().x)},${cdt.roundNum(
+    let cam = `{x:${cdt.roundNum(camera.getPosition().x)},y:${cdt.roundNum(
       camera.getPosition().y
-    )},${cdt.roundNum(camera.getPosition().z)}`;
-    let target = `${cdt.roundNum(camera.getTarget().x)},${cdt.roundNum(
+    )},z:${cdt.roundNum(camera.getPosition().z)}}`;
+    let target = `{x:${cdt.roundNum(camera.getTarget().x)},y:${cdt.roundNum(
       camera.getTarget().y
-    )},${cdt.roundNum(camera.getTarget().z)}`;
+    )},z:${cdt.roundNum(camera.getTarget().z)}}`;
     cameraPosition = `Camera: ${cam} / Target: ${target}`;
-    positionLink = `${currentURL}#c=${cam}/t=${target}`;
+    positionLink = `${currentURL}#camera:${cam},target:${target}`;
   });
 
   const cameraPositionButton = document.getElementById(
