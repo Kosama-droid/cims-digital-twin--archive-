@@ -106775,12 +106775,13 @@ function toggleButton(buttonId, toggle, ...targets) {
     return toggle
   }
 
-function closeWindow(buttonId, iframe) {
+function closeWindow(buttonId, isIframe) {
   const closeButton = document.getElementById(buttonId);
   if (closeButton)
     closeButton.addEventListener("click", () => {
-      if (iframe) {
-        document.getElementsByTagName("iframe").item(0).classList.add("hidden");
+      if (isIframe) {
+        const iframes = [...document.getElementsByTagName("iframe")];
+        for (const iframe of iframes) iframe.classList.add("hidden");
         if (closeButton) closeButton.classList.add("hidden");
       } else {
         document.getElementsByClassName("iframe").remove;
