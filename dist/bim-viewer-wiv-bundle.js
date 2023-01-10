@@ -123145,17 +123145,20 @@ massesMaterial = new MeshStandardMaterial({
 // import Stats from "stats.js/src/Stats";
 
 // Get the URL parameter
-const currentURL = window.location.href.split("#")[0];
-const urlPosition = window.location.href.split("#")[1];
-
+const currentURL = window.location.href;
 const url = new URL(currentURL);
-const currentModelCode = url.searchParams.get("id");
-let codes = currentModelCode.split("/");
 
-let province = { term: codes[0] };
-let city = { name: codes[1] };
-let place = { id: codes[2] };
-let object = { id: codes[3], name: "" };
+const urlId = url.searchParams.get("id");
+const mainUrl = `${url.origin}${url.pathname}`;
+
+const urlIds = eval("({" + urlId + "})");
+const currentLocation = urlIds.location;
+const currentPosition = urlIds.position;
+
+let province = { term: currentLocation["province"] };
+let city = { name: currentLocation["city"] };
+let place = { id: currentLocation["place"] };
+let object = { id: currentLocation["object"], name: "" };
 const toggle = {};
 const objectPath = `assets/${province.term}/${city.name}/${place.id}/objects/${object.id}`;
 const objectFileName = `${province.term}_${city.name}_${place.id}_${object.id}`;
@@ -123249,8 +123252,7 @@ async function loadIfc(ifcURL) {
       );
       if (category === "walls")
         await viewer.context.ifcCamera.cameraControls.fitToBox(categoryGlb);
-      if (urlPosition) {
-        const currentPosition = eval("({" + urlPosition + "})");
+      if (currentPosition) {
         const currentCamera = currentPosition.camera;
         const currentTarget = currentPosition.target;
         console.log(currentPosition);
@@ -123281,7 +123283,9 @@ async function loadIfc(ifcURL) {
       camera.getTarget().y
     )},z:${roundNum$1(camera.getTarget().z)}}`;
     cameraPosition = `Camera: ${cam} / Target: ${target}`;
-    positionLink = `${currentURL}#camera:${cam},target:${target}`;
+    positionLink = `${mainUrl}?id=location:${JSON.stringify(
+      currentLocation
+    )},position:{camera:${cam},target:${target}}`;
   });
 
   const cameraPositionButton = document.getElementById(

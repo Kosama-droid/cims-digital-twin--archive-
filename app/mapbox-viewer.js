@@ -603,13 +603,12 @@ function openBimViewer(object) {
   }
   cdt.hideRightMenus();
   closeButton.classList.remove("hidden");
-  const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
+  const url = `bim-viewer.html?id=location:{province:"${province.term}",city:"${city.name}",place:"${place.id}",object:"${object.id}"}`;
   const container = document.getElementById("bim-viewer-container");
   while (container.childElementCount > 1) container.lastChild.remove();
 
   const bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
-  // bimViewer.classList.add("bim-viewer");
   bimViewer.setAttribute("src", url);
 
   container.appendChild(bimViewer);
