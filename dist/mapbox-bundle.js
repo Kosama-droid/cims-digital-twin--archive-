@@ -106908,7 +106908,7 @@ let hm = canada$1.provinces.ON.cities.Ottawa.places.HM;
 let province = { term: "" };
 let city = { name: "" };
 let place = { id: "", name: "" };
-let object;
+let object = { id: "" };
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
 let modelOrigin, modelAltitude, modelRotate, modelAsMercatorCoordinate;
@@ -106993,16 +106993,13 @@ toggleButton("tools-button", false, "tools-container");
 // Setting Mapbox 🗺️📦
 mapbox();
 
-const currentURL = window.location.href.split("#")[0];
-const urlPosition = window.location.href.split("#")[1];
-const currentPosition = eval("({" + urlPosition + "})");
+// Get the URL parameter
+const currentURL = window.location.href;
+const url = new URL(currentURL);
 
-if (urlPosition) {
-  const currentCenter = (({ lng, lat }) => ({ lng, lat }))(currentPosition);
-  map.setCenter(currentCenter);
-  map.setZoom(currentPosition.zoom);
-  map.setPitch(currentPosition.pitch);
-}
+const urlId = url.searchParams.get("id");
+const mainUrl = `${url.origin}${url.pathname}`;
+let currentLocation, currentPosition;
 
 // Share window 📷
 toggleButton("share-view-button", false, "share-view-window");
@@ -107020,10 +107017,10 @@ cameraPositionButton.addEventListener("click", () => {
   const zoom = roundNum$1(map.getZoom(), 2);
   const pitch = roundNum$1(map.getPitch(), 2);
 
-  console.log(centerLng, centerLat, zoom, pitch);
-
   cameraPositionText = `Lng ${centerLng} Lat ${centerLat} zoom=${zoom}/pitch=${pitch}`;
-  positionLink = `${currentURL}#lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch}`;
+  positionLink = `${mainUrl}?id=location:${JSON.stringify(
+    currentLocation
+  )},position:{lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch}}`;
   console.log(cameraPositionText, positionLink);
   document.getElementById("share-position-input").value = cameraPositionText;
 });
@@ -107288,6 +107285,8 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
+
+ifUrlId(urlId);
 
 // FUNCTIONS _____________________________________________________________________________________________________
 
@@ -107574,12 +107573,16 @@ function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
 function setPlace(place, provinceTerm, cityName) {
   province = canada$1.provinces[provinceTerm];
   city = province.cities[cityName];
+  currentLocation = {
+    province: provinceTerm,
+    city: cityName,
+    place: place["id"],
+  };
   if (city.places)
     createOptions(document.getElementById("place-select"), city.places);
-  removeFromScene();
+  // removeFromScene();
   removeGeojson(locGeojson);
   setPlaceOrigin(place);
-  flyToPlace(place);
   unhideElementsById("place-select");
   invisibleMasses = [];
   visibleMasses = [];
@@ -107610,6 +107613,8 @@ function setPlace(place, provinceTerm, cityName) {
     selectObject(objectSelector);
     loadObjectsGltf(place, scene);
   }
+  if (currentPosition) setCurrentPosition(currentPosition);
+  else flyToPlace(place);
 }
 
 async function createLayerButtons(city) {
@@ -107801,7 +107806,10 @@ function mapbox() {
       if (i == 1 && element.text == "Canada") city.name = e.result.text;
       if (element.id.match(/region.*/))
         province.term = element.short_code.substring(3);
-      if (element.id.match(/place.*/)) city.name = element.text;
+
+      if (element.id.match(/place.*/)) {
+        city.name = element.text;
+      }
       i++;
     });
     let center = e.result.center;
@@ -107811,9 +107819,7 @@ function mapbox() {
       map.queryTerrainElevation({ lng: center[0], lat: center[1] })
     );
 
-    console.log(province.term, city.name);
     if (city.name === "") city.name = e.result.text;
-    console.log(city.name);
     province = canada$1.provinces[province.term];
 
     if (province.cities[city.name]) {
@@ -107828,6 +107834,9 @@ function mapbox() {
       };
       city = canada$1.provinces[province.term].cities[city.name];
     }
+
+    currentLocation.province = province.term;
+    currentLocation.city = city.name;
 
     unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
@@ -108035,7 +108044,6 @@ function addNewObject() {
     canada$1.provinces[province.term].cities[city.name].places[place.id].objects =
       {};
 
-  console.log(canada$1.provinces[province.term].cities[city.name]);
   canada$1.provinces[province.term].cities[city.name].places[place.id].objects[
     newObjectId
   ] = newObject;
@@ -108131,4 +108139,27 @@ function loadObjectGltf(place, objectId = "object", changed) {
       return;
     }
   );
+}
+
+function ifUrlId(urlId) {
+  three = true;
+  if (urlId) {
+    const urlIds = eval("({" + urlId + "})");
+    currentPosition = urlIds.position;
+    if (urlIds.location) {
+      currentLocation = urlIds.location;
+      province = canada$1.provinces[currentLocation.province];
+      city = province.cities[currentLocation.city];
+      place = city.places[currentLocation.place];
+      setPlace(place, province.term, city.name);
+      createLayerButtons(city);
+    }
+    if (currentPosition) setCurrentPosition(currentPosition);
+  }
+}
+function setCurrentPosition(currentPosition) {
+  const currentCenter = (({ lng, lat }) => ({ lng, lat }))(currentPosition);
+  map.setCenter(currentCenter);
+  map.setZoom(currentPosition.zoom);
+  map.setPitch(currentPosition.pitch);
 }
