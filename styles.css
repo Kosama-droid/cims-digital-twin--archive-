@@ -706,6 +706,11 @@ ul,
   padding: 0.2rem;
 }
 
+.share-view-window svg {
+  margin: 0 0.5rem;
+}
+
+
 #share-icons {
   display: flex;
   flex-direction: row;

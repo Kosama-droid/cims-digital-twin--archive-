@@ -342,6 +342,7 @@ placeSelector.addEventListener("change", (event) => {
     setPlace(place, province.term, city.name);
     cdt.unhideElementsById("add-object-button");
   }
+  flyToPlace(place);
 });
 
 // Object ➡️________________
@@ -735,6 +736,7 @@ function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
 }
 
 function setPlace(place, provinceTerm, cityName) {
+  console.log(place);
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
   currentLocation = {
@@ -744,38 +746,41 @@ function setPlace(place, provinceTerm, cityName) {
   };
   if (city.places)
     cdt.createOptions(document.getElementById("place-select"), city.places);
-  // removeFromScene();
+  removeFromScene();
   removeGeojson(locGeojson);
-  setPlaceOrigin(place);
+  if (
+    document.getElementById("osm-button").classList.contains("selected-button")
+  )
+    osmButton.click();
   cdt.unhideElementsById("place-select");
-  invisibleMasses = [];
-  visibleMasses = [];
-  if (!place.hasOwnProperty("objects")) {
-    removeFromScene();
-    infoMessage(`⚠️ No objects at ${place.name}`);
-    if (place.hasOwnProperty("gltfMasses")) {
-      loadMasses(visibleMasses, place, true);
+  if (place.id === "") return;
+
+  if (place.id !== "") {
+    setPlaceOrigin(place);
+    invisibleMasses = [];
+    let visibleMasses = [];
+
+    if (!place.hasOwnProperty("objects")) {
+      removeFromScene();
+      infoMessage(`⚠️ No objects at ${place.name}`);
+      if (place.hasOwnProperty("gltfMasses")) {
+        loadMasses(visibleMasses, place, true);
+      }
+    } else {
+      loadMasses(invisibleMasses, place, false);
+      if (isMobile) {
+        cdt.hideElementsById("place-select");
+        loadMasses(visibleMasses, place, true);
+      }
+      cdt.unhideElementsById(
+        "object-select",
+        "add-place-button",
+        "add-object-button"
+      );
+      cdt.createOptions(objectSelector, place.objects, 2);
+      selectObject(objectSelector);
+      cdt.loadObjectsGltf(place, scene);
     }
-  } else {
-    if (
-      document
-        .getElementById("osm-button")
-        .classList.contains("selected-button")
-    )
-      osmButton.click();
-    loadMasses(invisibleMasses, place, false);
-    if (isMobile) {
-      cdt.hideElementsById("place-select");
-      loadMasses(visibleMasses, place, true);
-    }
-    cdt.unhideElementsById(
-      "object-select",
-      "add-place-button",
-      "add-object-button"
-    );
-    cdt.createOptions(objectSelector, place.objects, 2);
-    selectObject(objectSelector);
-    cdt.loadObjectsGltf(place, scene);
   }
   if (currentPosition) setCurrentPosition(currentPosition);
   else flyToPlace(place);
@@ -975,6 +980,8 @@ function mapbox() {
         city.name = element.text;
       }
       i++;
+      if (province.term) currentLocation = { province: province["term"] };
+      if (city.name) currentLocation["city"] = city.name;
     });
     let center = e.result.center;
     setObjectOrigin(
@@ -998,9 +1005,6 @@ function mapbox() {
       };
       city = canada.provinces[province.term].cities[city.name];
     }
-
-    currentLocation.province = province.term;
-    currentLocation.city = city.name;
 
     cdt.unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
@@ -1306,17 +1310,19 @@ function loadObjectGltf(place, objectId = "object", changed) {
 }
 
 function ifUrlId(urlId) {
-  three = true;
   if (urlId) {
+    three = true;
     const urlIds = eval("({" + urlId + "})");
     currentPosition = urlIds.position;
     if (urlIds.location) {
       currentLocation = urlIds.location;
-      province = canada.provinces[currentLocation.province];
-      city = province.cities[currentLocation.city];
-      place = city.places[currentLocation.place];
-      setPlace(place, province.term, city.name);
-      createLayerButtons(city);
+      if (currentLocation.province)
+        province = canada.provinces[currentLocation.province];
+      if (currentLocation.city) city = province.cities[currentLocation.city];
+      if (currentLocation.place) {
+        place = city.places[currentLocation.place];
+        setPlace(place, province.term, city.name);
+      }
     }
     if (currentPosition) setCurrentPosition(currentPosition);
   }
