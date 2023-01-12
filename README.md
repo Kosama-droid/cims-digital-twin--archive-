@@ -13,6 +13,7 @@ Running the application:
 - Once the server is started go to your browser and run this url: http://localhost:3000/
 
 TEST TEST
+KO TEST TEST
 
 Functions (wip):
 
