@@ -741,6 +741,7 @@ ul,
   font-size: 0.7rem;
   color: var(--primary-light);
   z-index: -1;
+  pointer-events: all;
 }
 
 .header {

@@ -107012,15 +107012,17 @@ let cameraPositionText, positionLink;
 
 const cameraPositionButton = document.getElementById("camera-position-button");
 cameraPositionButton.addEventListener("click", () => {
-  const centerLng = roundNum$1(map.getCenter().lng, 4);
-  const centerLat = roundNum$1(map.getCenter().lat, 4);
-  const zoom = roundNum$1(map.getZoom(), 2);
-  const pitch = roundNum$1(map.getPitch(), 2);
+  const centerLng = roundNum$1(map.getCenter().lng, 6);
+  const centerLat = roundNum$1(map.getCenter().lat, 6);
+  const zoom = roundNum$1(map.getZoom(), 4);
+  const pitch = roundNum$1(map.getPitch(), 4);
+  const bearing = roundNum$1(map.getBearing(), 4);
+  console.log(bearing);
 
-  cameraPositionText = `Lng ${centerLng} Lat ${centerLat} zoom=${zoom}/pitch=${pitch}`;
+  cameraPositionText = `Longitude: ${centerLng} / Latitude ${centerLat}`;
   positionLink = `${mainUrl}?id=location:${JSON.stringify(
     currentLocation
-  )},position:{lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch}}`;
+  )},position:{lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch},bearing:${bearing}}`;
   console.log(cameraPositionText, positionLink);
   document.getElementById("share-position-input").value = cameraPositionText;
 });
@@ -108168,4 +108170,5 @@ function setCurrentPosition(currentPosition) {
   map.setCenter(currentCenter);
   map.setZoom(currentPosition.zoom);
   map.setPitch(currentPosition.pitch);
+  map.setBearing(currentPosition.bearing);
 }
