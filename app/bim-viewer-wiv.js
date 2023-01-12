@@ -341,7 +341,7 @@ window.onkeydown = (event) => {
 };
 
 window.ondblclick = () => {
-  // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
+  // Clipping Planes ✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️✂️
   if (toggle.clipping) {
     viewer.clipper.createPlane();
     return;
