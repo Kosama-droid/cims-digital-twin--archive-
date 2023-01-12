@@ -18,6 +18,8 @@ import {
 
 import * as cdt from "../modules/cdt-api";
 
+// cdt.openTorontoTest();
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 
 const isMobile =
