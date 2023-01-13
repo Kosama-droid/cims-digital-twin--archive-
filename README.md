@@ -12,9 +12,6 @@ Running the application:
 - then 'node PrototypeServer.js' which will start the Server
 - Once the server is started go to your browser and run this url: http://localhost:3000/
 
-TEST TEST
-KO TEST TEST
-
 Functions (wip):
 
 (not unique too) Bim-viewer-wiv.js
