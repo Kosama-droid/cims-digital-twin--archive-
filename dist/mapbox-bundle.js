@@ -106867,6 +106867,8 @@ var massesMaterial$1 = massesMaterial = new MeshStandardMaterial({
     emissive: 0x555555,
   });
 
+// cdt.openTorontoTest();
+
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 
 const isMobile =
