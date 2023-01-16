@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO SIMPLIFIED BIKE PARKING 230114</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+        //MAKE LEAFLET MAP
+        const map = L.map('map').setView([43.6532, -79.3832], 12);
+
+        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+
+        
+        //DATA PART 1: GET GENERAL DATABASE INFO
+        const packageId = "4ddba232-d235-4455-b710-537c89dec7d5";
+
+        const urlPkg = `https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=${packageId}`;
+
+
+        const getPackage = fetch(urlPkg)
+            .then(response => response.json())
+            .then(data => {
+                return data.result;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+        getPackage.then(pkg => {
+            // console.log(pkg);
+        }).catch(error => {
+            console.error(error);
+        });
+
+
+
+        //DATA PART 2: FETCH SPECIFIC RERSOURCE FROM DATABASE
+        const resource = '12ef161c-1553-43f6-8180-fed700e42912';
+
+        const getDatastoreResource = (resource) => fetch(`https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/datastore_search?id=${resource["id"]}&limit=1000`)
+            .then(response => response.json())
+            .then(data => {
+                return data.result.records;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+
+        // get the package information again
+        getPackage.then(pkg => {
+            // get the datastore resources for the package
+            let datastoreResources = pkg["resources"].filter(r => r.datastore_active);
+
+            // console.log(datastoreResources);
+            let bikeStandAddr = [];
+
+            datastoreResources.forEach(resource => {
+                getDatastoreResource(resource)
+                    .then(data => {
+                        // console.log(data);
+
+                        const bikeCoords = data.map(d => JSON.parse(d.geometry).coordinates);
+
+                        // console.log(bikeCoords);
+
+                        bikeCoords.forEach((coord, i) => {
+                            // console.log(coord[0]); // longitude
+                            // console.log(coord[1]); // latitude
+                            let coordRev = coord.reverse();
+                            // let coordRev = data.map(coord => coord.reverse());
+
+                            L.marker(coordRev)
+                                .bindTooltip(bikeStandAddr[i])
+                                .addTo(map);
+
+                            // console.log(address);
+                        });
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
