@@ -8,6 +8,7 @@
     "@turf/turf": "^6.5.0",
     "camera-controls": "^1.35.0",
     "cpy-cli": "^4.1.0",
+    "https": "^1.0.0",
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl-style-switcher": "^1.0.11",
     "maplibre-gl": "^2.4.0",
