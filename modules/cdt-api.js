@@ -22,6 +22,9 @@ export { default as makeActiveById } from "./makeActiveById.js";
 export { default as hideRightMenus } from "./hideRightMenus.js";
 export { default as roundNum } from "./roundNum.js";
 
+// datasets test
+export { default as openTorontoTest } from "../datasets/openToronto";
+
 // Materials 🎨
 export { default as highlightMaterial } from "../modules/materials/highlightMaterial.js";
 export { default as hoverHighlihgtMaterial } from "../modules/materials/hoverHighlihgtMaterial.js";
