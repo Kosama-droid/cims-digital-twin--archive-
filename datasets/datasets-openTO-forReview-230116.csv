@@ -1,0 +1,114 @@
+DATASETS FILTERED by FORMAT and TOPIC,TOTAL COUNT,,,
+,118,,,
+,,,,
+,COUNT,,,COUNT
+GEOJSON,69,,SHP,49
+,,,,
+Transportation,,,Transportation,
+https://open.toronto.ca/dataset/street-furniture-bicycle-parking/,1,,https://open.toronto.ca/dataset/on-street-permit-parking-area-maps/,1
+https://open.toronto.ca/dataset/traffic-signals-tabular/,2,,https://open.toronto.ca/dataset/topographic-mapping-physical-area-of-parking-lots/,2
+https://open.toronto.ca/dataset/toronto-centreline-tcl/,3,,https://open.toronto.ca/dataset/topographic-mapping-physical-area-of-sidewalks/,3
+https://open.toronto.ca/dataset/bikeways/,4,,https://open.toronto.ca/dataset/topographic-mapping-edge-of-road/,4
+https://open.toronto.ca/dataset/street-furniture-transit-shelter/,5,,https://open.toronto.ca/dataset/turn-restrictions/,5
+https://open.toronto.ca/dataset/street-furniture-publication-structure/,6,,https://open.toronto.ca/dataset/taxicab-stand-locations/,6
+https://open.toronto.ca/dataset/street-furniture-poster-structure/,7,,https://open.toronto.ca/dataset/sidewalk-inventory/,7
+https://open.toronto.ca/dataset/street-furniture-poster-board/,8,,https://open.toronto.ca/dataset/one-way-streets/,8
+https://open.toronto.ca/dataset/street-furniture-litter-receptacle/,9,,https://open.toronto.ca/dataset/multi-use-trail-entrances/,9
+https://open.toronto.ca/dataset/street-furniture-information-pillar-wayfinding-structure/,10,,https://open.toronto.ca/dataset/10-year-cycling-network-plan-trails-2016/,10
+https://open.toronto.ca/dataset/street-furniture-bench/,11,,https://open.toronto.ca/dataset/10-year-cycling-network-plan-on-street-2016/,11
+https://open.toronto.ca/dataset/red-light-cameras/,12,,https://open.toronto.ca/dataset/bicycle-post-and-ring-locations/,12
+https://open.toronto.ca/dataset/pedestrian-network/,13,,https://open.toronto.ca/dataset/bicycle-counts/,13
+https://open.toronto.ca/dataset/on-street-permit-parking-area-maps/,14,,https://open.toronto.ca/dataset/bicycle-count-and-locations/,14
+https://open.toronto.ca/dataset/bicycle-parking-racks/,15,,,
+https://open.toronto.ca/dataset/bicycle-parking-high-capacity-outdoor/,16,,,
+https://open.toronto.ca/dataset/automated-speed-enforcement-locations/,17,,,
+https://open.toronto.ca/dataset/bicycle-parking-bike-stations-indoor/,18,,,
+https://open.toronto.ca/dataset/king-st-transit-pilot-bluetooth-travel-time-segments/,19,,,
+,,,,
+Community services,,,Community services,
+https://open.toronto.ca/dataset/earlyon-child-and-family-centres/,1,,https://open.toronto.ca/dataset/supportive-housing-locations-city-operated/,1
+https://open.toronto.ca/dataset/licensed-child-care-centres/,2,,https://open.toronto.ca/dataset/solid-waste-management-services-transfer-station-locations/,2
+https://open.toronto.ca/dataset/neighbourhood-improvement-areas/,3,,https://open.toronto.ca/dataset/rent-bank-access-centres/,3
+https://open.toronto.ca/dataset/toronto-district-school-board-locations/,4,,https://open.toronto.ca/dataset/ontario-early-years-centres-toronto/,4
+https://open.toronto.ca/dataset/solarto/,5,,https://open.toronto.ca/dataset/hostel-services-homeless-shelter-locations/,5
+https://open.toronto.ca/dataset/indoor-ice-rinks/,6,,,
+https://open.toronto.ca/dataset/fire-services-emergency-incident-basic-detail/,7,,,
+https://open.toronto.ca/dataset/air-conditioned-and-cool-spaces-heat-relief-network/,8,,,
+https://open.toronto.ca/dataset/tcdsb-schools/,9,,,
+https://open.toronto.ca/dataset/wellbeing-youth-adult-education-upgrading/,10,,,
+https://open.toronto.ca/dataset/wellbeing-youth-affordable-housing-access/,11,,,
+https://open.toronto.ca/dataset/toronto-community-housing-data/,12,,,
+https://open.toronto.ca/dataset/places-of-worship/,13,,,
+https://open.toronto.ca/dataset/retirement-homes/,14,,,
+https://open.toronto.ca/dataset/school-locations-all-types/,15,,,
+,,,,
+Public safety,,,Public safety,
+https://open.toronto.ca/dataset/fire-hydrants/,1,,https://open.toronto.ca/dataset/automatic-external-defibrillators-aed-locations/,1
+https://open.toronto.ca/dataset/traffic-signals-tabular/,2,,,
+https://open.toronto.ca/dataset/red-light-cameras/,3,,,
+https://open.toronto.ca/dataset/fire-station-locations/,4,,,
+https://open.toronto.ca/dataset/ambulance-station-locations/,5,,,
+https://open.toronto.ca/dataset/toronto-fire-services-run-areas/,6,,,
+https://open.toronto.ca/dataset/bicycle-thefts/,7,,,
+https://open.toronto.ca/dataset/theft-from-motor-vehicle/,8,,,
+https://open.toronto.ca/dataset/fire-services-emergency-incident-basic-detail/,9,,,
+https://open.toronto.ca/dataset/police-boundaries/,10,,,
+https://open.toronto.ca/dataset/patrol-zones/,11,,,
+https://open.toronto.ca/dataset/police-facility-locations/,12,,,
+https://open.toronto.ca/dataset/neighbourhood-crime-rates/,13,,,
+,,,,
+City government,,,City government,
+https://open.toronto.ca/dataset/community-council-boundaries/,1,,https://open.toronto.ca/dataset/registered-residential-non-residential-condominiums/,1
+https://open.toronto.ca/dataset/city-wards/,2,,https://open.toronto.ca/dataset/natural-heritage-system/,2
+https://open.toronto.ca/dataset/wards-and-elected-councillors/,3,,https://open.toronto.ca/dataset/ravine-natural-feature-protection-area/,3
+https://open.toronto.ca/dataset/elections-subdivisions/,4,,https://open.toronto.ca/dataset/long-term-care-locations-city-operated/,4
+https://open.toronto.ca/dataset/elections-voting-locations/,5,,,
+https://open.toronto.ca/dataset/green-spaces/,6,,,
+,,,,
+Culture and tourism,,,Culture and tourism,
+https://open.toronto.ca/dataset/cultural-hotspot-points-of-interest/,1,,https://open.toronto.ca/dataset/hotel-association-member-list-for-the-greater-toronto-area/,1
+https://open.toronto.ca/dataset/public-art/,2,,https://open.toronto.ca/dataset/cultural-spaces/,2
+,,,,
+Environment,,,Environment,
+https://open.toronto.ca/dataset/street-tree-data/,1,,https://open.toronto.ca/dataset/topographic-mapping-physical-location-of-trees/,1
+https://open.toronto.ca/dataset/environmentally-significant-areas/,2,,https://open.toronto.ca/dataset/topographic-mapping-treed-area/,2
+https://open.toronto.ca/dataset/archaeological-potential-interim/,3,,https://open.toronto.ca/dataset/ravine-natural-feature-protection-area/,3
+https://open.toronto.ca/dataset/renewable-energy-installations/,4,,https://open.toronto.ca/dataset/rain-gauge-locations-and-water-collected/,4
+,,,https://open.toronto.ca/dataset/flood-reporting-noted-by-toronto-water-districts/,5
+,,,,
+Health,,,Health,
+https://open.toronto.ca/dataset/covid-19-immunization-clinics/,1,,https://open.toronto.ca/dataset/automatic-external-defibrillators-aed-locations/,1
+https://open.toronto.ca/dataset/covid-19-testing-sites/,2,,,
+,,,,
+Development and infrastructure,,,Development and infrastructure,
+https://open.toronto.ca/dataset/site-and-area-specific-policies/,1,,https://open.toronto.ca/dataset/triangular-irregular-network-tin/,1
+https://open.toronto.ca/dataset/secondary-plans/,2,,https://open.toronto.ca/dataset/community-planning-boundaries/,2
+https://open.toronto.ca/dataset/bridge-structure/,3,,https://open.toronto.ca/dataset/watermain-breaks/,3
+,,,https://open.toronto.ca/dataset/heritage-shoreline-evolution/,4
+,,,,
+Business,,,Business,
+https://open.toronto.ca/dataset/places-of-interest-and-toronto-attractions/,1,,,
+,,,,
+Permits and licenses,,,Permits and licenses,
+https://open.toronto.ca/dataset/sign-bylaw-districts/,1,,,
+,,,,
+Parks and recreation,,,Parks and recreation,
+,,,https://open.toronto.ca/dataset/parks-drinking-fountains/,1
+,,,,
+Garbage and recycling,,,Garbage and recycling,
+,,,https://open.toronto.ca/dataset/solid-waste-management-districts/,1
+,,,https://open.toronto.ca/dataset/solid-waste-in-park-assets/,2
+,,,https://open.toronto.ca/dataset/solid-waste-daytime-curbside-collection-areas/,3
+,,,,
+Finance,,,Finance,
+,,,https://open.toronto.ca/catalogue/?topics=Finance&formats=SHP,1
+,,,,
+Locations and mapping,,,Locations and mapping,
+https://open.toronto.ca/dataset/neighbourhoods/,1,,https://open.toronto.ca/dataset/address-points-municipal-toronto-one-address-repository/,1
+https://open.toronto.ca/dataset/property-boundaries/,2,,https://open.toronto.ca/dataset/residential-front-yard-parking/,2
+https://open.toronto.ca/dataset/zoning-by-law/,3,,https://open.toronto.ca/dataset/utility-cut-permits/,3
+,,,https://open.toronto.ca/dataset/tennis-courts-facilities/,4
+,,,https://open.toronto.ca/dataset/heritage-register/,5
+,,,https://open.toronto.ca/dataset/3d-massing/,6
+,,,https://open.toronto.ca/dataset/ttc-subway-shapefiles/,7
+,,,https://open.toronto.ca/dataset/topographic-mapping-poles/,8
