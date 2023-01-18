@@ -3,7 +3,7 @@ import icons from "./icons";
 const lngRange = 0.025;
 const latRange = 0.025;
 
-export default canada = {
+const canada = {
   lng: -98.74,
   lat: 56.415, 
   bbox: [-130, 65, -65, 47],
@@ -1400,3 +1400,5 @@ async function ocTranspo(place) {
 function info(info) {
   return `<span class="info-text">${info}</span>`;
 }
+
+export default canada;
