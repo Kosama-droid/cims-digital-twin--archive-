@@ -1,5 +1,7 @@
 import canada from "./canada.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { IFCLoader } from "web-ifc-three/IFCLoader";
+import { IfcViewerAPI } from "web-ifc-viewer";
 import {
   AmbientLight,
   DirectionalLight,
@@ -15,6 +17,8 @@ import {
 } from "three";
 
 import * as cdt from "../modules/cdt-api";
+
+// cdt.openTorontoTest();
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 
@@ -42,7 +46,6 @@ let scene,
   gltfMasses,
   places,
   placeGeojson,
-  placeGeojsons,
   marker;
 
 let markers = [];
@@ -58,14 +61,10 @@ let hm = canada.provinces.ON.cities.Ottawa.places.HM;
 let province = { term: "" };
 let city = { name: "" };
 let place = { id: "", name: "" };
+let object = { id: "" };
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
-let modelOrigin,
-  modelAltitude,
-  modelRotate,
-  modelAsMercatorCoordinate,
-  modelTransform;
-setModelOrigin(carleton);
+let modelOrigin, modelAltitude, modelRotate, modelAsMercatorCoordinate;
 
 let previousSelection = {
   mesh: null,
@@ -79,25 +78,31 @@ let invisibleMasses = [];
 let lng = { canada: canada.lng },
   lat = { canada: canada.lat };
 
+let modelTransform = {
+  translateX: 0,
+  translateY: 0,
+  translateZ: 0,
+  rotateX: 0,
+  rotateY: 0,
+  rotateZ: 0,
+  scale: 0,
+};
+
 // GUI  👌 _________________________________________________________________________________________
 
-const closeButton = document.getElementById("close-window");
-cdt.closeWindow();
+const closeButton = document.getElementById("close-iframe");
+cdt.closeWindow("close-iframe", true);
 
-// ICDT 🍁
-let icdtToggle = false;
-icdtToggle = openWindow("icdt", icdtToggle, "https://canadasdigitaltwin.ca", "icdt");
-
-function openWindow(item, toggle, url = `${item}.html`, className) {
+function openWindow(item, toggle, className, url = `${item}.html`) {
   const button = document.getElementById(`${item}-button`);
-  let buttons = Array.from(button.parentElement.children)
+  let buttons = Array.from(button.parentElement.children);
   button.addEventListener("click", () => {
-    buttons.forEach(b => {
-      b.classList.remove('selected-button')
+    buttons.forEach((b) => {
+      b.classList.remove("selected-button");
     });
     if (!toggle) openIframe(url, className);
     cdt.selectedButton(button, !toggle);
-    if (toggle) cdt.closeWindow(true);
+    if (toggle) cdt.closeWindow(false, toggle);
     toggle = !toggle;
   });
   return toggle;
@@ -105,11 +110,7 @@ function openWindow(item, toggle, url = `${item}.html`, className) {
 
 // // User Login 👤
 let loginToggle = false;
-loginToggle = openWindow("login", loginToggle);
-
-// Info ℹ️
-let infoToggle = false;
-infoToggle = openWindow("info", infoToggle);
+loginToggle = openWindow("login", loginToggle, "login-window");
 
 // Settings ⚙️
 let settingsToggle = false;
@@ -118,11 +119,26 @@ settingsToggle = openWindow("settings", settingsToggle);
 // Search bar 🔍
 cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
+// info ℹ️
+cdt.toggleButton("info-button", false, "info-container");
+const infoHeader = document.getElementById("info-header");
+infoHeader.addEventListener("click", () =>
+  document.getElementById("info-button").click()
+);
+
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
 
 // Show OSM buildings 🏢
 const osmButton = document.getElementById("osm-button");
+
+// Right menu 👉
+cdt.toggleButton("right-menu-button", false, "right-container");
+const rightMenuButtons = document.getElementById("right-menu-buttons");
+rightMenuButtons.addEventListener("click", () => {
+  if (!document.getElementById("selectors").classList.contains("hidden"))
+    document.getElementById("search-button").click();
+});
 
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
@@ -130,16 +146,64 @@ cdt.toggleButton("tools-button", false, "tools-container");
 // Setting Mapbox 🗺️📦
 mapbox();
 
+// Get the URL parameter
+const currentURL = window.location.href;
+const url = new URL(currentURL);
+
+const urlId = url.searchParams.get("id");
+const mainUrl = `${url.origin}${url.pathname}`;
+let currentLocation, currentPosition;
+
+// Share window 📷
+cdt.toggleButton("share-view-button", false, "share-view-window");
+cdt.closeWindow("share-view-close");
+document.getElementById("done-share-button").addEventListener("click", () => {
+  document.getElementById("share-view-button").click();
+});
+
+let cameraPositionText, positionLink;
+
+const cameraPositionButton = document.getElementById("camera-position-button");
+cameraPositionButton.addEventListener("click", () => {
+  const centerLng = cdt.roundNum(map.getCenter().lng, 6);
+  const centerLat = cdt.roundNum(map.getCenter().lat, 6);
+  const zoom = cdt.roundNum(map.getZoom(), 4);
+  const pitch = cdt.roundNum(map.getPitch(), 4);
+  const bearing = cdt.roundNum(map.getBearing(), 4);
+  console.log(bearing);
+
+  cameraPositionText = `Longitude: ${centerLng} / Latitude ${centerLat}`;
+  positionLink = `${mainUrl}?id=location:${JSON.stringify(
+    currentLocation
+  )},position:{lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch},bearing:${bearing}}`;
+  console.log(cameraPositionText, positionLink);
+  document.getElementById("share-position-input").value = cameraPositionText;
+});
+
+const linkCameraPositionButton = document.getElementById(
+  "link-camera-position-button"
+);
+linkCameraPositionButton.addEventListener("click", () => {
+  cdt.infoMessage(`Link: ${positionLink} copied to clipboard`);
+  navigator.clipboard.writeText(positionLink);
+});
+
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
+const mapsHeader = document.getElementById("maps-header");
+mapsHeader.addEventListener("click", () =>
+  document.getElementById("styles-button").click()
+);
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
-  document.getElementById(style.id).addEventListener("click", () => {
-    currentStyle.id = style.id.split("-")[0];
-    currentStyle.url = cdt.mapStyles[currentStyle.id].url;
-    map.setStyle(currentStyle.url);
-  });
+  if (style.id) {
+    document.getElementById(style.id).addEventListener("click", () => {
+      currentStyle.id = style.id.split("-")[0];
+      currentStyle.url = cdt.mapStyles[currentStyle.id].url;
+      map.setStyle(currentStyle.url);
+    });
+  }
 });
 
 // THREE JS 3️⃣  ______________________________________________________________
@@ -275,11 +339,9 @@ document.getElementById("upload-place").onclick = () => {
 };
 
 placeSelector.addEventListener("change", (event) => {
-  places = document.getElementById("place-select");
-  console.log("event target (279) ",event.target);
   //places = city.places;
+  places = document.getElementById("place-select");
   id = event.target[event.target.selectedIndex].id;
-  console.log("(278) id", id)
   if (id === "add-place") {
     document.getElementById("tools-button").click();
     document.getElementById("add-place-button").click();
@@ -289,8 +351,10 @@ placeSelector.addEventListener("change", (event) => {
     testGetOnePlace(id);
     //testGetPlaces?? How am I getting the place here for setPlace
     //setPlace(place, province.term, city.name);
+    setPlace(place, province.term, city.name);
     cdt.unhideElementsById("add-object-button");
   }
+  flyToPlace(place);
 });
 
 // Object ➡️________________
@@ -390,9 +454,11 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+ifUrlId(urlId);
+
 // FUNCTIONS _____________________________________________________________________________________________________
 
-function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
+function flyTo(lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
     center: [lng, lat],
     zoom: zoom,
@@ -401,10 +467,22 @@ function flyTo(map, lng, lat, zoom = 15, pitch = 50) {
   });
 }
 
-function flyToPlace(place, pitch = 50) {
-  console.log("flyToPlace() - going to ", place)
+// ⚠️ Change function name to fitToBBox
+function flyToPlace(place) {
+  console.log("399 flyToPlace", place);
   let bbox = turf.bbox(place.placeGeojson);
   map.fitBounds(bbox);
+}
+
+function flyToCanada() {
+  let home = document.getElementById("icdt-button");
+  home.addEventListener("click", () => {
+    flyTo(lng.canada, lat.canada, 4, 0);
+    map.fitBounds(canada.bbox);
+    setTimeout(function () {
+      location.reload();
+    }, 2000);
+  });
 }
 
 async function loadGeojson(map, geojson, id, zoom = false) {
@@ -539,14 +617,14 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
+  cdt.hideRightMenus();
   closeButton.classList.remove("hidden");
-  const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
-  const container = document.getElementById("iframe-container");
+  const url = `bim-viewer.html?id=location:{province:"${province.term}",city:"${city.name}",place:"${place.id}",object:"${object.id}"}`;
+  const container = document.getElementById("bim-viewer-container");
   while (container.childElementCount > 1) container.lastChild.remove();
 
-  bimViewer = document.createElement("iframe");
+  const bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
-  bimViewer.classList.add("iframe");
   bimViewer.setAttribute("src", url);
 
   container.appendChild(bimViewer);
@@ -585,21 +663,11 @@ function osmVisibility(map, toggle) {
   };
 }
 
-function flyToCanada() {
-  let home = document.getElementById("home-button");
-  home.addEventListener("click", () => {
-    flyTo(map, lng.canada, lat.canada, 4, 0);
-    map.fitBounds(canada.bbox);
-    setTimeout(function () {
-      location.reload();
-    }, 2000);
-  });
-}
-
 function selectObject(selector) {
   selector.addEventListener("change", () => {
     let id = selector[selector.selectedIndex].id;
     if (id === "add-object") {
+      document.getElementById("add-object-button").click();
       document.getElementById("tools-container").classList.remove("hidden");
       cancelPlace.click();
       addLocMarker("object");
@@ -643,20 +711,33 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
   });
 }
 
-function setModelOrigin(place) {
-  console.log("setModelOrigin - ", place);
-  let lng = place.coordinates.lng;
-  let lat = place.coordinates.lat;
-  let msl = place.coordinates.msl;
+function setPlaceOrigin(place) {
+  console.log("641 setPlaceOrigin", place);
+  let center = turf.center(place.placeGeojson);
+  let centerCoordinates = center.geometry.coordinates;
+  let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
+  let lat = place.coordinates ? place.coordinates.lat : centerCoordinates[1];
+  const coordinates = { lng: lng, lat: lat };
+  let msl = place.coordinates
+    ? place.coordinates.msl
+    : map.queryTerrainElevation(coordinates);
+  let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
+  setObjectOrigin(lng, lat, msl, trueNorth);
+}
 
+function degreesToRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
+
+function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
   modelOrigin = [lng, lat];
   modelAltitude = msl;
-  modelRotate = [Math.PI / 2, 0, 0];
+  let radians = degreesToRadians(trueNorth);
+  modelRotate = [Math.PI / 2, radians, 0];
   modelAsMercatorCoordinate = mapboxgl.MercatorCoordinate.fromLngLat(
     modelOrigin,
     modelAltitude
   );
-
   modelTransform = {
     translateX: modelAsMercatorCoordinate.x,
     translateY: modelAsMercatorCoordinate.y,
@@ -670,22 +751,15 @@ function setModelOrigin(place) {
   };
 }
 
-function setPlaceOrigin(place) {
-  let center = turf.center(place.placeGeojson);
-  let centerCoordinates = center.geometry.coordinates;
-  let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
-  let lat = place.coordinates ? place.coordinates.lat : centerCoordinates[1];
-  const coordinates = { lng: lng, lat: lat };
-  let msl = place.coordinates
-    ? place.coordinates.msl
-    : map.queryTerrainElevation(coordinates);
-  let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
-  setObjectOrigin(lng, lat, msl, trueNorth);
-}
-
 function setPlace(place, provinceTerm, cityName) {
+  console.log("place -", place)
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
+  currentLocation = {
+    province: provinceTerm,
+    city: cityName,
+    place: place["id"],
+  };
   if (city.places){
     //cdt.createOptions(document.getElementById("place-select"), city.places);
     console.log("(668) in set places - createOptions with: ", document.getElementById("place-select"), city.places);
@@ -694,39 +768,50 @@ function setPlace(place, provinceTerm, cityName) {
   }
   removeFromScene();
   removeGeojson(locGeojson);
-  //setModelOrigin(place)
-  //setPlaceOrigin(place);
-  console.log("(689) Calling testGetOnePlace")
+
+  if (
+    document.getElementById("osm-button").classList.contains("selected-button")
+  )
+    osmButton.click();
+  cdt.unhideElementsById("place-select");
+  if (place.id === "") return;
+
+  //console.log("(689) Calling testGetOnePlace")
   //testGetOnePlace(place)
   //flyToPlace(place);
-  cdt.unhideElementsById("place-select");
-  invisibleMasses = [];
-  visibleMasses = [];
-  if (!place.hasOwnProperty("objects")) {
-    removeFromScene();
-    infoMessage(`⚠️ No objects at ${place.name}`);
-    if (place.hasOwnProperty("gltfMasses")) {
-      loadMasses(visibleMasses, place, true);
+  
+  if (place.id !== "") {
+    setPlaceOrigin(place);
+    invisibleMasses = [];
+    visibleMasses = [];
+
+    if (!place.hasOwnProperty("objects")) {
+      removeFromScene();
+      infoMessage(`⚠️ No objects at ${place.name}`);
+      if (place.hasOwnProperty("gltfMasses")) {
+        loadMasses(visibleMasses, place, true);
+      }
+    } else {
+      loadMasses(invisibleMasses, place, false);
+      if (isMobile) {
+        cdt.hideElementsById("place-select");
+        loadMasses(visibleMasses, place, true);
+      }
+      cdt.unhideElementsById(
+        "object-select",
+        "add-place-button",
+        "add-object-button"
+      );
+      console.log("(721) calls createoptions(objecteSelector, ..)");
+      //might need to add testGetObject here
+      console.log("(723) might need to add testGetObject here ");
+      cdt.createOptions(objectSelector, place.objects, 2);
+      selectObject(objectSelector);
+      cdt.loadObjectsGltf(place, scene);
     }
-  } else {
-    if (document.getElementById('osm-button').classList.contains('selected-button')) osmButton.click()
-    loadMasses(invisibleMasses, place, false);
-    if (isMobile) {
-      cdt.hideElementsById("place-select");
-      loadMasses(visibleMasses, place, true);
-    }
-    cdt.unhideElementsById(
-      "object-select",
-      "add-place-button",
-      "add-object-button"
-    );
-    console.log("(721) calls createoptions(objecteSelector, ..)");
-    //might need to add testGetObject here
-    console.log("(723) might need to add testGetObject here ");
-    cdt.createOptions(objectSelector, place.objects, 2);
-    selectObject(objectSelector);
-    cdt.loadObjectsGltf(place, scene);
   }
+  if (currentPosition) setCurrentPosition(currentPosition);
+  else flyToPlace(place);
 }
 
 async function createLayerButtons(city) {
@@ -755,7 +840,7 @@ function removeFromScene() {
     group.traverse(function (object) {
       if (object.isMesh) {
         object.geometry.dispose();
-        object.material.dispose();
+        // object.material.dispose();
       }
     });
     scene.remove(group);
