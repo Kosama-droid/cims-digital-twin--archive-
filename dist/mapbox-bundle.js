@@ -1,4 +1,4 @@
-var icons$1 = icons = {
+const icons = {
   cims: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450.000000 452.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,452.000000) scale(0.050000,-0.050000)"><path d="M35 9008 c-8 -8 -15 -2034 -15 -4501 l0 -4487 4490 0 4490 0 0 4490 -1 4490 -4417 0 c-2429 0 -4443 5 -4475 12 -31 6 -64 4 -72 -4z m2826 -1433 c1 -1429 4 -1293 -20 -1255 -11 17 -573 584 -1250 1262 -677 677 -1231 1235 -1231 1240 0 4 563 6 1250 3 l1251 -5 0 -1245z m5822 1255 c9 -9 -4144 -4170 -4163 -4170 -5 0 -332 323 -726 717 l-716 717 -4 1363 -4 1363 2780 5 c1529 3 2790 7 2802 10 12 3 26 1 31 -5z m-7142 -1480 l1329 -1331 -5 -1054 -4 -1053 -56 -53 c-30 -29 -624 -603 -1319 -1276 -695 -673 -1266 -1223 -1270 -1223 -3 0 -6 1647 -6 3660 0 2013 1 3660 1 3660 1 0 600 -599 1330 -1330z m7301 1305 c-1 -8 -2 -1914 -2 -4235 l0 -4220 -976 0 -975 0 -1134 1105 -1134 1105 -1 1030 0 1030 2095 2101 c1894 1900 2132 2133 2127 2084z m-4418 -5120 c3 -514 4 -935 2 -935 -2 0 -97 93 -210 206 -113 113 -415 411 -670 661 l-465 455 -5 954 -6 954 674 -680 674 -679 6 -936z m-919 -310 c289 -283 613 -600 720 -705 l195 -190 1 -1060 1 -1060 -2086 -5 c-1147 -3 -2095 -2 -2106 2 -13 5 -17 165 -12 445 l7 438 633 609 c999 963 1862 1800 1982 1923 61 62 117 113 125 115 8 2 251 -229 540 -512z m1785 -1747 c264 -257 668 -651 897 -874 230 -224 414 -408 410 -410 -4 -2 -450 -1 -992 2 l-984 5 -6 955 c-3 525 -1 962 4 973 4 10 49 -27 100 -82 50 -55 307 -311 571 -569z"/></g></svg>`,
   goToIcon: `M24.012 20h-20v-2h20v2zm-2.347-5.217c-.819 1.083-2.444 1.284-3.803 1.2-1.142-.072-10.761-1.822-11.186-1.939-1.917-.533-3.314-1.351-4.276-2.248-.994-.927-1.557-1.902-1.676-2.798l-.724-4.998 3.952.782 2.048 2.763 1.886.386-1.344-4.931 4.667 1.095 4.44 5.393 2.162.51c1.189.272 2.216.653 3.181 1.571.957.911 1.49 2.136.673 3.214zm-3.498-2.622c-.436-.15-3.221-.781-3.717-.892l-4.45-5.409-.682-.164 1.481 4.856-5.756-1.193-2.054-2.773-.772-.19.486 2.299c.403 1.712 2.995 3.155 4.575 3.439 1.06.192 8.89 1.612 9.959 1.773.735.105 2.277.214 2.805-.302l.003-.002c-.268-.652-1.214-1.213-1.878-1.442z`,
   back: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 21.995c5.517 0 9.997-4.48 9.997-9.997 0-5.518-4.48-9.998-9.997-9.998-5.518 0-9.998 4.48-9.998 9.998 0 5.517 4.48 9.997 9.998 9.997zm0-1.5c-4.69 0-8.498-3.807-8.498-8.497s3.808-8.498 8.498-8.498 8.497 3.808 8.497 8.498-3.807 8.497-8.497 8.497zm4.845-6.711c.108.141.157.3.157.456 0 .389-.306.755-.749.755h-8.501c-.445 0-.75-.367-.75-.755 0-.157.05-.316.159-.457 1.203-1.554 3.252-4.199 4.258-5.498.142-.184.36-.29.592-.29.23 0 .449.107.591.291zm-7.564-.289h5.446l-2.718-3.522z"/></svg>',
@@ -40,7 +40,7 @@ var icons$1 = icons = {
 const lngRange = 0.025;
 const latRange = 0.025;
 
-var canada$1 = canada = {
+const canada = {
   lng: -98.74,
   lat: 56.415, 
   bbox: [-130, 65, -65, 47],
@@ -1328,8 +1328,8 @@ async function setLayer(id, layerName, url, color, funct) {
     name: layerName,
     // color : Math. floor(Math. random()*16777215), // random color
     color: color,
-    svg: icons$1[id]
-      ? `${icons$1[id]}${infoText}`
+    svg: icons[id]
+      ? `${icons[id]}${infoText}`
       : `<h1>${layerName[0]}${info}</h1>`,
   };
   !funct
@@ -106902,10 +106902,10 @@ let markers = [];
 let toggle = { osm: false };
 
 // Favourite places ⭐⭐⭐⭐⭐⭐⭐
-let carleton = canada$1.provinces.ON.cities.Ottawa.places.CDC;
-let parliament = canada$1.provinces.ON.cities.Ottawa.places.PB;
-let downsview = canada$1.provinces.ON.cities.Toronto.places.DA;
-let hm = canada$1.provinces.ON.cities.Ottawa.places.HM;
+let carleton = canada.provinces.ON.cities.Ottawa.places.CDC;
+let parliament = canada.provinces.ON.cities.Ottawa.places.PB;
+let downsview = canada.provinces.ON.cities.Toronto.places.DA;
+let hm = canada.provinces.ON.cities.Ottawa.places.HM;
 
 let province = { term: "" };
 let city = { name: "" };
@@ -106924,8 +106924,8 @@ const mouse = new Vector4(-1000, -1000, 1, 1);
 
 let locGeojson = { source: { id: false } };
 let invisibleMasses = [];
-let lng = { canada: canada$1.lng },
-  lat = { canada: canada$1.lat };
+let lng = { canada: canada.lng },
+  lat = { canada: canada.lat };
 
 let modelTransform = {
   translateX: 0,
@@ -107001,7 +107001,7 @@ const url = new URL(currentURL);
 
 const urlId = url.searchParams.get("id");
 const mainUrl = `${url.origin}${url.pathname}`;
-let currentLocation, currentPosition;
+let currentLocation;
 
 // Share window 📷
 toggleButton("share-view-button", false, "share-view-window");
@@ -107153,7 +107153,9 @@ flyToCanada();
 // Place ➡️________________
 let placeSelector = document.getElementById("place-select");
 const cancelPlace = document.getElementById("cancel-new-place");
-createOptions(placeSelector, places, 2);
+//cdt.createOptions(placeSelector, places, 2);
+console.log("(244) placeSelector ", placeSelector);
+testGetPlaces(); //trying to populate dropdown from db on first call
 
 // Create new place 🆕
 let newPlaceToggle = toggleButton(
@@ -107163,6 +107165,7 @@ let newPlaceToggle = toggleButton(
 );
 const addPlaceButton = document.getElementById("add-place-button");
 addPlaceButton.addEventListener("click", () => {
+  console.log("clicked on - add New Place");
   newPlaceToggle = !newPlaceToggle;
   if (newPlaceToggle) {
     createPolygon();
@@ -107185,13 +107188,18 @@ document.getElementById("upload-place").onclick = () => {
 };
 
 placeSelector.addEventListener("change", (event) => {
-  places = city.places;
+  //places = city.places;
+  places = document.getElementById("place-select");
   id = event.target[event.target.selectedIndex].id;
   if (id === "add-place") {
     document.getElementById("tools-button").click();
     document.getElementById("add-place-button").click();
   } else {
     place = places[id];
+    console.log("(275) - placeSelectoreEventListener - Calling setPlace with id ",id);
+    testGetOnePlace(id);
+    //testGetPlaces?? How am I getting the place here for setPlace
+    //setPlace(place, province.term, city.name);
     setPlace(place, province.term, city.name);
     unhideElementsById("add-object-button");
   }
@@ -107201,7 +107209,10 @@ placeSelector.addEventListener("change", (event) => {
 // Object ➡️________________
 let objectSelector = document.getElementById("object-select");
 const cancelObject = document.getElementById("cancel-new-object");
-createOptions(objectSelector, place.objects, 2);
+//will have to make it connected to the places too - calling testGetObjects (commented out createOptions)
+console.log("(299) Calling testGetObjects instead of createOption with objectselector- not filtered with places yet");
+testGetObjects();
+//cdt.createOptions(objectSelector, place.objects, 2);
 // Create new object 🆕
 let newObjectToggle = toggleButton(
   "add-object-button",
@@ -107210,6 +107221,7 @@ let newObjectToggle = toggleButton(
 );
 const addObjectButton = document.getElementById("add-object-button");
 addObjectButton.addEventListener("click", () => {
+  console.log("clicked on - add New Object");
   newObjectToggle = !newObjectToggle;
   if (newObjectToggle) {
     addLocMarker("object");
@@ -107261,28 +107273,28 @@ document.addEventListener("keydown", (event) => {
       setPlace(place, province.term, city.name);
     }
     if (keyName === "c") {
-      province = canada$1.provinces.ON;
+      province = canada.provinces.ON;
       city = province.cities.Ottawa;
       place = carleton;
       setPlace(place, "ON", "Ottawa");
       return;
     }
     if (keyName === "p") {
-      province = canada$1.provinces.ON;
+      province = canada.provinces.ON;
       city = province.cities.Ottawa;
       place = parliament;
       setPlace(place, "ON", "Ottawa");
       return;
     }
     if (keyName === "h") {
-      province = canada$1.provinces.ON;
+      province = canada.provinces.ON;
       city = province.cities.Ottawa;
       place = hm;
       setPlace(place, "ON", "Ottawa");
       return;
     }
     if (keyName === "d") {
-      province = canada$1.provinces.ON;
+      province = canada.provinces.ON;
       city = province.cities.Ottawa;
       place = downsview;
       setPlace(place, "ON", "Toronto");
@@ -107293,7 +107305,7 @@ document.addEventListener("keydown", (event) => {
 
 ifUrlId(urlId);
 
-// FUNCTIONS ____________________________________________________________________________________________________
+// FUNCTIONS _____________________________________________________________________________________________________
 
 function flyTo(lng, lat, zoom = 15, pitch = 50) {
   map.flyTo({
@@ -107315,7 +107327,7 @@ function flyToCanada() {
   let home = document.getElementById("icdt-button");
   home.addEventListener("click", () => {
     flyTo(lng.canada, lat.canada, 4, 0);
-    map.fitBounds(canada$1.bbox);
+    map.fitBounds(canada.bbox);
     setTimeout(function () {
       location.reload();
     }, 2000);
@@ -107576,18 +107588,23 @@ function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
 }
 
 function setPlace(place, provinceTerm, cityName) {
-  console.log(place);
-  province = canada$1.provinces[provinceTerm];
+  console.log("place -", place);
+  province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
   currentLocation = {
     province: provinceTerm,
     city: cityName,
     place: place["id"],
   };
-  if (city.places)
-    createOptions(document.getElementById("place-select"), city.places);
+  if (city.places){
+    //cdt.createOptions(document.getElementById("place-select"), city.places);
+    console.log("(668) in set places - createOptions with: ", document.getElementById("place-select"), city.places);
+    //this request is not city specific - need to make it city specific
+    testGetPlaces();
+  }
   removeFromScene();
   removeGeojson(locGeojson);
+
   if (
     document.getElementById("osm-button").classList.contains("selected-button")
   )
@@ -107595,10 +107612,14 @@ function setPlace(place, provinceTerm, cityName) {
   unhideElementsById("place-select");
   if (place.id === "") return;
 
+  //console.log("(689) Calling testGetOnePlace")
+  //testGetOnePlace(place)
+  //flyToPlace(place);
+  
   if (place.id !== "") {
     setPlaceOrigin(place);
     invisibleMasses = [];
-    let visibleMasses = [];
+    visibleMasses = [];
 
     if (!place.hasOwnProperty("objects")) {
       removeFromScene();
@@ -107617,13 +107638,15 @@ function setPlace(place, provinceTerm, cityName) {
         "add-place-button",
         "add-object-button"
       );
+      console.log("(721) calls createoptions(objecteSelector, ..)");
+      //might need to add testGetObject here
+      console.log("(723) might need to add testGetObject here ");
       createOptions(objectSelector, place.objects, 2);
       selectObject(objectSelector);
       loadObjectsGltf(place, scene);
     }
   }
-  if (currentPosition) setCurrentPosition(currentPosition);
-  else flyToPlace(place);
+  flyToPlace(place);
 }
 
 async function createLayerButtons(city) {
@@ -107687,7 +107710,7 @@ function toggleCustomLayer(button, toggle, layerKey) {
   button.onclick = async () => {
     toggle = !toggle;
     selectedButton(button, toggle, true);
-    let layers = canada$1.provinces[province.term].cities[city.name].layers;
+    let layers = canada.provinces[province.term].cities[city.name].layers;
     let initialGeojson = (await layers[layerKey]).geojson;
     if (toggle) {
       let layer = await layers[layerKey];
@@ -107756,7 +107779,7 @@ function mapbox() {
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
   map = new mapboxgl.Map({
     container: "map", // container ID
-    style: mapStyles$1.satellite.url,
+    style: mapStyles$1.dark.url,
     center: [lng.canada, lat.canada], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
@@ -107764,7 +107787,7 @@ function mapbox() {
     doubleClickZoom: false,
     projection: "globe", // display the map as a 3D globe
   });
-  map.fitBounds(canada$1.bbox);
+  map.fitBounds(canada.bbox);
   // Add north and zoom controls 🔺➕
   map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
   // Activate geolocation 🌎🔍
@@ -107815,37 +107838,18 @@ function mapbox() {
       if (i == 1 && element.text == "Canada") city.name = e.result.text;
       if (element.id.match(/region.*/))
         province.term = element.short_code.substring(3);
-
-      if (element.id.match(/place.*/)) {
-        city.name = element.text;
-      }
+      if (element.id.match(/place.*/)) city.name = element.text;
       i++;
-      if (province.term) currentLocation = { province: province["term"] };
-      if (city.name) currentLocation["city"] = city.name;
     });
-    let center = e.result.center;
-    setObjectOrigin(
-      center[0],
-      center[1],
-      map.queryTerrainElevation({ lng: center[0], lat: center[1] })
-    );
-
-    if (city.name === "") city.name = e.result.text;
-    province = canada$1.provinces[province.term];
-
-    if (province.cities[city.name]) {
-      city = province.cities[city.name];
-      places = city.places;
-      createOptions(placeSelector, places);
-    } else {
-      canada$1.provinces[province.term].cities[city.name] = {
-        name: city.name,
-        places: {},
-        layers: {},
-      };
-      city = canada$1.provinces[province.term].cities[city.name];
-    }
-
+    console.log(province.term, city.name);
+    province = canada.provinces[province.term];
+    city = province.cities[city.name];
+    places = city.places;
+    //cdt.createOptions(placeSelector, places);
+    //console.log("(899) in mapbox - createOption with: ", places);
+    //this is where the place dropdown gets update when it is called
+    testGetPlaces();
+    console.log("(901) in mapbox - called testGetPlaces");
     unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
@@ -107892,7 +107896,6 @@ function addLocMarker(at) {
     document.getElementById(`${at}-lng`).value = `${markerLoc.lng}`;
     document.getElementById(`${at}-lat`).value = `${markerLoc.lat}`;
     document.getElementById(`${at}-msl`).value = `${markerLoc.msl}`;
-    setObjectOrigin(markerLoc.lng, markerLoc.lat, markerLoc.msl);
   }
 
   marker.on("dragend", onDragEnd);
@@ -107918,25 +107921,37 @@ function updateArea(e) {
 }
 
 //testing the GET requests
-//GET places names to populate dropdown
 
-//GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
-function testGetPlaces() {
-  console.log("TestGetPlaces");
-  let req = new XMLHttpRequest(); //declaring a new http request
-  req.onreadystatechange = function () {
-    //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
-    if (this.readyState == 4 && this.status == 200) {
-      console.log("testGetPlaces(): Got Places's Names for dropdown menu");
-      let gotPlaces = JSON.parse(req.responseText);
-      console.log(
-        "testGetPlaces(): Calling createOptions to populate new dropdown"
-      );
-      createOptions(placeSelector, gotPlaces, 2);
-      console.log(JSON.parse(req.responseText));
+//GET all places and try to return them
+function testGetOnePlace(placeID){
+  console.log("testGetOnePlace() - ", placeID);
+  let req = new XMLHttpRequest(); 
+  req.onreadystatechange = function(){ 
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testGetOnePlace(): Got Place");
+      let gotPlace = JSON.parse(req.responseText);
+      console.log(gotPlace);
+      flyToPlace(gotPlace);
     }
   };
-  req.open("GET", "http://localhost:3000/getPlaces", true);
+  req.open("GET", `http://172.20.2.134:3000/places/:${placeID}`,true);
+  req.send();
+}
+
+//GET places names to populate dropdown
+function testGetPlaces(){
+  console.log("TestGetPlaces");
+  let req = new XMLHttpRequest(); //declaring a new http request
+  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu");
+      let gotPlaces = JSON.parse(req.responseText);
+      //uses the list of plces to populate dropdown
+      createOptions(placeSelector, gotPlaces, 2);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", JSON.parse(req.responseText));
+    }
+  };
+  req.open("GET", "http://172.20.2.134:3000/getPlaces",true);
   req.send();
 }
 
@@ -107945,22 +107960,20 @@ function testGetPlaces() {
 function testPostNewPlace(newPlace) {
   console.log("testPostNewPlace");
   let req = new XMLHttpRequest();
-  req.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log("testPostNewPlace(): The new place was sent to the server");
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testPostNewPlace(): The new place was sent to the server - ", newPlace);
     }
   };
 
-  req.open("POST", "http://localhost:3000/postNewPlace");
+  req.open("POST", "http://172.20.2.134:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
 }
 
 //call post and get synchronously to be sure the newPlace has been added to the db before getting the list of places
-async function asyncCall(newPlace) {
-  console.log(
-    "asyncCall: waiting for NewPlace to be received before geting places"
-  );
+async function asyncCallNewPlace(newPlace) {
+  console.log("asyncCall: waiting for NewPlace to be received before geting places");
   await testPostNewPlace(newPlace);
   testGetPlaces();
 }
@@ -107981,196 +107994,115 @@ function addNewPlace() {
   newPlace.placeGeojson = draw.getAll();
   loadGeojson(map, newPlace.placeGeojson, newPlaceId);
   draw.deleteAll();
-  let cityName = canada$1.provinces[province.term].cities[city.name];
+  let cityName = canada.provinces[province.term].cities[city.name];
   newPlace.city = cityName.name;
   if (!cityName)
-    canada$1.provinces[province.term].cities[city.name] = {
+    canada.provinces[province.term].cities[city.name] = {
       name: city.name,
       places: { objects: {} },
     };
-  canada$1.provinces[province.term].cities[city.name].places[newPlaceId] =
-    newPlace;
+  canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
   place = newPlace;
 
-  asyncCall(newPlace);
+  asyncCallNewPlace(newPlace);
+  //loadGeojson(map, newPlace.placeGeojson, newPlaceId);
 
-  console.log(
-    "place.objects",
-    canada$1.provinces[province.term].cities[city.name].places
-  );
-  console.log("newPlace", newPlace);
-
-  console.log(canada$1.provinces[province.term].cities[city.name]);
+  console.log(canada.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");
 }
 
+function testGetObjects(){
+  console.log("TestGetObjects");
+  let req = new XMLHttpRequest(); //declaring a new http request
+  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testGetObjects(): Got Objects for dropdown menu");
+      let gotObjects = JSON.parse(req.responseText);
+      //uses the list of objects to populate dropdown
+      createOptions(objectSelector, gotObjects, 2);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", JSON.parse(req.responseText));
+    }
+  };
+  req.open("GET", "http://172.20.2.134:3000/getObjects",true);
+  req.send();
+}
+
+//testing a POST request to the server
+//POSTing the data of a new object to the server so it can get added to the db
+function testPostNewObject(newObject) {
+  console.log("testPostNewObject");
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      console.log("testPostNewObject(): The new object was sent to the server");
+      //populating the dropdown with new list of objects
+      testGetObjects();
+    }
+  };
+
+  req.open("POST", "http://172.20.2.134:3000/postNewObject");
+  req.setRequestHeader("Content-Type", "application/JSON");
+  req.send(JSON.stringify(newObject));
+}
+
 function addNewObject() {
+  console.log("addNewObject");
   const newObject = {};
   let newObjectId = document.getElementById("object-id").value.toUpperCase();
-  newObject.id = newObjectId;
-  let newObjectName = document.getElementById("object-name");
-  newObject.name = newObjectName.value;
+  newObject.name = document.getElementById("object-name").value;
   newObject.coordinates = {};
   newObject.coordinates.lng = document.getElementById("object-lng").value;
   newObject.coordinates.lat = document.getElementById("object-lat").value;
   newObject.coordinates.msl = document.getElementById("object-msl").value;
   newObject.coordinates.trueNorth =
-    document.getElementById("object-true-north").value;
+  document.getElementById("object-true-north").value;
   document.getElementById("object-id").addEventListener("change", () => {
     console.log(newObject.name);
     if (newObject.name === "") newObject.name = "unnamed";
-    makeActiveById(
-      "object-model-input",
-      "object-true-north",
-      "upload-object"
-    );
+    makeActiveById("object-model-input", "object-true-north", "upload-object");
     const modelInput = document.getElementById("object-model-input");
     modelInput.addEventListener("change", (changed) => {
       console.log(changed.target.files[0].name);
       let fileName = changed.target.files[0].name;
-      fileType = fileName.split(".").pop();
+      fileType = fileName.split('.').pop();
       console.log(fileType);
-      if (fileType === "glb" || fileType === "gltf")
-        loadObjectGltf(place, newObjectId, changed);
-      else if (fileType === "ifc") loadObjectIfc(place, newObjectId, changed);
-      else
-        infoMessage(
-          `⚠️ ${fileType.toUpperCase()}s are not supported yet, please let us know if you want us to include them in the future`
-        );
+      if (fileType === 'glb' || fileType === 'gltf') loadObjectGltf(place, newObjectId, changed);
+      else if (fileType === 'ifc') loadObjectIfc(place, newObjectId, changed);
+      else infoMessage(`⚠️ ${fileType.toUpperCase()}s are not supported yet, please let us know if you want us to include them in the future`);
       rotateObjectTrueNorth(object);
       changeObjectAltitude(object, modelAltitude);
     });
   });
-
-  if (!canada$1.provinces[province.term].cities.hasOwnProperty(city.name))
-    canada$1.provinces[province.term].cities[city.name] = { name: city.name };
+  newObject.glbFile = document.getElementById("object-glb-input");
+  console.log("new object", newObject);
+  //city verifications (?)
+  /*
+  if (!canada.provinces[province.term].cities.hasOwnProperty(city.name))
+    canada.provinces[province.term].cities[city.name] = { name: city.name };
   if (
-    !canada$1.provinces[province.term].cities[city.name].places[
+    !canada.provinces[province.term].cities[city.name].places[
       place.id
     ].hasOwnProperty("objects")
   )
-    canada$1.provinces[province.term].cities[city.name].places[place.id].objects =
+    canada.provinces[province.term].cities[city.name].places[place.id].objects =
       {};
 
-  canada$1.provinces[province.term].cities[city.name].places[place.id].objects[
+  console.log(canada.provinces[province.term].cities[city.name]);
+  canada.provinces[province.term].cities[city.name].places[place.id].objects[
     newObjectId
   ] = newObject;
-  createOptions(
+  */
+ 
+  /*cdt.createOptions(
     objectSelector,
-    canada$1.provinces[province.term].cities[city.name].places[place.id].objects,
+    canada.provinces[province.term].cities[city.name].places[place.id].objects,
     2
-  );
-  object = newObject;
+  );*/
+
+  //posting the new object to the db  
+  testPostNewObject(newObject);
 
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
-
-  // IFC Three 3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣
-  function loadObjectIfc(place, objectId = "object", changed) {
-    const ifcLoader = new IFCLoader$1();
-    ifcLoader.ifcManager.setWasmPath("../wasm/");
-    const group = new Group();
-    group.name = `${place.id}-ifcGroup`;
-    const ifcURL = URL.createObjectURL(changed.target.files[0]);
-    ifcLoader.load(
-      ifcURL,
-      (ifcModel) => {
-        ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-        object.ifcModel = ifcModel;
-        group.add(ifcModel);
-        scene.add(group);
-        document.getElementById("loader-container").classList.add("hidden");
-      },
-      () => {
-        document.getElementById("loader-container").classList.remove("hidden");
-        document.getElementById(
-          "progress-text"
-        ).textContent = `Loading ${place.name}'s objects`;
-      },
-      (error) => {
-        console.log(error);
-        return;
-      }
-    );
-  }
-
-  const ifcLoader = new IFCLoader$1();
-  ifcLoader.ifcManager.setWasmPath("../wasm/");
-  const group = new Group();
-  group.name = `${place.id}-ifcGroup`;
-  const ifcURL = URL.createObjectURL(changed.target.files[0]);
-  ifcLoader.load(
-    ifcURL,
-    (ifcModel) => {
-      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
-      object.ifcModel = ifcModel;
-      group.add(ifcModel);
-      scene.add(group);
-      document.getElementById("loader-container").classList.add("hidden");
-    },
-    () => {
-      document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById(
-        "progress-text"
-      ).textContent = `Loading ${place.name}'s objects`;
-    },
-    (error) => {
-      console.log(error);
-      return;
-    }
-  );
-}
-
-function loadObjectGltf(place, objectId = "object", changed) {
-  const gltfLoader = new GLTFLoader();
-  const group = new Group();
-  group.name = `${place.id}-gltfGroup`;
-  const gltfURL = URL.createObjectURL(changed.target.files[0]);
-  gltfLoader.load(
-    gltfURL,
-    (gltf) => {
-      let gltfModel = gltf.scene;
-      gltfModel.name = `${place.id}-${objectId}-gltfModel`;
-      object.gltfModel = gltfModel;
-      group.add(gltfModel);
-      scene.add(group);
-      document.getElementById("loader-container").classList.add("hidden");
-    },
-    () => {
-      document.getElementById("loader-container").classList.remove("hidden");
-      document.getElementById(
-        "progress-text"
-      ).textContent = `Loading ${place.name}'s objects`;
-    },
-    () => {
-      return;
-    }
-  );
-}
-
-function ifUrlId(urlId) {
-  if (urlId) {
-    three = true;
-    const urlIds = eval("({" + urlId + "})");
-    currentPosition = urlIds.position;
-    if (urlIds.location) {
-      currentLocation = urlIds.location;
-      if (currentLocation.province)
-        province = canada$1.provinces[currentLocation.province];
-      if (currentLocation.city) city = province.cities[currentLocation.city];
-      if (currentLocation.place) {
-        place = city.places[currentLocation.place];
-        setPlace(place, province.term, city.name);
-      }
-    }
-    if (currentPosition) setCurrentPosition(currentPosition);
-  }
-}
-function setCurrentPosition(currentPosition) {
-  const currentCenter = (({ lng, lat }) => ({ lng, lat }))(currentPosition);
-  map.setCenter(currentCenter);
-  map.setZoom(currentPosition.zoom);
-  map.setPitch(currentPosition.pitch);
-  map.setBearing(currentPosition.bearing);
 }
