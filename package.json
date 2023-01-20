@@ -16,6 +16,7 @@
     "maplibre-gl": "^2.4.0",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4",
+    "mongoose-geojson-schema": "^2.2.4",
     "pug": "^3.0.2",
     "stats.js": "^0.17.0",
     "three": "^0.135.0",

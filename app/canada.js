@@ -1,4 +1,4 @@
-import icons from "./icons";
+import icons from "./icons.js";
 
 const lngRange = 0.025;
 const latRange = 0.025;
