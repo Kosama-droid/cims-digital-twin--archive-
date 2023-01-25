@@ -1112,7 +1112,7 @@ function testGetPlaces(){
       console.log("testGetPlaces(): Got Places's Names for dropdown menu")
       let gotPlaces = JSON.parse(req.responseText);
       //uses the list of plces to populate dropdown
-      cdt.createOptions(placeSelector, gotPlaces, 2)
+      cdt.createOptions(placeSelector, gotPlaces, 2) //jsonify the placegeojson attrbute and re-add it to the object before it gets queried?
       console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", JSON.parse(req.responseText))
     }
   }
