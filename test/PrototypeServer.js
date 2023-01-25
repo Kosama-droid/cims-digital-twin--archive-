@@ -139,11 +139,11 @@ function deleteAllObjects(){
 
 function testInsertPlace(){
     Place.insertMany( [ {
-        name: "Carleton University",
-        id: "CDC",
-        placeGeojson: {
+        "name": "Carleton University",
+        "id": "CDC",
+        "placeGeojson": {
             "type": "FeatureCollection",
-            features: {
+            "features": {
                 "id": "19dc5ef9a24233ad4afb7d1302c22fdd",
                 "type": "Feature",
                 "properties": {},
@@ -349,8 +349,8 @@ function testInsertPlace(){
 }
 
 async function asyncInitPlaces(){
-    await deleteAllPlaces();
-    await testInsertPlace();
+    //await deleteAllPlaces();
+    //await testInsertPlace();
     showInitPlaces;
 }
 
@@ -429,7 +429,7 @@ app.post("/postNewPlace", (req, res) => {
     let newPlace = new Place({
         name: postedPlace.name,
         id: postedPlace.id,
-        geoJson: postedPlace.geoJson,
+        placeGeojson: JSON.stringify(postedPlace.placeGeojson),
         city: postedPlace.city
     })
 

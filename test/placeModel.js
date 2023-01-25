@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import GeoJson from "mongoose-geojson-schema";
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 var schema = new mongoose.Schema({
 	point: mongoose.Schema.Types.Point,
@@ -16,41 +16,41 @@ var schema = new mongoose.Schema({
 });
 
 var db = mongoose.connection;
-var Location = db.model('GeoJSON', schema);
+var model = db.model('GeoJSON', schema);
 
-//creating schema for place geojson object 
-var placeGeojson = Schema ({
-    type : {
-        type: String,
-        default: "FeatureCollection"
-    },
-    features: {
-        id: {type: String},
-        type: {type: String, default: "Feature"},
-        properties: {type: Object},
-        geometry: {
-            type: {
-                type: String, 
-                enum: [
-                    "Point",
-                    "MultiPoint",
-                    "LineString",
-                    "MultiLineString",
-                    "Polygon",
-                    "MultiPolygon"
-                ]
-            }
-        },
-        coordinates: [[]]
-    }
-})
+// //creating schema for place geojson object 
+// var placeGeojson = new Schema ({
+//     "type" : {
+//         "type": String,
+//         "default": "FeatureCollection"
+//     },
+//     "features": {
+//         "id": {type: String},
+//         "type": {type: String, default: "Feature"},
+//         "properties": {type: Object},
+//         "geometry": {
+//             "type": {
+//                 "type": String, 
+//                 "enum": [
+//                     "Point",
+//                     "MultiPoint",
+//                     "LineString",
+//                     "MultiLineString",
+//                     "Polygon",
+//                     "MultiPolygon"
+//                 ]
+//             }
+//         },
+//         "coordinates": [[]]
+//     }
+// })
 
-//creatin schema for place
-var placeSchema = Schema ({
+//creating schema for place
+var placeSchema = new Schema ({
     name: { type: String, required: true },
     id: { type: String, required: false },
     city: {type: String, required: false},
-    placeGeojson: placeGeojson
+    placeGeojson: {type: String, required: false}
 });
 
 const Place = mongoose.model("place", placeSchema);

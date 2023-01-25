@@ -1130,7 +1130,7 @@ function testPostNewPlace(newPlace) {
       console.log("testPostNewPlace(): The new place was sent to the server - ", newPlace);
     }
   }
-
+  console.log("JSON.stringify(newPlac): ", JSON.stringify(newPlace));
   req.open("POST", "http://172.20.2.134:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
