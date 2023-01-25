@@ -38,7 +38,7 @@
     <script type="text/javascript">
 
         //MAKE LEAFLET MAP
-        const map = L.map('map').setView([43.6532, -79.3832], 12);
+        const map = L.map('map').setView([43.6532, -79.3832], 15);
 
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -48,7 +48,12 @@
 
         
         //DATA PART 1: GET GENERAL DATABASE INFO
-        const packageId = "4ddba232-d235-4455-b710-537c89dec7d5";
+        // const packageId = "4ddba232-d235-4455-b710-537c89dec7d5";
+        const packageId = "71e6c206-96e1-48f1-8f6f-0e804687e3be";
+        // const packageId = "e0700d94-0c4d-4058-9354-a4b397c0b249";
+        // const packageId = "9f39c3d4-5946-4bf6-89d5-f4008a898f9c";
+
+
 
         const urlPkg = `https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=${packageId}`;
 
@@ -57,6 +62,7 @@
             .then(response => response.json())
             .then(data => {
                 return data.result;
+                
             })
             .catch(error => {
                 console.error(error);
@@ -64,7 +70,12 @@
 
 
         getPackage.then(pkg => {
-            // console.log(pkg);
+            // console.log(pkg.resources);
+            pkg.resources.forEach(res => {
+                // console.log(res)
+
+                // console.log(res.name+"    ID: "+res.id)
+            })
         }).catch(error => {
             console.error(error);
         });
@@ -90,25 +101,29 @@
             let datastoreResources = pkg["resources"].filter(r => r.datastore_active);
 
             // console.log(datastoreResources);
-            let bikeStandAddr = [];
+            // let bikeStandAddr = [];
 
             datastoreResources.forEach(resource => {
                 getDatastoreResource(resource)
                     .then(data => {
                         // console.log(data);
 
+                        bikeStandAddrNum = data.map(d => d.ADDRESSNUMBERTEXT)
+                        bikeStandAddr = data.map(e => e.ADDRESSSTREET)
+
+
                         const bikeCoords = data.map(d => JSON.parse(d.geometry).coordinates);
 
                         // console.log(bikeCoords);
+                   
 
                         bikeCoords.forEach((coord, i) => {
                             // console.log(coord[0]); // longitude
                             // console.log(coord[1]); // latitude
                             let coordRev = coord.reverse();
-                            // let coordRev = data.map(coord => coord.reverse());
-
+                            
                             L.marker(coordRev)
-                                .bindTooltip(bikeStandAddr[i])
+                                .bindTooltip(bikeStandAddrNum[i]+" "+bikeStandAddr[i])
                                 .addTo(map);
 
                             // console.log(address);
