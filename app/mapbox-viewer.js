@@ -941,7 +941,7 @@ function removeMarker(markers) {
 // MAPBOX 🗺️📦
 function mapbox() {
   mapboxgl.accessToken =
-    "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbDU2bTA3cmkxa3JzM2luejI2dnd3bzJsIn0.lKKSghBtWMQdXszpTJN32Q";
+    "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbGRkODFyMWUwMTE2M25wYWlvOWttbTZ3In0.JQS-T1sh_tevqbqTKY_Wdw";
   map = new mapboxgl.Map({
     container: "map", // container ID
     style: cdt.mapStyles.dark.url,
