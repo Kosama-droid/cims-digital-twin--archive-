@@ -339,22 +339,22 @@ document.getElementById("upload-place").onclick = () => {
 };
 
 placeSelector.addEventListener("change", (event) => {
-  //places = city.places;
   places = document.getElementById("place-select");
+  console.log("event target (279) ",event.target);
+  //places = city.places;
   id = event.target[event.target.selectedIndex].id;
+  console.log("(278) id", id)
   if (id === "add-place") {
     document.getElementById("tools-button").click();
     document.getElementById("add-place-button").click();
   } else {
     place = places[id];
-    console.log("(275) - placeSelectoreEventListener - Calling setPlace with id ",id);
+    console.log("(275) - placeSelectoreEventListener - Calling setPlace with id ",place, id);
     testGetOnePlace(id);
     //testGetPlaces?? How am I getting the place here for setPlace
     //setPlace(place, province.term, city.name);
-    setPlace(place, province.term, city.name);
     cdt.unhideElementsById("add-object-button");
   }
-  flyToPlace(place);
 });
 
 // Object ➡️________________
@@ -470,7 +470,7 @@ function flyTo(lng, lat, zoom = 15, pitch = 50) {
 // ⚠️ Change function name to fitToBBox
 function flyToPlace(place) {
   console.log("399 flyToPlace", place);
-  let bbox = turf.bbox(place.placeGeojson);
+  let bbox = turf.bbox(place.placeGeojson); //OG = place.placeGeojson 
   map.fitBounds(bbox);
 }
 
@@ -713,7 +713,9 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
 
 function setPlaceOrigin(place) {
   console.log("641 setPlaceOrigin", place);
-  let center = turf.center(place.placeGeojson);
+  let placeCenterFeatures = place.placeGeojson;//.features.geometry.coordinates;
+  console.log("palceCenterFeatures - ", placeCenterFeatures);
+  let center = turf.center(placeCenterFeatures);
   let centerCoordinates = center.geometry.coordinates;
   let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
   let lat = place.coordinates ? place.coordinates.lat : centerCoordinates[1];
@@ -752,7 +754,7 @@ function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
 }
 
 function setPlace(place, provinceTerm, cityName) {
-  console.log("place -", place)
+  console.log("SetPlace -", place)
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
   currentLocation = {
@@ -1093,9 +1095,11 @@ function testGetOnePlace(placeID){
   let req = new XMLHttpRequest(); 
   req.onreadystatechange = function(){ 
     if(this.readyState == 4 && this.status == 200){
-      console.log("testGetOnePlace(): Got Place")
+      console.log("testGetOnePlace(): Got Place - ", JSON.parse(req.responseText));
       let gotPlace = JSON.parse(req.responseText);
-      console.log(gotPlace);
+      gotPlace.placeGeojson = JSON.parse(gotPlace.placeGeojson);
+      console.log("gotPlace - ",gotPlace);
+      
       flyToPlace(gotPlace);
     }
   }
@@ -1109,11 +1113,11 @@ function testGetPlaces(){
   let req = new XMLHttpRequest(); //declaring a new http request
   req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
     if(this.readyState == 4 && this.status == 200){
-      console.log("testGetPlaces(): Got Places's Names for dropdown menu")
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu - ", req.responseText);
       let gotPlaces = JSON.parse(req.responseText);
-      //uses the list of plces to populate dropdown
-      cdt.createOptions(placeSelector, gotPlaces, 2) //jsonify the placegeojson attrbute and re-add it to the object before it gets queried?
-      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", JSON.parse(req.responseText))
+      //uses the list of places to populate dropdown
+      cdt.createOptions(placeSelector, gotPlaces, 2);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", req.responseText);
     }
   }
   req.open("GET", "http://172.20.2.134:3000/getPlaces",true);
@@ -1130,7 +1134,7 @@ function testPostNewPlace(newPlace) {
       console.log("testPostNewPlace(): The new place was sent to the server - ", newPlace);
     }
   }
-  console.log("JSON.stringify(newPlac): ", JSON.stringify(newPlace));
+  console.log("JSON.stringify(newPlace): ", JSON.stringify(newPlace));
   req.open("POST", "http://172.20.2.134:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));

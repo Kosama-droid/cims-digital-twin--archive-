@@ -367,11 +367,13 @@ app.get("/getPlaces", (req, res) => {
 	        res.end();
             return console.log("GetPlaces: Server error");
         }
-        //console.log("Place find: data", data);
+        console.log("Place find: data", data);
+        //let newPlaceGeojson = ;
+        //data.placeGeojson = JSON.parse(data.placeGeojson);
     
         res.status(200);
         res.setHeader("Content-Type", "application/JSON");
-	    res.send(data);
+	    res.send(JSON.stringify(data));
     })
 })
 
@@ -380,7 +382,7 @@ app.get("/places/:placeID", (req, res) => {
     console.log(req.params.placeID);
     let placeID = req.params.placeID.split(':')[1];
 
-    console.log('getOnePlace request received.')
+    console.log('getOnePlace request received. - placeID', placeID);
 
     Place.findOne({id: placeID}, (err, data) => {
         if (err) {
@@ -390,10 +392,12 @@ app.get("/places/:placeID", (req, res) => {
             return console.log("GetOnePlace: Server error");
         }
         console.log("Place find: data", data);
-    
+        //data.placeGeojson =  JSON.parse(data.placeGeojson);
+        //console.log("Place find: data", data);
+
         res.status(200);
         res.setHeader("Content-Type", "application/JSON");
-	    res.send(data);
+	    res.send(JSON.stringify(data));
     })
 })
 
@@ -422,9 +426,8 @@ app.post("/postNewPlace", (req, res) => {
         return console.error(err.message);
     }*/
 
-    var postedPlace = req.body;
-    console.log("received new place");
-    console.log("req.body: postedPlace -", postedPlace); //printing the new Place data
+    var postedPlace = JSON.parse(req.body);
+    console.log("postNewPlace - received new place: ", postedPlace);
 
     let newPlace = new Place({
         name: postedPlace.name,
@@ -461,9 +464,8 @@ app.post("/postNewPlace", (req, res) => {
 
 app.post("/postNewObject", (req, res) => {
 
-    var postedObject = req.body;
-    console.log("received new object");
-    console.log("req.body: postedPlace -", postedObject); 
+    var postedObject = JSON.parse(req.body);
+    console.log("postNewObject - received new object: ", postedObject);
 
     let newObject = new Object({
         name: postedObject.name,
