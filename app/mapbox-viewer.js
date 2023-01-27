@@ -1,7 +1,6 @@
 import canada from "./canada.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { IFCLoader } from "web-ifc-three/IFCLoader";
-import { IfcViewerAPI } from "web-ifc-viewer";
 import {
   AmbientLight,
   DirectionalLight,
@@ -17,8 +16,6 @@ import {
 } from "three";
 
 import * as cdt from "../modules/cdt-api";
-
-// cdt.openTorontoTest();
 
 // GLOBAL OBJECTS 🌎  _________________________________________________________________________________________
 
@@ -61,10 +58,14 @@ let hm = canada.provinces.ON.cities.Ottawa.places.HM;
 let province = { term: "" };
 let city = { name: "" };
 let place = { id: "", name: "" };
-let object = { id: "" };
+let object;
 
 // Set model oringin from WGS coordinates to Three (0,0,0) _________________________________________________________________________________________
-let modelOrigin, modelAltitude, modelRotate, modelAsMercatorCoordinate;
+let modelOrigin,
+  modelAltitude,
+  modelRotate,
+  modelAsMercatorCoordinate,
+  modelTransform;
 
 let previousSelection = {
   mesh: null,
@@ -78,22 +79,22 @@ let invisibleMasses = [];
 let lng = { canada: canada.lng },
   lat = { canada: canada.lat };
 
-let modelTransform = {
-  translateX: 0,
-  translateY: 0,
-  translateZ: 0,
-  rotateX: 0,
-  rotateY: 0,
-  rotateZ: 0,
-  scale: 0,
-};
-
 // GUI  👌 _________________________________________________________________________________________
 
-const closeButton = document.getElementById("close-iframe");
-cdt.closeWindow("close-iframe", true);
+const closeButton = document.getElementById("close-window");
+let loadingContainer = document.getElementById("loader-container");
+cdt.closeWindow();
 
-function openWindow(item, toggle, className, url = `${item}.html`) {
+// ICDT 🍁
+let icdtToggle = false;
+icdtToggle = openWindow(
+  "icdt",
+  icdtToggle,
+  "https://canadasdigitaltwin.ca",
+  "icdt"
+);
+
+function openWindow(item, toggle, url = `${item}.html`, className) {
   const button = document.getElementById(`${item}-button`);
   let buttons = Array.from(button.parentElement.children);
   button.addEventListener("click", () => {
@@ -102,7 +103,7 @@ function openWindow(item, toggle, className, url = `${item}.html`) {
     });
     if (!toggle) openIframe(url, className);
     cdt.selectedButton(button, !toggle);
-    if (toggle) cdt.closeWindow(false, toggle);
+    if (toggle) cdt.closeWindow(true);
     toggle = !toggle;
   });
   return toggle;
@@ -110,7 +111,11 @@ function openWindow(item, toggle, className, url = `${item}.html`) {
 
 // // User Login 👤
 let loginToggle = false;
-loginToggle = openWindow("login", loginToggle, "login-window");
+loginToggle = openWindow("login", loginToggle);
+
+// Info ℹ️
+let infoToggle = false;
+infoToggle = openWindow("info", infoToggle);
 
 // Settings ⚙️
 let settingsToggle = false;
@@ -119,91 +124,28 @@ settingsToggle = openWindow("settings", settingsToggle);
 // Search bar 🔍
 cdt.toggleButton("search-button", true, "geocoder", "selectors");
 
-// info ℹ️
-cdt.toggleButton("info-button", false, "info-container");
-const infoHeader = document.getElementById("info-header");
-infoHeader.addEventListener("click", () =>
-  document.getElementById("info-button").click()
-);
-
 // Layers 🍰
 cdt.toggleButton("layers-button", false, "layers-container");
 
 // Show OSM buildings 🏢
 const osmButton = document.getElementById("osm-button");
 
-// Right menu 👉
-cdt.toggleButton("right-menu-button", false, "right-container");
-const rightMenuButtons = document.getElementById("right-menu-buttons");
-rightMenuButtons.addEventListener("click", () => {
-  if (!document.getElementById("selectors").classList.contains("hidden"))
-    document.getElementById("search-button").click();
-});
-
 // Tools ⚒️
 cdt.toggleButton("tools-button", false, "tools-container");
 
 // Setting Mapbox 🗺️📦
-mapbox();
-
-// Get the URL parameter
-const currentURL = window.location.href;
-const url = new URL(currentURL);
-
-const urlId = url.searchParams.get("id");
-const mainUrl = `${url.origin}${url.pathname}`;
-let currentLocation, currentPosition;
-
-// Share window 📷
-cdt.toggleButton("share-view-button", false, "share-view-window");
-cdt.closeWindow("share-view-close");
-document.getElementById("done-share-button").addEventListener("click", () => {
-  document.getElementById("share-view-button").click();
-});
-
-let cameraPositionText, positionLink;
-
-const cameraPositionButton = document.getElementById("camera-position-button");
-cameraPositionButton.addEventListener("click", () => {
-  const centerLng = cdt.roundNum(map.getCenter().lng, 6);
-  const centerLat = cdt.roundNum(map.getCenter().lat, 6);
-  const zoom = cdt.roundNum(map.getZoom(), 4);
-  const pitch = cdt.roundNum(map.getPitch(), 4);
-  const bearing = cdt.roundNum(map.getBearing(), 4);
-  console.log(bearing);
-
-  cameraPositionText = `Longitude: ${centerLng} / Latitude ${centerLat}`;
-  positionLink = `${mainUrl}?id=location:${JSON.stringify(
-    currentLocation
-  )},position:{lng:${centerLng},lat:${centerLat},zoom:${zoom},pitch:${pitch},bearing:${bearing}}`;
-  console.log(cameraPositionText, positionLink);
-  document.getElementById("share-position-input").value = cameraPositionText;
-});
-
-const linkCameraPositionButton = document.getElementById(
-  "link-camera-position-button"
-);
-linkCameraPositionButton.addEventListener("click", () => {
-  cdt.infoMessage(`Link: ${positionLink} copied to clipboard`);
-  navigator.clipboard.writeText(positionLink);
-});
+maplibre();
 
 // Map Style 🎨
 cdt.toggleButton("styles-button", false, "styles-container");
 const currentStyle = {};
-const mapsHeader = document.getElementById("maps-header");
-mapsHeader.addEventListener("click", () =>
-  document.getElementById("styles-button").click()
-);
 const styles = Array.from(document.getElementById("styles-container").children);
 styles.forEach((style) => {
-  if (style.id) {
-    document.getElementById(style.id).addEventListener("click", () => {
-      currentStyle.id = style.id.split("-")[0];
-      currentStyle.url = cdt.mapStyles[currentStyle.id].url;
-      map.setStyle(currentStyle.url);
-    });
-  }
+  document.getElementById(style.id).addEventListener("click", () => {
+    currentStyle.id = style.id.split("-")[0];
+    currentStyle.url = cdt.mapStyles[currentStyle.id].url;
+    map.setStyle(currentStyle.url);
+  });
 });
 
 // THREE JS 3️⃣  ______________________________________________________________
@@ -304,9 +246,7 @@ flyToCanada();
 // Place ➡️________________
 let placeSelector = document.getElementById("place-select");
 const cancelPlace = document.getElementById("cancel-new-place");
-//cdt.createOptions(placeSelector, places, 2);
-console.log("(244) placeSelector ", placeSelector);
-testGetPlaces(); //trying to populate dropdown from db on first call
+cdt.createOptions(placeSelector, places, 2);
 
 // Create new place 🆕
 let newPlaceToggle = cdt.toggleButton(
@@ -316,7 +256,6 @@ let newPlaceToggle = cdt.toggleButton(
 );
 const addPlaceButton = document.getElementById("add-place-button");
 addPlaceButton.addEventListener("click", () => {
-  console.log("clicked on - add New Place");
   newPlaceToggle = !newPlaceToggle;
   if (newPlaceToggle) {
     createPolygon();
@@ -339,20 +278,14 @@ document.getElementById("upload-place").onclick = () => {
 };
 
 placeSelector.addEventListener("change", (event) => {
-  places = document.getElementById("place-select");
-  console.log("event target (279) ",event.target);
-  //places = city.places;
+  places = city.places;
   id = event.target[event.target.selectedIndex].id;
-  console.log("(278) id", id)
   if (id === "add-place") {
     document.getElementById("tools-button").click();
     document.getElementById("add-place-button").click();
   } else {
     place = places[id];
-    console.log("(275) - placeSelectoreEventListener - Calling setPlace with id ",place, id);
-    testGetOnePlace(id);
-    //testGetPlaces?? How am I getting the place here for setPlace
-    //setPlace(place, province.term, city.name);
+    setPlace(place, province.term, city.name);
     cdt.unhideElementsById("add-object-button");
   }
 });
@@ -360,10 +293,7 @@ placeSelector.addEventListener("change", (event) => {
 // Object ➡️________________
 let objectSelector = document.getElementById("object-select");
 const cancelObject = document.getElementById("cancel-new-object");
-//will have to make it connected to the places too - calling testGetObjects (commented out createOptions)
-console.log("(299) Calling testGetObjects instead of createOption with objectselector- not filtered with places yet");
-testGetObjects();
-//cdt.createOptions(objectSelector, place.objects, 2);
+cdt.createOptions(objectSelector, place.objects, 2);
 // Create new object 🆕
 let newObjectToggle = cdt.toggleButton(
   "add-object-button",
@@ -372,7 +302,6 @@ let newObjectToggle = cdt.toggleButton(
 );
 const addObjectButton = document.getElementById("add-object-button");
 addObjectButton.addEventListener("click", () => {
-  console.log("clicked on - add New Object");
   newObjectToggle = !newObjectToggle;
   if (newObjectToggle) {
     addLocMarker("object");
@@ -407,7 +336,7 @@ map.on("dblclick", () => {
 // });
 
 map.on("style.load", function () {
-  map.addLayer(customLayer, "waterway-label");
+  // map.addLayer(customLayer, "waterway-label");
   if (three) setPlace(place, province.term, city.name);
 });
 
@@ -454,8 +383,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-ifUrlId(urlId);
-
 // FUNCTIONS _____________________________________________________________________________________________________
 
 function flyTo(lng, lat, zoom = 15, pitch = 50) {
@@ -469,13 +396,13 @@ function flyTo(lng, lat, zoom = 15, pitch = 50) {
 
 // ⚠️ Change function name to fitToBBox
 function flyToPlace(place) {
-  console.log("399 flyToPlace", place);
-  let bbox = turf.bbox(place.placeGeojson); //OG = place.placeGeojson 
+  console.log('399 flyToPlace', place)
+  let bbox = turf.bbox(place.placeGeojson);
   map.fitBounds(bbox);
 }
 
 function flyToCanada() {
-  let home = document.getElementById("icdt-button");
+  let home = document.getElementById("home-button");
   home.addEventListener("click", () => {
     flyTo(lng.canada, lat.canada, 4, 0);
     map.fitBounds(canada.bbox);
@@ -524,45 +451,45 @@ function removeGeojson(geojson) {
 }
 
 // ADD DEM TERRAIN 🏔️
-function addTerrain(map) {
-  map.addSource("mapbox-dem", {
-    type: "raster-dem",
-    url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-    tileSize: 512,
-    maxzoom: 14,
-  });
-  // add the DEM source as a terrain layer with exaggerated height
-  map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
-}
+// function addTerrain(map) {
+//   map.addSource("mapbox-dem", {
+//     type: "raster-dem",
+//     url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+//     tileSize: 512,
+//     maxzoom: 14,
+//   });
+//   // add the DEM source as a terrain layer with exaggerated height
+//   map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+// }
 
 // LOAD OSM BUILDING 🏢
 // let osmHeight = 1 *
-function loadOSM(map, opacity = 0.9) {
-  // Insert the layer beneath any symbol layer.
-  const layers = map.getStyle().layers;
-  const labelLayerId = layers.find(
-    (layer) => layer.type === "symbol" && layer.layout["text-field"]
-  ).id;
-  // perc2color(((["get", "height"] - 3) * 100) / (66 - 3))
-  map.addLayer(
-    {
-      id: "OSM-buildings",
-      source: "composite",
-      "source-layer": "building",
-      filter: ["==", "extrude", "true"],
-      // filter: ["{elementId} === 671842709", "extrude", "false"],
-      type: "fill-extrusion",
-      minzoom: 11,
-      paint: {
-        "fill-extrusion-color": "#aaa",
-        "fill-extrusion-height": ["get", "height"],
-        "fill-extrusion-base": ["get", "min_height"],
-        "fill-extrusion-opacity": opacity,
-      },
-    },
-    labelLayerId
-  );
-}
+// function loadOSM(map, opacity = 0.9) {
+//   // Insert the layer beneath any symbol layer.
+//   const layers = map.getStyle().layers;
+//   const labelLayerId = layers.find(
+//     (layer) => layer.type === "symbol" && layer.layout["text-field"]
+//   ).id;
+//   // perc2color(((["get", "height"] - 3) * 100) / (66 - 3))
+//   map.addLayer(
+//     {
+//       id: "OSM-buildings",
+//       source: "composite",
+//       "source-layer": "building",
+//       filter: ["==", "extrude", "true"],
+//       // filter: ["{elementId} === 671842709", "extrude", "false"],
+//       type: "fill-extrusion",
+//       minzoom: 11,
+//       paint: {
+//         "fill-extrusion-color": "#aaa",
+//         "fill-extrusion-height": ["get", "height"],
+//         "fill-extrusion-base": ["get", "min_height"],
+//         "fill-extrusion-opacity": opacity,
+//       },
+//     },
+//     labelLayerId
+//   );
+// }
 
 // Raycasting
 function getMousePosition(event) {
@@ -617,14 +544,14 @@ function openBimViewer(object) {
     infoMessage(`⚠️ No ifc file available at ${object.name}`);
     return;
   }
-  cdt.hideRightMenus();
   closeButton.classList.remove("hidden");
-  const url = `bim-viewer.html?id=location:{province:"${province.term}",city:"${city.name}",place:"${place.id}",object:"${object.id}"}`;
-  const container = document.getElementById("bim-viewer-container");
+  const url = `bim-viewer.html?id=${province.term}/${city.name}/${place.id}/${object.id}`;
+  const container = document.getElementById("iframe-container");
   while (container.childElementCount > 1) container.lastChild.remove();
 
-  const bimViewer = document.createElement("iframe");
+  bimViewer = document.createElement("iframe");
   bimViewer.setAttribute("id", "bim-viewer");
+  bimViewer.classList.add("iframe");
   bimViewer.setAttribute("src", url);
 
   container.appendChild(bimViewer);
@@ -653,15 +580,15 @@ function getGeojson(id, url, map, locGeojson) {
 }
 
 // Show OSM buildings 🏢
-function osmVisibility(map, toggle) {
-  osmButton.onclick = () => {
-    toggle = !toggle;
-    cdt.selectedButton(osmButton, toggle, true);
-    map.getLayer("OSM-buildings");
-    toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
-    toggle.osm = toggle;
-  };
-}
+// function osmVisibility(map, toggle) {
+//   osmButton.onclick = () => {
+//     toggle = !toggle;
+//     cdt.selectedButton(osmButton, toggle, true);
+//     map.getLayer("OSM-buildings");
+//     toggle ? loadOSM(map, 0.9) : map.removeLayer("OSM-buildings");
+//     toggle.osm = toggle;
+//   };
+// }
 
 function selectObject(selector) {
   selector.addEventListener("change", () => {
@@ -712,17 +639,15 @@ function loadMasses(masses, place, visible = true, x = 0, y = 0, z = 0) {
 }
 
 function setPlaceOrigin(place) {
-  console.log("641 setPlaceOrigin", place);
-  let placeCenterFeatures = place.placeGeojson;//.features.geometry.coordinates;
-  console.log("palceCenterFeatures - ", placeCenterFeatures);
-  let center = turf.center(placeCenterFeatures);
+  console.log('641 setPlaceOrigin', place)
+  let center = turf.center(place.placeGeojson);
   let centerCoordinates = center.geometry.coordinates;
   let lng = place.coordinates ? place.coordinates.lng : centerCoordinates[0];
   let lat = place.coordinates ? place.coordinates.lat : centerCoordinates[1];
   const coordinates = { lng: lng, lat: lat };
   let msl = place.coordinates
     ? place.coordinates.msl
-    : map.queryTerrainElevation(coordinates);
+    : 0;
   let trueNorth = place.coordinates.trueNorth ? place.coordinates.trueNorth : 0;
   setObjectOrigin(lng, lat, msl, trueNorth);
 }
@@ -754,66 +679,44 @@ function setObjectOrigin(lng, lat, msl, trueNorth = 0) {
 }
 
 function setPlace(place, provinceTerm, cityName) {
-  console.log("SetPlace -", place)
   province = canada.provinces[provinceTerm];
   city = province.cities[cityName];
-  currentLocation = {
-    province: provinceTerm,
-    city: cityName,
-    place: place["id"],
-  };
-  if (city.places){
-    //cdt.createOptions(document.getElementById("place-select"), city.places);
-    console.log("(668) in set places - createOptions with: ", document.getElementById("place-select"), city.places);
-    //this request is not city specific - need to make it city specific
-    testGetPlaces();
-  }
+  if (city.places)
+    cdt.createOptions(document.getElementById("place-select"), city.places);
   removeFromScene();
   removeGeojson(locGeojson);
-
-  if (
-    document.getElementById("osm-button").classList.contains("selected-button")
-  )
-    osmButton.click();
+  setPlaceOrigin(place);
+  flyToPlace(place);
   cdt.unhideElementsById("place-select");
-  if (place.id === "") return;
-
-  //console.log("(689) Calling testGetOnePlace")
-  //testGetOnePlace(place)
-  //flyToPlace(place);
-  
-  if (place.id !== "") {
-    setPlaceOrigin(place);
-    invisibleMasses = [];
-    visibleMasses = [];
-
-    if (!place.hasOwnProperty("objects")) {
-      removeFromScene();
-      infoMessage(`⚠️ No objects at ${place.name}`);
-      if (place.hasOwnProperty("gltfMasses")) {
-        loadMasses(visibleMasses, place, true);
-      }
-    } else {
-      loadMasses(invisibleMasses, place, false);
-      if (isMobile) {
-        cdt.hideElementsById("place-select");
-        loadMasses(visibleMasses, place, true);
-      }
-      cdt.unhideElementsById(
-        "object-select",
-        "add-place-button",
-        "add-object-button"
-      );
-      console.log("(721) calls createoptions(objecteSelector, ..)");
-      //might need to add testGetObject here
-      console.log("(723) might need to add testGetObject here ");
-      cdt.createOptions(objectSelector, place.objects, 2);
-      selectObject(objectSelector);
-      cdt.loadObjectsGltf(place, scene);
+  invisibleMasses = [];
+  visibleMasses = [];
+  if (!place.hasOwnProperty("objects")) {
+    removeFromScene();
+    infoMessage(`⚠️ No objects at ${place.name}`);
+    if (place.hasOwnProperty("gltfMasses")) {
+      loadMasses(visibleMasses, place, true);
     }
+  } else {
+    if (
+      document
+        .getElementById("osm-button")
+        .classList.contains("selected-button")
+    )
+      osmButton.click();
+    loadMasses(invisibleMasses, place, false);
+    if (isMobile) {
+      cdt.hideElementsById("place-select");
+      loadMasses(visibleMasses, place, true);
+    }
+    cdt.unhideElementsById(
+      "object-select",
+      "add-place-button",
+      "add-object-button"
+    );
+    cdt.createOptions(objectSelector, place.objects, 2);
+    selectObject(objectSelector);
+    cdt.loadObjectsGltf(place, scene);
   }
-  if (currentPosition) setCurrentPosition(currentPosition);
-  else flyToPlace(place);
 }
 
 async function createLayerButtons(city) {
@@ -836,13 +739,14 @@ async function createLayerButtons(city) {
 }
 
 function removeFromScene() {
+  console.log(scene)
   let toRemove = scene.children.slice(3);
   if (toRemove.lenght === 0) return;
   toRemove.forEach((group) => {
     group.traverse(function (object) {
       if (object.isMesh) {
         object.geometry.dispose();
-        // object.material.dispose();
+        object.material.dispose();
       }
     });
     scene.remove(group);
@@ -940,13 +844,15 @@ function removeMarker(markers) {
     });
 }
 
-// MAPBOX 🗺️📦
-function mapbox() {
+// MAPLIBRE 🗺️📦🆓
+function maplibre() {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoibmljby1hcmVsbGFubyIsImEiOiJjbGRkODFyMWUwMTE2M25wYWlvOWttbTZ3In0.JQS-T1sh_tevqbqTKY_Wdw";
-  map = new mapboxgl.Map({
+  map = new maplibregl.Map({
     container: "map", // container ID
-    style: cdt.mapStyles.dark.url,
+    // style: 'https://demotiles.maplibre.org/style.json',
+    style:'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', 
+    // style: 'https://api.maptiler.com/maps/hybrid/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', 
     center: [lng.canada, lat.canada], // starting position [lng, lat]
     zoom: 4, // starting zoom
     pitch: 0,
@@ -956,10 +862,11 @@ function mapbox() {
   });
   map.fitBounds(canada.bbox);
   // Add north and zoom controls 🔺➕
-  map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
+  let nav = new maplibregl.NavigationControl();
+map.addControl(nav, 'bottom-left');
   // Activate geolocation 🌎🔍
   map.addControl(
-    new mapboxgl.GeolocateControl({
+    new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
       },
@@ -970,7 +877,7 @@ function mapbox() {
     "bottom-left"
   );
 
-  // Add the control to the map 🔍
+  // Add the control to the map 🔍 https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md
   const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     marker: false,
@@ -985,18 +892,9 @@ function mapbox() {
 
   // Day sky
   map.on("style.load", () => {
-    // Set the default atmosphere style
-    // add sky styling with `setFog` that will show when the map is highly pitched
-    map.setFog({
-      "horizon-blend": 0.3,
-      color: "#f8f0e3",
-      "high-color": "#add8e6",
-      "space-color": "#d8f2ff",
-      "star-intensity": 0.0,
-    });
-    addTerrain(map);
-    osmVisibility(map, toggle.osm);
-    map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
+    // addTerrain(map);
+    // osmVisibility(map, toggle.osm);
+    // map.setTerrain({ source: "mapbox-dem", exaggeration: 1 });
   });
 
   geocoder.on("result", (e) => {
@@ -1008,19 +906,28 @@ function mapbox() {
       if (element.id.match(/place.*/)) city.name = element.text;
       i++;
     });
+    let center = e.result.center;
+    setObjectOrigin(center[0], center[1], 0);
+
     console.log(province.term, city.name);
+    if (city.name === "") city.name = e.result.text;
+    console.log(city.name);
     province = canada.provinces[province.term];
-    city = province.cities[city.name];
-    places = city.places;
-    //cdt.createOptions(placeSelector, places);
-    //console.log("(899) in mapbox - createOption with: ", places);
-    //this is where the place dropdown gets update when it is called
-    testGetPlaces();
-    console.log("(901) in mapbox - called testGetPlaces");
-    cdt.unhideElementsById("place-select", "add-place-button");
+
+    if (province.cities[city.name]) {
+      city = province.cities[city.name];
+      places = city.places;
+      cdt.createOptions(placeSelector, places)}
+    else {
+      canada.provinces[province.term].cities[city.name] = {name: city.name, places:{}, layers:{}}
+      city = canada.provinces[province.term].cities[city.name];
+    }
+    console.log(province)
+    
+      cdt.unhideElementsById("place-select", "add-place-button");
     addPlaceGeojson(places);
     createLayerButtons(city);
-    osmButton.click()
+    osmButton.click();
   });
 }
 
@@ -1059,10 +966,11 @@ function addLocMarker(at) {
   function onDragEnd() {
     // if (popup) popup.remove();
     markerLoc = marker.getLngLat();
-    markerLoc.msl = map.queryTerrainElevation(marker.getLngLat());
+    markerLoc.msl = 0;
     document.getElementById(`${at}-lng`).value = `${markerLoc.lng}`;
     document.getElementById(`${at}-lat`).value = `${markerLoc.lat}`;
     document.getElementById(`${at}-msl`).value = `${markerLoc.msl}`;
+    setObjectOrigin(markerLoc.lng, markerLoc.lat, markerLoc.msl);
   }
 
   marker.on("dragend", onDragEnd);
@@ -1088,39 +996,22 @@ function updateArea(e) {
 }
 
 //testing the GET requests
-
-//GET all places and try to return them
-function testGetOnePlace(placeID){
-  console.log("testGetOnePlace() - ", placeID);
-  let req = new XMLHttpRequest(); 
-  req.onreadystatechange = function(){ 
-    if(this.readyState == 4 && this.status == 200){
-      console.log("testGetOnePlace(): Got Place - ", JSON.parse(req.responseText));
-      let gotPlace = JSON.parse(req.responseText);
-      gotPlace.placeGeojson = JSON.parse(gotPlace.placeGeojson);
-      console.log("gotPlace - ",gotPlace);
-      
-      flyToPlace(gotPlace);
-    }
-  }
-  req.open("GET", `http://172.20.2.134:3000/places/:${placeID}`,true);
-  req.send();
-}
-
 //GET places names to populate dropdown
+
+//GET a place by ID to make call to geogratis (this call will probably be better with graphQL)
 function testGetPlaces(){
   console.log("TestGetPlaces");
   let req = new XMLHttpRequest(); //declaring a new http request
   req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
     if(this.readyState == 4 && this.status == 200){
-      console.log("testGetPlaces(): Got Places's Names for dropdown menu - ", req.responseText);
+      console.log("testGetPlaces(): Got Places's Names for dropdown menu")
       let gotPlaces = JSON.parse(req.responseText);
-      //uses the list of places to populate dropdown
-      cdt.createOptions(placeSelector, gotPlaces, 2);
-      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", req.responseText);
+      console.log("testGetPlaces(): Calling createOptions to populate new dropdown")
+      cdt.createOptions(placeSelector, gotPlaces, 2)
+      console.log(JSON.parse(req.responseText))
     }
   }
-  req.open("GET", "http://172.20.2.134:3000/getPlaces",true);
+  req.open("GET", "http://localhost:3000/getPlaces",true);
   req.send();
 }
 
@@ -1131,17 +1022,17 @@ function testPostNewPlace(newPlace) {
   let req = new XMLHttpRequest();
   req.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      console.log("testPostNewPlace(): The new place was sent to the server - ", newPlace);
+      console.log("testPostNewPlace(): The new place was sent to the server");
     }
   }
-  console.log("JSON.stringify(newPlace): ", JSON.stringify(newPlace));
-  req.open("POST", "http://172.20.2.134:3000/postNewPlace");
+
+  req.open("POST", "http://localhost:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
 }
 
 //call post and get synchronously to be sure the newPlace has been added to the db before getting the list of places
-async function asyncCallNewPlace(newPlace) {
+async function asyncCall(newPlace) {
   console.log("asyncCall: waiting for NewPlace to be received before geting places");
   await testPostNewPlace(newPlace);
   testGetPlaces();
@@ -1173,58 +1064,27 @@ function addNewPlace() {
   canada.provinces[province.term].cities[city.name].places[newPlaceId] = newPlace;
   place = newPlace;
 
-  asyncCallNewPlace(newPlace);
-  //loadGeojson(map, newPlace.placeGeojson, newPlaceId);
+  asyncCall(newPlace);
+
+  console.log('place.objects',canada.provinces[province.term].cities[city.name].places);
+  console.log('newPlace', newPlace);
 
   console.log(canada.provinces[province.term].cities[city.name]);
   cdt.unhideElementsById("object-select", "add-object-button");
 }
 
-function testGetObjects(){
-  console.log("TestGetObjects");
-  let req = new XMLHttpRequest(); //declaring a new http request
-  req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
-    if(this.readyState == 4 && this.status == 200){
-      console.log("testGetObjects(): Got Objects for dropdown menu")
-      let gotObjects = JSON.parse(req.responseText);
-      //uses the list of objects to populate dropdown
-      cdt.createOptions(objectSelector, gotObjects, 2);
-      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", JSON.parse(req.responseText))
-    }
-  }
-  req.open("GET", "http://172.20.2.134:3000/getObjects",true);
-  req.send();
-}
-
-//testing a POST request to the server
-//POSTing the data of a new object to the server so it can get added to the db
-function testPostNewObject(newObject) {
-  console.log("testPostNewObject");
-  let req = new XMLHttpRequest();
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      console.log("testPostNewObject(): The new object was sent to the server");
-      //populating the dropdown with new list of objects
-      testGetObjects();
-    }
-  }
-
-  req.open("POST", "http://172.20.2.134:3000/postNewObject");
-  req.setRequestHeader("Content-Type", "application/JSON");
-  req.send(JSON.stringify(newObject));
-}
-
 function addNewObject() {
-  console.log("addNewObject");
   const newObject = {};
   let newObjectId = document.getElementById("object-id").value.toUpperCase();
-  newObject.name = document.getElementById("object-name").value;
+  newObject.id = newObjectId;
+  let newObjectName = document.getElementById("object-name");
+  newObject.name = newObjectName.value;
   newObject.coordinates = {};
   newObject.coordinates.lng = document.getElementById("object-lng").value;
   newObject.coordinates.lat = document.getElementById("object-lat").value;
   newObject.coordinates.msl = document.getElementById("object-msl").value;
   newObject.coordinates.trueNorth =
-  document.getElementById("object-true-north").value;
+    document.getElementById("object-true-north").value;
   document.getElementById("object-id").addEventListener("change", () => {
     console.log(newObject.name);
     if (newObject.name === "") newObject.name = "unnamed";
@@ -1242,10 +1102,7 @@ function addNewObject() {
       cdt.changeObjectAltitude(object, modelAltitude);
     });
   });
-  newObject.glbFile = document.getElementById("object-glb-input");
-  console.log("new object", newObject);
-  //city verifications (?)
-  /*
+
   if (!canada.provinces[province.term].cities.hasOwnProperty(city.name))
     canada.provinces[province.term].cities[city.name] = { name: city.name };
   if (
@@ -1260,18 +1117,65 @@ function addNewObject() {
   canada.provinces[province.term].cities[city.name].places[place.id].objects[
     newObjectId
   ] = newObject;
-  */
- 
-  /*cdt.createOptions(
+  cdt.createOptions(
     objectSelector,
     canada.provinces[province.term].cities[city.name].places[place.id].objects,
     2
-  );*/
-
-  //posting the new object to the db  
-  testPostNewObject(newObject);
+  );
+  object = newObject;
 
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
+}
+
+function loadObjectIfc(place, objectId = "object", changed) {
+  const ifcLoader = new IFCLoader();
+  ifcLoader.ifcManager.setWasmPath("../wasm/");
+  const group = new Group();
+  group.name = `${place.id}-ifcGroup`;
+  const ifcURL = URL.createObjectURL(changed.target.files[0]);
+  ifcLoader.load(
+    ifcURL,
+    (ifcModel) => {
+      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+      object.ifcModel = ifcModel;
+      group.add(ifcModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
+    },
+    () => {
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
+    },
+    (error) => {
+      console.log(error);
+      return;
+    }
+  );
+}
+
+function loadObjectGltf(place, objectId = "object", changed) {
+  const gltfLoader = new GLTFLoader();
+  const group = new Group();
+  group.name = `${place.id}-gltfGroup`;
+  const gltfURL = URL.createObjectURL(changed.target.files[0]);
+  gltfLoader.load(
+    gltfURL,
+    (gltf) => {
+      let gltfModel = gltf.scene;
+      gltfModel.name = `${place.id}-${objectId}-gltfModel`;
+      object.gltfModel = gltfModel;
+      group.add(gltfModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
+    },
+    () => {
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById("progress-text").textContent = `Loading ${place.name}'s objects`;
+    },
+    () => {
+      return;
+    }
+  );
 }
