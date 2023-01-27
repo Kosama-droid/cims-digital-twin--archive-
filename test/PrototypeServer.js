@@ -54,14 +54,13 @@ function insertPlaces(){
                 let p = new Place ({
                     name: canada.provinces[proTerm].cities[city].places[place].name,
                     id: canada.provinces[proTerm].cities[city].places[place].id,
-                    //placeGeojson: canada.provinces[proTerm].cities[city].places[place].placeGeojson.features[0].geometry,
-                    featureCollection: canada.provinces[proTerm].cities[city].places[place].placeGeojson,
+                    placeGeojson: JSON.stringify(canada.provinces[proTerm].cities[city].places[place].placeGeojson),
                     city: canada.provinces[proTerm].cities[city].name
                 })
                 //for(let geoJ in canada.provinces[proTerm].cities[city].places[place]){
                 
-                console.log(canada.provinces[proTerm].cities[city].places[place].placeGeojson.features);
-                console.log(canada.provinces[proTerm].cities[city].places[place].placeGeojson.features[0].geometry);
+                console.log("place geojson: ",canada.provinces[proTerm].cities[city].places[place].placeGeojson);
+                console.log("place: ",canada.provinces[proTerm].cities[city].places[place]);
                 
                 p.save(function (err, result) {
                     if (err) return err;
@@ -350,6 +349,7 @@ function testInsertPlace(){
 
 async function asyncInitPlaces(){
     //await deleteAllPlaces();
+    await insertPlaces();
     //await testInsertPlace();
     showInitPlaces;
 }
@@ -426,7 +426,7 @@ app.post("/postNewPlace", (req, res) => {
         return console.error(err.message);
     }*/
 
-    var postedPlace = JSON.parse(req.body);
+    var postedPlace = req.body;
     console.log("postNewPlace - received new place: ", postedPlace);
 
     let newPlace = new Place({
