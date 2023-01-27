@@ -107002,7 +107002,7 @@ const url = new URL(currentURL);
 
 const urlId = url.searchParams.get("id");
 const mainUrl = `${url.origin}${url.pathname}`;
-let currentLocation;
+let currentLocation, currentPosition;
 
 // Share window 📷
 toggleButton("share-view-button", false, "share-view-window");
@@ -107649,7 +107649,8 @@ function setPlace(place, provinceTerm, cityName) {
       loadObjectsGltf(place, scene);
     }
   }
-  flyToPlace(place);
+  if (currentPosition) setCurrentPosition(currentPosition);
+  else flyToPlace(place);
 }
 
 async function createLayerButtons(city) {
@@ -108110,4 +108111,113 @@ function addNewObject() {
   // 🔍find out if new object is inside place:
   // let isInPlace = turf.booleanPointInPolygon(pt, polygon);
   // if (!isInPlace) message("Object outside place")
+}
+
+// IFC Three 3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣3️⃣
+function loadObjectIfc(place, objectId = "object", changed) {
+  const ifcLoader = new IFCLoader$1();
+  ifcLoader.ifcManager.setWasmPath("../wasm/");
+  const group = new Group();
+  group.name = `${place.id}-ifcGroup`;
+  const ifcURL = URL.createObjectURL(changed.target.files[0]);
+  ifcLoader.load(
+    ifcURL,
+    (ifcModel) => {
+      ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+      object.ifcModel = ifcModel;
+      group.add(ifcModel);
+      scene.add(group);
+      document.getElementById("loader-container").classList.add("hidden");
+    },
+    () => {
+      document.getElementById("loader-container").classList.remove("hidden");
+      document.getElementById(
+        "progress-text"
+      ).textContent = `Loading ${place.name}'s objects`;
+    },
+    (error) => {
+      console.log(error);
+      return;
+    }
+  );
+}
+
+const ifcLoader = new IFCLoader$1();
+ifcLoader.ifcManager.setWasmPath("../wasm/");
+const group = new Group();
+group.name = `${place.id}-ifcGroup`;
+const ifcURL = URL.createObjectURL(changed.target.files[0]);
+ifcLoader.load(
+  ifcURL,
+  (ifcModel) => {
+    ifcModel.name = `${place.id}-${objectId}-ifcModel`;
+    object.ifcModel = ifcModel;
+    group.add(ifcModel);
+    scene.add(group);
+    document.getElementById("loader-container").classList.add("hidden");
+  },
+  () => {
+    document.getElementById("loader-container").classList.remove("hidden");
+    document.getElementById(
+      "progress-text"
+    ).textContent = `Loading ${place.name}'s objects`;
+  },
+  (error) => {
+    console.log(error);
+    return;
+  }
+);
+
+
+function loadObjectGltf(place, objectId = "object", changed) {
+const gltfLoader = new GLTFLoader();
+const group = new Group();
+group.name = `${place.id}-gltfGroup`;
+const gltfURL = URL.createObjectURL(changed.target.files[0]);
+gltfLoader.load(
+  gltfURL,
+  (gltf) => {
+    let gltfModel = gltf.scene;
+    gltfModel.name = `${place.id}-${objectId}-gltfModel`;
+    object.gltfModel = gltfModel;
+    group.add(gltfModel);
+    scene.add(group);
+    document.getElementById("loader-container").classList.add("hidden");
+  },
+  () => {
+    document.getElementById("loader-container").classList.remove("hidden");
+    document.getElementById(
+      "progress-text"
+    ).textContent = `Loading ${place.name}'s objects`;
+  },
+  () => {
+    return;
+  }
+);
+}
+
+function ifUrlId(urlId) {
+if (urlId) {
+  three = true;
+  const urlIds = eval("({" + urlId + "})");
+  currentPosition = urlIds.position;
+  if (urlIds.location) {
+    currentLocation = urlIds.location;
+    if (currentLocation.province)
+      province = canada.provinces[currentLocation.province];
+    if (currentLocation.city) city = province.cities[currentLocation.city];
+    if (currentLocation.place) {
+      place = city.places[currentLocation.place];
+      setPlace(place, province.term, city.name);
+    }
+  }
+  if (currentPosition) setCurrentPosition(currentPosition);
+}
+}
+function setCurrentPosition(currentPosition) {
+const currentCenter = (({ lng, lat }) => ({ lng, lat }))(currentPosition);
+map.setCenter(currentCenter);
+map.setZoom(currentPosition.zoom);
+map.setPitch(currentPosition.pitch);
+map.setBearing(currentPosition.bearing);
 }
