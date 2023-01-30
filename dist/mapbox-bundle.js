@@ -860,6 +860,7 @@ const canada = {
             },*/
             NAC: {
               name: "National Art Centre",
+              id: "NAC",
               placeGeojson:{
                 "type": "FeatureCollection",
                 "features": [
@@ -107946,15 +107947,15 @@ function testGetOnePlace(placeID){
 
 //GET places names to populate dropdown
 function testGetPlaces(){
-  console.log("TestGetPlaces");
+  console.log("00 - TestGetPlaces");
   let req = new XMLHttpRequest(); //declaring a new http request
   req.onreadystatechange = function(){ //readyState = status of the req (0: not initialized, 1:server co established, 2:req received, 3:processing req, 4:req finished and res is ready)
     if(this.readyState == 4 && this.status == 200){
-      console.log("testGetPlaces(): Got Places's Names for dropdown menu - ", req.responseText);
+      console.log("01 - testGetPlaces(): Got Places's Names for dropdown menu ");
       let gotPlaces = JSON.parse(req.responseText);
       //uses the list of places to populate dropdown
       createOptions(placeSelector, gotPlaces, 2);
-      console.log("testGetPlaces(): Calling createOptions to populate new dropdown - ", req.responseText);
+      console.log("02 - testGetPlaces(): Calling createOptions to populate new dropdown ");
     }
   };
   req.open("GET", "http://172.20.2.134:3000/getPlaces",true);
@@ -107971,7 +107972,7 @@ function testPostNewPlace(newPlace) {
       console.log("testPostNewPlace(): The new place was sent to the server - ", newPlace);
     }
   };
-  console.log("JSON.stringify(newPlace): ", JSON.stringify(newPlace));
+  //console.log("JSON.stringify(newPlace): ", JSON.stringify(newPlace));
   req.open("POST", "http://172.20.2.134:3000/postNewPlace");
   req.setRequestHeader("Content-Type", "application/JSON");
   req.send(JSON.stringify(newPlace));
@@ -107981,7 +107982,7 @@ function testPostNewPlace(newPlace) {
 async function asyncCallNewPlace(newPlace) {
   console.log("asyncCall: waiting for NewPlace to be received before geting places");
   await testPostNewPlace(newPlace);
-  testGetPlaces();
+  await testGetPlaces();
 }
 
 function addNewPlace() {
@@ -108011,7 +108012,7 @@ function addNewPlace() {
   place = newPlace;
 
   asyncCallNewPlace(newPlace);
-  //loadGeojson(map, newPlace.placeGeojson, newPlaceId);
+  //loadGeojson(map, newPlace.placeGeojson, newPlaceId); <-- needed?
 
   console.log(canada.provinces[province.term].cities[city.name]);
   unhideElementsById("object-select", "add-object-button");

@@ -823,6 +823,7 @@ const canada = {
             },*/
             NAC: {
               name: "National Art Centre",
+              id: "NAC",
               placeGeojson:{
                 "type": "FeatureCollection",
                 "features": [

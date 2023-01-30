@@ -365,7 +365,7 @@ app.get("/getPlaces", (req, res) => {
 	        res.end();
             return console.log("GetPlaces: Server error");
         }
-        console.log("Place find: data", data);
+        //console.log("Place find: data", data);
     
         res.status(200);
         res.setHeader("Content-Type", "application/JSON");
@@ -449,7 +449,7 @@ app.post("/postNewPlace", (req, res) => {
         // })
         
 
-        console.log("inserted");
+        console.log("inserted - ". result);
     })
 
     res.status(200);
